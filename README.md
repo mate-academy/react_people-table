@@ -1,25 +1,13 @@
-# React list of goods
+# React - People table
 
 ## Demo link
 Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
 
-
 ## Task 
-> Please write the numbers of implemented options in the Pull Request description (Implemented 1-7, or 1-3 and 5-7)
-1. At first show a button `Start` on the page
-2. After clicking a button show a `GoodsList` (ul > li) with given goods and hide the button
-3. Add `Reverse` button to reverse current order of goods
-4. Add `Sort alphabetically` button to show goods in alphabetical order
-5. Add `Reset` button to show the goods in the initial order
-6. Add `Sort by length` button
-7. Add `<select>` with numbers from 1 to 10. (1 is default).
-  When the value is changed show the goods with the length >= than selected number.
-8. Reset button should clear reset the `<select>`
 
-## DOM
-
-1. Load `people` from [API](https://mate-academy.github.io/fe-program/js/tasks/people/people.json)
+1. Load `people` from [API](https://mate-academy.github.io/react_people-table/api/people.json)
   when `App` component was initially rendered and show a header displaying number of people
+
 2. Implement `PeopleTable` component accepting an array of people as a param. 
   It should show these columns: 
     - `id` (position in the original array starting from 1)
