@@ -1,3 +1,15 @@
 .PeopleTable {
   border-collapse: collapse;
 }
+
+.person--female {
+  background: lightpink;
+}
+
+.people__Born--Before {
+  text-decoration: line-through;
+}
+
+.people__Died--Before {
+  font-weight: bold;
+}

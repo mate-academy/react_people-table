@@ -38,7 +38,7 @@ const PeopleTable = ({ peoples }) => (
     <tr>
       <th>id</th>
       <th>name</th>
-      <th>sex</th>
+      <th className="person--male">sex</th>
       <th>born</th>
       <th>died</th>
       <th>mother</th>
@@ -65,9 +65,19 @@ const Person = ({ person, i }) => (
       {i + 1}
     </td>
     <td>{person.name}</td>
-    <td>{person.sex}</td>
-    <td>{person.born}</td>
-    <td>{person.died}</td>
+    <td
+      className={person.sex === 'm' ? 'person--male' : 'person--female'}
+    >
+      {person.sex}
+    </td>
+    <td
+      className={person.born < 1650 ? 'people__Born--Before' : ''}
+    >
+      {person.born}
+    </td>
+    <td className={person.died > 1800 ? 'people__Died--Before' : ''}>
+      {person.died}
+    </td>
     <td>{person.mother}</td>
     <td>{person.father}</td>
   </tr>
