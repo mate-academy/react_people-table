@@ -18,6 +18,8 @@ const Person = ({p, i}) => (
       <td>{p.died}</td>
       <td>{p.mother}</td>
       <td>{p.father}</td>
+      <td>{p.age}</td>
+      <td>{p.century}</td>
     </tr>
 )
 

@@ -11,9 +11,9 @@ class App extends React.Component {
 };
 
 handleLoad = async() => {
-  const people = await getFromServer();
+  const addedRows = await getFromServer();
   this.setState({
-    loadedPeople: people,
+    loadedPeople: addedRows,
     isLoaded: true,
   });
 };

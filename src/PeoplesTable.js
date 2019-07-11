@@ -15,6 +15,8 @@ return (
         <th>died</th>
         <th>mother</th>
         <th>father</th>
+        <th>age</th>
+        <th>century</th>
       </tr>
     </thead>
     <tbody>
