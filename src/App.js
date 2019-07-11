@@ -22,9 +22,9 @@ handleLoad = async() => {
     return (
       <div>
         <header>
-          <h2>People table with
+          <h2>People table with &nbsp;
             {this.state.isLoaded && this.state.loadedPeople.length}
-              rows
+            &nbsp;rows
           </h2>
         </header>
         <main>
