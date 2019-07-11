@@ -1,0 +1,11 @@
+.person-female {
+background-color: lightpink;
+}
+
+.person-born-line {
+  text-decoration: line-through;
+}
+
+.person-bold {
+  font-weight: 700;
+}
