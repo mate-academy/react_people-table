@@ -17,3 +17,9 @@
   position: relative;
   font-size: 23px;
 }
+
+.search-input {
+  margin: 15px;
+  box-shadow: 0 1px 5px #a3a3a3;
+  height: 20px;
+}

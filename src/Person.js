@@ -3,7 +3,7 @@ import React from 'react';
 import './Person.css'
 
 const Person = ({p, i}) => (
-    <tr className="person">
+    <tr className="person" >
       <td>{i+1}</td>
       <td className={(p.born <= 1650)
           ? 'person-born-line'
