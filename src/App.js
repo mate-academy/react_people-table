@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import './App.css';
 
 const getPeople = async() => {
   const Api = 'https://mate-academy.github.io/react_people-table/api/';
@@ -25,9 +27,62 @@ class App extends React.Component {
         People table
           { this.state.people.length }
         </h1>
+        <PeopleTable peoples={this.state.people} />
       </div>
     );
   }
 }
+
+const PeopleTable = ({ peoples }) => (
+  <table className="PeopleTable">
+    <tr>
+      <th>id</th>
+      <th>name</th>
+      <th>sex</th>
+      <th>born</th>
+      <th>died</th>
+      <th>mother</th>
+      <th>father</th>
+    </tr>
+    <tbody>
+      {peoples.map((person, index) => (
+        <Person person={person} i={index} />
+      ))}
+    </tbody>
+  </table>
+);
+
+PeopleTable.propTypes = {
+  peoples: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ])).isRequired,
+};
+
+const Person = ({ person, i }) => (
+  <tr className="person">
+    <td>
+      {i + 1}
+    </td>
+    <td>{person.name}</td>
+    <td>{person.sex}</td>
+    <td>{person.born}</td>
+    <td>{person.died}</td>
+    <td>{person.mother}</td>
+    <td>{person.father}</td>
+  </tr>
+);
+
+Person.propTypes = {
+  person: PropTypes.shape({
+    sex: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    born: PropTypes.number.isRequired,
+    died: PropTypes.number.isRequired,
+    mother: PropTypes.string.isRequired,
+    father: PropTypes.string.isRequired,
+  }).isRequired,
+  i: PropTypes.number.isRequired,
+};
 
 export default App;
