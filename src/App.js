@@ -1,8 +1,10 @@
 import React from 'react';
+import PeopleTable from './PeopleTable';
+import './App.css';
 
 const peopleFromServer = 'https://mate-academy.github.io/react_people-table/api/people.json';
 
-const getPeople = async () => {
+const getPeople = async() => {
   const response = await fetch(peopleFromServer);
   const people = await response.json();
   return people;
@@ -11,25 +13,26 @@ const getPeople = async () => {
 class App extends React.Component {
   state = {
     people: [],
-    peopleCopy: [],
-    isLoaded: false,
   }
 
   async componentDidMount() {
     const people = await getPeople();
 
     this.setState({
-      people: people,
+      people,
     });
   }
 
   render() {
-
     return (
-      <div>
-        <h1>{this.state.people.length}</h1>
+      <div className="app">
+        <h1>
+          Number of items:
+          {this.state.people.length}
+        </h1>
+        <PeopleTable peoples={this.state.people} />
       </div>
-    )
+    );
   }
 }
 
