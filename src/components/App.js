@@ -13,21 +13,21 @@ const getData = async() => {
     age: person.died - person.born,
     century: Math.ceil(person.died / 100),
     children: people
-      .filter(
-        child => child.father === person.name || child.mother === person.name
-      )
+      .filter(child => (
+        child.father === person.name || child.mother === person.name
+      ))
       .map(child => child.name)
-      .join(", "),
+      .join(', '),
   }));
 };
 
 const getSortBy = field => (a, b) => {
   switch (typeof a[field]) {
-    case "string":
+    case 'string':
       return a[field].localeCompare(b[field]);
 
-    case "number":
-    case "boolean":
+    case 'number':
+    case 'boolean':
       return a[field] - b[field];
 
     default:
@@ -38,96 +38,113 @@ const getSortBy = field => (a, b) => {
 class App extends React.Component {
   state = {
     people: [],
-    sortedPeople: [],
+    visiblePeople: [],
     isLoaded: false
   };
 
-  loadData = async () => {
+  loadData = async() => {
     const people = await getData();
 
     this.setState({
       people,
-      sortedPeople: [],
+      visiblePeople: [...people],
       isLoaded: true
     });
   };
 
   reverseClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.reverse()
+      visiblePeople: prevState.visiblePeople.reverse(),
     }));
   };
 
   idClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("id"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('id')),
     }));
   };
 
   ageClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("age"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('age'))
     }));
   };
 
   bornClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("born"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('born')),
     }));
   };
 
   diedClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("died"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('died')),
     }));
   };
 
   centuryClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("century"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('century')),
     }));
   };
 
   nameClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("name"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('name')),
     }));
   };
 
   childrenClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("children"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('children')),
     }));
   };
 
   motherClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("mother"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('mother')),
     }));
   };
 
   fatherClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("father"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('father')),
     }));
   };
 
   sexClick = () => {
     this.setState(prevState => ({
-      people: prevState.people.sort(getSortBy("sex"))
+      visiblePeople: prevState.visiblePeople.sort(getSortBy('sex')),
     }));
   };
 
-  addNewPerson = () => {
+  addNewPerson = () => {};
 
+  searchInput = (event) => {
+    const search = event.target.value;
+    this.setState(prevState => ({
+      visiblePeople: prevState.visiblePeople.filter(
+        person => (
+          [person.name, person.mother, person.father]
+            .join('')
+            .toLowerCase()
+            .includes(search.toLowerCase())
+        )
+      ),
+    }));
   };
 
   render() {
-    const { people, isLoaded } = this.state;
+    const { visiblePeople, isLoaded } = this.state;
+
     return (
       <>
         <header>
-          <h1>{people.length} People in TABLE</h1>
+          <h1>
+            {visiblePeople.length}
+            {' '}
+            People in TABLE
+          </h1>
         </header>
 
         {isLoaded ? (
@@ -138,11 +155,13 @@ class App extends React.Component {
                   reverse table ⇅
                 </button>
               </div>
-              <label className="filter">
+              <label className="filter" htmlFor="search">
                 <input
                   className="filter-input"
+                  id="search"
                   type="text"
                   placeholder=" start search by name"
+                  onChange={this.searchInput}
                 />
               </label>
               <div className="add-btn">
@@ -167,7 +186,7 @@ class App extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                <PeopleTable people={people} />
+                <PeopleTable people={visiblePeople} />
               </tbody>
             </table>
           </>
