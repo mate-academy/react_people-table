@@ -75,29 +75,40 @@ reset = () => {
           <button
             onClick={this.reset}
             type="reset"
-            >
+            className="sort-button"
+          >
               RESET
           </button>
           </form>
         </div>
           <button
-            onClick = {() => this.sortingBy('name')}>
+            onClick = {() => this.sortingBy('name')}
+            className="sort-button"
+            >
               sort by name
           </button>
           <button
-            onClick = {() => this.sortingBy('id')}>
+            onClick = {() => this.sortingBy('id')}
+            className="sort-button"
+            >
              sort by ID
           </button>
           <button
-            onClick = {() => this.sortingBy('born')}>
+            onClick = {() => this.sortingBy('born')}
+            className="sort-button"
+            >
              sort by born
           </button>
           <button
-           onClick = {() => this.sortingBy('died')}>
+            onClick = {() => this.sortingBy('died')}
+            className="sort-button"
+           >
              sort by died
           </button>
           <button
-           onClick = {() => this.sortingBy('age')}>
+            onClick = {() => this.sortingBy('age')}
+            className="sort-button"
+           >
              sort by age
           </button>
           <PeoplesTable peopleData={this.state.loadedPeople} />
