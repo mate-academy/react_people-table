@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>UberEats</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,500i,700,700i,900&display=swap&subset=cyrillic,cyrillic-ext"
+    rel="stylesheet"
+    >
+</head>
+<body>
+    <header id="up">
+      <div class="header-wrapper">
+        <a href="#"><img src="img\logo.svg" alt=""></a>
+
+        <div class="header__delivery-form">
+          <form class="delivery" action="#">
+              <select name="order-time" id="time" class="delivery__time">
+                <option value="now" selected>Сейчас</option>
+                <option value="plan">Запланировать заказ</option>
+              </select>
+              <span class="delivery__span"> Куда: </span>
+              <input type="text" name="adress" class="delivery__adress" id="adress" placeholder="ул. Тарасовская, 16">
+          </form>
+        </div>
+        <nav class="buttons">
+          <a href="#" class="buttons__button buttons__sing-in-button">Войти</a>
+          <a href="#" class="buttons__button buttons__register-button">Регистрация</a>
+          <a href="#" class="buttons__basket-button"><img src="./img/basket.svg" alt=""></a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main">
+      <form action="#" class="search-field">
+        <input 
+        type="search" 
+        name="restaurant-search" 
+        class="restaurant-search" 
+        placeholder="Искать ресторан или кухню">
+      </form>
+
+      <div class="main__delivery-form">
+        <form class="delivery" action="#">
+          <span class="delivery__span">Когда</span>
+          <select name="order-time" id="time" class="delivery__time">
+            <option value="now" selected>Сейчас</option>
+            <option value="plan">Запланировать заказ</option>
+          </select>
+          <span class="delivery__span">Кому</span>
+          <input type="text" name="adress" class="delivery__adress" id="adress" placeholder="ул. Тарасовская, 16">
+        </form>
+      </div>
+      <h2>Киевские рестораны</h2>
+      <section class="card-list">
+
+        <article class="card">
+          <a href="#"><img src="./img/1-4.png" alt="fast food" class="card__picture"></a>
+          <h3 class="card__title">Макдоналдс</h3>
+          <div class="card__tags">₴₴ • Бургеры</div>
+          <div>25-35 Min</div>
+        </article>
+
+        <article class="card">
+          <a href="#"><img src="./img/1-5.png" alt="asian food" class="card__picture"></a>
+          <h3 class="card__title">WOKWEI</h3>
+          <div class="card__tags">₴ • Китайская • Азиатская</div>
+          <div>40-50 Min</div>
+        </article>
+
+        <article class="card">
+          <a href="#"><img src="./img/1-3.png" alt="street food" class="card__picture"></a>
+          <h3 class="card__title">YIZHA</h3>
+          <div class="card__tags">₴₴ • Американская • Бургеры • Уличная еда</div>
+          <div>35-45 Min</div>
+        </article>
+
+        <article class="card">
+          <a href="#"><img src="./img/1-2.png" alt="Near East food" class="card__picture"></a>
+          <h3 class="card__title">Musafir (ул. Саксаганского)</h3>
+          <div class="card__tags">₴₴ • Близковосточная</div>
+          <div>30-40 Min</div>
+        </article>
+
+        <article class="card">
+          <a href="#"><img src="./img/1-1.png" alt="asian food" class="card__picture"></a>
+          <h3 class="card__title">НЯ-NHA</h3>
+          <div class="card__tags">₴ • Китайская • Азиатская</div>
+          <div>40-50 Min</div>
+        </article>
+
+        <article class="card">
+          <a href="#"><img src="./img/photo-2.png" alt="dessert" class="card__picture"></a>
+          <h3 class="card__title">Milk Bar</h3>
+          <div class="card__tags">₴₴ • Десерты • Европейская</div>
+          <div>25-35 Min</div>
+        </article>
+
+        <article class="card">
+          <a href="#"><img src="./img/1.png" alt="pizza" class="card__picture"></a>
+          <h3 class="card__title">Mimosa Brooklyn Pizza</h3>
+          <div class="card__tags">₴₴ • Итальянская • Пицца • Американская</div>
+          <div>15-25 Min</div>
+        </article>
+
+        <article class="card">
+          <a href="#"><img src="./img/1-5.png" alt="asian food" class="card__picture"></a>
+          <h3 class="card__title">To Be</h3>
+          <div class="card__tags">₴₴ • Японская • Азиатская • Суши</div>
+          <div>25-35 Min</div>
+        </article>
+
+        <article class="card">
+          <a href="#"><img src="./img/photo-1.png" alt="european food" class="card__picture"></a>
+          <h3 class="card__title">Druzi Cafe (ул. Прорезная)</h3>
+          <div class="card__tags">₴₴ • Американская • Современная европейская</div>
+          <div>30-40 Min</div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer">
+        <section class="footer__logo">
+          <a href="#"><img src="img\white-logo.svg" alt="logo"></a>
+        </section>
+
+        <section class="footer__links">
+          <div class="footer__lang-and-social">
+            <form action="#" class="footer__lang">
+              <select class="footer__lang-select">
+                <option value="english">english</option>
+                <option value="rusian" selected>русский</option>
+                <option value="ukrainian">українська</option>
+              </select>
+            </form>
+
+            <nav>
+              <p class="footer__hashtag"><span>#</span>Uber Eats</p>
+
+              <ul class="footer__social-networks footer__lists">
+                <li>
+                  <a href="https://www.facebook.com/UberEatsUA/?brand_redir=696009167187917">
+                    <img src="./img/facebook.svg" alt="facebook-logo" class="footer__social-networks-logo">
+                  </a>
+                </li>
+                <li>
+                  <a href="https://mobile.twitter.com/ubereats">
+                    <img src="./img/twitter.svg" alt="twitter-logo" class="footer__social-networks-logo">
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.instagram.com/ubereats/">
+                    <img src="./img/instagram.svg" alt="instagram-logo" class="footer__social-networks-logo">
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <nav>
+            <ul class="footer__additional-info footer__lists">
+                <li>
+                  <a href="https://about.ubereats.com/" class="footer__lists-link">О сервисе Uber Eats</a>
+                </li>
+                <li>
+                  <a href="https://www.uber.com/ru-UA/drive/delivery/" class="footer__lists-link">Стать курьером-партнером</a>
+                </li>
+                <li>
+                  <a href="https://about.ubereats.com/restaurants/" class="footer__lists-link">Стать рестораном-партнером</a>
+                </li>
+            </ul>
+          </nav>
+
+          <nav>
+            <ul class="footer__additional-info footer__lists">
+                <li>
+                  <a href="https://about.ubereats.com/cities/" class="footer__lists-link">Все города</a>
+                </li>
+                <li>
+                  <a 
+                  href="https://help.uber.com/riders/article/%D1%86%D0%B5%D0%BD%D1%8B-%D0%B2-ubereats-?nodeId=a3e4363b-761f-4acd-a555-1eff290f5ee6"
+                  class="footer__lists-link">
+                    Цены
+                  </a>
+                </li>
+                <li>
+                  <a href="https://help.uber.com/ubereats" class="footer__lists-link">Помощь</a>
+                </li>
+                <li>
+                  <a href="https://about.ubereats.com/faq/" class="footer__lists-link">Часто задаваемые вопросы</a>
+                </li>
+                <li>
+                  <a href="https://www.ubereats.com/blog/" class="footer__lists-link">Блог</a>
+                </li>
+            </ul>
+          </nav>
+        </section>
+
+        <section>
+            <ul class="footer__apps">
+              <li>
+                <a 
+                href="https://itunes.apple.com/us/app/uber/id1058959277?mt=8&referrer=mat_click_id%3D51289086a30345d6a1f7fd3508ef19c0-20190604-7336%26link_click_id%3D664529885145978035&mat_click_id=51289086a30345d6a1f7fd3508ef19c0-20190604-7336">
+                <img src="./img/appstore.svg" alt="appstore logo" class="footer__app-logo footer__appstore-logo">
+                </a>
+                
+              </li>
+              <li>
+                <a 
+                href="https://play.google.com/store/apps/details?id=com.ubercab.eats&my_keyword=ubereatscom_iOScta_footer&ref_id=581961446.1559660932&sub1=623411bd-9b76-46f5-a989-810eed46c136">
+                <img src="./img/google_play.svg" alt="google-play logo" class="footer__app-logo">
+                </a>
+              </li>
+            </ul>
+        </section>
+        
+        <section>
+          <ul class="footer__policy footer__lists">
+            <li class="footer__policy-paragraph">
+              © 2019 Uber Technologies Inc.
+            </li>
+            <li class="footer__policy-paragraph">
+              <a href="https://privacy.uber.com/policy/" class="footer__lists-link">
+                Политика конфиденциальности
+              </a>
+            </li>
+            <li>
+              <a href="https://www.uber.com/legal/terms" class="footer__lists-link">
+                Условия использования
+              </a>
+            </li>
+            <li>
+              <a href="#up" class="up-button">
+                <img src="./img/arrow.svg" alt="up" class="up-button__arrow">
+              </a>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </footer>
+</body>
+</html>

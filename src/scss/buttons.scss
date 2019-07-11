@@ -1,0 +1,54 @@
+$register-btn-color: #262626;
+$sing-in-btn-color: #E0E0E0;
+
+.buttons {
+  display: flex;
+  align-items: center;
+
+  &__button {
+    
+    box-sizing: border-box;
+    padding: 7px 16px;
+    margin-right: 16px;
+
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 24px;
+    text-align: center;
+
+    text-decoration: none;
+    border-radius: 2px;
+  }
+
+  &__sing-in-button {
+    color: #1D1D1D;
+    border: 1px solid $sing-in-btn-color;
+    transition: background-color 1s;
+  }
+
+  &__sing-in-button:hover {
+    background-color: $sing-in-btn-color;
+  }
+  
+  &__register-button {
+    color: #fff;
+    background: $register-btn-color;
+    border: 1px solid $register-btn-color;
+    transition: color, background-color 1s;
+
+  }
+
+  &__register-button:hover {
+    color: $register-btn-color;
+    background-color: #fff;
+  }
+
+  &__basket-button {
+    margin-left:11px;
+    transition: transform 1s;
+  }
+
+  &__basket-button:hover {
+    transform: scale(1.04);
+  }
+}
