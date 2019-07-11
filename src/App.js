@@ -34,8 +34,51 @@ class App extends React.Component {
     }));
   };
 
+  filterByName = (event) => {
+    const { value } = event.target;
+
+    this.setState(prevState => ({
+      visiblePeople: prevState.people.filter(
+        person => person.name.toLowerCase().includes(value.toLowerCase())
+      ),
+    }));
+  };
+
+  filterByMother = (event) => {
+    const { value } = event.target;
+
+    this.setState(prevState => ({
+      visiblePeople: prevState.people.filter(
+        (person) => {
+          if (person.mother !== null) {
+            return person.mother.toLowerCase().includes(value.toLowerCase());
+          }
+
+          return 0;
+        }
+      ),
+    }));
+  }
+
+  filterByFather = (event) => {
+    const { value } = event.target;
+
+    this.setState(prevState => ({
+      visiblePeople: prevState.people.filter(
+        (person) => {
+          if (person.father !== null) {
+            return person.father.toLowerCase().includes(value.toLowerCase());
+          }
+
+          return 0;
+        }
+      ),
+    }));
+  }
+
   render() {
     const { visiblePeople } = this.state;
+
     return (
       <div className="App">
         <h1>People table</h1>
@@ -84,6 +127,33 @@ class App extends React.Component {
           >
             Year of death
           </button>
+        </div>
+
+        <div className="filter-inputs">
+          <label htmlFor="name-input">
+            Filter by name:
+            <input
+              type="text"
+              id="name-input"
+              onChange={this.filterByName}
+            />
+          </label>
+          <label htmlFor="mother-input">
+            Filter by mother:
+            <input
+              type="text"
+              id="mother-input"
+              onChange={this.filterByMother}
+            />
+          </label>
+          <label htmlFor="father-input">
+            Filter by father:
+            <input
+              type="text"
+              id="father-input"
+              onChange={this.filterByFather}
+            />
+          </label>
         </div>
 
         <PeopleTable people={visiblePeople} />
