@@ -20,7 +20,7 @@ class App extends React.Component {
   loadData = async() => {
     const peopleData = await getData();
     this.setState({
-      peopleData,
+      peopleData: [...peopleData],
     });
   };
 

@@ -3,6 +3,11 @@ import propTypes from 'prop-types';
 import Person from './Person';
 import './styles/peopleTable.css';
 
+const getChildren = (people, person) => {
+  return people
+    .filter(man => man.father === person.name || man.mother === person.name);
+};
+
 const PeopleTable = ({ people }) => (
   <table className="people-table">
     <thead className="people-table__thead">
@@ -16,20 +21,21 @@ const PeopleTable = ({ people }) => (
         <th className="people-table__item">Century</th>
         <th className="people-table__item">Mother</th>
         <th className="people-table__item">Father</th>
+        <th className="people-table__item">Children</th>
       </tr>
     </thead>
     <tbody>
       {people.map((person) => {
         const id = people.indexOf(person);
-        console.log(id);
+        const children = [...getChildren(people, person)];
+        const newPerson = {
+          ...person,
+          id,
+          children,
+        };
         return (
           <Person
-            person={
-              {
-                ...person,
-                id,
-              }
-            }
+            person={newPerson}
             key={id}
           />
         );

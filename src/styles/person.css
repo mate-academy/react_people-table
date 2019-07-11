@@ -5,3 +5,7 @@
 .person__item {
   padding: 5px 0;
 }
+
+.person--selected {
+  border: 3px solid blue
+}
