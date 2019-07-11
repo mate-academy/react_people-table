@@ -19,7 +19,7 @@ class App extends React.Component {
     const people = await getPeople();
 
     this.setState({
-      people,
+      people
     });
   }
 

@@ -1,3 +1,20 @@
 .app {
-  border-collapse: collapse;  
+  border-collapse: collapse;
+}
+
+
+.person--female {
+  background: lightpink;
+}
+
+.born--before {
+  text-decoration: line-through;
+}
+
+.died--after {
+  font-weight: bold;
+}
+
+.long--livers {
+  border: 1px solid green;
 }
