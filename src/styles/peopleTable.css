@@ -1,0 +1,14 @@
+.people-table {
+  padding: 10px 0;
+  box-sizing: border-box;
+  background: #fbffd4;
+  border-collapse: collapse;
+}
+
+.people-table__thead {
+  background: #ce6666;
+}
+
+.people-table__item {
+  padding: 5px;
+}

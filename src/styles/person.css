@@ -1,0 +1,7 @@
+.person:nth-child(2n) {
+  background: #f5ca95;
+}
+
+.person__item {
+  padding: 5px 0;
+}
