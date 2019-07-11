@@ -11,11 +11,17 @@ header {
   margin: -125px 0 0 -125px;
 }
 
+button {
+  height: 31px;
+}
+
 .PeopleTable {
-  width: 100%;
+  max-width: 13 00px;
+  width: 99.8%;
   border-collapse: collapse;
+  border: 2px solid #737373;
   text-align: center;
-  margin: 20px;
+  margin:auto;
 }
 
 .person--female {
@@ -28,6 +34,49 @@ background-color: lightpink;
 }
 
 .filter-input {
-  width: 100%;
+  width: 80%;
   height: 25px;
 }
+
+.born-before-1650 {
+  text-decoration: line-through;
+}
+
+.died-after-1800 {
+  font-weight: bold;
+}
+
+.over-65 {
+  border: 2px solid green;
+}
+
+.table-header {
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 40px;
+
+}
+
+tbody tr:hover {
+  background: #8ab9fa;
+  color: #fff;
+}
+
+tbody tr:active {
+  background: #afcefa;
+  color: rgb(54, 54, 54);
+
+}
+
+
+
+.filter-box {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.person--father {
+  background-color: cornflowerblue;
+}
+
+
