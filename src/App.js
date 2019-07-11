@@ -3,7 +3,7 @@ import getPeople from './getPeople';
 import PeopleTable from './PeopleTable';
 import './styles/app.css';
 
-const getData = async () => {
+const getData = async() => {
   const peopleData = await getPeople();
   return peopleData;
 };
