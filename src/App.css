@@ -13,3 +13,7 @@
 .people__Died--Before {
   font-weight: bold;
 }
+
+.people__old {
+  border: 1px solid green;
+}
