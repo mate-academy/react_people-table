@@ -18,6 +18,10 @@ class App extends React.Component {
       ...person,
       age: person.died - person.born,
       century: Math.ceil(person.died / 100),
+      children: people
+        .filter(kidd => kidd.father === person.name
+          || kidd.mother === person.name)
+        .map(child => child.name),
     }));
 
     this.setState({

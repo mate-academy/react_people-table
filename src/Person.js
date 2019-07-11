@@ -16,7 +16,7 @@ const Person = ({ person, i }) => (
     <td
       className={person.born < 1650
         ? 'people__Born--Before'
-        : `person--lived-in-${person.century}`}
+        : ''}
     >
       {person.born}
     </td>
@@ -27,12 +27,22 @@ const Person = ({ person, i }) => (
       {person.died}
     </td>
     <td>{person.mother}</td>
-    <td>{person.father}</td>
+    <td
+      className={(person.sex === 'm' && person.children.length > 0)
+        ? 'person--father'
+        : ''}
+    >
+      {person.father}
+    </td>
     <td className={person.age > 65
       ? 'people__old'
-      : `person--lived-in-${person.century}`}
+      : ''}
     >
       {person.age}
+    </td>
+    <td className={`person--lived-in-${person.century}`}>{person.century}</td>
+    <td>
+      {person.children.join(', ')}
     </td>
   </tr>
 );
@@ -47,6 +57,7 @@ Person.propTypes = {
     father: PropTypes.string.isRequired,
     age: PropTypes.number.isRequired,
     century: PropTypes.number.isRequired,
+    children: PropTypes.string.isRequired,
   }).isRequired,
   i: PropTypes.number.isRequired,
 };

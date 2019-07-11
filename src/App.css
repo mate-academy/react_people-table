@@ -17,3 +17,7 @@
 .people__old {
   border: 1px solid green;
 }
+
+.person--father {
+  background: cornflowerblue;
+}

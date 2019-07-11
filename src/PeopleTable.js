@@ -13,6 +13,9 @@ const PeopleTable = ({ peoples }) => (
       <th>died</th>
       <th>mother</th>
       <th>father</th>
+      <th>age</th>
+      <th>century</th>
+      <th>children</th>
     </tr>
     <tbody>
       {peoples.map((person, index) => (
