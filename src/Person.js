@@ -17,9 +17,10 @@ const Person = ({p, i}) => (
       <td>{p.born}</td>
       <td>{p.died}</td>
       <td>{p.mother}</td>
-      <td>{p.father}</td>
-      <td>{p.age}</td>
+      <td className={p.children.length ? 'person-father' : ''}>{p.father}</td>
+      <td className={p.age > 65 ? 'person-age-greenborder' : ''}>{p.age}</td>
       <td>{p.century}</td>
+      <td>{p.children.join(', ')}</td>
     </tr>
 )
 

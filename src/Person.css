@@ -9,3 +9,11 @@ background-color: lightpink;
 .person-bold {
   font-weight: 700;
 }
+
+.person-age-greenborder {
+  background-color:  rgb(157, 236, 157);
+}
+
+.person-father {
+  background-color: cornflowerblue;
+}

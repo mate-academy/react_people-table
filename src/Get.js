@@ -8,6 +8,11 @@ const getFromServer = async() => {
     ...person,
     age: person.died - person.born,
     century: Math.ceil(person.died / 100),
+    children:
+    people
+    .filter(child => child.father === person.name
+      || child.mother === person.name)
+    .map(pers => pers.name)
   })
 );
 return addedRows;

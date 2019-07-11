@@ -7,6 +7,7 @@ import './app.css'
 class App extends React.Component {
   state = {
     loadedPeople: [],
+    peopleTemplate: [],
     isLoaded: false,
 };
 
@@ -14,11 +15,22 @@ handleLoad = async() => {
   const addedRows = await getFromServer();
   this.setState({
     loadedPeople: addedRows,
+    peopleTemplate: addedRows,
     isLoaded: true,
   });
 };
 
-  render() {
+handleInputSearch = (e) => {
+  const search = e.target.value;
+  this.setState(state => ({
+    loadedPeople: state.loadedPeople
+    .filter(pers => pers.name
+      .toLowerCase()
+      .indexOf(search.toLowerCase()) !== -1),
+  }));
+}
+
+ render() {
     return (
       <div>
         <header>
@@ -36,7 +48,11 @@ handleLoad = async() => {
             >
               Load the table
           </button>
-          <PeoplesTable peopleData ={this.state.loadedPeople} />
+          {console.log(this.state.loadedPeople)}
+        <div>
+          <input placeholder="Search..." onChange={this.handleInputSearch}/>
+        </div>
+          <PeoplesTable peopleData={this.state.loadedPeople} />
         </main>
       </div>
     );
