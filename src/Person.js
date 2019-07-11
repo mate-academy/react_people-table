@@ -14,8 +14,17 @@ const selectRow = (event) => {
   row.classList.toggle('person--selected');
 };
 
+const parentsClass = (person) => {
+  if (person.children.length > 0) {
+    return (person.sex === 'f')
+      ? 'person person--mother'
+      : 'person person--father';
+  }
+  return 'person';
+};
+
 const Person = ({ person }) => (
-  <tr className="person" onClick={selectRow}>
+  <tr className={parentsClass(person)} onClick={selectRow}>
     <td className="person__item">{person.id + 1}</td>
     <td className="person__item">{person.name}</td>
     <td className="person__item">{person.sex}</td>
