@@ -10,11 +10,8 @@
 
 .PeopleTable {
   border-collapse: collapse;
+  font-size: 16px;
   margin: 0 auto;
-}
-
-.PeopleTable__thead th, td {
-  padding: 0 10px;
 }
 
 .person--female {
@@ -32,3 +29,8 @@
 .person--died {
   font-weight: bold;
 }
+
+.person--age {
+  border: 1px solid green;
+}
+

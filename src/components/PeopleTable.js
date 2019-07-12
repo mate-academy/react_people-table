@@ -3,31 +3,38 @@ import PropTypes from 'prop-types';
 import Person from './Person';
 
 const PeopleTable = ({ people }) => (
-  <table className="PeopleTable">
 
-    <thead>
-      <tr className="PeopleTable__thead">
-        <th>Id</th>
-        <th>Name</th>
-        <th>Sex</th>
-        <th>Born</th>
-        <th>Died</th>
-        <th>Mother</th>
-        <th>Father</th>
-      </tr>
-    </thead>
+  <>
+    <table className="PeopleTable">
 
-    <tbody>
-      {people.map((person, index) => (
-        <Person
-          person={person}
-          index={index + 1}
-          key={index}
-        />
-      ))}
-    </tbody>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Sex</th>
+          <th>Born</th>
+          <th>Died</th>
+          <th>Age</th>
+          <th>Century</th>
+          <th>Mother</th>
+          <th>Father</th>
+          <th>Children</th>
+        </tr>
+      </thead>
 
-  </table>
+      <tbody>
+        {people.map(person => (
+          <Person
+            person={person}
+            index={person.index}
+            key={person.index}
+          />
+        ))}
+      </tbody>
+
+    </table>
+  </>
+
 );
 
 PeopleTable.propTypes = {

@@ -2,21 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const getPersonStyle = (person) => {
-  let className = '';
+  let className = `person--lived-in-${person.century}`;
 
   if (person.sex === 'f') {
-    className = 'person--female';
+    className += ` person--female`;
   }
 
   if (person.sex === 'm') {
-    className = 'person--male';
+    className += ` person--male`;
+  }
+
+  if (person.age > 65) {
+    className += ` person--age`;
   }
 
   return className;
 };
 
 const getNameStyle = (person) => {
-  let className = 'PeopleTable__thead';
+  let className = '';
 
   if (person.born < 1650) {
     className += ' person--born';
@@ -37,8 +41,11 @@ const Person = ({ person, index }) => (
     <td>{person.sex}</td>
     <td>{person.born}</td>
     <td>{person.died}</td>
+    <td>{person.age}</td>
+    <td>{person.century}</td>
     <td>{person.mother}</td>
     <td>{person.father}</td>
+    <td>{person.children.join(', ')}</td>
   </tr>
 );
 
@@ -50,8 +57,11 @@ Person.propTypes = {
     sex: PropTypes.string,
     born: PropTypes.number,
     died: PropTypes.number,
+    age: PropTypes.number,
+    century: PropTypes.number,
     mother: PropTypes.string,
     father: PropTypes.string,
+    children: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };
 

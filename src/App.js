@@ -26,7 +26,10 @@ class App extends React.Component {
           {this.state.people.length}
         </div>
 
-        <PeopleTable people={this.state.people} />
+        <PeopleTable
+          people={this.state.people}
+          handleSearch={this.handleSearch}
+        />
 
       </main>
     );
