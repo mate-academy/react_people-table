@@ -34,40 +34,18 @@ class App extends React.Component {
     }));
   };
 
-  filterByName = (event) => {
-    const { value } = event.target;
-
-    this.setState(prevState => ({
-      visiblePeople: prevState.people.filter(
-        person => person.name.toLowerCase().includes(value.toLowerCase())
-      ),
-    }));
-  };
-
-  filterByMother = (event) => {
-    const { value } = event.target;
+  handleFilter = (event) => {
+    const { value, name } = event.target;
 
     this.setState(prevState => ({
       visiblePeople: prevState.people.filter(
         (person) => {
-          if (person.mother !== null) {
-            return person.mother.toLowerCase().includes(value.toLowerCase());
-          }
-
-          return 0;
-        }
-      ),
-    }));
-  }
-
-  filterByFather = (event) => {
-    const { value } = event.target;
-
-    this.setState(prevState => ({
-      visiblePeople: prevState.people.filter(
-        (person) => {
-          if (person.father !== null) {
-            return person.father.toLowerCase().includes(value.toLowerCase());
+          if (person[name] !== null) {
+            return person[name]
+              .toLowerCase()
+              .includes(value
+                .toLowerCase()
+                .trim());
           }
 
           return 0;
@@ -135,7 +113,8 @@ class App extends React.Component {
             <input
               type="text"
               id="name-input"
-              onChange={this.filterByName}
+              name="name"
+              onChange={this.handleFilter}
             />
           </label>
           <label htmlFor="mother-input">
@@ -143,7 +122,8 @@ class App extends React.Component {
             <input
               type="text"
               id="mother-input"
-              onChange={this.filterByMother}
+              name="mother"
+              onChange={this.handleFilter}
             />
           </label>
           <label htmlFor="father-input">
@@ -151,7 +131,8 @@ class App extends React.Component {
             <input
               type="text"
               id="father-input"
-              onChange={this.filterByFather}
+              name="father"
+              onChange={this.handleFilter}
             />
           </label>
         </div>

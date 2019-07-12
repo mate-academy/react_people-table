@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 
 import getClassForPersonsName from './getClassForPersonsName';
 import getClassForPersonsInfo from './getClassForPersonsInfo';
+import getSelectedElement from './getSelectedElement';
 
 const PersonInfo = ({ person }) => (
   <tr
     className={getClassForPersonsInfo(person)}
+    onClick={getSelectedElement}
   >
     <td>{person.id}</td>
 

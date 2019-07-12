@@ -18,4 +18,8 @@
   background: cornflowerblue;
 }
 
+.selected {
+  border: 3px solid blue;
+}
+
 /*# sourceMappingURL=App.css.map */
