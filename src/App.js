@@ -10,6 +10,8 @@ const getPeople = async() => {
 class App extends React.Component {
   state = {
     people: [],
+    visualPeople: [],
+    sortField: 'name',
   }
 
   async componentDidMount() {
@@ -25,9 +27,36 @@ class App extends React.Component {
     }));
 
     this.setState({
-      people: peopleWithAge,
+      visualPeople: [...peopleWithAge],
+      people: [...peopleWithAge],
     });
   }
+
+  handleSortByName = () => {
+    if (this.state.sortField === 'name') {
+      this.setState(prev => ({
+        sortField: 'name',
+        people: prev.visualPeople.reverse(),
+      }));
+    } else {
+      this.setState(prev => ({
+        sortField: 'name',
+        people: prev.visualPeople.sort(
+          (a, b) => a.name.localeCompare(b.name),
+        ),
+      }));
+    }
+  }
+
+  handleText = (someTyp) => {
+    const search = someTyp.target.value;
+    this.setState(prev => ({
+      people: prev.visualPeople.filter(
+        pers => [pers.name, pers.mother, pers.father]
+          .join('').toLowerCase().includes(search.toLowerCase())
+      ),
+    }));
+  };
 
   render() {
     return (
@@ -36,6 +65,20 @@ class App extends React.Component {
         People table
           { this.state.people.length }
         </h1>
+        <label htmlFor="name__input">
+            Filter by name:
+          <input
+            type="text"
+            id="name__input"
+            onChange={this.handleText}
+          />
+        </label>
+        <button
+          type="button"
+          onClick={this.handleSortByName}
+        >
+          sort by name
+        </button>
         <PeopleTable peoples={this.state.people} />
       </div>
     );
