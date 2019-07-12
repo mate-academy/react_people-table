@@ -1,0 +1,28 @@
+.person td {
+  padding: 5px;
+  border-bottom: 1px solid rgba(34,36,38,.15);
+}
+
+.person-female {
+  background: rgba(255, 182, 193, 0.541);
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.bold {
+  font-weight: 500;
+}
+
+.green-border {
+  border: 1px solid green;
+}
+
+.color-blue {
+  background: rgba(99, 147, 236, 0.486);
+}
+
+.selected-row {
+  border: 2px solid rgba(27, 70, 112, 0.822);
+}
