@@ -39,7 +39,7 @@ class App extends React.Component {
   state = {
     people: [],
     visiblePeople: [],
-    isLoaded: false
+    isLoaded: false,
   };
 
   loadData = async() => {
@@ -118,12 +118,10 @@ class App extends React.Component {
     }));
   };
 
-  addNewPerson = () => {};
-
-  searchInput = (event) => {
+  onSearchByName = (event) => {
     const search = event.target.value;
     this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.filter(
+      visiblePeople: prevState.people.filter(
         person => (
           [person.name, person.mother, person.father]
             .join('')
@@ -152,7 +150,7 @@ class App extends React.Component {
             <div className="filter-box">
               <div className="reverse-btn">
                 <button onClick={this.reverseClick} type="button">
-                  reverse table ⇅
+                  Reverse table ⇅
                 </button>
               </div>
               <label className="filter" htmlFor="search">
@@ -161,7 +159,7 @@ class App extends React.Component {
                   id="search"
                   type="text"
                   placeholder=" start search by name"
-                  onChange={this.searchInput}
+                  onChange={this.onSearchByName}
                 />
               </label>
               <div className="add-btn">
