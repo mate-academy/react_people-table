@@ -18,3 +18,13 @@
 .long--livers {
   border: 1px solid green;
 }
+
+.clicked {
+  border: 3px solid blue;
+}
+
+.person-row{
+  cursor: pointer;
+}
+
+

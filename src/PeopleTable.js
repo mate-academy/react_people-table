@@ -14,12 +14,13 @@ const PeopleTable = ({ peoples }) => (
         <th>father</th>
         <th>age</th>
         <th>century</th>
+        <th>children</th>
       </tr>
     </thead>
 
     <tbody>
       {peoples.map((person, i) => (
-        <Person item={person} index ={i+1} />
+        <Person item={person} index={i + 1} />
       ))}
     </tbody>
   </table>
