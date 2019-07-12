@@ -1,5 +1,8 @@
 import React from 'react';
+import './App.css';
+
 import getData from './api/getData';
+import PeopleTable from './components/PeopleTable';
 
 class App extends React.Component {
   state = {
@@ -16,11 +19,14 @@ class App extends React.Component {
 
   render() {
     return (
-      <main className="main">
+      <main>
         <div className="App">
           <h1>People table</h1>
+          <span>People in table - </span>
           {this.state.people.length}
         </div>
+
+        <PeopleTable people={this.state.people} />
 
       </main>
     );

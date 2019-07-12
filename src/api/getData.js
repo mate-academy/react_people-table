@@ -1,7 +1,7 @@
 const getData = async() => {
-  const peopleUrl = 'https://mate-academy.github.io/react_people-table/api/people.json';
-  const responsePosts = await fetch(peopleUrl);
-  const people = await responsePosts.json();
+  const url = 'https://mate-academy.github.io/react_people-table/api/people.json';
+  const responsePeople = await fetch(url);
+  const people = await responsePeople.json();
 
   return people;
 };
