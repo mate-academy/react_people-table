@@ -21,7 +21,7 @@ PeopleTable.propTypes = {
   handleSort: PropTypes.func.isRequired,
   handlePersonRowClick: PropTypes.func.isRequired,
   people: PropTypes.arrayOf(PropTypes.object).isRequired,
-  personRowSelectedId: PropTypes.string.isRequired,
+  personRowSelectedId: PropTypes.number.isRequired,
   personRowSelected: PropTypes.bool.isRequired,
 };
 

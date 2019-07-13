@@ -70,7 +70,7 @@ Person.propTypes = {
   people: PropTypes.arrayOf(PropTypes.object).isRequired,
   handlePersonRowClick: PropTypes.func.isRequired,
   personRowSelected: PropTypes.bool.isRequired,
-  personRowSelectedId: PropTypes.string.isRequired,
+  personRowSelectedId: PropTypes.number.isRequired,
 };
 
 export default Person;

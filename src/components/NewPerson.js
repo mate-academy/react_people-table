@@ -12,14 +12,40 @@ class NewPerson extends React.Component {
   }
 
   handleNewPerson = (event) => {
-    const { name, value } = event.target;
+    const { name } = event.target;
+    let { value } = event.target;
+
+    if (name === 'name') {
+      value = value.replace(/[^A-Za-z ]/, '');
+    }
+
+    if (name === 'born' && name === 'died') {
+      value = value.replace(/[^0-9]/, '');
+    }
 
     this.setState({
       [name]: value,
     });
   }
 
+  getParrents = (parentSex, people, childBorn) => people
+    .filter(parent => (
+      parent.sex === parentSex && parent.born < childBorn))
+    .map(parent => (
+      <option
+        key={parent.id + parent.name}
+        value={parent.name}
+      >
+        {parent.name}
+      </option>
+    ))
+
   render() {
+    const { people } = this.props;
+    const { born } = this.state;
+    const optionsOfFathers = this.getParrents('m', people, born);
+    const optionsOfMathers = this.getParrents('f', people, born);
+
     return (
       <div>
         <form onSubmit={this.props.handleNewPersonSubmit}>
@@ -58,23 +84,19 @@ class NewPerson extends React.Component {
 
           <input
             name="born"
-            type="type"
+            type="number"
             pattern="[0-9]{4}"
             placeholder="born year"
             required
-            minLength="4"
-            maxLength="4"
             onChange={this.handleNewPerson}
           />
 
           <input
             name="died"
-            type="type"
+            type="number"
             pattern="[0-9]{4}"
             placeholder="died"
             required
-            minLength="4"
-            maxLength="4"
             onChange={this.handleNewPerson}
           />
 
@@ -83,46 +105,64 @@ class NewPerson extends React.Component {
             type="text"
             placeholder="father"
             required
+            value={this.state.father}
             onChange={this.handleNewPerson}
           />
+
+          <select
+            name="father"
+            value={this.state.father}
+            onChange={this.handleNewPerson}
+          >
+            {optionsOfFathers}
+          </select>
 
           <input
             name="mother"
             type="text"
             placeholder="mother"
+            value={this.state.mother}
             required
             onChange={this.handleNewPerson}
           />
+
+          <select
+            name="mother"
+            value={this.state.mother}
+            onChange={this.handleNewPerson}
+          >
+            {optionsOfMathers}
+          </select>
+
           <button type="submit">Add New Person</button>
         </form>
 
         <p>
-Name
+          Name:
           {this.state.name}
           {' '}
 
         </p>
         <p>
-Sex:
+          Sex:
           {this.state.sex}
         </p>
         <p>
-Born:
+          Born:
           {this.state.born}
         </p>
         <p>
-died:
+          Died:
           {this.state.died}
         </p>
         <p>
-father:
+          Father:
           {this.state.father}
         </p>
         <p>
-mother:
+          Mother:
           {this.state.mother}
         </p>
-
       </div>
     );
   }
@@ -130,6 +170,7 @@ mother:
 
 NewPerson.propTypes = {
   handleNewPersonSubmit: PropTypes.func.isRequired,
+  people: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default NewPerson;

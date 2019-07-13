@@ -11,7 +11,8 @@ class App extends React.Component {
     filterInputValue: '',
     toggleNameSortOrder: 1,
     personRowSelected: false,
-    personRowSelectedId: '',
+    personRowSelectedId: 0,
+    errorMessage: '',
   }
 
   async componentDidMount() {
@@ -103,12 +104,20 @@ class App extends React.Component {
       personRowSelectedId: personId,
     });
 
-    this.setState(prevState => ({
-      personRowSelected: !prevState.personRowSelected,
-    }));
+    if (this.state.personRowSelectedId === personId) {
+      this.setState(prevState => ({
+        personRowSelected: !prevState.personRowSelected,
+      }));
+    } else if (this.state.personRowSelectedId !== personId) {
+      this.setState({
+        personRowSelected: true,
+      });
+    }
   }
 
   handleNewPersonSubmit = (event) => {
+    event.preventDefault();
+
     const newPersonObj = {
       name: event.target[0].value,
       sex: event.target[1].checked ? 'f' : 'm',
@@ -118,16 +127,23 @@ class App extends React.Component {
       father: event.target[6].value,
     };
 
-    this.setState(prevState => ({
-      peopleFromServer:
-        this.addKeysToPersonInArr(
-          [...prevState.peopleFromServer, newPersonObj]
-        ),
-      people:
-        this.addKeysToPersonInArr([...prevState.people, newPersonObj]),
-    }));
+    const age = newPersonObj.died - newPersonObj.born;
 
-    event.preventDefault();
+    if (age <= 0 || age > 150) {
+      this.setState({
+        errorMessage: 'Incorrect Age, or to much or not enough',
+      });
+    } else {
+      this.setState(prevState => ({
+        errorMessage: '',
+        peopleFromServer:
+          this.addKeysToPersonInArr(
+            [...prevState.peopleFromServer, newPersonObj]
+          ),
+        people:
+          this.addKeysToPersonInArr([...prevState.people, newPersonObj]),
+      }));
+    }
   }
 
   render() {
@@ -137,8 +153,12 @@ class App extends React.Component {
 People table
           {this.state.people.length}
         </h1>
+        <h2>{this.state.errorMessage}</h2>
 
-        <NewPerson handleNewPersonSubmit={this.handleNewPersonSubmit} />
+        <NewPerson
+          handleNewPersonSubmit={this.handleNewPersonSubmit}
+          people={this.state.people}
+        />
 
         <form onSubmit={this.handleSubmit}>
           <input
