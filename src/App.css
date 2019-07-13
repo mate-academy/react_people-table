@@ -1,0 +1,12 @@
+.people-table,
+.people-table tr,
+.people-table th,
+.people-table td {
+  border: 1px solid black;
+  border-radius: 5px;
+  border-collapse: collapse;
+}
+
+.people-table {
+  width: 100%;
+}
