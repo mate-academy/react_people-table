@@ -54,7 +54,10 @@ class App extends React.Component {
     });
   }
 
-  isStrIncludeSubstr = (str, substr) => {
+  isArrIncludeSubstr = (str, substr) => {
+    str = str.join('');
+    substr = substr.trim();
+
     if (str) {
       return str.toLowerCase().includes(substr.toLowerCase());
     }
@@ -66,9 +69,9 @@ class App extends React.Component {
 
     this.setState(prevState => ({
       people: prevState.peopleFromServer.filter(item => (
-        this.isStrIncludeSubstr(item.name, prevState.filterInputValue)
-        || this.isStrIncludeSubstr(item.mother, prevState.filterInputValue)
-        || this.isStrIncludeSubstr(item.father, prevState.filterInputValue)
+        this.isArrIncludeSubstr(
+          [item.name, item.mother, item.father], prevState.filterInputValue
+        )
       )),
     }));
   }
