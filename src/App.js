@@ -13,6 +13,7 @@ const getPeople = async () => {
 class App extends React.Component {
   state = {
     people: [],
+    peopleCopy: [],
     clickedId: 1,
   }
 
@@ -24,15 +25,23 @@ class App extends React.Component {
       century: Math.ceil(person.died / 100),
       children: people.filter(item => item.father === person.name
         || item.mother === person.name)
-          .map(item => item.name)
-          .join(', '),
+        .map(item => item.name)
+        .join(', '),
     }));
-    console.log(peopleModified);
 
     this.setState({
       peopleCopy: [...peopleModified],
       people: [...peopleModified],
     });
+  }
+
+  sortByField = () => {
+    this.setState(prevState => ({
+      peopleCopy: prevState.peopleCopy.sort(
+        (a, b) => a.name.localeCompare(b.name)
+      ),
+    }
+    ));
   }
 
   render() {
@@ -42,7 +51,7 @@ class App extends React.Component {
           Number of items:
           {this.state.people.length}
         </h1>
-        <PeopleTable peoples={this.state.people} />
+        <PeopleTable peoples={this.state.peopleCopy} sortName ={this.sortByField} />
       </div>
     );
   }
