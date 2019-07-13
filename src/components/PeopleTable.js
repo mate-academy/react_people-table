@@ -2,19 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Person from './Person';
 
-const PeopleTable = ({ people }) => (
-
+const PeopleTable = ({ people, handleSearch, handleSortBy }) => (
   <>
+    <div className="search">
+      <input
+        type="search"
+        placeholder="Input text for searching"
+        className="search__input"
+        autoComplete="off"
+        onChange={handleSearch}
+      />
+    </div>
+
     <table className="PeopleTable">
 
       <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
+        <tr className="PeopleTable__header">
+          <th onClick={() => handleSortBy('index')}>Id</th>
+          <th onClick={() => handleSortBy('name')}>Name</th>
           <th>Sex</th>
-          <th>Born</th>
-          <th>Died</th>
-          <th>Age</th>
+          <th onClick={() => handleSortBy('born')}>Born</th>
+          <th onClick={() => handleSortBy('died')}>Died</th>
+          <th onClick={() => handleSortBy('age')}>Age</th>
           <th>Century</th>
           <th>Mother</th>
           <th>Father</th>
@@ -34,7 +43,6 @@ const PeopleTable = ({ people }) => (
 
     </table>
   </>
-
 );
 
 PeopleTable.propTypes = {
@@ -47,6 +55,8 @@ PeopleTable.propTypes = {
     father: PropTypes.string,
     map: PropTypes.func,
   })).isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  handleSortBy: PropTypes.func.isRequired,
 };
 
 export default PeopleTable;

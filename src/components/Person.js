@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const getPersonStyle = (person) => {
-  let className = `person--lived-in-${person.century}`;
+  let className = `person person--lived-in-${person.century}`;
 
   if (person.sex === 'f') {
     className += ` person--female`;
@@ -35,7 +35,7 @@ const getNameStyle = (person) => {
 
 const Person = ({ person, index }) => (
 
-  <tr className={getPersonStyle(person)}>
+  <tr className={getPersonStyle(person)} tabIndex="0">
     <td>{index}</td>
     <td className={getNameStyle(person)}>{person.name}</td>
     <td>{person.sex}</td>
