@@ -43,8 +43,8 @@ const Person = ({ person, selectedPerson, setSelected }) => {
       <td>{century}</td>
       <td>{born}</td>
       <td>{died}</td>
-      <td>{mother}</td>
-      <td>{father}</td>
+      <td>{mother || 'None'}</td>
+      <td>{father || 'None'}</td>
       <td>{children.map(child => child.name).join(', ') || 'None'}</td>
     </tr>
   );

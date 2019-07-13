@@ -24,11 +24,27 @@
 
 .table-search {
   width: 100%;
-  border: 1px solid rgba(34, 36, 38, 0.212);
+  border: 1px solid rgba(34, 36, 38, 0.2);
   height: 40px;
   font-size: 18px;
   padding-left: 5px;
   margin-bottom: 10px;
   box-sizing: border-box;
   outline-color: rgb(27, 37, 70);
+}
+
+.adding-button {
+  display: block;
+  width: 300px;
+  height: 40px;
+  background: #fff;
+  border: 1px solid rgba(34, 36, 38, 0.2);
+  margin: 0 auto 10px;
+  cursor: pointer;
+  font-size: 18px;
+  outline-color: rgb(27, 37, 70);
+}
+
+.adding-button:hover {
+  border: 1px solid rgba(34, 36, 38, 0.65);
 }

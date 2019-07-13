@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import './PeopleTable.css';
 import Person from '../Person/Person';
 
-// class PeopleTable extends Component {
-//   state = {};
-
-//   render() {
-
-// }
-
-const PeopleTable = ({ usersToShow, filterUsers, sortUsers }) => {
+const PeopleTable = ({
+  usersToShow,
+  filterUsers,
+  sortUsers,
+  isAddingNew,
+  addNewPerson,
+}) => {
   const tableHeaders = [
     { id: 1, name: 'Id' },
     { id: 2, name: 'Name' },
@@ -33,11 +32,21 @@ const PeopleTable = ({ usersToShow, filterUsers, sortUsers }) => {
           ? `${usersToShow.length} people found`
           : 'People not found'}
       </h1>
+      {isAddingNew || (
+        <button
+          type="button"
+          className="adding-button"
+          onClick={addNewPerson}
+        >
+          Add a new person
+        </button>
+      )}
       <input
         type="text"
         className="table-search"
         placeholder="Search by name, mother`s or father`s name"
         onChange={event => filterUsers(event.target.value)}
+        readOnly={isAddingNew}
       />
       <table className="table">
         <thead>
@@ -66,15 +75,19 @@ PeopleTable.propTypes = {
   usersToShow: PropTypes.arrayOf(PropTypes.object).isRequired,
   filterUsers: PropTypes.func.isRequired,
   sortUsers: PropTypes.func.isRequired,
+  isAddingNew: PropTypes.bool.isRequired,
+  addNewPerson: PropTypes.func.isRequired,
 };
 
-const mapState = ({ usersToShow }) => ({
+const mapState = ({ usersToShow, isAddingNew }) => ({
   usersToShow,
+  isAddingNew,
 });
 
 const mapDispatch = dispatch => ({
   filterUsers: value => dispatch({ type: 'FILTER_USERS', value }),
   sortUsers: field => dispatch({ type: 'SORT_USERS', field }),
+  addNewPerson: () => dispatch({ type: 'TOGGLE_ADDING_NEW' }),
 });
 
 export default connect(

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import getUsers from './components/api/api';
 import './App.css';
 import PeopleTable from './components/PeopleTable/PeopleTable';
+import NewPerson from './components/NewPerson/NewPerson';
 
 class App extends Component {
   async componentDidMount() {
@@ -29,10 +30,11 @@ class App extends Component {
   }
 
   render() {
-    const { isLoading } = this.props;
+    const { isLoading, isAddingNew } = this.props;
     return (
       <div className="container">
         {isLoading ? <div>Loading</div> : <PeopleTable />}
+        {isAddingNew && <NewPerson />}
       </div>
     );
   }
@@ -43,10 +45,12 @@ App.propTypes = {
   finishLoading: PropTypes.func.isRequired,
   setUsers: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  isAddingNew: PropTypes.bool.isRequired,
 };
 
-const mapState = ({ isLoading }) => ({
+const mapState = ({ isLoading, isAddingNew }) => ({
   isLoading,
+  isAddingNew,
 });
 
 const mapDispatch = dispatch => ({
