@@ -1,0 +1,7 @@
+.peopleTable {
+  border-collapse: collapse;
+}
+
+.peopleTable th, td {
+  padding: 10px;
+}
