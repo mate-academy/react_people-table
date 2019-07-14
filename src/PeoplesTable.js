@@ -21,15 +21,14 @@ return (
       </tr>
     </thead>
     <tbody>
-      {peopleData.map((person, i) => (
+      {peopleData.map((person) => (
       <Person
-        p={person}
-        i={i}
+       personDetails={person}
         key={person.name}
        />
       ))}
     </tbody>
   </table>
-  )
+  );
 }
 export default PeoplesTable;

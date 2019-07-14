@@ -1,27 +1,24 @@
 import React from 'react';
+import addingClassNames from './addingClassNames';
+import addingClassNamesForTd from './addingClassNamesForTd';
 
 import './Person.css'
 
-const Person = ({p, i}) => (
-  <tr className="person" >
-    <td>{i+1}</td>
-    <td className={(p.born <= 1650)
-      ? 'person-born-line'
-      : (p.died >= 1800)
-      ? 'person-bold'
-      : ''}
-    >
-      {p.name}
+const Person = ({ personDetails }) => (
+  <tr className={addingClassNames(personDetails)}>
+    <td>{personDetails.id}</td>
+    <td className={addingClassNamesForTd(personDetails)}>
+      {personDetails.name}
     </td>
-    <td className={p.sex==='f'  ? 'person-female' : ''}>{p.sex}</td>
-    <td>{p.born}</td>
-    <td>{p.died}</td>
-    <td>{p.mother}</td>
-    <td className={p.children.length ? 'person-father' : ''}>{p.father}</td>
-    <td className={p.age > 65 ? 'person-age-greenborder' : ''}>{p.age}</td>
-    <td>{p.century}</td>
-    <td>{p.children.join(', ')}</td>
+    <td>{personDetails.sex}</td>
+    <td>{personDetails.born}</td>
+    <td>{personDetails.died}</td>
+    <td>{personDetails.mother}</td>
+    <td>{personDetails.father}</td>
+    <td>{personDetails.age}</td>
+    <td>{personDetails.century}</td>
+    <td>{personDetails.children.join(', ')}</td>
   </tr>
-)
+);
 
 export default Person;

@@ -3,8 +3,6 @@ import getFromServer from './Get';
 import PeoplesTable from './PeoplesTable';
 import SortPlant from './SortPlant';
 import './app.css'
-
-
 class App extends React.Component {
   state = {
     loadedPeople: [],
@@ -57,7 +55,7 @@ reset = () => {
         </header>
         <main>
           <button
-            className="load-button"
+            className="app_load-button"
             type="button"
             onClick={this.handleLoad}
             hidden={this.state.isLoaded}
@@ -70,12 +68,12 @@ reset = () => {
           <input
             placeholder="Search..."
             onChange={this.handleInputSearch}
-            className="search-input"
+            className="app_search-input"
           />
           <button
             onClick={this.reset}
             type="reset"
-            className="sort-button"
+            className="app_sort-button"
           >
               RESET
           </button>
@@ -83,35 +81,35 @@ reset = () => {
         </div>
           <button
             onClick = {() => this.handleSortingBy('name')}
-            className="sort-button"
+            className="app_sort-button"
             type="button"
             >
               sort by name
           </button>
           <button
             onClick = {() => this.handleSortingBy('id')}
-            className="sort-button"
+            className="app_sort-button"
             type="button"
             >
              sort by ID
           </button>
           <button
             onClick = {() => this.handleSortingBy('born')}
-            className="sort-button"
+            className="app_sort-button"
             type="button"
             >
              sort by born
           </button>
           <button
             onClick = {() => this.handleSortingBy('died')}
-            className="sort-button"
+            className="app_sort-button"
             type="button"
            >
              sort by died
           </button>
           <button
             onClick = {() => this.handleSortingBy('age')}
-            className="sort-button"
+            className="app_sort-button"
             type="button"
            >
              sort by age

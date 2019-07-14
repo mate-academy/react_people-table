@@ -1,19 +1,19 @@
-.person-female {
-background-color: lightpink;
+.personDetails_female {
+  background-color: lightpink;
 }
 
-.person-born-line {
+.personDetails_father {
+  background-color: cornflowerblue;
+}
+
+.person__age-more-then-65 {
+  border: 5px solid rgb(157, 236, 157);
+}
+
+.personDetails_born-before-1650 {
   text-decoration: line-through;
 }
 
-.person-bold {
+.personDetails_died-after-1800 {
   font-weight: 700;
-}
-
-.person-age-greenborder {
-  background-color:  rgb(157, 236, 157);
-}
-
-.person-father {
-  background-color: cornflowerblue;
 }

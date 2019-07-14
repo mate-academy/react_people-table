@@ -1,5 +1,4 @@
- .load-button {
-
+ .app_load-button {
   margin:25px;
   width: 130px;
   height: 50px;
@@ -9,7 +8,7 @@
   font-size: 20px;
 }
 
-.sort-button {
+.app_sort-button {
   margin:10px 35px;
   width: 100px;
   height: 40px;
@@ -19,13 +18,12 @@
   font-size: 14px;
 }
 
-.sort-button:hover {
-background-color: #eeeeee;
+.app_sort-button:hover {
+  background-color: #eeeeee;
   cursor: pointer;
-
 }
 
- .load-button:hover {
+.app_load-button:hover {
   margin: 20px;
   cursor: pointer;
   width: 140px;
@@ -34,7 +32,7 @@ background-color: #eeeeee;
   font-size: 23px;
 }
 
-.search-input {
+.app_search-input {
   margin: 15px;
   box-shadow: 0 1px 5px #a3a3a3;
   height: 20px;
