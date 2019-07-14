@@ -19,8 +19,9 @@ class App extends React.Component {
 
   async componentDidMount() {
     const people = await getPeople();
-    const peopleModified = people.map(person => ({
+    const peopleModified = people.map((person, index) => ({
       ...person,
+      id: index + 1,
       age: person.died - person.born,
       century: Math.ceil(person.died / 100),
       children: people.filter(item => item.father === person.name
@@ -35,10 +36,14 @@ class App extends React.Component {
     });
   }
 
-  sortByField = () => {
-    this.setState(prevState => ({
+    sortByField = (field) => {
+      this.setState( {
+        sort: field,
+      })
+
+      this.setState(prevState => ({
       peopleCopy: prevState.peopleCopy.sort(
-        (a, b) => a.name.localeCompare(b.name)
+        (a, b) => a.field > b.field
       ),
     }
     ));
@@ -49,9 +54,9 @@ class App extends React.Component {
       <div className="app">
         <h1>
           Number of items:
-          {this.state.people.length}
+          {this.state.peopleCopy.length}
         </h1>
-        <PeopleTable peoples={this.state.peopleCopy} sortName ={this.sortByField} />
+        <PeopleTable peoples={this.state.peopleCopy} sorting ={this.sortByField} />
       </div>
     );
   }
