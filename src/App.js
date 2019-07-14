@@ -15,8 +15,8 @@ class App extends React.Component {
 handleLoad = async() => {
   const addedRows = await getFromServer();
   this.setState({
-    loadedPeople: addedRows,
-    peopleTemplate: addedRows,
+    loadedPeople: [...addedRows],
+    peopleTemplate: [...addedRows],
     isLoaded: true,
   });
 };
@@ -31,7 +31,7 @@ handleInputSearch = (e) => {
   }));
 };
 
-sortingBy = (sortType) => {
+handleSortingBy = (sortType) => {
   this.setState({
     sortType,
   });
@@ -82,31 +82,31 @@ reset = () => {
           </form>
         </div>
           <button
-            onClick = {() => this.sortingBy('name')}
+            onClick = {() => this.handleSortingBy('name')}
             className="sort-button"
             >
               sort by name
           </button>
           <button
-            onClick = {() => this.sortingBy('id')}
+            onClick = {() => this.handleSortingBy('id')}
             className="sort-button"
             >
              sort by ID
           </button>
           <button
-            onClick = {() => this.sortingBy('born')}
+            onClick = {() => this.handleSortingBy('born')}
             className="sort-button"
             >
              sort by born
           </button>
           <button
-            onClick = {() => this.sortingBy('died')}
+            onClick = {() => this.handleSortingBy('died')}
             className="sort-button"
            >
              sort by died
           </button>
           <button
-            onClick = {() => this.sortingBy('age')}
+            onClick = {() => this.handleSortingBy('age')}
             className="sort-button"
            >
              sort by age

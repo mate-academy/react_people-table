@@ -25,11 +25,11 @@ return (
       <Person
         p={person}
         i={i}
-        key={i}
+        key={person.name}
        />
       ))}
     </tbody>
   </table>
-)
+  )
 }
 export default PeoplesTable;
