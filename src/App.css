@@ -1,0 +1,23 @@
+* {
+  padding: 5px;
+  margin: 0; }
+
+.PeopleTable {
+  border-collapse: collapse; }
+
+.people__table--col {
+  line-height: 20px; }
+  .people__table--col-less1650 {
+    text-decoration: line-through; }
+  .people__table--col-died1800 {
+    font-weight: bold; }
+  .people__table--col-more65 {
+    border: 3px solid green; }
+
+.person--female {
+  background-color: pink; }
+
+.person--father {
+  background-color: cornflowerblue; }
+
+/*# sourceMappingURL=App.css.map */
