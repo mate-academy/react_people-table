@@ -1,10 +1,11 @@
 .page {
   max-width: 1000px;
+  min-width: 650px;
   margin: 20px auto;
   padding: 20px;
   border-radius: 10px;
   border: 2px solid #737373;
-  background: linear-gradient(to top, #eaedf0, #ffffff);
+  background: linear-gradient(to top, #eaedf0, #f8f7f7);
 }
 
 header {
@@ -12,14 +13,11 @@ header {
 }
 
 .start-btn{
-  width: 250px;
-  height: 60px;
+  width: 160px;
   font-size: 30px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -200px 0 0 -125px;
+  margin: 60px auto 20px;
 }
+
 
 .filter-box {
   display: flex;
@@ -61,7 +59,10 @@ tbody tr:hover {
 tbody tr:active {
   background: #afcefa;
   color: #363636;
+}
 
+tbody tr:focus {
+	border: 3px solid blue;
 }
 
 .person--female {
@@ -79,3 +80,4 @@ background-color: #ffb6c19e;
 .person--father {
   background-color: #6494ed79;
 }
+

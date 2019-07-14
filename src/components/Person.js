@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { addClassForPerson, addClassForName } from './setClassName';
 
 const Person = ({ person }) => (
-  <tr className={addClassForPerson(person)}>
+  <tr className={addClassForPerson(person)} tabIndex="0">
     <td>{person.id}</td>
-    <td className={addClassForName(person)}>
-      {person.name}
-    </td>
+    <td className={addClassForName(person)}>{person.name}</td>
     <td>{person.sex}</td>
     <td>{person.born}</td>
     <td>{person.died}</td>

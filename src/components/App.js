@@ -1,6 +1,7 @@
 import React from 'react';
 import Data from '../api/getData';
 import PeopleTable from './PeopleTable';
+import NewPerson from './NewPerson';
 
 import '../style.css';
 
@@ -108,16 +109,12 @@ class App extends React.Component {
                 />
               </label>
               <div className="add-btn">
-                <button
-                  className="btn btn-outline-info text-monospace"
-                  onClick={this.addNewPerson}
-                  type="button"
-                >
-                  ✚ Add person
-                </button>
+                <NewPerson people={visiblePeople} />
               </div>
             </div>
-            <table className="PeopleTable table-borderless">
+            <table
+              className="PeopleTable table-borderless"
+            >
               <thead className="table-header text-monospace">
                 <tr>
                   <th onClick={() => this.onSortPeopleBy('id')}>ID</th>
@@ -146,13 +143,15 @@ class App extends React.Component {
             </table>
           </>
         ) : (
-          <button
-            className="btn btn-info btn-lg start-btn text-monospace"
-            onClick={this.loadData}
-            type="button"
-          >
-            Open TABLE
-          </button>
+          <div className="start-btn">
+            <button
+              className="btn btn-info btn-lg text-monospace"
+              onClick={this.loadData}
+              type="button"
+            >
+              Open TABLE
+            </button>
+          </div>
         )}
       </div>
     );
