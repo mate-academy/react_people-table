@@ -1,0 +1,36 @@
+.app {
+  border-collapse: collapse;
+}
+
+.table {
+  width: 70%;
+  margin: 25px auto;
+}
+
+.headline--number_people {
+  text-align: center;
+}
+
+.person--female {
+  background: lightpink;
+}
+
+.born--before {
+  text-decoration: line-through;
+}
+
+.died--after {
+  font-weight: bold;
+}
+
+.long--livers {
+  border: 3px solid green !important;
+}
+
+.person--father {
+  background: cornflowerblue;
+}
+
+.person-row{
+  cursor: pointer;
+}
