@@ -11,7 +11,7 @@ const Person = ({ item, id }) => (
     <td>{item.father}</td>
     <td className={item.age > 65 && 'long--livers'}>{item.age}</td>
     <td>{item.century}</td>
-    <td className={item.children.length > 0 && item.sex === 'f' ? 'person--mather' : 'person--father'}>{item.children}</td>
+    <td>{item.children}</td>
   </tr>
 );
 
