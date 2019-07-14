@@ -1,8 +1,11 @@
 import React from 'react'
 
-const User = ({ user }) => (
-  <tr>
+const User = ({ user }) => {
+  const century = Math.ceil(user.died / 100);
+  return (
+  <tr className={`user--lived-in-${century}`}>
     <td>{user.id}</td>
+    <td>{century}</td>
     {(user.born < 1650)
       ? <td className="line-through">{user.name}</td>
       : (user.died > 1800)
@@ -19,6 +22,6 @@ const User = ({ user }) => (
     <td>{user.mother}</td>
     <td>{user.father}</td>
   </tr>
-);
+)};
 
 export default User

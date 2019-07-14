@@ -6,6 +6,7 @@ const PeopleTable = ({ users }) => (
     <thead>
     <tr>
       <th>ID</th>
+      <th>century</th>
       <th>name</th>
       <th>sex</th>
       <th>born</th>
