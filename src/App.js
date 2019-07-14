@@ -84,30 +84,35 @@ reset = () => {
           <button
             onClick = {() => this.handleSortingBy('name')}
             className="sort-button"
+            type="button"
             >
               sort by name
           </button>
           <button
             onClick = {() => this.handleSortingBy('id')}
             className="sort-button"
+            type="button"
             >
              sort by ID
           </button>
           <button
             onClick = {() => this.handleSortingBy('born')}
             className="sort-button"
+            type="button"
             >
              sort by born
           </button>
           <button
             onClick = {() => this.handleSortingBy('died')}
             className="sort-button"
+            type="button"
            >
              sort by died
           </button>
           <button
             onClick = {() => this.handleSortingBy('age')}
             className="sort-button"
+            type="button"
            >
              sort by age
           </button>
