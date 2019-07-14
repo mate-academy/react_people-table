@@ -1,60 +1,56 @@
+.page {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #737373;
+  background: linear-gradient(to top, #eaedf0, #ffffff);
+}
+
 header {
   text-align: center;
 }
 
 .start-btn{
   width: 250px;
-  height: 40px;
+  height: 60px;
+  font-size: 30px;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -125px 0 0 -125px;
+  margin: -200px 0 0 -125px;
 }
 
-button {
-  height: 31px;
-}
-
-.PeopleTable {
-  max-width: 13 00px;
-  width: 99.8%;
-  border-collapse: collapse;
-  border: 2px solid #737373;
-  text-align: center;
-  margin:auto;
-}
-
-.person--female {
-background-color: lightpink;
+.filter-box {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
 }
 
 .filter {
-  width: 40%;
-  margin: auto;
+  width: 50%;
 }
 
 .filter-input {
-  width: 80%;
-  height: 25px;
+  width: 100%;
+  height: 41px;
+  background-color: #f7fafb;
 }
 
-.born-before-1650 {
-  text-decoration: line-through;
-}
 
-.died-after-1800 {
-  font-weight: bold;
-}
-
-.over-65 {
-  border: 2px solid green;
+.PeopleTable {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: collapse;
+  border: 2px solid #737373;
+  cursor: pointer;
 }
 
 .table-header {
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 40px;
-
+  text-align: center;
 }
 
 tbody tr:hover {
@@ -64,17 +60,22 @@ tbody tr:hover {
 
 tbody tr:active {
   background: #afcefa;
-  color: rgb(54, 54, 54);
+  color: #363636;
 
 }
 
+.person--female {
+background-color: #ffb6c19e;
+}
 
+.born-before-1650 {
+  text-decoration: line-through;
+}
 
-.filter-box {
-  display: flex;
-  padding-bottom: 10px;
+.over-65 {
+  border: 2px solid green;
 }
 
 .person--father {
-  background-color: cornflowerblue;
+  background-color: #6494ed79;
 }

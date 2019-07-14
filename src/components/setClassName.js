@@ -6,7 +6,7 @@ export const addClassForName = (person) => {
   }
 
   if (person.died > 1800) {
-    className += 'died-after-1800';
+    className += 'died-after-1800 font-weight-bolder';
   }
 
   return className;

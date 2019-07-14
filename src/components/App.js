@@ -28,7 +28,7 @@ const getSortBy = field => (a, b) => {
 
     case 'number':
     case 'boolean':
-      return a[field] - b[field];
+      return (a[field] - b[field]);
 
     default:
       return 0;
@@ -40,6 +40,8 @@ class App extends React.Component {
     people: [],
     visiblePeople: [],
     isLoaded: false,
+    sortField: '',
+
   };
 
   loadData = async() => {
@@ -48,85 +50,34 @@ class App extends React.Component {
     this.setState({
       people,
       visiblePeople: [...people],
-      isLoaded: true
+      isLoaded: true,
     });
   };
 
-  reverseClick = () => {
+  onReverseTable = () => {
     this.setState(prevState => ({
       visiblePeople: prevState.visiblePeople.reverse(),
     }));
   };
 
-  idClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('id')),
-    }));
-  };
-
-  ageClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('age'))
-    }));
-  };
-
-  bornClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('born')),
-    }));
-  };
-
-  diedClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('died')),
-    }));
-  };
-
-  centuryClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('century')),
-    }));
-  };
-
-  nameClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('name')),
-    }));
-  };
-
-  childrenClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('children')),
-    }));
-  };
-
-  motherClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('mother')),
-    }));
-  };
-
-  fatherClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('father')),
-    }));
-  };
-
-  sexClick = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.sort(getSortBy('sex')),
-    }));
-  };
+  onSortPeopleBy = (field) => {
+    field !== this.state.sortField
+      ? this.setState(prevState => ({
+        visiblePeople: prevState.visiblePeople.sort(getSortBy(field)),
+        sortField: field,
+      }))
+      : this.onReverseTable();
+  }
 
   onSearchByName = (event) => {
-    const search = event.target.value;
+    const searchField = event.target.value;
     this.setState(prevState => ({
       visiblePeople: prevState.people.filter(
         person => (
           [person.name, person.mother, person.father]
             .join('')
             .toLowerCase()
-            .includes(search.toLowerCase())
+            .includes(searchField.toLowerCase())
         )
       ),
     }));
@@ -134,10 +85,9 @@ class App extends React.Component {
 
   render() {
     const { visiblePeople, isLoaded } = this.state;
-
     return (
-      <>
-        <header>
+      <div className="page ">
+        <header className="text-monospace">
           <h1>
             {visiblePeople.length}
             {' '}
@@ -148,14 +98,9 @@ class App extends React.Component {
         {isLoaded ? (
           <>
             <div className="filter-box">
-              <div className="reverse-btn">
-                <button onClick={this.reverseClick} type="button">
-                  Reverse table ⇅
-                </button>
-              </div>
               <label className="filter" htmlFor="search">
                 <input
-                  className="filter-input"
+                  className="form-control filter-input text-monospace"
                   id="search"
                   type="text"
                   placeholder=" start search by name"
@@ -163,41 +108,53 @@ class App extends React.Component {
                 />
               </label>
               <div className="add-btn">
-                <button onClick={this.addNewPerson} type="button">
+                <button
+                  className="btn btn-outline-info text-monospace"
+                  onClick={this.addNewPerson}
+                  type="button"
+                >
                   ✚ Add person
                 </button>
               </div>
             </div>
-            <table className="PeopleTable">
-              <thead className="table-header">
+            <table className="PeopleTable table-borderless">
+              <thead className="table-header text-monospace">
                 <tr>
-                  <th onClick={this.idClick}>ID</th>
-                  <th onClick={this.nameClick}>Name</th>
-                  <th onClick={this.sexClick}>Sex</th>
-                  <th onClick={this.bornClick}>Born</th>
-                  <th onClick={this.diedClick}>Died</th>
-                  <th onClick={this.ageClick}>Age</th>
-                  <th onClick={this.centuryClick}>Century</th>
-                  <th onClick={this.fatherClick}>Father</th>
-                  <th onClick={this.motherClick}>Mother</th>
-                  <th onClick={this.childrenClick}>Children</th>
+                  <th onClick={() => this.onSortPeopleBy('id')}>ID</th>
+                  <th onClick={() => this.onSortPeopleBy('name')}>Name</th>
+                  <th onClick={() => this.onSortPeopleBy('sex')}>Sex</th>
+                  <th onClick={() => this.onSortPeopleBy('born')}>Born</th>
+                  <th onClick={() => this.onSortPeopleBy('died')}>Died</th>
+                  <th onClick={() => this.onSortPeopleBy('age')}>Age</th>
+                  <th onClick={() => this.onSortPeopleBy('century')}>
+                    Century
+                  </th>
+                  <th onClick={() => this.onSortPeopleBy('father')}>
+                    Father
+                  </th>
+                  <th onClick={() => this.onSortPeopleBy('mother')}>
+                    Mother
+                  </th>
+                  <th onClick={() => this.onSortPeopleBy('children')}>
+                    Children
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="font-weight-light">
                 <PeopleTable people={visiblePeople} />
               </tbody>
             </table>
           </>
         ) : (
           <button
-            className="start-btn"
+            className="btn btn-info btn-lg start-btn text-monospace"
             onClick={this.loadData}
             type="button"
           >
             Open TABLE
           </button>
         )}
-      </>
+      </div>
     );
   }
 }
