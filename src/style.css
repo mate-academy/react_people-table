@@ -1,0 +1,83 @@
+.page {
+  max-width: 1000px;
+  min-width: 650px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #737373;
+  background: linear-gradient(to top, #eaedf0, #f8f7f7);
+}
+
+header {
+  text-align: center;
+}
+
+.start-btn{
+  width: 160px;
+  font-size: 30px;
+  margin: 60px auto 20px;
+}
+
+
+.filter-box {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+.filter {
+  width: 50%;
+}
+
+.filter-input {
+  width: 100%;
+  height: 41px;
+  background-color: #f7fafb;
+}
+
+
+.PeopleTable {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: collapse;
+  border: 2px solid #737373;
+  cursor: pointer;
+}
+
+.table-header {
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 40px;
+  text-align: center;
+}
+
+tbody tr:hover {
+  background: #8ab9fa;
+  color: #fff;
+}
+
+tbody tr:active {
+  background: #afcefa;
+  color: #363636;
+}
+
+tbody tr:focus {
+	border: 3px solid blue;
+}
+
+.person--female {
+background-color: #ffb6c19e;
+}
+
+.born-before-1650 {
+  text-decoration: line-through;
+}
+
+.over-65 {
+  border: 2px solid green;
+}
+
+.person--father {
+  background-color: #6494ed79;
+}
+

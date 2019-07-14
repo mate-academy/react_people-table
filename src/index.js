@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-import App from './App';
+import App from './components/App';
 
-ReactDOM.render(<App test={123} />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
