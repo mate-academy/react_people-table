@@ -1,61 +1,60 @@
 import React from 'react';
 import './App.css';
 import PeopleTable from './PeopleTable';
+import getPeople from './getPeople';
 
-const getPeople = async() => {
-  const Api = 'https://mate-academy.github.io/react_people-table/api/';
-  return fetch(`${Api}/people.json`).then(respose => respose.json());
+const sortBy = (people, sortField) => {
+  const sortPeople = {
+    name: (personA, personB) => personA.name.localeCompare(personB.name),
+    age: (personA, personB) => personA.age - personB.age,
+    born: (personA, personB) => personA.born - personB.born,
+    died: (personA, personB) => personA.died - personB.died,
+    id: (personA, personB) => personA.id - personB.id,
+  };
+  const callback = sortPeople[sortField];
+
+  return [...people].sort(callback);
 };
 
 class App extends React.Component {
   state = {
     people: [],
-    visualPeople: [],
     sortField: 'name',
+    visualPeople: [],
   }
 
   async componentDidMount() {
-    const people = await getPeople();
-    const peopleWithAge = people.map(person => ({
-      ...person,
-      age: person.died - person.born,
-      century: Math.ceil(person.died / 100),
-      children: people
-        .filter(kidd => kidd.father === person.name
-          || kidd.mother === person.name)
-        .map(child => child.name),
+    // const people = await getFromServer();
+
+    this.setState(prev => ({
+      people: [...getPeople],
+      visualPeople: sortBy(getPeople, prev.sortField),
     }));
-
-    this.setState({
-      visualPeople: [...peopleWithAge],
-      people: [...peopleWithAge],
-    });
-  }
-
-  handleSortByName = () => {
-    if (this.state.sortField === 'name') {
-      this.setState(prev => ({
-        sortField: 'name',
-        people: prev.visualPeople.reverse(),
-      }));
-    } else {
-      this.setState(prev => ({
-        sortField: 'name',
-        people: prev.visualPeople.sort(
-          (a, b) => a.name.localeCompare(b.name),
-        ),
-      }));
-    }
   }
 
   handleText = (someTyp) => {
     const search = someTyp.target.value;
-    this.setState(prev => ({
-      people: prev.visualPeople.filter(
-        pers => [pers.name, pers.mother, pers.father]
+
+    this.setState(prevState => ({
+      people: prevState.visualPeople.filter(
+        person => [person.mother, person.name, person.mother]
           .join('').toLowerCase().includes(search.toLowerCase())
       ),
     }));
+  }
+
+  handleSort = (sortField) => {
+    if (this.state.sortField === sortField) {
+      this.setState(prevState => ({
+        people: sortBy(prevState.visualPeople, sortField).reverse(),
+        sortField,
+      }));
+    } else {
+      this.setState(prevState => ({
+        people: sortBy(prevState.visualPeople, sortField),
+        sortField,
+      }));
+    }
   };
 
   render() {
@@ -75,11 +74,35 @@ class App extends React.Component {
         </label>
         <button
           type="button"
-          onClick={this.handleSortByName}
+          onClick={() => this.handleSort('name')}
         >
-          sort by name
+            Sort name
         </button>
-        <PeopleTable peoples={this.state.people} />
+        <button
+          type="button"
+          onClick={() => this.handleSort('id')}
+        >
+            Sort id
+        </button>
+        <button
+          type="button"
+          onClick={() => this.handleSort('age')}
+        >
+            Sort age
+        </button>
+        <button
+          type="button"
+          onClick={() => this.handleSort('born')}
+        >
+            Sort born
+        </button>
+        <button
+          type="button"
+          onClick={() => this.handleSort('died')}
+        >
+            Sort died
+        </button>
+        <PeopleTable people={this.state.people} />
       </div>
     );
   }

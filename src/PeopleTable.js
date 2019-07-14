@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Person from './Person';
 import './App.css';
 
-const PeopleTable = ({ peoples }) => (
+const PeopleTable = ({ people }) => (
   <table className="PeopleTable">
-    <tr>
+    <tr className="PeopleTable__thead">
       <th>id</th>
       <th>name</th>
-      <th className="person--male">sex</th>
+      <th>sex</th>
       <th>born</th>
       <th>died</th>
       <th>mother</th>
@@ -18,17 +18,15 @@ const PeopleTable = ({ peoples }) => (
       <th>children</th>
     </tr>
     <tbody>
-      {peoples.map((person, index) => (
-        <Person person={person} i={index} />
+      {people.map(person => (
+        <Person person={person} key={people.id} />
       ))}
     </tbody>
   </table>
 );
 
 PeopleTable.propTypes = {
-  peoples: PropTypes.arrayOf(PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ])).isRequired,
+  people: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
+
 export default PeopleTable;

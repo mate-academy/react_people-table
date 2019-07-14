@@ -6,20 +6,28 @@
   background: lightpink;
 }
 
-.people__Born--Before {
+.people__Born--Before_1650 {
   text-decoration: line-through;
 }
 
-.people__Died--Before {
+.people__Died--Before_1800 {
   font-weight: bold;
 }
 
-.people__old {
-  border: 1px solid green;
+.people__old_65 {
+  border: 2px solid green;
 }
 
 .person--father {
   background: cornflowerblue;
+}
+
+.markPerson {
+  border: 3px solid blue;
+}
+
+.selected {
+  border: 3px solid blue;
 }
 
 .person {
