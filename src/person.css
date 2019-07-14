@@ -1,0 +1,19 @@
+.person__female {
+  background: lightpink;
+}
+
+.person__male {
+  background: lightblue;
+}
+
+.person__born-before {
+  text-decoration: line-through;
+}
+
+.person__died-after {
+  font-weight: bold;
+}
+
+.person__lived-65-and-more {
+  border: 2px solid green;
+}
