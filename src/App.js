@@ -4,7 +4,7 @@ import './App.css';
 
 const peopleFromServer = 'https://mate-academy.github.io/react_people-table/api/people.json';
 
-const getPeople = async () => {
+const getPeople = async() => {
   const response = await fetch(peopleFromServer);
   const people = await response.json();
   return people;
@@ -14,7 +14,6 @@ class App extends React.Component {
   state = {
     people: [],
     peopleCopy: [],
-    clickedId: 1,
   }
 
   async componentDidMount() {
@@ -36,17 +35,41 @@ class App extends React.Component {
     });
   }
 
-    sortByField = (field) => {
-      this.setState( {
-        sort: field,
-      })
+  sortBy = (target) => {
+    this.setState((prevState) => {
+      let sortedArray;
 
-      this.setState(prevState => ({
-      peopleCopy: prevState.peopleCopy.sort(
-        (a, b) => a.field > b.field
-      ),
-    }
-    ));
+      switch (target) {
+        case 'name':
+          sortedArray = [...prevState.peopleList]
+            .sort((a, b) => a[target].localeCompare(b[target]));
+
+          break;
+
+        default: sortedArray = [...prevState.peopleList]
+          .sort((a, b) => a[target] - b[target]);
+      }
+
+      return { peopleCopy: sortedArray };
+    });
+  }
+
+  filter = (event) => {
+    const dataToFind = event.target.value;
+
+    this.setState((prevState) => {
+      let updatedList = prevState.people;
+
+      updatedList = updatedList.filter((item) => {
+        const dataToSort = item.name + item.father + item.mother;
+
+        return dataToSort.toLowerCase().search(
+          dataToFind.toLowerCase()
+        ) !== -1;
+      });
+
+      return { peopleCopy: updatedList };
+    });
   }
 
   render() {
@@ -56,7 +79,14 @@ class App extends React.Component {
           Number of items:
           {this.state.peopleCopy.length}
         </h1>
-        <PeopleTable peoples={this.state.peopleCopy} sorting ={this.sortByField} />
+        <form>
+          <input
+            type="text"
+            placeholder="find person"
+            onChange={this.filter}
+          />
+        </form>
+        <PeopleTable people={this.state.peopleCopy} sortBy={this.sortByField} />
       </div>
     );
   }
