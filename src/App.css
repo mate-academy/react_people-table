@@ -3,10 +3,21 @@
 .people-table th,
 .people-table td {
   border: 1px solid black;
-  border-radius: 5px;
   border-collapse: collapse;
 }
 
 .people-table {
   width: 100%;
+}
+
+.user--female {
+  background: lightpink;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.bold {
+  font-weight: bold;
 }
