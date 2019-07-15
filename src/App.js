@@ -102,7 +102,7 @@ class App extends React.Component {
           className="btn-new-person"
           onClick={this.showForm}
         >
-          Add new person
+          Add a new person
         </button>
         {showFormAddNewPerson
         && (

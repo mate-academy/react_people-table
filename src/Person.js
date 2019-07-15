@@ -25,14 +25,16 @@ const Person = ({ person, columnNames, markedAPersonRow, markByClick }) => {
       className={rowClassName}
       onClick={markByClick}
     >
-      {columnNames.map(key => (
-        <td
-          className={key === 'name' && columnClassName}
-          key={person[key]}
-        >
-          {person[key]}
-        </td>
-      ))}
+      <td>{person.id}</td>
+      <td className={columnClassName}>{person.name}</td>
+      <td>{person.sex}</td>
+      <td>{person.born}</td>
+      <td>{person.died}</td>
+      <td>{person.age}</td>
+      <td>{person.century}</td>
+      <td>{person.mother}</td>
+      <td>{person.father}</td>
+      <td>{person.children}</td>
     </tr>
   );
 };
