@@ -1,5 +1,37 @@
+.App {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+.sort-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+
+  &__btn {
+    width: 100px;
+    height: 50px;
+  }
+}
+
+.filter-inputs {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
 .people-table {
+  width: 100%;
   border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #000;
 }
 
 .person{
@@ -23,8 +55,9 @@
   &__father {
     background: cornflowerblue;
   }
+
+  &--selected {
+    border: 3px solid blue;
+  }
 }
 
-.selected {
-  border: 3px solid blue;
-}

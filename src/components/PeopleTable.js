@@ -19,9 +19,7 @@ const PeopleTable = ({ people }) => (
       </tr>
     </thead>
     <tbody>
-      {people.map(person => (
-        <PersonInfo person={person} key={people.id} />
-      ))}
+      <PersonInfo people={people} />
     </tbody>
   </table>
 );

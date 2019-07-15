@@ -1,5 +1,36 @@
+.App {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+.sort-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.sort-buttons__btn {
+  width: 100px;
+  height: 50px;
+}
+
+.filter-inputs {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
 .people-table {
+  width: 100%;
   border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #000;
 }
 
 .person__lived-at-least-65 {
@@ -17,8 +48,7 @@
 .person__father {
   background: cornflowerblue;
 }
-
-.selected {
+.person--selected {
   border: 3px solid blue;
 }
 
