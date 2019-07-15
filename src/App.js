@@ -43,19 +43,20 @@ class App extends React.Component {
     }));
   }
 
+  handleSortReverse = () => {
+    this.setState(prevState => ({
+      people: sortBy(prevState.people).reverse(),
+    }));
+  }
+
   handleSort = (sortField) => {
-    if (this.state.sortField === sortField) {
-      this.setState(prevState => ({
-        people: sortBy(prevState.visualPeople, sortField).reverse(),
+    sortField !== this.state.sortField
+      ? this.setState(prevState => ({
+        people: sortBy(prevState.people, sortField),
         sortField,
-      }));
-    } else {
-      this.setState(prevState => ({
-        people: sortBy(prevState.visualPeople, sortField),
-        sortField,
-      }));
-    }
-  };
+      }))
+      : this.handleSortReverse();
+  }
 
   render() {
     return (
@@ -74,15 +75,15 @@ class App extends React.Component {
         </label>
         <button
           type="button"
-          onClick={() => this.handleSort('name')}
-        >
-            Sort name
-        </button>
-        <button
-          type="button"
           onClick={() => this.handleSort('id')}
         >
             Sort id
+        </button>
+        <button
+          type="button"
+          onClick={() => this.handleSort('name')}
+        >
+            Sort name
         </button>
         <button
           type="button"

@@ -22,15 +22,16 @@
   background: cornflowerblue;
 }
 
-.markPerson {
-  border: 3px solid blue;
-}
-
-.selected {
-  border: 3px solid blue;
-}
 
 .person {
   border: 1px solid black;
 }
 
+.PeopleTable__row--select:hover {
+  cursor: pointer;
+  background-color: yellowgreen;
+}
+
+.PeopleTable__row--selected {
+  background-color: yellowgreen;
+}
