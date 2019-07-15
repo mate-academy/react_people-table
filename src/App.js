@@ -1,10 +1,26 @@
 import React from 'react';
+import classnames from 'classnames';
 import PeopleTable from './components/PeopleTable';
-import dataPeople from './data/dataPeople';
+import getPeople from './data/dataPeople';
 import './App.css';
 
-const getReverse = ({ people }) => {
-  return [...people].reverse();
+const sortPeople = ({ field, people, direction }) => {
+  const sortedData = [...people];
+  sortedData.sort((a, b) => {
+    switch (typeof a[field]) {
+      case 'string':
+        return direction * (a[field].localeCompare(b[field]));
+
+      case 'number':
+      case 'boolean':
+        return direction * (a[field] - b[field]);
+
+      default:
+        return 0;
+    }
+  });
+
+  return sortedData;
 };
 class App extends React.Component {
     state = {
@@ -17,85 +33,90 @@ class App extends React.Component {
     }
 
   loadData = async() => {
-    const people = await dataPeople();
+    const people = await getPeople();
     this.setState({
-      people: people,
+      people: people.map((person, index) => ({
+        ...person,
+        id: index + 1,
+        age: person.died - person.born,
+        century: Math.ceil(person.died / 100),
+        children: people
+          .filter(child => child.father === person.name
+              || child.mother === person.name)
+          .map(human => human.name)
+          .join(', '),
+      })),
     });
   };
 
-  handleClickReverse = () => {
-    this.setState(prevState => {
-      return {
-        people: getReverse(prevState),
-      };
+  sortingBy = (field) => {
+    this.setState({
+      field,
     });
+    this.setState(state => ({
+      people: sortPeople(state),
+      direction: state.direction === 1 ? -1 : 1,
+    }));
+  };
+
+  handleSearch = (event) => {
+    const search = event.target.value;
+    this.setState(state => ({
+      people: state.people
+        .filter(pers => pers.name
+          .toLowerCase()
+          .indexOf(search.toLowerCase()) !== -1),
+    }));
   };
 
   render() {
     const { people } = this.state;
     const result = people
-      .map((person, idx) => {
-        const id = idx + 1;
-        const age = person.died - person.born;
-        const century = Math.ceil(person.died / 100);
-        const children = people
-          .filter(child => child.father === person.name
-              || child.mother === person.name)
-          .map(human => human.name)
-          .join(', ');
-
-        const classes = ['people__table--col col'];
-        if (person.sex === 'f') {
-          classes.push('person--female');
-        } else {
-          classes.push('person--male');
-        }
-        if (person.born < 1650) {
-          classes.push('people__table--col-less1650');
-        }
-        if (person.died > 1800) {
-          classes.push('people__table--col-died1800');
-        }
-        if (age > 65) {
-          classes.push('people__table--col-more65');
-        }
-        classes.push(`person--lived-in-${century}`);
-        if (people
-          .filter(child => child.father === person.name)
-          .map(human => human.name)
-          .join(' ')) {
-          classes.push('person--father');
-        } else if (people
-          .filter(child => child.mother === person.name)
-          .map(human => human.name)
-          .join(' ')) {
-          classes.push('person--mother');
-        } else {
-          classes.push('person--without--parents');
-        }
+      .map((person) => {
         return (
-          <tbody key={people + Math.random()} className="people__table">
-            <tr className={classes.join(' ')}>
-              <td className={classes}>{ id }</td>
-              <td
-                className={classes}
-              >
-                { person.name }
-              </td>
-              <td
-                className={classes}
-              >
-                { person.sex }
-              </td>
-              <td className={classes}>{ person.born }</td>
-              <td className={classes}>{ person.died }</td>
-              <td className={classes}>{ person.mother }</td>
-              <td className={classes}>{ person.father}</td>
-              <td className={classes}>{ age }</td>
-              <td className={classes}>{ century }</td>
-              <td className={classes}>{ children }</td>
-            </tr>
-          </tbody>
+          <tr
+            key={people + Math.random()}
+            className={
+              classnames(
+                `person--lived-in-${person.century}`,
+                {
+                  'people__table--col': true,
+                  'person--female': person.sex === 'f',
+                  'person--male': person.sex === 'm',
+                  'people__table--col-less1650': person.born < 1650,
+                  'people__table--col-died1800': person.died > 1800,
+                  'people__table--col-more65': person.age > 65,
+                  'person--father': people
+                    .filter(child => child.father === person.name)
+                    .map(human => human.name)
+                    .join(' '),
+                  'person--mother': people
+                    .filter(child => child.mother === person.name)
+                    .map(human => human.name)
+                    .join(' '),
+                  'person--without--parents': people
+                    .filter(child => (child.mother && child.father) === null)
+                    .map(human => human.name)
+                    .join(' '),
+                }
+              )
+            }
+          >
+            <td>{ person.id }</td>
+            <td>
+              { person.name }
+            </td>
+            <td>
+              { person.sex }
+            </td>
+            <td>{ person.born }</td>
+            <td>{ person.died }</td>
+            <td>{ person.mother }</td>
+            <td>{ person.father}</td>
+            <td>{ person.age }</td>
+            <td>{ person.century }</td>
+            <td>{ person.children }</td>
+          </tr>
         );
       });
     return (
@@ -103,9 +124,56 @@ class App extends React.Component {
         <h1 className="people__title">
           People: {people.length}
         </h1>
-        <table className="PeopleTable table">
-          <PeopleTable sort={this.handleClickReverse} />
-          {result}
+        <form className="form-horizontal">
+          <input
+            placeholder="Search..."
+            onChange={this.handleSearch}
+            className="form-control mb-4"
+          />
+          <button
+            type="button"
+            className="btn btn-primary mr-2"
+            onClick={() => this.sortingBy('name')}
+          >
+            sort by name
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary mr-2"
+            onClick={() => this.sortingBy('id')}
+          >
+            sort by ID
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary mr-2"
+            onClick={() => this.sortingBy('born')}
+          >
+            sort by born
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary mr-2"
+            onClick={() => this.sortingBy('died')}
+          >
+            sort by died
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary mr-2"
+            onClick={() => this.sortingBy('age')}
+          >
+            sort by age
+          </button>
+        </form>
+
+        <table
+          className="PeopleTable table"
+        >
+          <PeopleTable />
+          <tbody className="people__table">
+            {result}
+          </tbody>
         </table>
       </>
     );

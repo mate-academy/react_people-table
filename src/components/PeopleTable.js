@@ -1,39 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-function PeopleTable(props) {
+function PeopleTable() {
   return (
     <>
       <thead>
         <tr>
-          <th onClick={() => props.sort('id')}>
+          <th>
             id:
           </th>
-          <th onClick={() => props.sort('name')}>
+          <th>
             name:
           </th>
-          <th onClick={() => props.sort('sex')}>
+          <th>
             sex:
           </th>
-          <th onClick={() => props.sort('born')}>
+          <th>
             born:
           </th>
-          <th onClick={() => props.sort('died')}>
+          <th>
             died:
           </th>
-          <th onClick={() => props.sort('mother')}>
+          <th>
             mother:
           </th>
-          <th onClick={() => props.sort('father')}>
+          <th>
             father:
           </th>
-          <th onClick={() => props.sort('age')}>
+          <th>
             age:
           </th>
-          <th onClick={() => props.sort('century')}>
+          <th>
             century:
           </th>
-          <th onClick={() => props.sort('children')}>
+          <th>
             children:
           </th>
         </tr>
@@ -41,9 +40,5 @@ function PeopleTable(props) {
     </>
   );
 }
-
-PeopleTable.propTypes = {
-  sort: PropTypes.func.isRequired,
-};
 
 export default PeopleTable;
