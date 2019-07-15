@@ -15,12 +15,11 @@ class Person extends React.Component {
     return (
       <tr
         key={person.id}
-        onClick={() => this.setState({ selectedPersonId: person.id })}
         className={classNames({
-          PeopleTable__row: true,
           'PeopleTable__row--selected': person.id === selectedPersonId,
           people__old_65: ((person.died - person.born) > 65),
         })}
+        onClick={() => this.setState({ selectedPersonId: person.id })}
       >
         <td>
           {person.id}

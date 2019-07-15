@@ -24,7 +24,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    // const people = await getFromServer();
+    // const people = await getPeople();
 
     this.setState(prev => ({
       people: [...getPeople],
@@ -33,12 +33,12 @@ class App extends React.Component {
   }
 
   handleText = (someTyp) => {
-    const search = someTyp.target.value;
+    const { value } = someTyp.event.target;
 
     this.setState(prevState => ({
       people: prevState.visualPeople.filter(
         person => [person.mother, person.name, person.mother]
-          .join('').toLowerCase().includes(search.toLowerCase())
+          .join('').toLowerCase().includes(value.toLowerCase())
       ),
     }));
   }
@@ -50,7 +50,9 @@ class App extends React.Component {
   }
 
   handleSort = (sortField) => {
-    sortField !== this.state.sortField
+    const { sortField: field } = this.state;
+
+    sortField !== field
       ? this.setState(prevState => ({
         people: sortBy(prevState.people, sortField),
         sortField,
@@ -59,11 +61,13 @@ class App extends React.Component {
   }
 
   render() {
+    const { people } = this.state;
+
     return (
       <div className="App">
         <h1>
         People table
-          { this.state.people.length }
+          { people.length }
         </h1>
         <label htmlFor="name__input">
             Filter by name:
@@ -103,7 +107,7 @@ class App extends React.Component {
         >
             Sort died
         </button>
-        <PeopleTable people={this.state.people} />
+        <PeopleTable people={people} />
       </div>
     );
   }
