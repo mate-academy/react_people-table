@@ -33,7 +33,7 @@ class App extends React.Component {
   }
 
   handleText = (someTyp) => {
-    const { value } = someTyp.event.target;
+    const { value } = someTyp.target;
 
     this.setState(prevState => ({
       people: prevState.visualPeople.filter(

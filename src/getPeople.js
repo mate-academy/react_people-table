@@ -18,7 +18,8 @@ const getPeople = [...people].map((person, index) => ({
   age: person.died - person.born,
   century: Math.ceil(person.died / 100),
   children: [...people]
-    .filter(kidd => kidd.father === person.name || kidd.mother === person.name)
+    .filter(kidd => kidd.father === person.name
+|| kidd.mother === person.name)
     .map(parent => parent.name),
 }));
 export default getPeople;
