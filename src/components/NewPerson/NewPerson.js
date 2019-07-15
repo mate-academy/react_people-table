@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { newPersonPropTypes } from '../propTypes';
 import './NewPerson.css';
 
 class NewPerson extends Component {
@@ -11,13 +11,29 @@ class NewPerson extends Component {
     died: 0,
     mother: 'None',
     father: 'None',
-    errorName: '',
-    errorAge: '',
+    errorNameField: '',
+    errorAgeField: '',
+    motherList: [],
+    fatherList: [],
   };
 
   handleChange = ({ target }) => {
     const { value, name: key } = target;
-    this.setState({ [key]: value.trim() });
+
+    if (key === 'born') {
+      const { users } = this.props;
+      return this.setState({
+        [key]: value.trim(),
+        motherList: users
+          .filter(user => (user.born < value && user.sex === 'f'))
+          .map(user => <option value={user.name}>{user.name}</option>),
+        fatherList: users
+          .filter(user => (user.born < value && user.sex === 'm'))
+          .map(user => <option value={user.name}>{user.name}</option>),
+      });
+    }
+
+    return this.setState({ [key]: value.trim() });
   };
 
   handleSubmit = (event) => {
@@ -30,25 +46,31 @@ class NewPerson extends Component {
       mother,
       father,
     } = this.state;
-    const { addNewPerson, handleClose, users } = this.props;
+    const {
+      addUser,
+      addUserToShows,
+      // addNewPerson,
+      handleClose,
+      users,
+    } = this.props;
 
     let isDataValid = true;
 
     const pattern = /[^a-z\s]/gi;
-    let errorName = '';
+    let errorNameField = '';
     if (pattern.test(name)) {
-      errorName = 'Name must contain only letters and spaces';
+      errorNameField = 'Name must contain only letters and spaces';
       isDataValid = false;
     }
 
     const age = died - born;
-    let errorAge = '';
+    let errorAgeField = '';
     if (age > 150 || age < 1) {
-      errorAge = 'Age must be more than 0 and less than 150';
+      errorAgeField = 'Age must be more than 0 and less than 150';
       isDataValid = false;
     }
 
-    this.setState({ errorName, errorAge });
+    this.setState({ errorNameField, errorAgeField });
 
     if (isDataValid) {
       const user = {
@@ -64,20 +86,23 @@ class NewPerson extends Component {
         children: [],
       };
 
-      addNewPerson(user);
+      addUser(user);
+      addUserToShows(user);
       handleClose();
     }
   };
 
   render() {
-    const { handleClose, users } = this.props;
+    const { handleClose } = this.props;
     const { handleChange, handleSubmit } = this;
     const {
-      errorName,
-      errorAge,
+      errorNameField,
+      errorAgeField,
       born,
       mother,
       father,
+      motherList,
+      fatherList,
     } = this.state;
 
     return (
@@ -97,7 +122,9 @@ class NewPerson extends Component {
                 onChange={handleChange}
                 required
               />
-              {errorName && <div className="error-message">{errorName}</div>}
+              {errorNameField && (
+                <div className="error-message">{errorNameField}</div>
+              )}
             </label>
             <div className="mt">
               <label htmlFor="sex-field-f">
@@ -145,37 +172,33 @@ class NewPerson extends Component {
                 onChange={handleChange}
                 required
               />
-              {errorAge && <div className="error-message">{errorAge}</div>}
+              {errorAgeField && (
+                <div className="error-message">{errorAgeField}</div>
+              )}
             </label>
+            <div className="mt">Choose a mother</div>
             <select
               name="mother"
               className="modal__select"
               defaultValue={mother}
               onChange={handleChange}
             >
-              <option value="none" disabled selected>
-                Chose a mother
+              <option value="none" selected>
+                None
               </option>
-              {born && (
-                users
-                  .filter(user => (user.born < born && user.sex === 'f'))
-                  .map(user => <option value={user.name}>{user.name}</option>)
-              )}
+              {born && motherList}
             </select>
+            <div className="mt">Choose a father</div>
             <select
               name="father"
               className="modal__select"
               defaultValue={father}
               onChange={handleChange}
             >
-              <option value="none" disabled selected>
-                Chose a father
+              <option value="none" selected>
+                None
               </option>
-              {born && (
-                users
-                  .filter(user => (user.born < born && user.sex === 'm'))
-                  .map(user => <option value={user.name}>{user.name}</option>)
-              )}
+              {born && fatherList}
             </select>
             <div className="modal__actions">
               <button type="submit" className="modal__button">
@@ -196,19 +219,16 @@ class NewPerson extends Component {
   }
 }
 
-NewPerson.propTypes = {
-  addNewPerson: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired,
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+NewPerson.propTypes = newPersonPropTypes;
 
 const mapState = ({ users }) => ({
   users,
 });
 
 const mapDispatch = dispatch => ({
-  handleClose: () => dispatch({ type: 'TOGGLE_ADDING_NEW' }),
-  addNewPerson: person => dispatch({ type: 'ADD_NEW_PERSON', person }),
+  handleClose: () => dispatch({ type: 'FINISH_ADDING_NEW' }),
+  addUser: person => dispatch({ type: 'ADD_USER', person }),
+  addUserToShows: person => dispatch({ type: 'ADD_USER_TO_SHOWS', person }),
 });
 
 export default connect(

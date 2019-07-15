@@ -11,15 +11,15 @@
   background: rgba(255, 182, 193, 0.61);
 }
 
-.line-through {
+.person--born-before {
   text-decoration: line-through;
 }
 
-.bold {
+.person--died-after {
   font-weight: 500;
 }
 
-.border-green {
+.person--age-more {
   border-left: 1px solid rgba(0, 128, 0, 0.788);
 }
 

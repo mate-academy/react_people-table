@@ -1,81 +1,47 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import classNames from 'classnames';
+import { personPropTypes } from '../propTypes';
 import './Person.css';
 
-const Person = ({ person, selectedPerson, setSelected }) => {
-  const {
-    id,
-    name,
-    sex,
-    age,
-    century,
-    born,
-    died,
-    mother,
-    father,
-    children,
-  } = person;
+const Person = ({
+  person, selectedId, handlePersonClick, titles,
+}) => {
+  const personClasses = classNames(
+    'person',
+    `person--lived-in-${person.century}`,
+    {
+      'person--female': person.sex === 'f',
+      'person--male': person.sex === 'm',
+      'person--age-more': person.age > 65,
+      'person--mother': person.children.length && person.sex === 'f',
+      'person--father': person.children.length && person.sex === 'm',
+      'person--selected': selectedId === person.id,
+    }
+  );
+
+  const personNameClasses = classNames({
+    'person--born-before': person.born < 1650,
+    'person--died-after': person.died > 1800,
+  });
 
   return (
-    <tr
-      onClick={() => setSelected(id)}
-      className={`
-       person
-       ${sex === 'f' ? 'person--female' : 'person--male'}
-       ${age > 65 && 'border-green'}
-       person--lived-in-${century}
-       ${children.length && (sex === 'f' ? 'person--mother' : 'person--father')}
-       ${selectedPerson === id && 'person--selected'}
-      `}
-    >
-      <td>{id}</td>
-      <td
-        className={`
-          ${born < 1650 && 'line-through'}
-          ${died > 1800 && 'bold'}
-        `}
-      >
-        {name}
-      </td>
-      <td>{sex}</td>
-      <td>{age}</td>
-      <td>{century}</td>
-      <td>{born}</td>
-      <td>{died}</td>
-      <td>{mother || 'None'}</td>
-      <td>{father || 'None'}</td>
-      <td>{children.map(child => child.name).join(', ') || 'None'}</td>
+    <tr onClick={() => handlePersonClick(person.id)} className={personClasses}>
+      {titles.map((title) => {
+        const lowerTitle = title.name.toLowerCase();
+        return lowerTitle === 'children' ? (
+          <td>
+            {person[lowerTitle].map(child => child.name).join(', ') || 'None'}
+          </td>
+        ) : (
+          <td className={lowerTitle === 'name' ? personNameClasses : ''}>
+            {person[lowerTitle]}
+          </td>
+        );
+      })}
     </tr>
   );
 };
 
-Person.propTypes = {
-  person: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    sex: PropTypes.string.isRequired,
-    age: PropTypes.number.isRequired,
-    century: PropTypes.number.isRequired,
-    born: PropTypes.number.isRequired,
-    died: PropTypes.number.isRequired,
-    mother: PropTypes.string.isRequired,
-    father: PropTypes.string.isRequired,
-    children: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-  selectedPerson: PropTypes.number.isRequired,
-  setSelected: PropTypes.func.isRequired,
-};
+Person.propTypes = personPropTypes;
 
-const mapState = ({ selectedPerson }) => ({
-  selectedPerson,
-});
-
-const mapDispatch = dispatch => ({
-  setSelected: rowId => dispatch({ type: 'SET_SELECTED_ROW', rowId }),
-});
-
-export default connect(
-  mapState,
-  mapDispatch
-)(Person);
+export default Person;
