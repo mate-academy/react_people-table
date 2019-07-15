@@ -11,10 +11,11 @@ export const appPropTypes = {
 
 export const peopleTablePropTypes = {
   usersToShow: PropTypes.arrayOf(PropTypes.object).isRequired,
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
   filterUsers: PropTypes.func.isRequired,
   sortUsers: PropTypes.func.isRequired,
   isAddingNew: PropTypes.bool.isRequired,
-  addNewPerson: PropTypes.func.isRequired,
+  startAdding: PropTypes.func.isRequired,
 };
 
 const titlesShape = PropTypes.shape({

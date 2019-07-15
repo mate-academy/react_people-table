@@ -1,15 +1,15 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import processingReducer from './processing';
 import usersReducer from './users';
 import usersToShowReducer from './usersToShow';
 import addNewPersonReducer from './newPerson';
 
-const reducer = (state = [], action) => ({
-  isLoaded: processingReducer(state.isLoaded, action),
-  isLoading: processingReducer(state.isLoaded, action),
-  users: usersReducer(state.users, action),
-  usersToShow: usersToShowReducer(state.usersToShow, action),
-  isAddingNew: addNewPersonReducer(state.isAddingNew, action),
+const reducer = combineReducers({
+  isLoaded: processingReducer,
+  isLoading: processingReducer,
+  users: usersReducer,
+  usersToShow: usersToShowReducer,
+  isAddingNew: addNewPersonReducer,
 });
 
 const store = createStore(reducer);
