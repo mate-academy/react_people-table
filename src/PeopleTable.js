@@ -1,29 +1,33 @@
 import React from 'react';
+import PropTypes from 'react'
+
 import Person from './Person';
 
-const PeopleTable = ({ peoples }) => (
-  <table className='table table-bordered'>
-    <thead>
-      <tr>
-        <th>id</th>
-        <th>name</th>
-        <th>sex</th>
-        <th>born</th>
-        <th>died</th>
-        <th>mother</th>
-        <th>father</th>
-        <th>age</th>
-        <th>century</th>
-        <th>children</th>
-      </tr>
-    </thead>
+class PeopleTable extends React.Component {
 
-    <tbody>
-      {peoples.map((person, i) => (
-        <Person item={person} id={i + 1} />
-      ))}
-    </tbody>
-  </table>
-);
+  render() {
+    const { peoples, sortPeople } = this.props;
+
+    return (
+      <table className='table table-bordered'>
+        <thead className='thead-dark'>
+          <tr>
+            <th onClick={() => sortPeople('id')}>id</th>
+            <th onClick={() => sortPeople('name')}>name</th>
+            <th>sex</th>
+            <th onClick={() => sortPeople('born')}>born</th>
+            <th onClick={() => sortPeople('died')}>died</th>
+            <th>mother</th>
+            <th>father</th>
+            <th onClick={() => sortPeople('age')}>age</th>
+            <th>century</th>
+            <th>children</th>
+          </tr>
+        </thead>
+        <Person peoples={peoples} />
+      </table>
+    );
+  }
+}
 
 export default PeopleTable;
