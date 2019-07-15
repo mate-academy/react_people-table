@@ -1,0 +1,116 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.PeopleTable {
+  border-collapse: collapse;
+}
+
+.person,
+.thead {
+  border: 2px solid black;
+}
+
+.person {
+  cursor: pointer;
+}
+
+.person--female {
+  background: lightpink;
+}
+
+.person--born-before-1650 {
+  text-decoration: line-through;
+}
+
+.person--died-after-1800 {
+  font-weight: bold;
+}
+
+.person--lived-more-than-65-years {
+  border-left: 10px solid green;
+}
+
+.person--father {
+  background: cornflowerblue;
+}
+
+.person--filter {
+  margin: 10px;
+}
+
+.button-sort {
+  margin: 10px;
+}
+
+.marked-person {
+  border: 3px solid blue;
+}
+
+.btn-new-person {
+  align-self: flex-end;
+  flex: 0 0 50px;
+  width: 232px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hidden-form {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+}
+
+.shown-form {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+.form-wrap {
+  padding: 20px;
+  margin: auto;
+  width: 232px;
+  background-color: #fff;
+  box-shadow: 0 0 30px 10px #666;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.input {
+  flex: 0 0 100%;
+  margin: 5px;
+  padding: 0 10px;
+  width: 200px;
+  height: 34px;
+  color: #404040;
+  background: white;
+  border: 1px solid;
+  border-color: #c4c4c4 #d1d1d1 #d4d4d4;
+  border-radius: 2px;
+  outline: 5px solid #eff4f7;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.radio-btn {
+  flex: 0 0 100%;
+  background: #eff4f7;
+}
+
+.btn-add,
+.btn-close {
+  flex: 0 0 45%;
+  margin: 10px 0;
+}
