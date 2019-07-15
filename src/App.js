@@ -1,6 +1,10 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { appPropTypes } from './components/propTypes';
+import { startLoading, finishLoading } from './components/redux/processing';
+import { setUsers } from './components/redux/users';
+import { setUsersToShow } from './components/redux/usersToShow';
 
 import getUsers from './components/api/api';
 import './App.css';
@@ -57,14 +61,14 @@ const mapState = ({ isLoading, isAddingNew }) => ({
   isAddingNew,
 });
 
-const mapDispatch = dispatch => ({
-  startLoading: () => dispatch({ type: 'START_LOADING' }),
-  finishLoading: () => dispatch({ type: 'FINISH_LOADING' }),
-  setUsers: users => dispatch({ type: 'SET_USERS', users }),
-  setUsersToShow: users => dispatch({ type: 'SET_USERS_TO_SHOW', users }),
-});
+const mapDispatch2 = {
+  startLoading,
+  finishLoading,
+  setUsers,
+  setUsersToShow,
+};
 
 export default connect(
   mapState,
-  mapDispatch
+  mapDispatch2
 )(App);

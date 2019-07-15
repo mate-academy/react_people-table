@@ -1,9 +1,12 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { peopleTablePropTypes } from '../propTypes';
 
 import './PeopleTable.css';
 import Person from '../Person/Person';
+import { filterUsers, sortUsers } from '../redux/usersToShow';
+import { startAdding } from '../redux/newPerson';
 
 class PeopleTable extends Component {
   state = {
@@ -25,10 +28,11 @@ class PeopleTable extends Component {
 
   render() {
     const {
+      users,
       usersToShow,
       filterUsers,
       isAddingNew,
-      addNewPerson,
+      startAdding,
     } = this.props;
 
     const titles = [
@@ -55,7 +59,7 @@ class PeopleTable extends Component {
           <button
             type="button"
             className="action-button"
-            onClick={addNewPerson}
+            onClick={startAdding}
           >
             Add a new person
           </button>
@@ -64,7 +68,9 @@ class PeopleTable extends Component {
           type="text"
           className="table-search"
           placeholder="Search by name, mother`s or father`s name"
-          onChange={event => filterUsers(event.target.value)}
+          onChange={(event) => {
+            filterUsers(event.target.value, users);
+          }}
           readOnly={isAddingNew}
         />
         <table className="table">
@@ -72,6 +78,7 @@ class PeopleTable extends Component {
             <tr className="table__header">
               {titles.map(header => (
                 <th
+                  name={header.name}
                   key={header.id}
                   onClick={() => this.handleSort(header.name.toLowerCase())}
                 >
@@ -99,18 +106,17 @@ class PeopleTable extends Component {
 
 PeopleTable.propTypes = peopleTablePropTypes;
 
-const mapState = ({ usersToShow, isAddingNew }) => ({
+const mapState = ({ usersToShow, isAddingNew, users }) => ({
+  users,
   usersToShow,
   isAddingNew,
 });
 
-const mapDispatch = dispatch => ({
-  filterUsers: value => dispatch({ type: 'FILTER_USERS', value }),
-  sortUsers: (field, direction) => (
-    dispatch({ type: 'SORT_USERS', field, direction })
-  ),
-  addNewPerson: () => dispatch({ type: 'START_ADDING_NEW' }),
-});
+const mapDispatch = {
+  filterUsers,
+  sortUsers,
+  startAdding,
+};
 
 export default connect(
   mapState,

@@ -1,6 +1,11 @@
+/* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { newPersonPropTypes } from '../propTypes';
+import { finishAdding } from '../redux/newPerson';
+import { addUser } from '../redux/users';
+import { addUserToShows } from '../redux/usersToShow';
+
 import './NewPerson.css';
 
 class NewPerson extends Component {
@@ -39,19 +44,10 @@ class NewPerson extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const {
-      name,
-      sex,
-      born,
-      died,
-      mother,
-      father,
+      name, sex, born, died, mother, father,
     } = this.state;
     const {
-      addUser,
-      addUserToShows,
-      // addNewPerson,
-      handleClose,
-      users,
+      addUser, addUserToShows, finishAdding, users,
     } = this.props;
 
     let isDataValid = true;
@@ -88,12 +84,12 @@ class NewPerson extends Component {
 
       addUser(user);
       addUserToShows(user);
-      handleClose();
+      finishAdding();
     }
   };
 
   render() {
-    const { handleClose } = this.props;
+    const { finishAdding } = this.props;
     const { handleChange, handleSubmit } = this;
     const {
       errorNameField,
@@ -207,7 +203,7 @@ class NewPerson extends Component {
               <button
                 type="button"
                 className="modal__button"
-                onClick={handleClose}
+                onClick={finishAdding}
               >
                 Cancel
               </button>
@@ -221,17 +217,15 @@ class NewPerson extends Component {
 
 NewPerson.propTypes = newPersonPropTypes;
 
-const mapState = ({ users }) => ({
-  users,
-});
+const mapState = ({ users }) => ({ users });
 
-const mapDispatch = dispatch => ({
-  handleClose: () => dispatch({ type: 'FINISH_ADDING_NEW' }),
-  addUser: person => dispatch({ type: 'ADD_USER', person }),
-  addUserToShows: person => dispatch({ type: 'ADD_USER_TO_SHOWS', person }),
-});
+const mapDispatch2 = {
+  finishAdding,
+  addUser,
+  addUserToShows,
+};
 
 export default connect(
   mapState,
-  mapDispatch
+  mapDispatch2
 )(NewPerson);
