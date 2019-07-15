@@ -62,7 +62,6 @@ reset = () => {
             >
               Load the table
           </button>
-          {console.log(this.state.loadedPeople)}
         <div>
         <form>
           <input

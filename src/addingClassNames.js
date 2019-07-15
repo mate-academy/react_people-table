@@ -1,4 +1,4 @@
-const addingClassNames = (personDetails) => {
+const addingClassNames = (personDetails, selectedPersonId) => {
   let className = `person person__lived-in-${personDetails.century}`;
     switch (true) {
       case (personDetails.sex === 'f'):
@@ -15,6 +15,12 @@ const addingClassNames = (personDetails) => {
     switch (true) {
       case (personDetails.age > 65):
         className += " person__age-more-then-65";
+        break;
+    };
+
+    switch (true) {
+      case (selectedPersonId === personDetails.id):
+        className += " personDetails_selected";
         break;
     };
    return className;

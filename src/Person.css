@@ -17,3 +17,7 @@
 .personDetails_died-after-1800 {
   font-weight: 700;
 }
+
+.personDetails_selected {
+  background-color: rgb(130, 221, 122);
+}
