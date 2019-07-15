@@ -14,7 +14,7 @@ class Person extends React.Component {
 
     return (
       <tr
-        key={person.id}
+        key={person.name}
         className={classNames({
           'PeopleTable__row--selected': person.id === selectedPersonId,
           people__old_65: ((person.died - person.born) > 65),

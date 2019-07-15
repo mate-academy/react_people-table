@@ -20,8 +20,8 @@ const PeopleTable = ({ people }) => (
       </tr>
     </thead>
     <tbody>
-      {people.map(person => (
-        <Person person={person} key={person.id} />
+      {people.map((person, index) => (
+        <Person person={person} key={person.id} index={index} />
       ))}
     </tbody>
   </table>

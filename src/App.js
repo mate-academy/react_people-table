@@ -1,7 +1,11 @@
 import React from 'react';
 import './App.css';
 import PeopleTable from './PeopleTable';
-import getPeople from './getPeople';
+
+const getFromServerPeople = async() => {
+  const Api = 'https://mate-academy.github.io/react_people-table/api/';
+  return fetch(`${Api}/people.json`).then(respose => respose.json());
+};
 
 const sortBy = (people, sortField) => {
   const sortPeople = {
@@ -24,7 +28,17 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    // const people = await getPeople();
+    const people = await getFromServerPeople();
+    const getPeople = [...people].map((person, index) => ({
+      ...person,
+      id: index + 1,
+      age: person.died - person.born,
+      century: Math.ceil(person.died / 100),
+      children: [...people]
+        .filter(kidd => kidd.father === person.name
+    || kidd.mother === person.name)
+        .map(parent => parent.name),
+    }));
 
     this.setState(prev => ({
       people: [...getPeople],
