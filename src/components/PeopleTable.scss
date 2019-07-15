@@ -1,4 +1,21 @@
 td {
+  border: 1px solid black;
+}
+
+.PeopleTable {
+  border-collapse: collapse;
+  background: lightgoldenrodyellow;
+  border-radius: 5px;
+}
+
+.table-head {
+  text-align: center;
+}
+
+/**
+People
+**/
+td {
   padding: 0 5px;
 }
 
@@ -24,4 +41,14 @@ td {
 
 .person--father {
   background: cornflowerblue;
+}
+
+.PeopleTable {
+  &__row {
+    cursor: pointer;
+  }
+
+  &__row--selected {
+    border: 3px solid blue;
+  }
 }
