@@ -3,18 +3,6 @@ import propTypes from 'prop-types';
 import './styles/peopleTable.css';
 import './styles/person.css';
 
-const createSorterBy = field => (a, b) => {
-  switch (typeof a[field]) {
-    case 'string':
-      return a[field].localeCompare(b[field]);
-    case 'number':
-    case 'boolean':
-      return a[field] - b[field];
-    default:
-      return null;
-  }
-};
-
 const parentsClass = (person) => {
   if (person.children.length > 0) {
     return (person.sex === 'f')
@@ -42,7 +30,7 @@ class PeopleTable extends React.Component {
           <tr>
             <th
               className="people-table__item"
-              onClick={createSorterBy('id')}
+              onClick={() => onSortFieldChange('id')}
             >
             ID
             </th>
