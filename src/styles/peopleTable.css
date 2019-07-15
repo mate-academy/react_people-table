@@ -2,7 +2,6 @@
   padding: 10px 0;
   box-sizing: border-box;
   background: #fbffd4;
-  border-collapse: collapse;
   width: 95%;
   margin: 0 auto;
 }
@@ -13,4 +12,8 @@
 
 .people-table__item {
   padding: 5px;
+}
+
+.people-table__row--selected {
+  border: 3px solid blue;
 }

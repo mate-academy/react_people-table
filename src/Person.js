@@ -30,16 +30,12 @@ const Person = ({ person }) => (
     <td className="person__item">{person.sex}</td>
     <td className="person__item">{person.born}</td>
     <td className="person__item">{person.died}</td>
-    <td className="person__item">{person.died - person.born}</td>
-    <td className="person__item">{Math.ceil(person.died / 100)}</td>
+    <td className="person__item">{person.age}</td>
+    <td className="person__item">{person.century}</td>
     <td className="person__item">{person.mother}</td>
     <td className="person__item">{person.father}</td>
-    <td className="person__item">
-      {(person.children.length > 0)
-        ? person.children.map(child => child.name).join(', ')
-        : ''
-      }
-    </td>
+    <td className="person__item">{person.children}</td>
+
   </tr>
 );
 
@@ -47,6 +43,8 @@ Person.propTypes = {
   person: propTypes.shape({
     born: propTypes.number,
     died: propTypes.number,
+    age: propTypes.number,
+    century: propTypes.number,
     name: propTypes.string,
     sex: propTypes.string,
     mother: propTypes.string,
