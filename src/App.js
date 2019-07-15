@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 const getPeopleFromServer = async() => {
-  const link = '/api/people.json';
+  const link = 'https://mate-academy.github.io/react_people-table/api/people.json';
   const response = await fetch(link);
   const peopleFromServer = await response.json();
 
