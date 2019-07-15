@@ -46,14 +46,6 @@ class App extends React.Component {
     .join(', ')
   )
 
-  handleFilterInput = (event) => {
-    const { value } = event.target;
-
-    this.setState({
-      filterInputValue: value,
-    });
-  }
-
   isArrIncludeSubstr = (str, substr) => {
     str = str.join('');
     substr = substr.trim();
@@ -64,8 +56,12 @@ class App extends React.Component {
     return false;
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleFilterInput = (event) => {
+    const { value } = event.target;
+
+    this.setState({
+      filterInputValue: value,
+    });
 
     this.setState(prevState => ({
       people: prevState.peopleFromServer.filter(item => (
@@ -79,11 +75,9 @@ class App extends React.Component {
   returnSortingFunction = (arr, sortKey, toggleSortOrder) => {
     switch (typeof arr[0][sortKey]) {
       case 'string':
-        console.log([sortKey], 'bugaga');
         return (a, b) => toggleSortOrder * a[sortKey].localeCompare(b[sortKey]);
 
       case 'number':
-        console.log(arr[0][sortKey], 'muahaha');
         return (a, b) => toggleSortOrder * (a[sortKey] - b[sortKey]);
 
       default:
@@ -153,26 +147,23 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>
-People table
+          People table
           {this.state.people.length}
         </h1>
-        <h2>{this.state.errorMessage}</h2>
+        <h2 className="error-message">{this.state.errorMessage}</h2>
 
         <NewPerson
           handleNewPersonSubmit={this.handleNewPersonSubmit}
           people={this.state.people}
         />
 
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Filter by Name, Mother of Father"
-            value={this.state.filterInputValue}
-            onChange={this.handleFilterInput}
-          />
+        <input
+          type="text"
+          placeholder="Filter by Name, Mother of Father"
+          value={this.state.filterInputValue}
+          onChange={this.handleFilterInput}
+        />
 
-          <button type="submit" className="button">Filter</button>
-        </form>
         <PeopleTable
           people={this.state.people}
           handleSort={this.handleSort}

@@ -15,12 +15,24 @@ class NewPerson extends React.Component {
     const { name } = event.target;
     let { value } = event.target;
 
-    if (name === 'name') {
-      value = value.replace(/[^A-Za-z ]/, '');
-    }
+    switch (name) {
+      case 'name':
+      case 'mother':
+      case 'father':
+        value = value.replace(/[^A-Za-z ]/, '');
+        break;
 
-    if (name === 'born' && name === 'died') {
-      value = value.replace(/[^0-9]/, '');
+      case 'born':
+        this.setState({
+          father: '',
+          mother: '',
+        });
+
+        value = value.replace(/\D/g, '');
+        break;
+
+      default:
+        value = value.replace(/\D/g, '');
     }
 
     this.setState({
@@ -41,19 +53,22 @@ class NewPerson extends React.Component {
     ))
 
   render() {
-    const { people } = this.props;
-    const { born } = this.state;
+    const { people, handleNewPersonSubmit } = this.props;
+    const {
+      name, sex, born, died, father, mother,
+    } = this.state;
     const optionsOfFathers = this.getParrents('m', people, born);
     const optionsOfMathers = this.getParrents('f', people, born);
 
     return (
       <div>
-        <form onSubmit={this.props.handleNewPersonSubmit}>
+        <form onSubmit={handleNewPersonSubmit}>
           <input
             type="text"
             name="name"
             placeholder="name"
-            value={this.state.name}
+            maxLength="60"
+            value={name}
             onChange={this.handleNewPerson}
             required
           />
@@ -84,19 +99,23 @@ class NewPerson extends React.Component {
 
           <input
             name="born"
-            type="number"
-            pattern="[0-9]{4}"
+            type="text"
             placeholder="born year"
+            maxLength="4"
+            minLength="4"
             required
+            value={born}
             onChange={this.handleNewPerson}
           />
 
           <input
             name="died"
-            type="number"
-            pattern="[0-9]{4}"
-            placeholder="died"
+            type="text"
+            placeholder="died year"
+            maxLength="4"
+            minLength="4"
             required
+            value={died}
             onChange={this.handleNewPerson}
           />
 
@@ -105,13 +124,13 @@ class NewPerson extends React.Component {
             type="text"
             placeholder="father"
             required
-            value={this.state.father}
+            value={father}
             onChange={this.handleNewPerson}
           />
 
           <select
             name="father"
-            value={this.state.father}
+            value={father}
             onChange={this.handleNewPerson}
           >
             {optionsOfFathers}
@@ -121,14 +140,14 @@ class NewPerson extends React.Component {
             name="mother"
             type="text"
             placeholder="mother"
-            value={this.state.mother}
+            value={mother}
             required
             onChange={this.handleNewPerson}
           />
 
           <select
             name="mother"
-            value={this.state.mother}
+            value={mother}
             onChange={this.handleNewPerson}
           >
             {optionsOfMathers}
@@ -139,29 +158,29 @@ class NewPerson extends React.Component {
 
         <p>
           Name:
-          {this.state.name}
+          {name}
           {' '}
 
         </p>
         <p>
           Sex:
-          {this.state.sex}
+          {sex}
         </p>
         <p>
           Born:
-          {this.state.born}
+          {born}
         </p>
         <p>
           Died:
-          {this.state.died}
+          {died}
         </p>
         <p>
           Father:
-          {this.state.father}
+          {father}
         </p>
         <p>
           Mother:
-          {this.state.mother}
+          {mother}
         </p>
       </div>
     );

@@ -51,7 +51,7 @@ const Person = (props) => {
       <td>{person.died}</td>
       <td>{person.father}</td>
       <td>{person.mother}</td>
-      <td className={person.age > 65 ? 'longLife' : 'ohSoShortLife'}>
+      <td className={person.age > 65 ? 'long-life' : 'so-short-life'}>
         {person.age}
       </td>
       <td className={`person--lived-in-${person.century}`}>{person.century}</td>

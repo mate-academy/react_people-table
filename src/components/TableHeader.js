@@ -1,17 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './TableHeader.css';
 
 const TableHeader = props => (
   <thead>
     <tr>
-      <th onClick={() => props.handleSort('id')}>id</th>
-      <th onClick={() => props.handleSort('name')}>name</th>
+      <th
+        onClick={() => props.handleSort('id')}
+        className="sorting--cell"
+      >
+id
+      </th>
+      <th
+        onClick={() => props.handleSort('name')}
+        className="sorting--cell"
+      >
+name
+      </th>
       <th>sex</th>
-      <th onClick={() => props.handleSort('born')}>born</th>
-      <th onClick={() => props.handleSort('died')}>died</th>
+      <th
+        onClick={() => props.handleSort('born')}
+        className="sorting--cell"
+      >
+born
+      </th>
+      <th
+        onClick={() => props.handleSort('died')}
+        className="sorting--cell"
+      >
+died
+      </th>
       <th>father</th>
       <th>mother</th>
-      <th onClick={() => props.handleSort('age')}>age</th>
+      <th
+        onClick={() => props.handleSort('age')}
+        className="sorting--cell"
+      >
+age
+      </th>
       <th>century</th>
       <th>children</th>
     </tr>
