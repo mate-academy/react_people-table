@@ -46,7 +46,7 @@
   margin: 10px;
 }
 
-.marked-person {
+.person--selected {
   border: 3px solid blue;
 }
 

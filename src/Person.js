@@ -12,7 +12,7 @@ const Person = ({ person, columnNames, markedAPersonRow, markByClick }) => {
     'person--father': person.sex === 'm' && person.children,
     'person--mother': person.sex === 'f' && person.children,
     [`person--lived-in-${person.century}`]: true,
-    'marked-person': markedAPersonRow === person.id,
+    'person--selected': markedAPersonRow === person.id,
   });
 
   const columnClassName = classNames({
