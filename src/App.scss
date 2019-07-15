@@ -1,0 +1,42 @@
+* {
+  padding: 5px;
+  margin: 0;
+}
+
+.people {
+  &__table {
+    &--col {
+      line-height: 20px;
+      &-less1650 {
+        text-decoration: line-through;
+      }
+      &-died1800 {
+        font-weight: bold;
+      }
+      &-more65 {
+        border: 3px solid green;
+      }
+    }
+  }
+}
+
+.person--female {
+  background-color: pink;
+}
+
+.person--father {
+  background-color: cornflowerblue;
+}
+
+.PeopleTable {
+  border-collapse: collapse;
+  &__row {
+    cursor: pointer;
+    &:hover:not(.PeopleTable__row--selected) {
+      background-color: yellow;
+    }
+    &--selected {
+      background-color: yellowgreen;
+    }
+  }
+}
