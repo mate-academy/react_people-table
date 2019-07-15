@@ -1,0 +1,32 @@
+.PeopleTable {
+  border-spacing: 0px;
+  border-collapse:collapse;
+  border:1px solid black;
+}
+
+.person--female {
+  background: lightpink;
+}
+
+.person {
+
+  &__female {
+    background: lightpink;
+  }
+}
+
+.bornBefore1650 {
+  text-decoration: line-through;
+}
+
+.diedAfter1800 {
+  font-weight: bold;
+}
+
+.livedOver65Years {
+  border: 2px solid green;
+}
+
+.person--father {
+  background: cornflowerblue;
+}
