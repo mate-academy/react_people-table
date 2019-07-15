@@ -42,8 +42,8 @@ class App extends React.Component {
     if (currentSortField === sortField
       && currentPeople === visiblePeople) {
       return this.setState({
-        visiblePeople: [...this.people],
-        currentPeople: [...this.people],
+        visiblePeople: [...visiblePeople].reverse(),
+        currentPeople: [...visiblePeople].reverse(),
       });
     }
 
