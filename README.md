@@ -1,7 +1,7 @@
 # React - People table
 
 ## Demo link
-Add link here: `[DEMO LINK](https://tarasulo.github.io/react_people-table/)`
+[DEMO LINK](https://tarasulo.github.io/react_people-table/)
 
 ## Task
 
