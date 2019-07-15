@@ -3,19 +3,6 @@
   margin: 0;
 }
 
-.PeopleTable {
-  border-collapse: collapse;
-  &__row {
-    cursor: pointer;
-    &:hover:not(.PeopleTable__row--selected) {
-      background-color: yellow;
-    }
-    &--selected {
-      background-color: yellowgreen;
-    }
-  }
-}
-
 .people {
   &__table {
     &--col {
@@ -39,4 +26,17 @@
 
 .person--father {
   background-color: cornflowerblue;
+}
+
+.PeopleTable {
+  border-collapse: collapse;
+  &__row {
+    cursor: pointer;
+    &:hover:not(.PeopleTable__row--selected) {
+      background-color: yellow;
+    }
+    &--selected {
+      background-color: yellowgreen;
+    }
+  }
 }

@@ -25,7 +25,9 @@ const sortPeople = ({ field, people, direction }) => {
 class App extends React.Component {
     state = {
       people: [],
+      visiblePeople: [],
       direction: 1,
+      selectedPersonId: null,
     };
 
     componentDidMount() {
@@ -35,6 +37,7 @@ class App extends React.Component {
   loadData = async() => {
     const people = await getPeople();
     this.setState({
+      visiblePeople: [...people],
       people: people.map((person, index) => ({
         ...person,
         id: index + 1,
@@ -62,22 +65,27 @@ class App extends React.Component {
   handleSearch = (event) => {
     const search = event.target.value;
     this.setState(state => ({
-      people: state.people
-        .filter(pers => pers.name
+      people: state.visiblePeople
+        .filter(person => [person.name, person.mother, person.father]
+          .join('')
           .toLowerCase()
           .indexOf(search.toLowerCase()) !== -1),
     }));
   };
 
   render() {
-    const { people } = this.state;
+    const { people, selectedPersonId } = this.state;
     const result = people
       .map((person) => {
         return (
           <tr
             key={people + Math.random()}
+            onClick={() => this.setState({ selectedPersonId: person.id })}
             className={
               classnames(
+                `PeopleTable__row
+                ${ person.id === selectedPersonId
+            ? 'PeopleTable__row--selected' : ''}`,
                 `person--lived-in-${person.century}`,
                 {
                   'people__table--col': true,

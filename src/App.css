@@ -2,9 +2,6 @@
   padding: 5px;
   margin: 0; }
 
-.PeopleTable {
-  border-collapse: collapse; }
-
 .people__table--col {
   line-height: 20px; }
   .people__table--col-less1650 {
@@ -19,5 +16,14 @@
 
 .person--father {
   background-color: cornflowerblue; }
+
+.PeopleTable {
+  border-collapse: collapse; }
+  .PeopleTable__row {
+    cursor: pointer; }
+    .PeopleTable__row:hover:not(.PeopleTable__row--selected) {
+      background-color: yellow; }
+    .PeopleTable__row--selected {
+      background-color: yellowgreen; }
 
 /*# sourceMappingURL=App.css.map */
