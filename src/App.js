@@ -1,7 +1,7 @@
 import React from 'react';
 import PeopleTable from './PeopleTable';
 import NewPerson from './NewPerson';
-import { getPeople } from './api';
+import getPeople from './api';
 import './App.css';
 
 class App extends React.Component {
@@ -9,69 +9,50 @@ class App extends React.Component {
     people: [],
     visiblePeople: [],
     value: '',
-    markedAPersonRow: null,
     showFormAddNewPerson: false,
   };
 
   componentDidMount = async() => {
     const people = await getPeople();
-    const allPeopleData = people.map((person, i = 1) => ({
-      ...person,
-      age: person.died - person.born,
-      century: Math.ceil(person.died / 100),
-      id: i + 1,
-      mother: person.mother || 'no',
-      father: person.father || 'no',
-      fatherData: people.filter(man => (
-        person.father === man.name
-      )),
-      motherData: people.filter(woman => (
-        person.mother === woman.name
-      )),
-      children: people.filter(child => (
-        person.name === child.mother || person.name === child.father
-      )).map(child => (`${child.name}, `
-      )).join('')
-        .replace(/,\s*$/, ''),
-    }));
-
     this.setState({
-      people: allPeopleData,
-      visiblePeople: allPeopleData,
+      people,
+      visiblePeople: people,
     });
   };
 
   filterBy = (event) => {
     const value = event.target.value.toLowerCase();
-    const visiblePeople = this.state.people.filter(person => (
-      person.name.toLowerCase().includes(value)
-      || person.father.toLowerCase().includes(value)
-      || person.mother.toLowerCase().includes(value)
-    ));
 
+    this.setState((prevState) => {
+      const visiblePeople = prevState.people.filter(person => (
+        person.name.toLowerCase().includes(value)
+        || (person.father && person.father.toLowerCase().includes(value))
+        || (person.mother && person.mother.toLowerCase().includes(value))
+      ));
+      return {
+        visiblePeople,
+      };
+    });
     this.setState({
       value: event.target.value,
-      visiblePeople,
     });
   };
 
   sortBy = (value) => {
     if (value === 'name') {
       this.setState(prevState => ({
-        visiblePeople: prevState.visiblePeople.sort((a, b) => a[value].localeCompare(b[value])),
+        visiblePeople: prevState.visiblePeople.sort((a, b) => (
+          a[value].localeCompare(b[value])
+        )),
       }));
     } else {
       this.setState(prevState => ({
-        visiblePeople: prevState.visiblePeople.sort((a, b) => a[value] - b[value]),
+        visiblePeople: prevState.visiblePeople.sort((a, b) => (
+          a[value] - b[value]
+        )),
       }));
     }
-  }
-
-  markByClick = (value) => {
-    this.setState({
-      markedAPersonRow: value,
-    });
-  }
+  };
 
   showForm = () => {
     this.setState({
@@ -118,13 +99,17 @@ class App extends React.Component {
           {people.length}
           &nbsp;people)
         </h1>
-        <label className="person--filter">
+        <label
+          htmlFor="filter"
+          className="person--filter"
+        >
           Filter by&nbsp;
           <input
+            id="filter"
             type="text"
             placeholder="enter text"
             value={value}
-            onInput={this.filterBy}
+            onChange={this.filterBy}
           />
         </label>
         <div className="button-list">
@@ -167,7 +152,6 @@ class App extends React.Component {
         <PeopleTable
           people={visiblePeople}
           markedAPersonRow={markedAPersonRow}
-          markByClick={this.markByClick}
         />
       </div>
     );

@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
+import PropTypes from 'prop-types';
 
 const classNames = require('classnames');
 
-const Person = ({ person, columnNames, markedAPersonRow, markByClick }) => {
+const Person = ({ person, selectedPerson, markByClick }) => {
   const rowClassName = classNames({
     person,
     'person--male': person.sex === 'm',
@@ -12,7 +13,7 @@ const Person = ({ person, columnNames, markedAPersonRow, markByClick }) => {
     'person--father': person.sex === 'm' && person.children,
     'person--mother': person.sex === 'f' && person.children,
     [`person--lived-in-${person.century}`]: true,
-    'person--selected': markedAPersonRow === person.id,
+    'person--selected': selectedPerson === person.id,
   });
 
   const columnClassName = classNames({
@@ -23,7 +24,7 @@ const Person = ({ person, columnNames, markedAPersonRow, markByClick }) => {
   return (
     <tr
       className={rowClassName}
-      onClick={markByClick}
+      onClick={() => markByClick(person.id)}
     >
       <td>{person.id}</td>
       <td className={columnClassName}>{person.name}</td>
@@ -37,6 +38,28 @@ const Person = ({ person, columnNames, markedAPersonRow, markByClick }) => {
       <td>{person.children}</td>
     </tr>
   );
+};
+
+Person.propTypes = {
+  person: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    sex: PropTypes.string.isRequired,
+    born: PropTypes.number.isRequired,
+    died: PropTypes.number.isRequired,
+    age: PropTypes.number.isRequired,
+    century: PropTypes.number.isRequired,
+    mother: PropTypes.string,
+    father: PropTypes.string,
+    children: PropTypes.string,
+  }).isRequired,
+  selectedPerson: PropTypes.number,
+  markByClick: PropTypes.func,
+};
+
+Person.defaultProps = {
+  selectedPerson: null,
+  markByClick: () => {},
 };
 
 export default Person;
