@@ -1,5 +1,12 @@
+let direction = '';
+let sortedData = [];
+
 const SortPlant = ({ sortType, peopleTemplate }) => {
-  let sortedData = [...peopleTemplate];
+  if (direction === sortType) {
+    return sortedData.reverse();
+  }
+  direction = sortType;
+  sortedData = [...peopleTemplate];
   sortedData.sort((a, b) => {
     switch (typeof a[sortType]) {
       case 'string':

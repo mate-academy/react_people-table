@@ -7,25 +7,29 @@ class App extends React.Component {
   state = {
     loadedPeople: [],
     peopleTemplate: [],
-    isLoaded: false,
 };
 
-handleLoad = async() => {
+
+async componentDidMount() {
   const addedRows = await getFromServer();
   this.setState({
     loadedPeople: [...addedRows],
     peopleTemplate: [...addedRows],
-    isLoaded: true,
   });
-};
+}
 
-handleInputSearch = (e) => {
-  const search = e.target.value;
+handleInputSearch = (event) => {
+  const { value } = event.target;
   this.setState (state => ({
-    loadedPeople: state.loadedPeople
-    .filter(pers => pers.name
-      .toLowerCase()
-      .indexOf(search.toLowerCase()) !== -1),
+    loadedPeople: state.peopleTemplate
+    .filter((pers) => {
+      if (pers.name !== 0) {
+        return pers.name.toLowerCase()
+        .includes(value
+          .toLowerCase()
+          .trim());
+      }
+    }),
   }));
 };
 
@@ -48,36 +52,29 @@ reset = () => {
     return (
       <div>
         <header>
-          <h2>People table with &nbsp;
-            {this.state.isLoaded && this.state.loadedPeople.length}
-            &nbsp;rows
+          <h2>People table with {' '}
+            {this.state.loadedPeople.length}
+            {' '}rows
           </h2>
         </header>
         <main>
-          <button
-            className="app_load-button"
-            type="button"
-            onClick={this.handleLoad}
-            hidden={this.state.isLoaded}
-            >
-              Load the table
-          </button>
-        <div>
-        <form>
-          <input
-            placeholder="Search..."
-            onChange={this.handleInputSearch}
-            className="app_search-input"
-          />
-          <button
-            onClick={this.reset}
-            type="reset"
-            className="app_sort-button"
-          >
-              RESET
-          </button>
-          </form>
-        </div>
+          <div>
+            <label>
+              <input  htmlFor="name-input"
+                type="text"
+                placeholder="Search..."
+                onChange={this.handleInputSearch}
+                className="app_search-input"
+              />
+            </label>
+            <button
+                onClick={this.reset}
+                type="reset"
+                className="app_sort-button"
+              >
+                  RESET
+            </button>
+          </div>
           <button
             onClick = {() => this.handleSortingBy('name')}
             className="app_sort-button"
