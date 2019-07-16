@@ -27,11 +27,12 @@
   border: 1px solid black;
 }
 
-/* .PeopleTable__row--selected:hover {
+.PeopleTable__row--selected:hover {
   cursor: pointer;
   background-color: yellowgreen;
-} */
+}
 
 .PeopleTable__row--selected {
   border: 3px solid blue;
 }
+

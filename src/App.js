@@ -37,7 +37,7 @@ class App extends React.Component {
       children: [...people]
         .filter(kidd => kidd.father === person.name
     || kidd.mother === person.name)
-        .map(parent => parent.name),
+        .map(kidd => kidd.name),
     }));
 
     this.setState(prev => ({
