@@ -1,123 +1,93 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import {
   Modal, Button, Form, Col,
 } from 'react-bootstrap';
 
 class NewPerson extends React.Component {
-  constructor({ props, people }) {
-    super({ props, people });
-
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+  constructor({ people }) {
+    super({ people });
 
     this.state = {
       people,
-      // person: people.map(person => ({
-      //   ...person,
-      // })),
+      newPerson: {
+        name: '',
+        sex: '',
+        died: 0,
+        born: 0,
+        mother: '',
+        father: '',
+      },
       show: false,
     };
-    // console.log(this.state.people);
+    console.log(this.state.newPerson);
   }
 
-  handleName = (event) => {
-    const { value } = event.target;
-    this.setState({ name: value.trim() });
-    console.log(value);
-    console.log(this.state.name);
+  handleSubmit = (event) => {
   };
 
-  handleBorn = (event) => {
-    const { value } = event.target;
-    this.setState({ born: value.trim() });
-    console.log(value);
-    console.log(this.state.born);
-  };
-
-  handleDied = (event) => {
-    const { value } = event.target;
-    this.setState({ died: value.trim() });
-    console.log(value);
-    console.log(this.state.died);
-  };
-
-  handleSex = (event) => {
-    const { value } = event.target;
-    this.setState({ sex: value });
-    console.log(value);
-    console.log(this.state.sex);
-  };
-
-  handleMother = (event) => {
-    const { value } = event.target;
-    this.setState({ mother: value });
-    console.log(value);
-    console.log(this.state.mother);
-  };
-
-  handleFather = (event) => {
-    const { value } = event.target;
-    this.setState({ father: value });
-    console.log(value);
-    console.log(this.state.father);
-  };
-
-  handleShow() {
-    this.setState({ show: true });
+  handleChange = (event) => {
   }
 
-  handleClose() {
-    this.setState({ show: false });
-  }
+  handleShow = () => this.setState({ show: true });
+
+  handleClose = () => this.setState({ show: false });
 
   render() {
-    console.log(this.state.people);
+    // console.log(this.state.people);
 
     return (
       <>
-        <Button variant="outline-info text-monospace" onClick={this.handleShow}>
+        <Button
+          variant="outline-info text-monospace"
+          onClick={this.handleShow}
+        >
           ✚ Add person
         </Button>
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
+        <Modal
+          show={this.state.show}
+          onHide={this.handleClose}
+          onSubmit={this.handleSubmit}
+        >
           <Modal.Header closeButton>
             <Modal.Title>✚ Add person</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form onSubmit={this.handleSubmit}>
+            <Form>
               <Form.Group>
                 <Form.Label>Name</Form.Label>
                 <Form.Control
                   placeholder="Enter name"
-                  onChange={this.handleName}
+                  onChange={this.handleChange}
+                  name="mother"
                 />
               </Form.Group>
 
               <Form.Group>
                 <label htmlFor="male-Radio">
                   <input
-                    onChange={this.handleSex}
+                    onChange={this.handleChange}
                     name="sex"
                     type="radio"
                     value="m"
                     id="male-Radio"
                     required
                   />
-                  ♂ Male
+                  <span className="male-radio">♂ Male</span>
                 </label>
-                {'/'}
+                {' / '}
                 <label htmlFor="female-Radio">
                   <input
-                    onChange={this.handleSex}
+                    onChange={() => this.handleChange}
                     name="sex"
                     type="radio"
                     value="f"
                     id="female-Radio"
                     required
                   />
-                  ♀ Female
+                  <span className="female-radio">♀ Female</span>
                 </label>
               </Form.Group>
 
@@ -125,16 +95,19 @@ class NewPerson extends React.Component {
                 <Form.Group as={Col}>
                   <Form.Label>Born</Form.Label>
                   <Form.Control
-                    onChange={this.handleBorn}
+                    onChange={this.handleChange}
                     placeholder="Date of birth"
+                    value={this.state.born}
+                    name="born"
                   />
                 </Form.Group>
 
                 <Form.Group as={Col}>
                   <Form.Label>Died</Form.Label>
                   <Form.Control
-                    onChange={this.handleDied}
+                    onChange={this.handleChange}
                     placeholder="Date of death"
+                    name="died"
                   />
                 </Form.Group>
               </Form.Row>
@@ -142,7 +115,11 @@ class NewPerson extends React.Component {
               <Form.Row>
                 <Form.Group as={Col}>
                   <Form.Label>Mother</Form.Label>
-                  <Form.Control as="select" onChange={this.handleMother}>
+                  <Form.Control
+                    as="select"
+                    onChange={this.handleChange}
+                    name="mother"
+                  >
                     <option value="none">choose a mother</option>
                     {this.state.people.map(person => (
                       <option value={person.mother}>{person.mother}</option>
@@ -152,7 +129,11 @@ class NewPerson extends React.Component {
 
                 <Form.Group as={Col}>
                   <Form.Label>Father</Form.Label>
-                  <Form.Control as="select" onChange={this.handleFather}>
+                  <Form.Control
+                    as="select"
+                    onChange={this.handleChange}
+                    name="mother"
+                  >
                     <option value="none">choose a father</option>
                     {this.state.people.map(person => (
                       <option value={person.father}>{person.father}</option>
@@ -162,6 +143,7 @@ class NewPerson extends React.Component {
               </Form.Row>
             </Form>
           </Modal.Body>
+
           <Modal.Footer>
             <Button variant="danger" onClick={this.handleClose}>
               Close
@@ -175,13 +157,5 @@ class NewPerson extends React.Component {
     );
   }
 }
-
-this.props.propTypes = {
-  props: PropTypes.func.isRequired,
-};
-
-this.people.propTypes = {
-  people: PropTypes.arrayOf(PropTypes.array).isRequired,
-};
 
 export default NewPerson;

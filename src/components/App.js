@@ -55,37 +55,36 @@ class App extends React.Component {
     });
   };
 
-  onReverseTable = () => {
-    this.setState(prevState => ({
-      visiblePeople: prevState.visiblePeople.reverse(),
-    }));
-  };
-
   onSortPeopleBy = (field) => {
     field !== this.state.sortField
-      ? this.setState(prevState => ({
+      ? (this.setState(prevState => ({
         visiblePeople: prevState.visiblePeople.sort(getSortBy(field)),
         sortField: field,
       }))
-      : this.onReverseTable();
+      ) : (
+        this.setState(prevState => ({
+          visiblePeople: prevState.visiblePeople.reverse(),
+        }))
+      );
   }
 
   onSearchByName = (event) => {
-    const searchField = event.target.value;
+    const searchField = event.target.value.toLowerCase();
+
     this.setState(prevState => ({
       visiblePeople: prevState.people.filter(
-        person => (
-          [person.name, person.mother, person.father]
-            .join('')
-            .toLowerCase()
-            .includes(searchField.toLowerCase())
-        )
+        person => [person.name, person.mother, person.father]
+          .join('')
+          .toLowerCase()
+          .includes(searchField)
       ),
     }));
   };
 
   render() {
     const { visiblePeople, isLoaded } = this.state;
+    const { onSortPeopleBy } = this;
+
     return (
       <div className="page ">
         <header className="text-monospace">
@@ -94,6 +93,11 @@ class App extends React.Component {
             {' '}
             People in TABLE
           </h1>
+          <h6>
+            ⇵ People sorted by:
+            {' '}
+            {this.state.sortField.toUpperCase()}
+          </h6>
         </header>
 
         {isLoaded ? (
@@ -112,27 +116,25 @@ class App extends React.Component {
                 <NewPerson people={visiblePeople} />
               </div>
             </div>
-            <table
-              className="PeopleTable table-borderless"
-            >
+            <table className="PeopleTable table-borderless">
               <thead className="table-header text-monospace">
                 <tr>
-                  <th onClick={() => this.onSortPeopleBy('id')}>ID</th>
-                  <th onClick={() => this.onSortPeopleBy('name')}>Name</th>
-                  <th onClick={() => this.onSortPeopleBy('sex')}>Sex</th>
-                  <th onClick={() => this.onSortPeopleBy('born')}>Born</th>
-                  <th onClick={() => this.onSortPeopleBy('died')}>Died</th>
-                  <th onClick={() => this.onSortPeopleBy('age')}>Age</th>
-                  <th onClick={() => this.onSortPeopleBy('century')}>
+                  <th onClick={() => onSortPeopleBy('id')}>ID</th>
+                  <th onClick={() => onSortPeopleBy('name')}>Name</th>
+                  <th onClick={() => onSortPeopleBy('sex')}>Sex</th>
+                  <th onClick={() => onSortPeopleBy('born')}>Born</th>
+                  <th onClick={() => onSortPeopleBy('died')}>Died</th>
+                  <th onClick={() => onSortPeopleBy('age')}>Age</th>
+                  <th onClick={() => onSortPeopleBy('century')}>
                     Century
                   </th>
-                  <th onClick={() => this.onSortPeopleBy('father')}>
+                  <th onClick={() => onSortPeopleBy('father')}>
                     Father
                   </th>
-                  <th onClick={() => this.onSortPeopleBy('mother')}>
+                  <th onClick={() => onSortPeopleBy('mother')}>
                     Mother
                   </th>
-                  <th onClick={() => this.onSortPeopleBy('children')}>
+                  <th onClick={() => onSortPeopleBy('children')}>
                     Children
                   </th>
                 </tr>

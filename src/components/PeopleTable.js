@@ -5,8 +5,8 @@ import Person from './Person';
 
 const PeopleTable = ({ people }) => (
   <>
-    {people.map(person => (
-      <Person person={person} key={person.id} />
+    {people.map(onePerson => (
+      <Person person={onePerson} key={onePerson.id} />
     ))}
   </>
 );
