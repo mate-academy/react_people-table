@@ -2,17 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Person from './Person';
 
-const PeopleTable = ({ people, handleSearch, handleSortBy }) => (
+const PeopleTable = ({ people, handleSortBy }) => (
   <>
-    <div className="search">
-      <input
-        type="search"
-        placeholder="Input text for searching"
-        className="search__input"
-        autoComplete="off"
-        onChange={handleSearch}
-      />
-    </div>
 
     <table className="PeopleTable">
 
@@ -20,11 +11,11 @@ const PeopleTable = ({ people, handleSearch, handleSortBy }) => (
         <tr className="PeopleTable__header">
           <th onClick={() => handleSortBy('index')}>Id</th>
           <th onClick={() => handleSortBy('name')}>Name</th>
-          <th>Sex</th>
+          <th onClick={() => handleSortBy('sex')}>Sex</th>
           <th onClick={() => handleSortBy('born')}>Born</th>
           <th onClick={() => handleSortBy('died')}>Died</th>
           <th onClick={() => handleSortBy('age')}>Age</th>
-          <th>Century</th>
+          <th onClick={() => handleSortBy('century')}>Century</th>
           <th>Mother</th>
           <th>Father</th>
           <th>Children</th>
@@ -51,12 +42,15 @@ PeopleTable.propTypes = {
     sex: PropTypes.string,
     born: PropTypes.number,
     died: PropTypes.number,
-    mother: PropTypes.string,
-    father: PropTypes.string,
+    motherName: PropTypes.string,
+    fatherName: PropTypes.string,
     map: PropTypes.func,
   })).isRequired,
-  handleSearch: PropTypes.func.isRequired,
-  handleSortBy: PropTypes.func.isRequired,
+  handleSortBy: PropTypes.func,
+};
+
+PeopleTable.defaultProps = {
+  handleSortBy: () => {},
 };
 
 export default PeopleTable;

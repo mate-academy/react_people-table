@@ -1,53 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
-const getPersonStyle = (person) => {
-  let className = `person person--lived-in-${person.century}`;
+const Person = ({ person, index }) => {
+  const personClasses = classnames(
+    'person',
+    `person--lived-in-${person.century}`,
+    {
+      'person--female': person.sex === 'f',
+      'person--male': person.sex === 'm',
+      'person--age': person.age > 65,
+    }
+  );
 
-  if (person.sex === 'f') {
-    className += ` person--female`;
-  }
+  const nameClasses = classnames(
+    {
+      'person--born': person.born < 1650,
+      'person--died': person.died > 1800,
+    }
+  );
 
-  if (person.sex === 'm') {
-    className += ` person--male`;
-  }
+  const childNames = person.children.map(child => child.name);
 
-  if (person.age > 65) {
-    className += ` person--age`;
-  }
+  return (
 
-  return className;
+    <tr
+      tabIndex="0"
+      className={personClasses}
+    >
+      <td>{index}</td>
+      <td className={nameClasses}>{person.name}</td>
+      <td>{person.sex}</td>
+      <td>{person.born}</td>
+      <td>{person.died}</td>
+      <td>{person.age}</td>
+      <td>{person.century}</td>
+      <td>{person.motherName}</td>
+      <td>{person.fatherName}</td>
+      <td>{childNames.join(', ')}</td>
+    </tr>
+  );
 };
-
-const getNameStyle = (person) => {
-  let className = '';
-
-  if (person.born < 1650) {
-    className += ' person--born';
-  }
-
-  if (person.died > 1800) {
-    className += ' person--died';
-  }
-
-  return className;
-};
-
-const Person = ({ person, index }) => (
-
-  <tr className={getPersonStyle(person)} tabIndex="0">
-    <td>{index}</td>
-    <td className={getNameStyle(person)}>{person.name}</td>
-    <td>{person.sex}</td>
-    <td>{person.born}</td>
-    <td>{person.died}</td>
-    <td>{person.age}</td>
-    <td>{person.century}</td>
-    <td>{person.mother}</td>
-    <td>{person.father}</td>
-    <td>{person.children.join(', ')}</td>
-  </tr>
-);
 
 Person.propTypes = {
   index: PropTypes.number.isRequired,
@@ -59,9 +52,11 @@ Person.propTypes = {
     died: PropTypes.number,
     age: PropTypes.number,
     century: PropTypes.number,
-    mother: PropTypes.string,
-    father: PropTypes.string,
-    children: PropTypes.arrayOf(PropTypes.string),
+    motherName: PropTypes.string,
+    fatherName: PropTypes.string,
+    children: PropTypes.arrayOf(PropTypes.object),
+    childNames: PropTypes.arrayOf(PropTypes.string),
+    map: PropTypes.func,
   }).isRequired,
 };
 

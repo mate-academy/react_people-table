@@ -24,7 +24,6 @@
   font-size: 16px;
   color: #555;
   outline: none;
-
 }
 
 .search__input:focus {
@@ -44,8 +43,9 @@
   font-size: 18px;
 }
 
-.PeopleTable__header:hover {
+.PeopleTable__header th:hover {
   cursor: pointer;
+  background-color: lightgray;
 }
 
 .person td {
@@ -73,6 +73,6 @@
 }
 
 .person--age {
-  border: 1px solid green;
+  border: 2px solid green;
 }
 

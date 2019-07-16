@@ -5,19 +5,19 @@ import getData from './api/getData';
 import PeopleTable from './components/PeopleTable';
 
 const getPeopleByFilter = (people, searchText) => (
-  [...people].filter((person) => {
+  people.filter((person) => {
     if (person.name !== null
-        && person.mother !== null
-        && person.father !== null) {
+      && person.motherName !== null
+      && person.fatherName !== null) {
       return (person.name
         .toLowerCase()
         .includes(searchText.toLowerCase())
-      || person.mother
-        .toLowerCase()
-        .includes(searchText.toLowerCase())
-      || person.father
-        .toLowerCase()
-        .includes(searchText.toLowerCase()));
+    || person.motherName
+      .toLowerCase()
+      .includes(searchText.toLowerCase())
+    || person.fatherName
+      .toLowerCase()
+      .includes(searchText.toLowerCase()));
     }
 
     return 0;
@@ -54,6 +54,10 @@ class App extends React.Component {
           return a[key].localeCompare(b[key]);
         }
 
+        if (typeof a[key] === 'string' && prevState.direction === 'desc') {
+          return b[key].localeCompare(a[key]);
+        }
+
         if (typeof a[key] === 'number' && prevState.direction === 'asc') {
           return a[key] - b[key];
         }
@@ -65,12 +69,24 @@ class App extends React.Component {
   };
 
   render() {
+    const { shownPeople } = this.state;
+
     return (
       <main>
         <div className="App">
           <h1>People table</h1>
           <span>People in table - </span>
-          {this.state.people.length}
+          {shownPeople.length}
+        </div>
+
+        <div className="search">
+          <input
+            type="search"
+            placeholder="Input name for searching"
+            className="search__input"
+            autoComplete="off"
+            onChange={this.handleSearch}
+          />
         </div>
 
         <PeopleTable
