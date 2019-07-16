@@ -6,7 +6,7 @@ Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
 ## Task 
 
 1. Load `people` from [API](https://mate-academy.github.io/react_people-table/api/people.json)
-  when `App` component was initially rendered and show a header displaying number of people
+  and show the number of currently visible people in the `App` component
 
 2. Implement `PeopleTable` component accepting an array of people as a param. 
   It should show these columns: 
@@ -30,46 +30,48 @@ Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
 
 3. Implement `Person` component accepting a `person` and displaying all the data described above
     ```html
-    <tr class="person">
+    <tr class="Person">
       <td></td>
       ...
       <td></td>
     </tr>
     ```
-    - add class `person--male`/`person--female` based on `sex`
-    - add `lightpink` background to all women
-    - use `text-decoration: line-through` for the names of people born before `1650`
-    - use `bold` text for the names of the people died after `1800`
+    - add class `Person--male`/`Person--female` based on `sex`
+    - add `text-decoration: line-through` for the names of people born before `1650`
 
 4. Add `age` column (`person.died - person.born`)
-    - add `green` border to all the rows of people lived for `> 65` years
+    - use `green` color for the `age` of people who lived for `>= 65` years
 
 5. add `century` column (`Math.ceil(person.died / 100)`)
-    - add class `person--lived-in-${century}` to each `<tr>`
+    - add class `Person--lived-in-${century}` to each `<tr>`
 
-6. Add `children` column with a comma separated list of names
-    - add class `person--mother`/`person--father` based on `children`
-    - add `cornflowerblue` background to all fathers
+6. Mark a person row as selected when the user clicks on it (`Person--selected`)
+    - there can be only one selected person at a time
 
-7. Add an `<input>` to filter the table by `name`, `mother` and `father`
+7. Add a single `<input>` to filter people by `name`, `mother` and `father`
 
 8. add sorting by `name`
 
-9. add sorting by `id`, `age`, `born`, `died`
+9. add sorting by `id`, `sex`, `born`, `died`, `age`, `century`
 
-10. Mark a person row as selected when user click on it (`border: 3px solid blue`)
-    - there can be only one selected person at a time
- 
-11. Create a `NewPerson` component with a form to add new people to the table
+10. (* OPTIONAL) Implement sorting in both directions
+    - sorting must work together with filtering 
+
+11. (* OPTIONAL) Add `children` column with a list of children names of names
+
+12. (* OPTIONAL) Implement `PersonName` component to display the name with some styling based on person data.
+  Use if for all the names in the table (for example use blue color for men and red for women)
+     
+13. (* OPTIONAL) Create a `NewPerson` component with a form to add new people to the table
     - all the fields are required
     - `sex` should be chosen among 2 options (radio buttons)
     - all the above rules should be applied to added people
 
-12. (* OPTIONAL) Add data validations:
+14. (* OPTIONAL) Add data validations:
     - `died - born` should be >= 0 and < 150
     - `name` should allow to enter only letters and spaces 
     - implement `<select>` for `mother` and `father` it should display only people of appropriate sex
-      born before the person (so the select should be empty before the born year was entered)
+      who were alive in the year of birth (so the select should be empty before the born year was entered)
 
 
 ## Workflow
