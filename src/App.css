@@ -1,0 +1,78 @@
+* {
+  padding:  0;
+  margin:  0;
+}
+
+.App {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.search {
+  text-align: center;
+  margin: 0 auto 30px;
+}
+
+.search__input {
+  width: 500px;
+  padding: 8px 37px 9px 15px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1), inset 0 1px 2px rgba(0,0,0,0.3);
+  border-radius: 20px;
+  background: #EEE;
+  font-size: 16px;
+  color: #555;
+  outline: none;
+}
+
+.search__input:focus {
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2), inset 0 1px 2px rgba(0,0,0,0.4);
+  background: #E8E8E8;
+  color: #333;
+}
+
+.PeopleTable {
+  border-collapse: collapse;
+  font-size: 16px;
+  margin: 0 auto;
+}
+
+.PeopleTable__header th {
+  padding: 7px;
+  font-size: 18px;
+}
+
+.PeopleTable__header th:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
+
+.person td {
+  padding: 7px;
+}
+
+.person:focus {
+  border: 3px solid blue;
+}
+
+.person--female {
+  background-color: lightpink;
+}
+
+.person--male {
+  background-color: lightblue;
+}
+
+.person--born {
+  text-decoration: line-through;
+}
+
+.person--died {
+  font-weight: bold;
+}
+
+.person--age {
+  border: 2px solid green;
+}
+
