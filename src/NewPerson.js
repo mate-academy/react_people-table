@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class NewPerson extends React.Component {
   state = {
     name: '',
-    sex: '',
+    sex: 'f',
     born: null,
     died: null,
     father: '',
@@ -41,7 +41,6 @@ class NewPerson extends React.Component {
     const died = event.target.value;
 
     if (((died - this.state.born) < 0) || ((died - this.state.born) > 150)) {
-      console.log('Incorrect born and/or died.')
       this.setState({
         errorMessageByDate: 'Incorrect born and/or died.',
       });
@@ -93,7 +92,6 @@ class NewPerson extends React.Component {
               type="radio"
               value="m"
               name="sex"
-              checked="true"
               onChange={this.addSex}
             />
             Man
@@ -147,7 +145,10 @@ class NewPerson extends React.Component {
           <button
             type="submit"
             className="btn-add"
-            disabled={(errorMessageByName || errorMessageByDate) ? true : false}
+            disabled={(errorMessageByName || errorMessageByDate)
+              ? true
+              : false
+            }
           >
             Add
           </button>
@@ -165,13 +166,11 @@ class NewPerson extends React.Component {
 }
 
 NewPerson.propTypes = {
-  showFormAddNewPerson: PropTypes.bool,
   closeForm: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
 };
 
 NewPerson.defaultProps = {
-  showFormAddNewPerson: false,
   closeForm: () => {},
 };
 
