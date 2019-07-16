@@ -18,7 +18,7 @@ class PeopleTable extends React.Component {
     const { sortName, sortId, people } = this.props;
     return (
       <div>
-        <div className='xuy'>
+        <div className='search-block'>
           <input type="search" name="q" placeholder="You my brother from another mother" />
           <input type="submit" value="Найти" />
         </div>

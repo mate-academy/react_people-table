@@ -14,7 +14,7 @@ function Person({ person, selectedPerson, handleSelect }) {
           ${person.sex === 'm' && person.children.length > 0
       ? 'person-father' : ''}
         `}
-
+y
     >
       <td>{person.id}</td>
       <td className={`
