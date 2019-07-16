@@ -1,0 +1,19 @@
+.person:hover {
+  outline: 2px solid black;
+}
+
+.person--female {
+  background-color: lightpink;
+}
+
+.person--father {
+  background-color: cornflowerblue;
+}
+
+.person--lived-more-65y {
+  border: 2px solid green;
+}
+
+.person--select {
+  border: 3px solid blue;
+}

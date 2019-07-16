@@ -3,42 +3,41 @@ import PropTypes from 'prop-types';
 import './person.css';
 
 const Person = ({ id, name, sex, born, died, age, father, mother, children }) => {
-  let classMaleOrFemale = '';
-  let classForName = '';
-  let classGreenBorder = '';
   const century = Math.ceil(died / 100);
   const namesOfchildren = children.map(kid => kid.name);
+  const stylesForPersonName = {};
+  const classesForPerson = ['person', `person--lived-in-${century}`];
 
   if (sex === 'f') {
-    classMaleOrFemale = 'person--female';
+    classesForPerson.push('person--female');
     if (namesOfchildren.length !== 0) {
-      classMaleOrFemale += ' person--mother';
+      classesForPerson.push(' person--mother');
     }
   }
 
   if (sex === 'm') {
-    classMaleOrFemale = 'person--male';
+    classesForPerson.push('person--male');
     if (namesOfchildren.length !== 0) {
-      classMaleOrFemale += ' person--father';
+      classesForPerson.push(' person--father');
     }
   }
 
+  if (age > 65) {
+    classesForPerson.push('person--lived-more-65y');
+  }
+
   if (born < 1650) {
-    classForName = 'person--born-before-1650';
+    stylesForPersonName.textDecoration = 'line-through';
   }
 
   if (died > 1800) {
-    classForName = 'person--died-after-1800';
-  }
-
-  if (age > 65) {
-    classGreenBorder = 'person--lived-more-65y';
+    stylesForPersonName.fontWeight = 'bold';
   }
 
   return (
-    <tr className={`person ${classMaleOrFemale} ${classGreenBorder} person--lived-in-${century}`}>
+    <tr className={classesForPerson.join(' ')}>
       <td>{id + 1}</td>
-      <td className={classForName}>{name}</td>
+      <td style={stylesForPersonName}>{name}</td>
       <td>{sex}</td>
       <td>{born}</td>
       <td>{died}</td>

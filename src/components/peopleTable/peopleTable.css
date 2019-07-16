@@ -5,3 +5,8 @@
 .peopleTable th, td {
   padding: 10px;
 }
+
+.cursorPointer {
+  cursor: pointer;
+};
+

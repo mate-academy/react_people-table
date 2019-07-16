@@ -1,0 +1,38 @@
+.new-person-form {
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  width: 400px;
+  padding: 20px;
+  background-color: white;
+}
+
+.new-person-form__name {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.new-person-form__life-dates {
+  width: 100px;
+  margin: 10px;
+}
+
+.new-person-form__parents {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.new-person-form__parents select {
+  width: 80%;
+  height: 21px;
+}
+
+.new-person-form__button {
+  margin: 50px 10px 10px;
+}
+
+.error-message {
+  color: red;
+}

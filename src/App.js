@@ -1,5 +1,6 @@
 import React from 'react';
-import PeopleTable from './PeopleTable';
+import PeopleTable from './components/peopleTable/PeopleTable';
+import NewPerson from './components/newPerson/NewPerson';
 
 const getChildren = (people, person) => (
   people.filter(currenPerson => (
@@ -24,6 +25,7 @@ class App extends React.Component {
     listOfPeople: [],
     filtredPeople: [],
     sortStatus: 1,
+    showNewPersonForm: false,
   }
 
   componentDidMount() {
@@ -65,22 +67,41 @@ class App extends React.Component {
   }
 
   render() {
-    const { filtredPeople, sortStatus } = this.state;
-    console.log('render', ' filtredPeople:', filtredPeople);
+    const { filtredPeople, sortStatus, listOfPeople } = this.state;
+
     return (
       <div className="App">
-        <h1>People table {filtredPeople.length} </h1>
+        <h1>
+          People table
+          {filtredPeople.length}
+        </h1>
 
         <input
           type="text"
-          placeholder="filter name, mother and father"
+          placeholder="Enter the name for search"
           onInput={this.filterByNameAndParents}
         />
+        <br />
+        <br />
 
-        <PeopleTable people={filtredPeople} sortStatus={sortStatus} updateAppState={this.updateAppState} />
+        <button
+          type="button"
+          onClick={() => this.setState({ showNewPersonForm: true })}
+        >
+          Add new person
+        </button>
+
+        {this.state.showNewPersonForm && <NewPerson updateAppState={this.updateAppState} people={listOfPeople} />}
+
+        <PeopleTable
+          people={filtredPeople}
+          sortStatus={sortStatus}
+          updateAppState={this.updateAppState}
+        />
+
       </div>
     );
   }
-};
+}
 
 export default App;
