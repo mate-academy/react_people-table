@@ -34,7 +34,7 @@ td {
 }
 
 .person__lived-at-least-65 {
-  background: green;
+  border: 3px solid green;
 }
 .person__female {
   background: lightpink;

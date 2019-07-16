@@ -35,9 +35,24 @@ class PersonInfo extends React.Component {
           <td>{person.born}</td>
           <td>{person.died}</td>
           <td>{person.age}</td>
-          <td>{person.mother}</td>
-          <td>{person.father}</td>
-          <td>{person.children.join(', ')}</td>
+          <td>
+            {person.mother !== null
+              ? person.mother
+              : 'unknown'
+            }
+          </td>
+          <td>
+            {person.father !== null
+              ? person.father
+              : 'unknown'
+            }
+          </td>
+          <td>
+            {person.children.length > 0
+              ? person.children.join(', ')
+              : 'unknown'
+            }
+          </td>
         </tr>
       )));
   }
