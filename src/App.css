@@ -1,0 +1,46 @@
+.PeopleTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.person--female {
+  background: lightpink;
+}
+
+td {
+  border: 1px solid;
+}
+
+.person-died__line-style {
+  text-decoration: line-through;
+}
+
+.person-died__bold {
+  font-weight: bold;
+}
+
+.person-age__more65 {
+  border: solid green 2px;
+}
+
+.person-father {
+  background: cornflowerblue ;
+}
+
+.person-selected {
+  background: yellow;
+}
+
+input {
+  text-align: center;
+  width: 50%;
+  height: 50px;
+  font-size: 20px;
+}
+
+.search-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
