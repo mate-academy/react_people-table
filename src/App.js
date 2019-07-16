@@ -6,36 +6,25 @@ import PeopleTable from './components/PeopleTable';
 
 const getPeopleByFilter = (people, searchText) => (
   people.filter((person) => {
-    if (person.name !== null
-      && person.motherName !== null
-      && person.fatherName !== null) {
-      return (person.name
-        .toLowerCase()
-        .includes(searchText.toLowerCase())
-    || person.motherName
-      .toLowerCase()
-      .includes(searchText.toLowerCase())
-    || person.fatherName
-      .toLowerCase()
-      .includes(searchText.toLowerCase()));
-    }
-
-    return 0;
-  }));
+    return [person.name, person.motherName, person.fatherName]
+      .join(', ')
+      .toLowerCase().includes(searchText.toLowerCase());
+  })
+);
 
 class App extends React.Component {
   state = {
     people: [],
     shownPeople: [],
-    direction: 'asc',
+    sortDirection: 'asc',
   };
 
   async componentDidMount() {
     const peopleFromApi = await getData();
 
     this.setState({
-      people: [...peopleFromApi],
-      shownPeople: [...peopleFromApi],
+      people: peopleFromApi,
+      shownPeople: peopleFromApi,
     });
   }
 
@@ -50,21 +39,21 @@ class App extends React.Component {
   handleSortBy = (key) => {
     this.setState(prevState => ({
       shownPeople: prevState.people.sort((a, b) => {
-        if (typeof a[key] === 'string' && prevState.direction === 'asc') {
+        if (typeof a[key] === 'string' && prevState.sortDirection === 'asc') {
           return a[key].localeCompare(b[key]);
         }
 
-        if (typeof a[key] === 'string' && prevState.direction === 'desc') {
+        if (typeof a[key] === 'string' && prevState.sortDirection === 'desc') {
           return b[key].localeCompare(a[key]);
         }
 
-        if (typeof a[key] === 'number' && prevState.direction === 'asc') {
+        if (typeof a[key] === 'number' && prevState.sortDirection === 'asc') {
           return a[key] - b[key];
         }
 
         return b[key] - a[key];
       }),
-      direction: prevState.direction === 'asc' ? 'desc' : 'asc',
+      sortDirection: prevState.sortDirection === 'asc' ? 'desc' : 'asc',
     }));
   };
 
@@ -91,7 +80,6 @@ class App extends React.Component {
 
         <PeopleTable
           people={this.state.shownPeople}
-          handleSearch={this.handleSearch}
           handleSortBy={this.handleSortBy}
         />
 

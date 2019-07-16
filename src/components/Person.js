@@ -52,11 +52,11 @@ Person.propTypes = {
     died: PropTypes.number,
     age: PropTypes.number,
     century: PropTypes.number,
+    mother: PropTypes.object,
+    father: PropTypes.object,
     motherName: PropTypes.string,
     fatherName: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.object),
-    childNames: PropTypes.arrayOf(PropTypes.string),
-    map: PropTypes.func,
   }).isRequired,
 };
 
