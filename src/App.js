@@ -9,7 +9,7 @@ class App extends React.Component {
     people: [],
     visiblePeople: [],
     value: '',
-    showFormAddNewPerson: false,
+    shownForm: false,
   };
 
   componentDidMount = async() => {
@@ -56,20 +56,34 @@ class App extends React.Component {
 
   showForm = () => {
     this.setState({
-      showFormAddNewPerson: true,
+      shownForm: true,
     });
-  }
+  };
 
   closeForm = (event) => {
     event.preventDefault();
     this.setState({
-      showFormAddNewPerson: false,
+      shownForm: false,
     });
+  };
+
+  addNewPerson = (newPerson) => {
+    newPerson = {
+      ...newPerson,
+      age: newPerson.died - newPerson.born,
+      century: Math.ceil(newPerson.died / 100),
+      id: this.state.visiblePeople.length + 1,
+    }
+    this.setState(prevState => ({
+      visiblePeople: [...prevState.visiblePeople, newPerson],
+      people: [...prevState.visiblePeople, newPerson],
+      shownForm: false,
+    }));
   }
 
   render() {
     const {
-      showFormAddNewPerson,
+      shownForm,
       people,
       value,
       visiblePeople,
@@ -85,11 +99,10 @@ class App extends React.Component {
         >
           Add a new person
         </button>
-        {showFormAddNewPerson
+        {shownForm
         && (
           <NewPerson
-            showFormAddNewPerson={showFormAddNewPerson}
-            addNewPerson={this.addNewPerson}
+            onSubmit={this.addNewPerson}
             closeForm={this.closeForm}
           />
         )}
