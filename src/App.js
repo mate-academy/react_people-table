@@ -4,6 +4,15 @@ import './App.css';
 import getData from './api/getData';
 import PeopleTable from './components/PeopleTable';
 import createSorterBy from './components/createSorterBy';
+import NewPerson from './components/NewPerson';
+
+const getAge = (person) => {
+  if (person.died === '') {
+    return 2019 - person.born;
+  }
+
+  return person.died - person.born;
+};
 
 class App extends React.Component {
   state = {
@@ -52,6 +61,20 @@ class App extends React.Component {
         }
       ),
     }));
+  }
+
+  addNewPerson = (person) => {
+    console.log(person);
+    this.setState((prevState) => {
+      person.age = getAge(person);
+
+      const people = [...prevState.people, person];
+
+      return {
+        people,
+        visiblePeople: people,
+      };
+    });
   }
 
   render() {
@@ -136,6 +159,11 @@ class App extends React.Component {
             />
           </label>
         </div>
+
+        <NewPerson
+          peopleAmmount={visiblePeople.length}
+          onSubmit={this.addNewPerson}
+        />
 
         <PeopleTable people={visiblePeople} />
       </div>

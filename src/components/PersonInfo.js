@@ -36,15 +36,15 @@ class PersonInfo extends React.Component {
           <td>{person.died}</td>
           <td>{person.age}</td>
           <td>
-            {person.mother !== null
-              ? person.mother
-              : 'unknown'
+            {person.mother === null || person.mother === undefined
+              ? 'unknown'
+              : person.mother
             }
           </td>
           <td>
-            {person.father !== null
-              ? person.father
-              : 'unknown'
+            {person.father === null || person.father === undefined
+              ? 'unknown'
+              : person.father
             }
           </td>
           <td>
@@ -61,12 +61,12 @@ class PersonInfo extends React.Component {
 PersonInfo.propTypes = {
   people: PropTypes.arrayOf(PropTypes.object).isRequired,
   person: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    sex: PropTypes.string,
-    born: PropTypes.number,
-    died: PropTypes.number,
-    age: PropTypes.number,
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    sex: PropTypes.string.isRequired,
+    born: PropTypes.number.isRequired,
+    died: PropTypes.number.isRequired,
+    age: PropTypes.number.isRequired,
     mother: PropTypes.string,
     father: PropTypes.string,
     children: PropTypes.array,
