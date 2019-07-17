@@ -1,7 +1,7 @@
 import React from 'react';
-import classnames from 'classnames';
 import PeopleTable from './components/PeopleTable';
 import getPeople from './data/dataPeople';
+import AddPerson from './components/AddPerson';
 import './App.css';
 
 const sortPeople = ({ field, people, direction }) => {
@@ -23,21 +23,20 @@ const sortPeople = ({ field, people, direction }) => {
   return sortedData;
 };
 class App extends React.Component {
-    state = {
-      people: [],
-      visiblePeople: [],
-      direction: 1,
-      selectedPersonId: null,
-    };
+  state = {
+    people: [],
+    visiblePeople: [],
+    direction: 1,
+  };
 
-    componentDidMount() {
-      this.loadData();
-    }
+  componentDidMount() {
+    this.loadData();
+  }
 
   loadData = async() => {
     const people = await getPeople();
     this.setState({
-      visiblePeople: [...people],
+      visiblePeople: people,
       people: people.map((person, index) => ({
         ...person,
         id: index + 1,
@@ -64,8 +63,8 @@ class App extends React.Component {
 
   handleSearch = (event) => {
     const search = event.target.value;
-    this.setState(state => ({
-      people: state.visiblePeople
+    this.setState(prevState => ({
+      people: prevState.people
         .filter(person => [person.name, person.mother, person.father]
           .join('')
           .toLowerCase()
@@ -74,59 +73,8 @@ class App extends React.Component {
   };
 
   render() {
-    const { people, selectedPersonId } = this.state;
-    const result = people
-      .map((person) => {
-        return (
-          <tr
-            key={people + Math.random()}
-            onClick={() => this.setState({ selectedPersonId: person.id })}
-            className={
-              classnames(
-                `PeopleTable__row
-                ${ person.id === selectedPersonId
-            ? 'PeopleTable__row--selected' : ''}`,
-                `person--lived-in-${person.century}`,
-                {
-                  'people__table--col': true,
-                  'person--female': person.sex === 'f',
-                  'person--male': person.sex === 'm',
-                  'people__table--col-less1650': person.born < 1650,
-                  'people__table--col-died1800': person.died > 1800,
-                  'people__table--col-more65': person.age > 65,
-                  'person--father': people
-                    .filter(child => child.father === person.name)
-                    .map(human => human.name)
-                    .join(' '),
-                  'person--mother': people
-                    .filter(child => child.mother === person.name)
-                    .map(human => human.name)
-                    .join(' '),
-                  'person--without--parents': people
-                    .filter(child => (child.mother && child.father) === null)
-                    .map(human => human.name)
-                    .join(' '),
-                }
-              )
-            }
-          >
-            <td>{ person.id }</td>
-            <td>
-              { person.name }
-            </td>
-            <td>
-              { person.sex }
-            </td>
-            <td>{ person.born }</td>
-            <td>{ person.died }</td>
-            <td>{ person.mother }</td>
-            <td>{ person.father}</td>
-            <td>{ person.age }</td>
-            <td>{ person.century }</td>
-            <td>{ person.children }</td>
-          </tr>
-        );
-      });
+    const { people } = this.state;
+
     return (
       <>
         <h1 className="people__title">
@@ -138,50 +86,50 @@ class App extends React.Component {
             onChange={this.handleSearch}
             className="form-control mb-4"
           />
-          <button
-            type="button"
-            className="btn btn-primary mr-2"
-            onClick={() => this.sortingBy('name')}
-          >
-            sort by name
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary mr-2"
-            onClick={() => this.sortingBy('id')}
-          >
-            sort by ID
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary mr-2"
-            onClick={() => this.sortingBy('born')}
-          >
-            sort by born
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary mr-2"
-            onClick={() => this.sortingBy('died')}
-          >
-            sort by died
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary mr-2"
-            onClick={() => this.sortingBy('age')}
-          >
-            sort by age
-          </button>
         </form>
+      <AddPerson />
+        <table className="PeopleTable table">
 
-        <table
-          className="PeopleTable table"
-        >
-          <PeopleTable />
-          <tbody className="people__table">
-            {result}
-          </tbody>
+          <thead>
+          <tr>
+            <th onClick={() => this.sortingBy('id')}>
+              id:
+            </th>
+            <th onClick={() => this.sortingBy('name')}>
+              name:
+              <i className="fas fa-user" />
+            </th>
+            <th onClick={() => this.sortingBy('sex')}>
+              sex:
+              <i className="fas fa-venus-mars" />
+            </th>
+            <th onClick={() => this.sortingBy('born')}>
+              born:
+            </th>
+            <th onClick={() => this.sortingBy('died')}>
+              died:
+            </th>
+            <th onClick={() => this.sortingBy('mother')}>
+              mother:
+              <i className="fas fa-female" />
+            </th>
+            <th onClick={() => this.sortingBy('father')}>
+              father:
+              <i className="fas fa-male" />
+            </th>
+            <th onClick={() => this.sortingBy('age')}>
+              age:
+              <i className="fas fa-user-clock" />
+            </th>
+            <th onClick={() => this.sortingBy('century')}>
+              century:
+            </th>
+            <th onClick={() => this.sortingBy('children')}>
+              children:
+            </th>
+          </tr>
+          </thead>
+          <PeopleTable people={people} />
         </table>
       </>
     );

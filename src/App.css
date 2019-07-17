@@ -26,4 +26,11 @@
     .PeopleTable__row--selected {
       background-color: yellowgreen; }
 
+@font-face {
+  font-family: FontAwesome;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/webfonts/fa-solid-900.ttf"); }
+i {
+  font-family: FontAwesome, sans-serif;
+  font-style: normal; }
+
 /*# sourceMappingURL=App.css.map */
