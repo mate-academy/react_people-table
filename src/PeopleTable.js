@@ -24,7 +24,11 @@ class PeopleTable extends React.Component {
             <th>children</th>
           </tr>
         </thead>
-        <Person peoples={peoples} />
+        <tbody>
+          {peoples.map((person) => (
+            <Person key={person.id} people={person} />
+          ))}
+        </tbody>
       </table>
     );
   }

@@ -7,67 +7,61 @@ class Person extends React.Component {
   };
 
   render() {
-    const { peoples } = this.props;
+    const { people } = this.props;
     const { selectedPersonId } = this.state;
 
     return (
-      <tbody>
-        {peoples.map((person) => (
-          <tr
-            key={person.id}
-            onClick={() => this.setState({ selectedPersonId: person.id })}
-            className={classnames({
-              'person--lived-in-${Math.ceil(person.died / 100)}': true,
-              'person-row': true,
-              'person--male': person.sex === 'm',
-              'person--female': person.sex === 'f',
-              'person--father': person.sex === 'm' && person.children.length > 0,
-              'person--mather': person.sex === 'f' && person.children.length > 0,
-              'peopleTable__row': true,
-              'peopleTable__row--selected': person.id === selectedPersonId,
-            })
-            }
-          >
-            <td>
-              {person.id}
-            </td>
-            <td className={classnames({
-              'born--before': person.born < 1650,
-              'died--after': person.died > 1800,
-            })}
-            >
-              {person.name}
-            </td>
-            <td>
-              {person.sex}
-            </td>
-            <td>
-              {person.born}
-            </td>
-            <td>
-              {person.died}
-            </td>
-            <td>
-              {person.mother}
-            </td>
-            <td>
-              {person.father}
-            </td>
-            <td className={classnames({
-              'long--livers': person.age > 65,
-            })}
-            >
-              {person.age}
-            </td>
-            <td>
-              {person.century}
-            </td>
-            <td>
-              {person.children}
-            </td>
-          </tr>
-        ))}
-      </tbody>
+      <tr
+        onClick={() => this.setState({ selectedPersonId: people.id })}
+        className={classnames({
+          'person--lived-in-${Math.ceil(person.died / 100)}': true,
+          'person-row': true,
+          'person--male': people.sex === 'm',
+          'person--female': people.sex === 'f',
+          'person--father': people.sex === 'm' && people.children.length > 0,
+          'person--mather': people.sex === 'f' && people.children.length > 0,
+          'peopleTable__row': true,
+          'peopleTable__row--selected': people.id === selectedPersonId,
+        })
+        }
+      >
+        <td>
+          {people.id}
+        </td>
+        <td className={classnames({
+          'born--before': people.born < 1650,
+          'died--after': people.died > 1800,
+        })}>
+          {people.name}
+        </td>
+        <td>
+          {people.sex}
+        </td>
+        <td>
+          {people.born}
+        </td>
+        <td>
+          {people.died}
+        </td>
+        <td>
+          {people.mother}
+        </td>
+        <td>
+          {people.father}
+        </td>
+        <td className={classnames({
+          'long--livers': people.age > 65,
+        })}
+        >
+          {people.age}
+        </td>
+        <td>
+          {people.century}
+        </td>
+        <td>
+          {people.children}
+        </td>
+      </tr>
     )
   }
 }
