@@ -27,19 +27,29 @@ class App extends React.Component {
     });
   }
 
-  sortId = () => {
-    this.setState(prevState => ({
-      peopleToShow: [...prevState.peopleToShow.sort((a, b) => (a.id - b.id) * prevState.direction)],
-      direction: prevState.direction * -1,
-    }));
+  sortPeople = (field) => {
+    if (field === 'id') {
+      this.setState(prevState => ({
+        peopleToShow: [...prevState.peopleToShow.sort((a, b) => (a.id - b.id) * prevState.direction)],
+        direction: prevState.direction * -1,
+      }));
+    } else if (field === 'name') {
+      this.setState(prevState => ({
+        peopleToShow: [...prevState.peopleToShow.sort((a, b) => a.name.localeCompare(b.name) * prevState.direction)],
+        direction: prevState.direction * -1,
+      }));
+    } else if (field === 'sex') {
+      this.setState(prevState => ({
+        peopleToShow: [...prevState.peopleToShow.sort((a, b) => a.sex.localeCompare(b.sex) * prevState.direction)],
+        direction: prevState.direction * -1,
+      }));
+    } else if (field === 'age') {
+      this.setState(prevState => ({
+        peopleToShow: [...prevState.peopleToShow.sort((a, b) => (a.age - b.age) * prevState.direction)],
+        direction: prevState.direction * -1,
+      }));
+    }
   }
-
-  sortName = () => {
-    this.setState(prevState => ({
-      peopleToShow: [...prevState.peopleToShow.sort((a, b) => a.name.localeCompare(b.name) * prevState.direction)],
-      direction: prevState.direction * -1,
-    }));
-  };
 
   render() {
     const { peopleToShow } = this.state;
@@ -48,9 +58,7 @@ class App extends React.Component {
       <div>
         <PeopleTable
           people={peopleToShow}
-          handleClick={this.handleClick}
-          sortId={this.sortId}
-          sortName={this.sortName}
+          sortPeople={this.sortPeople}
         />
       </div>
     );

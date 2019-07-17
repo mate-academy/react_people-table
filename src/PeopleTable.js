@@ -15,7 +15,7 @@ class PeopleTable extends React.Component {
 
   render() {
     const { selectedPerson } = this.state;
-    const { sortName, sortId, people } = this.props;
+    const { sortPeople, people } = this.props;
 
     return (
       <div>
@@ -28,12 +28,12 @@ class PeopleTable extends React.Component {
         <table className="PeopleTable">
           <thead>
             <tr>
-              <th onClick={sortId}>ID</th>
-              <th onClick={sortName}>Name</th>
-              <th>Sex</th>
+              <th onClick={() => sortPeople('id')}>ID</th>
+              <th onClick={() => sortPeople('name')}>Name</th>
+              <th onClick={() => sortPeople('sex')}>Sex</th>
               <th>Born</th>
               <th>Died</th>
-              <th>Age</th>
+              <th onClick={() => sortPeople('age')}>Age</th>
               <th>Century</th>
               <th>Mother</th>
               <th>Father</th>
@@ -57,8 +57,7 @@ class PeopleTable extends React.Component {
 }
 
 PeopleTable.propTypes = {
-  sortId: PropTypes.func.isRequired,
-  sortName: PropTypes.func.isRequired,
+  sortPeople: PropTypes.func.isRequired,
   people: PropTypes.shape({
     id: PropTypes.number.isRequired,
   }).isRequired,
