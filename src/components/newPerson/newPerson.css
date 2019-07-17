@@ -1,15 +1,14 @@
 .new-person-form {
-  position: absolute;
-  top: 150px;
-  left: 50px;
-  width: 400px;
   padding: 20px;
   background-color: white;
 }
 
 .new-person-form__name {
-  width: 100%;
-  margin-bottom: 20px;
+  width: 400px;
+}
+
+.new-person-form__sex {
+  margin: 10px 0;
 }
 
 .new-person-form__life-dates {
@@ -20,7 +19,7 @@
 .new-person-form__parents {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 400px;
   margin-top: 10px;
 }
 

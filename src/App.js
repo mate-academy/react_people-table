@@ -1,6 +1,7 @@
 import React from 'react';
 import PeopleTable from './components/peopleTable/PeopleTable';
 import NewPerson from './components/newPerson/NewPerson';
+import './app.css';
 
 const getChildren = (people, person) => (
   people.filter(currenPerson => (
@@ -24,6 +25,7 @@ class App extends React.Component {
   state = {
     listOfPeople: [],
     filtredPeople: [],
+    filterInput: '',
     sortStatus: 1,
     showNewPersonForm: false,
   }
@@ -49,17 +51,28 @@ class App extends React.Component {
   }
 
   filterByNameAndParents = (event) => {
-    const usersValue = event.target.value;
+    const { value, name } = event.target;
+    const people = [...this.state.listOfPeople];
 
-    this.setState(prevState => ({
-      filtredPeople: prevState.listOfPeople.filter((currentPerson) => {
-        const byName = getArrFromName(currentPerson.name, usersValue);
-        const byMother = getArrFromName(currentPerson.mother, usersValue);
-        const byFather = getArrFromName(currentPerson.father, usersValue);
+    this.setState({
+      [name]: value,
+    });
 
-        return byName || byMother || byFather;
-      }),
-    }));
+    if (value !== '') {
+      this.setState({
+        filtredPeople: people.filter((currentPerson) => {
+          const byName = getArrFromName(currentPerson.name, value);
+          const byMother = getArrFromName(currentPerson.mother, value);
+          const byFather = getArrFromName(currentPerson.father, value);
+
+          return byName || byMother || byFather;
+        }),
+      });
+    } else {
+      this.setState({
+        filtredPeople: [...people],
+      });
+    }
   }
 
   updateAppState = (config) => {
@@ -67,10 +80,10 @@ class App extends React.Component {
   }
 
   render() {
-    const { filtredPeople, sortStatus, listOfPeople } = this.state;
+    const { filtredPeople, sortStatus, listOfPeople, filterInput } = this.state;
 
     return (
-      <div className="App">
+      <div className="app">
         <h1>
           People table
           {filtredPeople.length}
@@ -78,14 +91,16 @@ class App extends React.Component {
 
         <input
           type="text"
+          className="app__filter"
           placeholder="Enter the name for search"
-          onInput={this.filterByNameAndParents}
+          name="filterInput"
+          value={filterInput}
+          onChange={this.filterByNameAndParents}
         />
-        <br />
-        <br />
 
         <button
           type="button"
+          className="app__add-new-person"
           onClick={() => this.setState({ showNewPersonForm: true })}
         >
           Add new person

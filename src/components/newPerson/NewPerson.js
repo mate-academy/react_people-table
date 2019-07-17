@@ -50,15 +50,16 @@ class NewPerson extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { people } = this.props;
+    const { people, updateAppState } = this.props;
     const { born, died, ...rest } = this.state;
+    const newPeople = [...people];
 
     if (died - born > 150 || died - born < 0) {
       errorMessage = 'Age must be less than 150 and more than 0';
-      return false;
+      return;
     }
 
-    people.push({
+    newPeople.push({
       ...rest,
       born: +born,
       died: +died,
@@ -76,7 +77,13 @@ class NewPerson extends React.Component {
       father: '',
     });
 
-    return true;
+    updateAppState(
+      {
+        listOfPeople: [...newPeople],
+        filtredPeople: [...newPeople],
+        filterInput: '',
+      }
+    );
   };
 
   formClose = () => {
@@ -121,33 +128,34 @@ class NewPerson extends React.Component {
           onChange={this.handleChange}
           required
         />
-        <br />
 
-        <label htmlFor="newPerson-male">
-          <input
-            id="newPerson-male"
-            type="radio"
-            name="sex"
-            value="m"
-            checked={sex === 'm'}
-            onChange={this.handleChange}
-            required
-          />
-          male
-        </label>
+        <div className="new-person-form__sex">
+          <label htmlFor="newPerson-male">
+            <input
+              id="newPerson-male"
+              type="radio"
+              name="sex"
+              value="m"
+              checked={sex === 'm'}
+              onChange={this.handleChange}
+              required
+            />
+            male
+          </label>
 
-        <label htmlFor="newPerson-female">
-          <input
-            id="newPerson-female"
-            type="radio"
-            name="sex"
-            value="f"
-            checked={sex === 'f'}
-            onChange={this.handleChange}
-          />
-          female
-        </label>
-        <br />
+          <label htmlFor="newPerson-female">
+            <input
+              id="newPerson-female"
+              type="radio"
+              name="sex"
+              value="f"
+              checked={sex === 'f'}
+              onChange={this.handleChange}
+            />
+            female
+          </label>
+        </div>
+
 
         <label htmlFor="newPerson-born">
           Born:
@@ -163,7 +171,6 @@ class NewPerson extends React.Component {
             required
           />
         </label>
-        <br />
 
         <label htmlFor="newPerson-died">
           Died:
@@ -179,11 +186,8 @@ class NewPerson extends React.Component {
             required
           />
         </label>
-        <br />
 
         <span className="error-message">{errorMessage}</span>
-
-        <br />
 
         <label htmlFor="newPerson-mother" className="new-person-form__parents">
           <span>Mother:</span>
@@ -198,8 +202,6 @@ class NewPerson extends React.Component {
           </select>
         </label>
 
-        <br />
-
         <label htmlFor="newPerson-father" className="new-person-form__parents">
           <span>Father:</span>
           <select
@@ -212,8 +214,6 @@ class NewPerson extends React.Component {
             {fathers}
           </select>
         </label>
-
-        <br />
 
         <button
           type="submit"
