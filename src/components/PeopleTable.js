@@ -35,10 +35,6 @@ class PeopleTable extends React.Component {
                 .filter(child => child.mother === person.name)
                 .map(human => human.name)
                 .join(' '),
-              'person--without--parents': people
-                .filter(child => (child.mother && child.father) === null)
-                .map(human => human.name)
-                .join(' '),
             }
           )
         }
