@@ -77,7 +77,7 @@ class NewPerson extends React.Component {
           <input
             id="new-person-name"
             type="text"
-            placeholder="enter name"
+            placeholder="Enter name"
             className="input"
             required="true"
             onChange={this.addName}
@@ -112,7 +112,7 @@ class NewPerson extends React.Component {
           <input
             id="new-person-born"
             type="text"
-            placeholder="enter born date"
+            placeholder="Enter the year of born"
             className="input"
             required="true"
             onChange={this.addBornDate}
@@ -120,7 +120,7 @@ class NewPerson extends React.Component {
           <input
             id="new-person-died"
             type="text"
-            placeholder="enter died date"
+            placeholder="Enter the year of death"
             className="input"
             required="true"
             onChange={this.addDiedDate}
@@ -129,7 +129,7 @@ class NewPerson extends React.Component {
           <input
             id="new-person-father"
             type="text"
-            placeholder="enter father's name"
+            placeholder="Enter father's name"
             className="input"
             required="true"
             onChange={this.addFather}
@@ -137,7 +137,7 @@ class NewPerson extends React.Component {
           <input
             id="new-person-mother"
             type="text"
-            placeholder="enter mother's name"
+            placeholder="Enter mother's name"
             className="input"
             required="true"
             onChange={this.addMother}
