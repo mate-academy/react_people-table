@@ -1,0 +1,32 @@
+.person--female {
+  background-color: lightpink;
+}
+
+.person--male {
+  background-color: blueviolet;
+}
+
+.people__old_65 {
+  border: 2px solid green;
+}
+
+.people__Born--Before_1650 {
+  text-decoration: line-through;
+}
+
+.people__Died--Before_1800 {
+  font-weight: bold;
+}
+
+.person--selected {
+  border: 5px solid rgb(57, 255, 7);
+}
+
+.person--selected:hover {
+  cursor: pointer;
+  background-color: yellowgreen;
+}
+
+.person--father {
+  background: cornflowerblue;
+}
