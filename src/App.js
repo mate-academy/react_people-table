@@ -32,13 +32,13 @@ class App extends React.Component {
     const { value } = event.target;
 
     this.setState(prevState => ({
-      shownPeople: getPeopleByFilter(prevState.people, value),
+      shownPeople: getPeopleByFilter(prevState.shownPeople, value),
     }));
   };
 
   handleSortBy = (key) => {
     this.setState(prevState => ({
-      shownPeople: prevState.people.sort((a, b) => {
+      shownPeople: [...prevState.shownPeople].sort((a, b) => {
         if (typeof a[key] === 'string' && prevState.sortDirection === 'asc') {
           return a[key].localeCompare(b[key]);
         }
