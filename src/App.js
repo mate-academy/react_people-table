@@ -32,7 +32,7 @@ class App extends React.Component {
     const { value } = event.target;
 
     this.setState(prevState => ({
-      shownPeople: getPeopleByFilter(prevState.shownPeople, value),
+      shownPeople: getPeopleByFilter(prevState.people, value),
     }));
   };
 
