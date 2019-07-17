@@ -40,7 +40,7 @@ class PeopleTable extends React.Component {
   };
 
   async componentDidMount() {
-    setTimeout(() => this.sortData('id'), 50);
+    setTimeout(() => this.sortData('id'), 70);
   }
 
   sortData = (sortCase) => {
