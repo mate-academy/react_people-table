@@ -22,9 +22,11 @@ class App extends React.Component {
   }
 
   render() {
+    const { people } = this.state;
+
     return (
       <div className="App">
-        <PeopleTable peopleData={this.state.people} />
+        <PeopleTable peopleData={people} />
         <NewPerson />
       </div>
     );

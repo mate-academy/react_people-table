@@ -47,19 +47,11 @@ class PeopleTable extends React.Component {
     this.setState(state => ({
       direction: state.direction === 1 ? -1 : 1,
       sortedPeopleList: [...this.props.peopleData].sort((a, b) => {
-        switch (sortCase) {
-          case 'id':
-            return state.direction * (b[sortCase] - a[sortCase]);
-          case 'age':
-            return state.direction * (b[sortCase] - a[sortCase]);
-          case 'born':
-            return state.direction * (b[sortCase] - a[sortCase]);
-          case 'died':
-            return state.direction * (b[sortCase] - a[sortCase]);
-          case 'name':
-            return state.direction * a[sortCase].localeCompare(b[sortCase]);
-          default: return 0;
+        if (sortCase === 'name') {
+          return state.direction * a[sortCase].localeCompare(b[sortCase]);
         }
+
+        return state.direction * (b[sortCase] - a[sortCase]);
       }),
     }));
   };
