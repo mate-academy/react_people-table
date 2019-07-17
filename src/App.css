@@ -1,7 +1,6 @@
 .PeopleTable {
   border-spacing: 0px;
-  border-collapse:collapse;
-  border:1px solid black;
+  border: 1px solid black;
 }
 
 .person--female {
@@ -29,4 +28,8 @@
 
 .person--father {
   background: cornflowerblue;
+}
+
+.selectedPerson {
+  border: 3px solid blue;
 }

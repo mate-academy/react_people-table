@@ -14,59 +14,36 @@ const getClassNameOfPersonName = (person) => {
   return className;
 };
 
-const getClassNameOfPerson = (person) => {
-  let className = 'person';
-
-  if (person.sex === 'm') {
-    className += ' person--male';
-  } else {
-    className += ' person--female';
-  }
-
-  if (person.sex === 'm' && person.children.length > 0) {
-    className += ' person--father';
-  }
-
-  if (person.sex === 'f' && person.children.length > 0) {
-    className += ' person--mother';
-  }
-
-  if ((person.died - person.born) > 65) {
-    className += ' livedOver65Years';
-  }
-
-  return className;
-};
-
-const getClassNameOfCentury = ({ person }) => {
-  return 'person--lived-in-${Math.ceil(person.died / 100)}';
-};
-
-const Person = ({ person, index }) => (
-  <tr className={getClassNameOfPerson(person)}>
-    <td>
-      {index + 1}
-    </td>
+const Person = ({ person, index, getSelect, getClassNameOfPerson }) => (
+  <tr key={person.id}
+    className={getClassNameOfPerson(person)}
+    onClick={() => getSelect(person.id)}
+  >
+    <td>{person.id}</td>
     <td className={getClassNameOfPersonName(person)}>{person.name}</td>
     <td>{person.sex}</td>
-    <td>{person.died - person.born}</td>
+    <td>{person.age}</td>
     <td>{person.born}</td>
     <td>{person.died}</td>
     <td>{person.mother}</td>
     <td>{person.father}</td>
-    <td className={getClassNameOfCentury(person)}>{Math.ceil(person.died / 100)}</td>
+    <td className={`person--lived-in-${person.century}`}>{person.century}</td>
     <td>{person.children}</td>
   </tr>
 );
 
 Person.propTypes = {
   person: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     sex: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     born: PropTypes.number.isRequired,
     died: PropTypes.number.isRequired,
+    age: PropTypes.number.isRequired,
+    century: PropTypes.number.isRequired,
     mother: PropTypes.string.isRequired,
     father: PropTypes.string.isRequired,
+    children: PropTypes.string.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
 };

@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Person from './person';
 
-const PeopleTable = ({ people }) => (
-  <table className="PeopleTable">
+
+const PeopleTable = ({ people, selectedPersonId, getSelect, getClassNameOfPerson}) => (
+  <table className="PeopleTable" style={{ borderCollapse: 'collapse' }}>
     <tr>
       <th>id</th>
       <th>name</th>
@@ -18,7 +19,7 @@ const PeopleTable = ({ people }) => (
     </tr>
     <tbody>
       {people.map((person, index) => (
-        <Person person={person} index={index} />
+        <Person person={person} getSelect={getSelect} getClassNameOfPerson={getClassNameOfPerson} index={index} />
       ))}
     </tbody>
   </table>
