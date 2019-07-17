@@ -1,0 +1,58 @@
+.app {
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.input-filter_name {
+  position: relative;
+  width: 600px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #b8b9bb;
+  border-radius: 5px;
+  left: 10%;
+}
+
+.table {
+  width: 85%;
+  margin: 15px auto;
+}
+
+.thead-dark {
+  background-color: black;
+  color: antiquewhite;
+  cursor: pointer;
+}
+
+.peopleTable__row--selected {
+  border: 3px solid blue;
+}
+
+.headline--number_people {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.person--female {
+  background: lightpink;
+}
+
+.born--before {
+  text-decoration: line-through;
+}
+
+.died--after {
+  font-weight: bold;
+}
+
+.long--livers {
+  border: 3px solid green !important;
+}
+
+.person--father {
+  background: cornflowerblue;
+}
+
+.person-row {
+  cursor: pointer;
+}
