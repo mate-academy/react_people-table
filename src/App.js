@@ -19,12 +19,12 @@ async componentDidMount() {
 }
 
 handleInputSearch = (event) => {
-  const { value } = event.target;
+  const { value, name } = event.target;
   this.setState (state => ({
     loadedPeople: state.peopleTemplate
     .filter((pers) => {
-      if (pers.name !== 0) {
-        return pers.name.toLowerCase()
+      if (pers[name] !== null) {
+        return pers[name].toLowerCase()
         .includes(value
           .toLowerCase()
           .trim());
@@ -60,11 +60,30 @@ reset = () => {
         <main>
           <div>
             <label>
-              <input  htmlFor="name-input"
+              <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search by name..."
                 onChange={this.handleInputSearch}
                 className="app_search-input"
+                name="name"
+              />
+            </label>
+            <label>
+              <input
+                type="text"
+                placeholder="Search by mother..."
+                onChange={this.handleInputSearch}
+                className="app_search-input"
+                name="mother"
+              />
+            </label>
+            <label>
+              <input
+                type="text"
+                placeholder="Search by father..."
+                onChange={this.handleInputSearch}
+                className="app_search-input"
+                name="father"
               />
             </label>
             <button
@@ -76,18 +95,18 @@ reset = () => {
             </button>
           </div>
           <button
-            onClick = {() => this.handleSortingBy('name')}
-            className="app_sort-button"
-            type="button"
-            >
-              sort by name
-          </button>
-          <button
             onClick = {() => this.handleSortingBy('id')}
             className="app_sort-button"
             type="button"
             >
              sort by ID
+          </button>
+          <button
+            onClick = {() => this.handleSortingBy('name')}
+            className="app_sort-button"
+            type="button"
+            >
+              sort by name
           </button>
           <button
             onClick = {() => this.handleSortingBy('born')}
