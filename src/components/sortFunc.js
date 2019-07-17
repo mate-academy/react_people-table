@@ -2,13 +2,11 @@ let currentValue = '';
 let peopleSort = [];
 
 const sortFunc = ({ valueForSort, people }) => {
-
   if (currentValue === valueForSort) {
     return peopleSort.reverse();
   }
-  
-  currentValue = valueForSort;
 
+  currentValue = valueForSort;
   peopleSort = [...people].sort((a, b) => {
     if (currentValue === 'name') {
       return a[currentValue].localeCompare(b[currentValue]);

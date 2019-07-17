@@ -26,7 +26,7 @@ const getFullPeople = async () => {
 };
 
 class App extends React.Component {
-  people= [];
+  people = [];
   state = {
     tempPhrase: '',
     valueForSort: '',
@@ -47,16 +47,15 @@ class App extends React.Component {
   getSelect = (id) => {
     this.setState({
       selectedPersonId: id,
-    })
+    });
   }
 
   getClassNameOfPerson = (person) => {
-
     let className = '';
     if (person.id === this.state.selectedPersonId) {
-      className = 'person selectedPerson'
+      className = 'person selectedPerson';
     } else {
-      className = 'person'
+      className = 'person';
     }
 
     if (person.sex === 'm') {
@@ -97,7 +96,7 @@ class App extends React.Component {
 
   sortBy = (valueForSort) => {
     this.setState({
-      valueForSort: valueForSort,
+      valueForSort,
     });
 
     this.setState(prevState => ({
@@ -157,10 +156,11 @@ class App extends React.Component {
           </div>
         </form>
 
-        <PeopleTable people={this.state.visiblePeople}
-        getClassNameOfPerson={this.getClassNameOfPerson}
-        selectedPersonId={this.state.selectedPersonId}
-        getSelect={this.getSelect}
+        <PeopleTable
+          people={this.state.visiblePeople}
+          getClassNameOfPerson={this.getClassNameOfPerson}
+          selectedPersonId={this.state.selectedPersonId}
+          getSelect={this.getSelect}
         />
       </main>
     );

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 const getClassNameOfPersonName = (person) => {
   let className = '';
-
   if (person.born < 1650) {
     className = 'bornBefore1650';
   }
@@ -14,8 +13,9 @@ const getClassNameOfPersonName = (person) => {
   return className;
 };
 
-const Person = ({ person, index, getSelect, getClassNameOfPerson }) => (
-  <tr key={person.id}
+const Person = ({ person, getSelect, getClassNameOfPerson }) => (
+  <tr
+    key={person.id}
     className={getClassNameOfPerson(person)}
     onClick={() => getSelect(person.id)}
   >
@@ -45,7 +45,6 @@ Person.propTypes = {
     father: PropTypes.string.isRequired,
     children: PropTypes.string.isRequired,
   }).isRequired,
-  index: PropTypes.number.isRequired,
 };
 
 export default Person;
