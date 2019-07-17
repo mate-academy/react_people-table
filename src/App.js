@@ -87,47 +87,46 @@ class App extends React.Component {
             className="form-control mb-4"
           />
         </form>
-      <AddPerson />
+        <AddPerson />
         <table className="PeopleTable table">
-
           <thead>
-          <tr>
-            <th onClick={() => this.sortingBy('id')}>
-              id:
-            </th>
-            <th onClick={() => this.sortingBy('name')}>
-              name:
-              <i className="fas fa-user" />
-            </th>
-            <th onClick={() => this.sortingBy('sex')}>
-              sex:
-              <i className="fas fa-venus-mars" />
-            </th>
-            <th onClick={() => this.sortingBy('born')}>
-              born:
-            </th>
-            <th onClick={() => this.sortingBy('died')}>
-              died:
-            </th>
-            <th onClick={() => this.sortingBy('mother')}>
-              mother:
-              <i className="fas fa-female" />
-            </th>
-            <th onClick={() => this.sortingBy('father')}>
-              father:
-              <i className="fas fa-male" />
-            </th>
-            <th onClick={() => this.sortingBy('age')}>
-              age:
-              <i className="fas fa-user-clock" />
-            </th>
-            <th onClick={() => this.sortingBy('century')}>
-              century:
-            </th>
-            <th onClick={() => this.sortingBy('children')}>
-              children:
-            </th>
-          </tr>
+            <tr>
+              <th onClick={() => this.sortingBy('id')}>
+                id:
+              </th>
+              <th onClick={() => this.sortingBy('name')}>
+                name:
+                <i className="fas fa-user" />
+              </th>
+              <th onClick={() => this.sortingBy('sex')}>
+                sex:
+                <i className="fas fa-venus-mars" />
+              </th>
+              <th onClick={() => this.sortingBy('born')}>
+                born:
+              </th>
+              <th onClick={() => this.sortingBy('died')}>
+                died:
+              </th>
+              <th onClick={() => this.sortingBy('mother')}>
+                mother:
+                <i className="fas fa-female" />
+              </th>
+              <th onClick={() => this.sortingBy('father')}>
+                father:
+                <i className="fas fa-male" />
+              </th>
+              <th onClick={() => this.sortingBy('age')}>
+                age:
+                <i className="fas fa-user-clock" />
+              </th>
+              <th onClick={() => this.sortingBy('century')}>
+                century:
+              </th>
+              <th onClick={() => this.sortingBy('children')}>
+                children:
+              </th>
+            </tr>
           </thead>
           <PeopleTable people={people} />
         </table>
