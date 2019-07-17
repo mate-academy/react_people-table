@@ -2,16 +2,19 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-const Person = ({ person }) => (
-  <tr className={classNames({
-    person: true,
-    'person--lived-over-65': person.age > 65,
-    [`person--lived-in-${person.century}`]: true,
-    'person--male': person.sex === 'm',
-    'person--female': person.sex === 'f',
-    'person--mother': person.sex === 'f' && person.children,
-    'person--father': person.sex === 'm' && person.children,
-  })}
+const Person = ({ person, handleClick, selectedPersonId }) => (
+  <tr
+    className={classNames({
+      person: true,
+      'person--lived-over-65': person.age > 65,
+      [`person--lived-in-${person.century}`]: true,
+      'person--male': person.sex === 'm',
+      'person--female': person.sex === 'f',
+      'person--mother': person.sex === 'f' && person.children,
+      'person--father': person.sex === 'm' && person.children,
+      'row--selected': selectedPersonId,
+    })}
+    onClick={() => handleClick(person.id)}
   >
     <td>{person.id}</td>
     <td
@@ -39,16 +42,18 @@ const Person = ({ person }) => (
 
 Person.propTypes = {
   person: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    sex: PropTypes.string,
-    born: PropTypes.number,
-    died: PropTypes.number,
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    sex: PropTypes.string.isRequired,
+    born: PropTypes.number.isRequired,
+    died: PropTypes.number.isRequired,
     mother: PropTypes.string,
     father: PropTypes.string,
-    age: PropTypes.number,
-    century: PropTypes.number,
+    age: PropTypes.number.isRequired,
+    century: PropTypes.number.isRequired,
     children: PropTypes.array,
   }).isRequired,
+  selectedPersonId: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 export default Person;

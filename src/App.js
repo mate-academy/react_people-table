@@ -42,10 +42,11 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>
-          People table
-          (
           {`${people.length}`}
-          )
+          {' '}
+          people sorted by
+          {' '}
+          {this.state.sortField}
         </h1>
 
         <button type="button" onClick={() => this.sortBy('id')}>

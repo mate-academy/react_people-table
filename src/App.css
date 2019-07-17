@@ -21,3 +21,7 @@
 .person--father {
   background-color: cornflowerblue;
 }
+
+.row--selected {
+  border: 3px solid blue;
+}
