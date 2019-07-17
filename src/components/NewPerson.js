@@ -6,13 +6,7 @@ class NewPerson extends React.Component { // Not working yet
     super(props);
     this.state = {
       formControls: {
-        name: '',
-        sex: '',
-        born: '',
-        died: '',
-        century: '',
-        mother: '',
-        father: '',
+
       },
 
     };
@@ -27,31 +21,54 @@ class NewPerson extends React.Component { // Not working yet
     });
   };
 
+  handleSubmit = (event) => {
+    // const form = event.target;
+
+    // event.preventDefault();
+    // this.props.onSubmit({
+    //   name: form.element.name.value,
+    //   sex: form.element.sex.value,
+    //   born: form.element.born.value,
+    //   died: form.element.died.value,
+    //   mother: form.element.mother.value,
+    //   father: form.element.father.value,
+    // });
+  };
+
   render() {
+    const {
+      name,
+      sex,
+      born,
+      died,
+      mother,
+      father,
+    } = this.state.formControls;
+
     return (
-      <form className="newUser_form">
+      <form className="newUser_form" onSubmit={this.handleSubmit}>
         <label htmlFor="name">
           Name
           <br />
           <input
             type="text"
             name="name"
+            value={name}
             onChange={this.changeHandler}
-            value={this.state.formControls.name.value}
           />
         </label>
         <label htmlFor="sex">
           <input
             type="radio"
             name="sex"
-            value={this.state.formControls.sex.value}
+            value={sex}
             onChange={this.changeHandler}
           />
           Male
           <input
             type="radio"
             name="sex"
-            value={this.state.formControls.sex.value}
+            value={sex}
             onChange={this.changeHandler}
           />
           Female
@@ -62,7 +79,7 @@ class NewPerson extends React.Component { // Not working yet
           <input
             type="number"
             name="born"
-            value={this.state.formControls.born}
+            value={born}
             onChange={this.changeHandler}
           />
         </label>
@@ -72,28 +89,8 @@ class NewPerson extends React.Component { // Not working yet
           <input
             type="number"
             name="died"
-            value={this.state.formControls.died}
+            value={died}
             onChange={this.changeHandler}
-          />
-        </label>
-        <label htmlFor="age">
-          Age
-          <br />
-          <input
-            type="number"
-            name="age"
-            value={this.state.formControls.age}
-            disabled
-          />
-        </label>
-        <label htmlFor="century">
-          Century
-          <br />
-          <input
-            type="number"
-            name="century"
-            value={this.state.formControls.century}
-            disabled
           />
         </label>
         <label htmlFor="mother">
@@ -102,7 +99,7 @@ class NewPerson extends React.Component { // Not working yet
           <input
             type="text"
             name="mother"
-            value={this.state.formControls.mother}
+            value={mother}
             onChange={this.changeHandler}
           />
         </label>
@@ -112,7 +109,7 @@ class NewPerson extends React.Component { // Not working yet
           <input
             type="text"
             name="father"
-            value={this.state.formControls.father}
+            value={father}
             onChange={this.changeHandler}
           />
         </label>
