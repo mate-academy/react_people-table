@@ -35,10 +35,7 @@ class App extends React.Component {
   loadData = async() => {
     const people = await getPeople();
     this.setState({
-      people: [...people],
       visiblePeople: [...people],
-    });
-    this.setState({
       people: people.map((person, index) => ({
         ...person,
         id: index + 1,
@@ -55,7 +52,7 @@ class App extends React.Component {
 
   sortingBy = (field) => {
     this.setState(prevState => ({
-      visiblePeople: sortPeople(prevState),
+      people: sortPeople(prevState),
       direction: prevState.direction === 1 ? -1 : 1,
       field,
     }));
