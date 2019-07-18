@@ -86,6 +86,7 @@ class App extends React.Component {
     )
 
   handleFilterInput = (event) => {
+    console.log(this.state.sortfieldName)
     const { value } = event.target;
 
     this.setState(prevState => ({
@@ -93,7 +94,7 @@ class App extends React.Component {
         [...prevState.peopleFromServer],
         value,
         prevState.sortfieldName,
-        prevState.toggleNameSortOrder,
+        -prevState.toggleNameSortOrder,
       ),
 
       filterInputValue: value,
