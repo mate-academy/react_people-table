@@ -1,27 +1,33 @@
-import React from 'react'
+import React from 'react';
 
-const User = ({ user }) => {
-  const century = Math.ceil(user.died / 100);
+const User = ({ user, isSelected, selectUser }) => {
+  let sex, lifeDuration, selectedClass = '';
+  user.sex === 'm' ? sex = 'male' : sex = 'female';
+  user.born < 1650 ? lifeDuration = 'line-through'
+    : user.died > 1800
+      ? lifeDuration = 'bold'
+      : lifeDuration = 'normal';
+
+  if(isSelected) {
+    selectedClass = 'Person--selected';
+  }
+
   return (
-  <tr className={`user--lived-in-${century}`}>
-    <td>{user.id}</td>
-    <td>{century}</td>
-    {(user.born < 1650)
-      ? <td className="line-through">{user.name}</td>
-      : (user.died > 1800)
-        ? <td className="bold">{user.name}</td>
-        : <td>{user.name}</td>
-    }
-    {(user.sex === 'm')
-      ?  <td className="user--male">{user.sex}</td>
-      : <td className="user--female">{user.sex}</td>
-    }
-    <td>{user.born}</td>
-    <td>{user.died}</td>
-    <td>{user.died - user.born}</td>
-    <td>{user.mother}</td>
-    <td>{user.father}</td>
-  </tr>
-)};
+    <tr
+      className={`user--lived-in-${user.century} ${selectedClass}`}
+      onClick={selectUser}
+    >
+      <td>{user.id}</td>
+      <td>{user.century}</td>
+      <td className={lifeDuration}>{user.name}</td>
+      <td className={`user--${sex}`}>{user.sex}</td>
+      <td>{user.born}</td>
+      <td>{user.died}</td>
+      <td>{user.age}</td>
+      <td>{user.mother}</td>
+      <td>{user.father}</td>
+    </tr>
+  );
+};
 
-export default User
+export default User;

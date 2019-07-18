@@ -21,3 +21,7 @@
 .bold {
   font-weight: bold;
 }
+
+.Person--selected {
+  background-color: yellow;
+}
