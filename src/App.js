@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
+import PeopleTable from './PeopleTable';
 
-const getPeopleFromServer = async() => {
+const getPeopleFromServer = async () => {
   const link = 'https://mate-academy.github.io/react_people-table/api/people.json';
   const response = await fetch(link);
   const peopleFromServer = await response.json();
@@ -15,7 +16,7 @@ const getPeopleFromServer = async() => {
       .filter(child => (
         child.father === person.name || child.mother === person.name
       ))
-      .map(child => child.name).join('; '),
+      .map(child => child.name).join(', '),
   }));
 };
 
@@ -36,7 +37,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>
-          Number of People: {people.length}
+          Number of People:
+          {people.length}
         </h1>
         <PeopleTable people={people} />
       </div>
@@ -44,42 +46,4 @@ class App extends React.Component {
   }
 }
 
-const PeopleTable = ({ people }) => (
-  <table className="PeopleTable">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Sex</th>
-        <th>Born</th>
-        <th>Died</th>
-        <th>Mother</th>
-        <th>Father</th>
-        <th>Age</th>
-        <th>Century</th>
-        <th>Children</th>
-      </tr>
-    </thead>
-    <tbody>
-      {people.map(person => (
-        <Person person={person} key={person.id} />
-      ))}
-    </tbody>
-  </table>
-);
-
-const Person = ({ person }) => (
-  <tr key={person.id}>
-    <td>{person.id}</td>
-    <td>{person.name}</td>
-    <td>{person.sex}</td>
-    <td>{person.born}</td>
-    <td>{person.died}</td>
-    <td>{person.mother}</td>
-    <td>{person.father}</td>
-    <td>{person.age}</td>
-    <td>{person.century}</td>
-    <td>{person.children}</td>
-  </tr>
-);
 export default App;

@@ -2,6 +2,33 @@
   border-collapse: collapse;
 }
 
-.PeopleTable td {
+.PeopleTable td{
   border: 3px solid lightgrey;
 }
+
+.PeopleTable__row--selected {
+  background-color: olivedrab;
+}
+
+.PeopleTable__row:hover {
+  cursor: pointer;
+  background-color: yellowgreen;
+}
+
+.Person--female {
+  background: lightpink;
+}
+
+.Person--born-before_1650 {
+  text-decoration: line-through;
+}
+
+.Person--died-before_1800 {
+  font-weight: bold;
+}
+
+.Person--age-65 {
+  border: 4px solid green !important;
+}
+
+
