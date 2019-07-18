@@ -9,22 +9,22 @@ class PeopleTable extends React.Component {
   };
 
   render() {
-    const { people, onSort } = this.props;
+    const { people, handleSort } = this.props;
     const { selected } = this.state;
 
     return (
       <table className="people-table">
         <thead>
           <tr>
-            <th className="pointer" onClick={() => onSort('id')}>ID</th>
-            <th className="pointer" onClick={() => onSort('name')}>Name</th>
-            <th className="pointer" onClick={() => onSort('sex')}>Sex</th>
-            <th className="pointer" onClick={() => onSort('born')}>Born</th>
-            <th className="pointer" onClick={() => onSort('died')}>Died</th>
-            <th className="pointer" onClick={() => onSort('age')}>Age</th>
+            <th className="pointer" onClick={() => handleSort('id')}>ID</th>
+            <th className="pointer" onClick={() => handleSort('name')}>Name</th>
+            <th className="pointer" onClick={() => handleSort('sex')}>Sex</th>
+            <th className="pointer" onClick={() => handleSort('born')}>Born</th>
+            <th className="pointer" onClick={() => handleSort('died')}>Died</th>
+            <th className="pointer" onClick={() => handleSort('age')}>Age</th>
             <th
               className="pointer"
-              onClick={() => onSort('century')}
+              onClick={() => handleSort('century')}
             >
               Century
             </th>
@@ -52,11 +52,11 @@ class PeopleTable extends React.Component {
 
 PeopleTable.propTypes = {
   people: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onSort: PropTypes.func,
+  handleSort: PropTypes.func,
 };
 
 PeopleTable.defaultProps = {
-  onSort: () => {},
+  handleSort: () => {},
 };
 
 export default PeopleTable;

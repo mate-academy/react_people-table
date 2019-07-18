@@ -1,0 +1,24 @@
+td {
+  border: 1px solid black; }
+
+.people-table {
+  border-collapse: collapse; }
+
+.person--borned-before-1650 {
+  text-decoration: line-through; }
+.person--died-after-1800 {
+  font-weight: bold; }
+.person--woman {
+  background-color: lightpink; }
+.person--older-65 {
+  border: 2px solid green; }
+.person--father {
+  background-color: cornflowerblue; }
+.person--selected {
+  border: 3px solid blue; }
+
+.pointer {
+  cursor: pointer;
+  user-select: none; }
+
+/*# sourceMappingURL=style.css.map */

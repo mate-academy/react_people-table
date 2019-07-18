@@ -9,60 +9,111 @@ const getPeople = async() => {
   const response = await fetch(url);
   const people = await response.json();
 
-  return people
-    .map(person => ({ ...person }))
-    .map((person, index, preparedPeople) => {
-      /* eslint-disable no-param-reassign */
-      person.id = index + 1;
-      person.age = person.died - person.born;
-      person.century = Math.ceil(person.died / 100);
-      person.children = preparedPeople.filter(
-        child => child.mother === person.name
-          || child.father === person.name
-      );
-      /* eslint-enable no-param-reassign */
-
-      return person;
-    });
+  return people;
 };
 
-class App extends Component {
-  people = [];
+const peopleWithChildren = (people) => {
+  const normlizedPeople = people.map((man, index) => ({
+    ...man,
+    id: index + 1,
+    age: man.died - man.born,
+    century: Math.ceil(man.died / 100),
+    mother: man.mother,
+    father: man.father,
+  }));
 
+  return people.map((person, index) => ({
+    ...person,
+    id: index + 1,
+    age: person.died - person.born,
+    century: Math.ceil(person.died / 100),
+    mother: person.mother,
+    father: person.father,
+    children: normlizedPeople.filter(
+      child => child.father === person.name || child.mother === person.name
+    ),
+  }));
+};
+
+const getFilteredPeople = (people, query) => {
+  let normalizedQuery = '';
+
+  if (query) {
+    normalizedQuery = query.toLowerCase();
+  }
+
+  const filteredPeople = people.filter(
+    (man) => {
+      let father = '';
+      let mother = '';
+
+      if (man.father) {
+        father = man.father;
+      }
+
+      if (man.mother) {
+        mother = man.mother;
+      }
+
+      return man.name.toLowerCase().includes(normalizedQuery)
+      || father.toLowerCase().includes(normalizedQuery)
+      || mother.toLowerCase().includes(normalizedQuery);
+    }
+  );
+
+  return filteredPeople;
+};
+
+const getSortedPeople = (people, sortField, direction) => (
+  people.sort((manA, manB) => {
+    switch (typeof manA[sortField]) {
+      case 'string':
+        return manA[sortField].localeCompare(manB[sortField]) * direction;
+      case 'number':
+      case 'boolean':
+        return direction > 0
+          ? manA[sortField] - manB[sortField]
+          : manB[sortField] - manA[sortField];
+      default:
+        return 0;
+    }
+  })
+);
+
+class App extends Component {
   state = {
+    people: [],
     visiblePeople: [],
     sortField: '',
     direction: 1,
   };
 
   async componentDidMount() {
-    this.people = await getPeople();
+    const people = await getPeople();
+    const normalizedPeople = peopleWithChildren(people);
 
-    this.setState({ visiblePeople: this.people });
+    this.setState({
+      people: normalizedPeople,
+      visiblePeople: normalizedPeople,
+    });
+  }
+
+  handleInputChange = (event) => {
+    const query = event.target.value;
+
+    this.setState(({ people }) => ({
+      query,
+      visiblePeople: getFilteredPeople(people, query),
+    }));
   }
 
   setSort = (sortField) => {
-    const sortedPeople = [...this.people].sort((a, b) => {
-      switch (typeof a[sortField]) {
-        case 'string':
-          return a[sortField]
-            .localeCompare(b[sortField]) * this.state.direction;
-        case 'boolean':
-        case 'number':
-          return this.state.direction > 0
-            ? a[sortField] - b[sortField]
-            : b[sortField] - a[sortField];
-        default:
-          return 0;
-      }
-    });
-
-    this.setState(state => ({
-      visiblePeople: sortedPeople,
+    this.setState(({ visiblePeople, direction }) => ({
       sortField,
-      direction: state.direction === 1 ? -1 : 1,
+      visiblePeople: getSortedPeople(visiblePeople, sortField, direction),
+      direction: direction === 1 ? -1 : 1,
     }));
-  };
+  }
 
   render() {
     const { visiblePeople, sortField } = this.state;
@@ -71,11 +122,20 @@ class App extends Component {
       <div className="App">
         <h1>
           Is sorted by
+
+          {' '}
+
           {sortField}
         </h1>
+        <input
+          onChange={this.handleInputChange}
+          className="input-filter_name"
+          type="text"
+          placeholder="Enter the name of the person, her mother or father"
+        />
         <PeopleTable
           people={visiblePeople}
-          onSort={this.setSort}
+          handleSort={this.setSort}
         />
       </div>
     );
