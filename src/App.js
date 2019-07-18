@@ -34,19 +34,21 @@ class App extends React.Component {
 
   loadData = async() => {
     const people = await getPeople();
+    const preparedPeople = people.map((person, index) => ({
+      ...person,
+      id: index + 1,
+      age: person.died - person.born,
+      century: Math.ceil(person.died / 100),
+      children: people
+        .filter(child => child.father === person.name
+            || child.mother === person.name)
+        .map(human => human.name)
+        .join(', '),
+    })
+    )
     this.setState({
-      visiblePeople: [...people],
-      people: people.map((person, index) => ({
-        ...person,
-        id: index + 1,
-        age: person.died - person.born,
-        century: Math.ceil(person.died / 100),
-        children: people
-          .filter(child => child.father === person.name
-              || child.mother === person.name)
-          .map(human => human.name)
-          .join(', '),
-      })),
+      visiblePeople: preparedPeople,
+      people: preparedPeople,
     });
   };
 
@@ -70,7 +72,6 @@ class App extends React.Component {
 
   render() {
     const { people } = this.state;
-
     return (
         <>
           <h1 className="people__title">
