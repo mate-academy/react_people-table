@@ -105,11 +105,12 @@ class App extends React.Component {
   }
 
   render() {
+    const {visiblePeople} = this.state;
     return (
       <main>
         <h1>
           People table
-          {this.state.visiblePeople.length}
+          {visiblePeople.length}
         </h1>
         <form>
           <input
@@ -157,7 +158,7 @@ class App extends React.Component {
         </form>
 
         <PeopleTable
-          people={this.state.visiblePeople}
+          people={visiblePeople}
           getClassNameOfPerson={this.getClassNameOfPerson}
           selectedPersonId={this.state.selectedPersonId}
           getSelect={this.getSelect}
