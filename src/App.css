@@ -1,5 +1,6 @@
 .PeopleTable {
   border-spacing: 0px;
+  border-collapse: collapse;
   border: 1px solid black;
 }
 

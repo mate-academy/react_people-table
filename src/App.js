@@ -1,5 +1,5 @@
 import React from 'react';
-import PeopleTable from './components/peopletable';
+import PeopleTable from './components/Peopletable';
 import './App.css';
 import sortFunc from './components/sortFunc';
 
