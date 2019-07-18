@@ -64,8 +64,8 @@ const getFilteredPeople = (people, query) => {
   return filteredPeople;
 };
 
-const getSortedPeople = (people, sortField, direction) => (
-  people.sort((manA, manB) => {
+const getSortedPeople = (people, sortField, direction) => {
+  return people.sort((manA, manB) => {
     switch (typeof manA[sortField]) {
       case 'string':
         return manA[sortField].localeCompare(manB[sortField]) * direction;
@@ -77,8 +77,8 @@ const getSortedPeople = (people, sortField, direction) => (
       default:
         return 0;
     }
-  })
-);
+  });
+}
 
 class App extends Component {
   state = {
