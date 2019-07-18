@@ -1,159 +1,75 @@
 import React from 'react';
 import propTypes from 'prop-types';
-// import People from './People';
 import './PeopleTable.scss';
-
-const personRowClass = (age, sex, century, children, id, selected) => {
-  let result = `person PeopleTable__row`
-  + `${id === selected ? ' PeopleTable__row--selected' : ''}`;
-
-  result += sex === 'f' ? ' person--female' : ' person--male';
-  result += age > 65 ? ' green_border' : '';
-  result += ` person--lived-in-${century}`;
-  result += children !== undefined && (
-    sex === 'f'
-      ? ' person--mother'
-      : ' person--father'
-  );
-
-  return result;
-};
-
-const personClassNameStyle = (died, born) => {
-  let result = '';
-
-  if (born < 1650) {
-    result += ' born-before-1650';
-  }
-
-  if (died > 1800) {
-    result += ' died-after-1800';
-  }
-
-  return result;
-};
+import People from './People';
 
 class PeopleTable extends React.Component {
-  state = {
-    selectedPerson: null,
-    sortedPeopleList: this.props.peopleData,
-  };
-
-  async componentDidMount() {
-    setTimeout(() => this.sortData('id'), 70);
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedPerson: null,
+      sortedPeopleList: this.props.peopleData,
+    };
+    this.handler = this.handler.bind(this);
   }
 
-  sortData = (sortCase) => {
+  componentDidMount() {
+    setTimeout(() => this.sortData(), 70);
+  }
+
+  sortData = (sortCase = 'id') => {
     this.setState(state => ({
       direction: state.direction === 1 ? -1 : 1,
-      sortedPeopleList: [...this.props.peopleData].sort((a, b) => {
-        if (sortCase === 'name') {
-          return state.direction * a[sortCase].localeCompare(b[sortCase]);
-        }
-
-        return state.direction * (b[sortCase] - a[sortCase]);
-      }),
+      sortedPeopleList:
+        [...this.props.peopleData]
+          .sort((a, b) => (sortCase === 'name'
+            ? state.direction * a[sortCase].localeCompare(b[sortCase])
+            : state.direction * (b[sortCase] - a[sortCase]))),
     }));
   };
 
+  handler(inputValue) {
+    this.setState({
+      selectedPerson: inputValue,
+    });
+  }
+
   render() {
-    const { selectedPerson } = this.state;
+    const sortCases = ['id', 'name', 'sex', 'born', 'died', 'age'];
 
     return (
-      <table className="PeopleTable">
-        <thead>
-          <tr className="table-head">
-            <td>
-              <button
-                type="button"
-                onClick={() => this.sortData('id')}
-              >
-                id
-              </button>
-            </td>
-            <td>
-              <button
-                type="button"
-                onClick={() => this.sortData('name')}
-              >
-                name
-              </button>
-            </td>
-            <td>sex</td>
-            <td>
-              <button
-                type="button"
-                onClick={() => this.sortData('born')}
-              >
-                born
-              </button>
-            </td>
-            <td>
-              <button
-                type="button"
-                onClick={() => this.sortData('died')}
-              >
-                died
-              </button>
-            </td>
-            <td>
-              <button
-                type="button"
-                onClick={() => this.sortData('age')}
-              >
-                age
-              </button>
-            </td>
-            <td>century</td>
-            <td>mother</td>
-            <td>father</td>
-            <td>children</td>
+      <table className="PeopleTable" key="table">
+        <thead key="tHead">
+          <tr key="head_row" className="table-head--row">
+            {sortCases.map(inputCase => (
+              inputCase === 'sex'
+                ? (<td key={`tHead${inputCase}`}>{inputCase}</td>)
+                : (
+                  <td key={`tHead${inputCase}`}>
+                    <button
+                      type="button"
+                      onClick={() => this.sortData(inputCase)}
+                    >
+                      {inputCase}
+                    </button>
+                  </td>
+                )))}
+            <td key="tHead_century">century</td>
+            <td key="tHead_mother">mother</td>
+            <td key="tHead_father">father</td>
+            <td key="tHead_children">children</td>
           </tr>
         </thead>
-        <tbody>
+        <tbody key="tBody">
           {
             this.state.sortedPeopleList
               .map(onePersonData => (
-                <tr
-                  className={
-                    personRowClass(
-                      onePersonData.age,
-                      onePersonData.sex,
-                      onePersonData.century,
-                      onePersonData.children,
-                      onePersonData.id,
-                      selectedPerson,
-                    )
-                  }
-                  onClick={() => {
-                    this.setState({
-                      selectedPerson: onePersonData.id,
-                    });
-                  }}
-                  key={onePersonData.id}
-                >
-                  <td className="centered-column">{onePersonData.id}</td>
-                  <td className={
-                    personClassNameStyle(onePersonData.died,
-                      onePersonData.born)}
-                  >
-                    {onePersonData.name}
-                  </td>
-                  <td className="centered-column">{onePersonData.sex}</td>
-                  <td>{onePersonData.born}</td>
-                  <td>{onePersonData.died}</td>
-                  <td>{onePersonData.age}</td>
-                  <td className="centered-column">{onePersonData.century}</td>
-                  <td>{onePersonData.mother}</td>
-                  <td>{onePersonData.father}</td>
-                  <td>
-                    {
-                      onePersonData.children !== undefined
-                        ? onePersonData
-                          .children.map(child => `${child.name},`) : ''
-                    }
-                  </td>
-                </tr>
+                <People
+                  key={`People_${onePersonData.id}`}
+                  personData={onePersonData}
+                  handler={this.handler}
+                  selectedPerson={this.state.selectedPerson}
+                />
               ))
           }
         </tbody>
