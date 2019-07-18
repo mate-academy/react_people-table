@@ -42,7 +42,10 @@ class NewPerson extends React.Component {
 
   getParrents = (parentSex, people, childBorn) => people
     .filter(parent => (
-      parent.sex === parentSex && parent.born < childBorn))
+      parent.sex === parentSex
+        && parent.born < childBorn
+        && parent.died > childBorn
+    ))
     .map(parent => (
       <option
         key={parent.id + parent.name}
@@ -133,6 +136,7 @@ class NewPerson extends React.Component {
             value={father}
             onChange={this.handleNewPerson}
           >
+            <option hidden>Selet Father</option>
             {optionsOfFathers}
           </select>
 
@@ -150,6 +154,7 @@ class NewPerson extends React.Component {
             value={mother}
             onChange={this.handleNewPerson}
           >
+            <option hidden>Selet Mother</option>
             {optionsOfMathers}
           </select>
 
@@ -160,7 +165,6 @@ class NewPerson extends React.Component {
           Name:
           {name}
           {' '}
-
         </p>
         <p>
           Sex:

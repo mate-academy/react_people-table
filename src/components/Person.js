@@ -9,17 +9,13 @@ const Person = (props) => {
     people, handlePersonRowClick, personRowSelectedId, personRowSelected,
   } = props;
 
-  const getChildrenString = (person, peopleArr) => (peopleArr
-    .filter(child => child.father === person.name
-      || child.mother === person.name)
-    .map(child => child.name)
-    .join(', ')
-  );
-
   const getClassByBornAndDied = person => (
     classNames({
       'born-before-1650': person.born < 1650,
       'died-after-1800': person.died > 1800,
+      'middleage-father': person.children
+                          && person.sex === 'm'
+                          && person.age < 50,
     })
   );
 
@@ -29,10 +25,10 @@ const Person = (props) => {
       'person--selected': person.id === personRowSelectedId
         && personRowSelected,
       'person--female': person.sex === 'f',
-      'person--mother': person.children !== '' && person.sex === 'f',
+      'person--mother': person.children && person.sex === 'f',
       'person--male': person.sex === 'm',
-      'person--father': getChildrenString(person, peopleArr)
-        && person.sex === 'm',
+      'person--father': person.children && person.sex === 'm',
+
     })
   );
 

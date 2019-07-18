@@ -9,26 +9,31 @@ const TableHeader = props => (
         onClick={() => props.handleSort('id')}
         className="sorting--cell"
       >
-id
+        id ↓↑
       </th>
       <th
         onClick={() => props.handleSort('name')}
         className="sorting--cell"
       >
-name
+        name ↓↑
       </th>
-      <th>sex</th>
+      <th
+        onClick={() => props.handleSort('sex')}
+        className="sorting--cell"
+      >
+        sex ↓↑
+      </th>
       <th
         onClick={() => props.handleSort('born')}
         className="sorting--cell"
       >
-born
+        born ↓↑
       </th>
       <th
         onClick={() => props.handleSort('died')}
         className="sorting--cell"
       >
-died
+        died ↓↑
       </th>
       <th>father</th>
       <th>mother</th>
@@ -36,9 +41,14 @@ died
         onClick={() => props.handleSort('age')}
         className="sorting--cell"
       >
-age
+        age ↓↑
       </th>
-      <th>century</th>
+      <th
+        onClick={() => props.handleSort('century')}
+        className="sorting--cell"
+      >
+        century ↓↑
+      </th>
       <th>children</th>
     </tr>
   </thead>

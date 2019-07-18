@@ -9,6 +9,7 @@ class App extends React.Component {
     peopleFromServer: [],
     people: [],
     filterInputValue: '',
+    sortfieldName: '',
     toggleNameSortOrder: 1,
     personRowSelected: false,
     personRowSelectedId: 0,
@@ -56,23 +57,11 @@ class App extends React.Component {
     return false;
   }
 
-  handleFilterInput = (event) => {
-    const { value } = event.target;
+  sortingFunction = (arr, sortKey, toggleSortOrder) => {
+    if (!sortKey) {
+      return undefined;
+    }
 
-    this.setState({
-      filterInputValue: value,
-    });
-
-    this.setState(prevState => ({
-      people: prevState.peopleFromServer.filter(item => (
-        this.isArrIncludeSubstr(
-          [item.name, item.mother, item.father], prevState.filterInputValue
-        )
-      )),
-    }));
-  }
-
-  returnSortingFunction = (arr, sortKey, toggleSortOrder) => {
     switch (typeof arr[0][sortKey]) {
       case 'string':
         return (a, b) => toggleSortOrder * a[sortKey].localeCompare(b[sortKey]);
@@ -81,18 +70,46 @@ class App extends React.Component {
         return (a, b) => toggleSortOrder * (a[sortKey] - b[sortKey]);
 
       default:
-        return 0;
+        return undefined;
     }
+  }
+
+  filteredSorteredPeople =
+    (people, filterInputValue, sortfieldName, toggleNameSortOrder) => (
+      people
+        .filter(item => (this.isArrIncludeSubstr(
+          [item.name, item.mother, item.father], filterInputValue
+        )))
+        .sort(this.sortingFunction(
+          people, sortfieldName, toggleNameSortOrder
+        ))
+    )
+
+  handleFilterInput = (event) => {
+    const { value } = event.target;
+
+    this.setState(prevState => ({
+      people: this.filteredSorteredPeople(
+        [...prevState.peopleFromServer],
+        value,
+        prevState.sortfieldName,
+        prevState.toggleNameSortOrder,
+      ),
+
+      filterInputValue: value,
+    }));
   }
 
   handleSort = (fieldName) => {
     this.setState(prevState => ({
-      people: [...prevState.peopleFromServer]
-        .sort(this.returnSortingFunction(
-          [...prevState.peopleFromServer],
-          fieldName, prevState.toggleNameSortOrder
-        )),
+      people: this.filteredSorteredPeople(
+        [...prevState.peopleFromServer],
+        prevState.filterInputValue,
+        fieldName,
+        prevState.toggleNameSortOrder,
+      ),
       toggleNameSortOrder: -prevState.toggleNameSortOrder,
+      sortfieldName: fieldName,
     }));
   }
 
@@ -126,7 +143,7 @@ class App extends React.Component {
 
     const age = newPersonObj.died - newPersonObj.born;
 
-    if (age <= 0 || age > 150) {
+    if (age < 0 || age > 150) {
       this.setState({
         errorMessage: 'Incorrect Age, or to much or not enough',
       });
