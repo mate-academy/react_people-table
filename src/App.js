@@ -18,13 +18,13 @@ async componentDidMount() {
   });
 }
 
-handleInputSearch = (event) => {
+filteredPosts = (event) => {
   const { value, name } = event.target;
   this.setState (state => ({
     loadedPeople: state.peopleTemplate
     .filter((pers) => {
-      if (pers[name] !== null) {
-        return pers[name].toLowerCase()
+      if (pers.name + pers.mother + pers !== null) {
+        return (pers.name + pers.mother + pers.father).toLowerCase()
         .includes(value
           .toLowerCase()
           .trim());
@@ -63,29 +63,11 @@ reset = () => {
               <input
                 type="text"
                 placeholder="Search by name..."
-                onChange={this.handleInputSearch}
+                onChange={this.filteredPosts}
                 className="app_search-input"
-                name="name"
               />
             </label>
-            <label>
-              <input
-                type="text"
-                placeholder="Search by mother..."
-                onChange={this.handleInputSearch}
-                className="app_search-input"
-                name="mother"
-              />
-            </label>
-            <label>
-              <input
-                type="text"
-                placeholder="Search by father..."
-                onChange={this.handleInputSearch}
-                className="app_search-input"
-                name="father"
-              />
-            </label>
+
             <button
                 onClick={this.reset}
                 type="reset"
