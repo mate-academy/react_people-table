@@ -34,3 +34,8 @@
 .selectedPerson {
   border: 3px solid blue;
 }
+
+.input {
+  margin-left: 25%;
+  width: 30%;
+}

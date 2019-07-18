@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Person from './Person';
 
-const PeopleTable = ({ people, getSelect, getClassNameOfPerson }) => (
+const PeopleTable = ({ people, sortBy, getSelect, getClassNameOfPerson }) => (
   <table className="PeopleTable">
     <tr>
-      <th>id</th>
-      <th>name</th>
+      <th onClick={() => sortBy('id')}>id</th>
+      <th onClick={() => sortBy('name')}>name</th>
       <th>sex</th>
-      <th>age</th>
-      <th>born</th>
-      <th>died</th>
+      <th onClick={() => sortBy('age')}>age</th>
+      <th onClick={() => sortBy('born')}>born</th>
+      <th onClick={() => sortBy('died')}>died</th>
       <th>mother</th>
       <th>father</th>
       <th>century</th>
