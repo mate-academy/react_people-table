@@ -164,7 +164,6 @@ class NewPerson extends React.Component {
         <p>
           Name:
           {name}
-          {' '}
         </p>
         <p>
           Sex:

@@ -86,7 +86,6 @@ class App extends React.Component {
     )
 
   handleFilterInput = (event) => {
-    console.log(this.state.sortfieldName)
     const { value } = event.target;
 
     this.setState(prevState => ({
@@ -162,32 +161,39 @@ class App extends React.Component {
   }
 
   render() {
+    const {
+      people,
+      errorMessage,
+      filterInputValue,
+      personRowSelectedId,
+      personRowSelected,
+    } = this.state;
     return (
       <div className="App">
         <h1>
           People table
-          {this.state.people.length}
+          {people.length}
         </h1>
-        <h2 className="error-message">{this.state.errorMessage}</h2>
+        <h2 className="error-message">{errorMessage}</h2>
 
         <NewPerson
           handleNewPersonSubmit={this.handleNewPersonSubmit}
-          people={this.state.people}
+          people={people}
         />
 
         <input
           type="text"
           placeholder="Filter by Name, Mother of Father"
-          value={this.state.filterInputValue}
+          value={filterInputValue}
           onChange={this.handleFilterInput}
         />
 
         <PeopleTable
-          people={this.state.people}
+          people={people}
           handleSort={this.handleSort}
           handlePersonRowClick={this.handlePersonRowClick}
-          personRowSelectedId={this.state.personRowSelectedId}
-          personRowSelected={this.state.personRowSelected}
+          personRowSelectedId={personRowSelectedId}
+          personRowSelected={personRowSelected}
         />
       </div>
     );
