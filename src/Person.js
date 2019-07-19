@@ -4,7 +4,6 @@ import classNames from 'classnames/bind';
 
 const Person = ({ person, handleSelect, isSelected }) => (
   <tr
-    key={person.id}
     onClick={handleSelect}
     className={classNames({
       [`person--lived-in-${person.century}-century`]: true,
@@ -28,8 +27,8 @@ const Person = ({ person, handleSelect, isSelected }) => (
     </td>
     <td>{person.born}</td>
     <td>{person.died}</td>
-    <td>{person.mother}</td>
-    <td>{person.father}</td>
+    <td>{person.motherName}</td>
+    <td>{person.fatherName}</td>
     <td
       className={classNames({
         'Person--age-65': person.age >= 65,
