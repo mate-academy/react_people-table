@@ -25,3 +25,9 @@
 .Person--selected {
   background-color: yellow;
 }
+
+.search-input {
+  border: 1px solid black;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}

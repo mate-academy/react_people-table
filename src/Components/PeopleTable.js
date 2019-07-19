@@ -8,6 +8,8 @@ class PeopleTable extends React.Component {
 
   render() {
     const { users } = this.props;
+    const { inputValue } = this.props;
+    console.log(inputValue);
     return (
       <table className="people-table">
         <thead>
