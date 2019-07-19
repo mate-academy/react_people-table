@@ -1,16 +1,13 @@
-let currentValue = '';
-
-const sortFunc = ({ valueForSort, people }) => {
-  if (currentValue === valueForSort) {
+const sortFunc = (people, valueForSort, isTheSame = false) => {
+  if (isTheSame) {
     return [...people].reverse();
   }
 
-  currentValue = valueForSort;
-  return [...people].sort((a, b) => {
-    if (currentValue === 'name') {
-      return a[currentValue].localeCompare(b[currentValue]);
+  return  [...people].sort((a, b) => {
+    if (valueForSort === 'name') {
+      return a[valueForSort].localeCompare(b[valueForSort]);
     }
-    return a[currentValue] - b[currentValue];
+    return a[valueForSort] - b[valueForSort];
   });
 };
 

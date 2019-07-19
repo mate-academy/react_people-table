@@ -87,12 +87,10 @@ class App extends React.Component {
   }
 
   sortBy = (valueForSort) => {
-    this.setState({
-      valueForSort,
-    });
 
     this.setState(prevState => ({
-      visiblePeople: sortFunc(prevState),
+      visiblePeople: sortFunc(prevState.visiblePeople, valueForSort, prevState.valueForSort === valueForSort),
+      valueForSort,
     }));
   }
 
