@@ -1,4 +1,4 @@
-const getPeopleFromServer = async () => {
+const getPeople = async () => {
   const link = 'https://mate-academy.github.io/react_people-table/api/people.json';
   const response = await fetch(link);
   const peopleFromServer = await response.json();
