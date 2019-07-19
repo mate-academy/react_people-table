@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import Person from '../person/Person';
 import './peopleTable.css';
 
-let sortedPeople = [];
-let fieldOfSort = 'id';
-
 const sortPeople = (people, field, sortWay = 1) => {
   if (people.length === 0) {
     return [];
@@ -27,65 +24,63 @@ const sortPeople = (people, field, sortWay = 1) => {
   return [...people].sort(funcSort);
 };
 
-const PeopleTable = ({ people, sortStatus, updateAppState }) => {
-  sortedPeople = sortPeople(people, fieldOfSort, sortStatus);
+class PeopleTable extends React.Component {
+  state = {
+    selectPerson: '',
+    fieldOfSort: 'id',
+  }
 
-  const getFildOfSort = (event) => {
-    fieldOfSort = event.target.textContent.toLowerCase();
-    updateAppState({ sortStatus: -sortStatus });
+  getFildOfSort = (event) => {
+    this.setState({
+      fieldOfSort: event.target.textContent.toLowerCase(),
+    });
+
+    this.props.onSort();
   };
 
-  let prevRow = '';
-  const selectRow = (event) => {
-    const currentRow = event.target.parentNode;
-    const rowClick = currentRow.hasAttribute('clickedRow');
+  handleClickRow = (id) => {
+    this.setState({
+      selectPerson: id,
+    });
+  }
 
-    if (!rowClick) {
-      currentRow.setAttribute('clickedRow', true);
-      currentRow.classList.add('person--select');
+  render() {
+    const { selectPerson, fieldOfSort } = this.state;
+    const { people, sortStatus } = this.props;
+    const sortedPeople = sortPeople(people, fieldOfSort, sortStatus);
 
-      if (prevRow !== '') {
-        prevRow.removeAttribute('clickedRow');
-        prevRow.classList.remove('person--select');
-        prevRow = currentRow;
-      } else {
-        prevRow = currentRow;
-      }
-    } else {
-      currentRow.removeAttribute('clickedRow');
-      currentRow.classList.remove('person--select');
-    }
-  };
-
-  return (
-    <table className="peopleTable">
-      <thead>
-        <tr>
-          <th onClick={getFildOfSort} className="cursorPointer">Id</th>
-          <th onClick={getFildOfSort} className="cursorPointer">Name</th>
-          <th>Sex</th>
-          <th onClick={getFildOfSort} className="cursorPointer">Born</th>
-          <th onClick={getFildOfSort} className="cursorPointer">Died</th>
-          <th onClick={getFildOfSort} className="cursorPointer">Age</th>
-          <th>Mother</th>
-          <th>Father</th>
-          <th>Century</th>
-          <th>Children</th>
-        </tr>
-      </thead>
-      <tbody onClick={selectRow}>
-        {
-          sortedPeople.map(currentPerson => (
-            <Person
-              {...currentPerson}
-              key={`key${currentPerson.id + 10}`}
-            />
-          ))
-        }
-      </tbody>
-    </table>
-  );
-};
+    return (
+      <table className="peopleTable">
+        <thead>
+          <tr>
+            <th onClick={this.getFildOfSort} className="cursorPointer">Id</th>
+            <th onClick={this.getFildOfSort} className="cursorPointer">Name</th>
+            <th>Sex</th>
+            <th onClick={this.getFildOfSort} className="cursorPointer">Born</th>
+            <th onClick={this.getFildOfSort} className="cursorPointer">Died</th>
+            <th onClick={this.getFildOfSort} className="cursorPointer">Age</th>
+            <th>Mother</th>
+            <th>Father</th>
+            <th>Century</th>
+            <th>Children</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            sortedPeople.map(currentPerson => (
+              <Person
+                person={currentPerson}
+                onClickRow={this.handleClickRow}
+                selectPerson={selectPerson}
+                key={`key${currentPerson.id + 10}`}
+              />
+            ))
+          }
+        </tbody>
+      </table>
+    );
+  }
+}
 
 PeopleTable.propTypes = {
   people: PropTypes.arrayOf(PropTypes.shape({
@@ -96,7 +91,7 @@ PeopleTable.propTypes = {
     age: PropTypes.number,
   })).isRequired,
   sortStatus: PropTypes.number.isRequired,
-  updateAppState: PropTypes.func.isRequired,
+  onSort: PropTypes.func.isRequired,
 };
 
 export default PeopleTable;

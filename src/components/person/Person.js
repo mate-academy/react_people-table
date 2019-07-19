@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './person.css';
 
-const Person = ({ id, name, sex, born, died, age, father, mother, children }) => {
+const Person = ({ person, onClickRow, selectPerson }) => {
+  const { id, name, sex, born, died, age, father, mother, children } = person;
   const century = Math.ceil(died / 100);
-  const namesOfchildren = children.map(kid => kid.name);
+  const namesOfchildren = children.map(child => child.name);
   const stylesForPersonName = {};
   const classesForPerson = ['person', `person--lived-in-${century}`];
 
@@ -26,6 +27,10 @@ const Person = ({ id, name, sex, born, died, age, father, mother, children }) =>
     classesForPerson.push('person--lived-more-65y');
   }
 
+  if (id === selectPerson) {
+    classesForPerson.push('person--select');
+  }
+
   if (born < 1650) {
     stylesForPersonName.textDecoration = 'line-through';
   }
@@ -35,7 +40,7 @@ const Person = ({ id, name, sex, born, died, age, father, mother, children }) =>
   }
 
   return (
-    <tr className={classesForPerson.join(' ')}>
+    <tr className={classesForPerson.join(' ')} onClick={() => onClickRow(id)}>
       <td>{id + 1}</td>
       <td style={stylesForPersonName}>{name}</td>
       <td>{sex}</td>
@@ -51,22 +56,23 @@ const Person = ({ id, name, sex, born, died, age, father, mother, children }) =>
 };
 
 Person.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  sex: PropTypes.string,
-  born: PropTypes.number.isRequired,
-  died: PropTypes.number.isRequired,
-  age: PropTypes.number.isRequired,
-  father: PropTypes.string,
-  mother: PropTypes.string,
-  children: PropTypes.arrayOf(PropTypes.string),
+  person: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    sex: PropTypes.string,
+    born: PropTypes.number.isRequired,
+    died: PropTypes.number.isRequired,
+    age: PropTypes.number.isRequired,
+    father: PropTypes.string,
+    mother: PropTypes.string,
+    children: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+  onClickRow: PropTypes.func.isRequired,
+  selectPerson: PropTypes.number,
 };
 
 Person.defaultProps = {
-  sex: '',
-  father: '',
-  mother: '',
-  children: [],
+  selectPerson: '',
 };
 
 export default Person;

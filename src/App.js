@@ -27,7 +27,6 @@ class App extends React.Component {
     filtredPeople: [],
     filterInput: '',
     sortStatus: 1,
-    showNewPersonForm: false,
   }
 
   componentDidMount() {
@@ -75,8 +74,22 @@ class App extends React.Component {
     }
   }
 
-  updateAppState = (config) => {
-    this.setState(config);
+  updateSortStatus = () => {
+    this.setState(prevState => (
+      {
+        sortStatus: -prevState.sortStatus,
+      }
+    ));
+  }
+
+  handleSubmitForm = (person) => {
+    this.setState(prevState => (
+      {
+        listOfPeople: [...prevState.listOfPeople, person],
+        filtredPeople: [...prevState.listOfPeople, person],
+        filterInput: '',
+      }
+    ));
   }
 
   render() {
@@ -98,20 +111,15 @@ class App extends React.Component {
           onChange={this.filterByNameAndParents}
         />
 
-        <button
-          type="button"
-          className="app__add-new-person"
-          onClick={() => this.setState({ showNewPersonForm: true })}
-        >
-          Add new person
-        </button>
-
-        {this.state.showNewPersonForm && <NewPerson updateAppState={this.updateAppState} people={listOfPeople} />}
+        <NewPerson
+          people={listOfPeople}
+          onSubmitForm={this.handleSubmitForm}
+        />
 
         <PeopleTable
           people={filtredPeople}
           sortStatus={sortStatus}
-          updateAppState={this.updateAppState}
+          onSort={this.updateSortStatus}
         />
 
       </div>

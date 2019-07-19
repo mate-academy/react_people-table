@@ -16,6 +16,7 @@ class NewPerson extends React.Component {
     died: '',
     mother: '',
     father: '',
+    showNewPersonForm: false,
   };
 
   handleChange = (event) => {
@@ -49,24 +50,22 @@ class NewPerson extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
-    const { people, updateAppState } = this.props;
-    const { born, died, ...rest } = this.state;
-    const newPeople = [...people];
+    const { people, onSubmitForm } = this.props;
+    const { born, died, showNewPersonForm, ...rest } = this.state;
 
     if (died - born > 150 || died - born < 0) {
       errorMessage = 'Age must be less than 150 and more than 0';
       return;
     }
 
-    newPeople.push({
+    const person = {
       ...rest,
       born: +born,
       died: +died,
       id: people.length,
       age: died - born,
       children: [],
-    });
+    };
 
     this.setState({
       name: '',
@@ -77,21 +76,19 @@ class NewPerson extends React.Component {
       father: '',
     });
 
-    updateAppState(
-      {
-        listOfPeople: [...newPeople],
-        filtredPeople: [...newPeople],
-        filterInput: '',
-      }
-    );
+    onSubmitForm(person);
   };
 
   formClose = () => {
-    this.props.updateAppState({ showNewPersonForm: false });
+    this.setState({
+      showNewPersonForm: false,
+    });
   }
 
   render() {
-    const { name, sex, born, died, mother, father } = this.state;
+    const {
+      name, sex, born, died, mother, father, showNewPersonForm,
+    } = this.state;
 
     possibleParents = this.props.people.filter(person => (
       +person.born + 13 <= +born && +person.died > +born
@@ -114,130 +111,144 @@ class NewPerson extends React.Component {
       ));
 
     return (
-      <form
-        name="newPerson"
-        className="new-person-form"
-        onSubmit={this.handleSubmit}
-      >
-        <input
-          type="text"
-          name="name"
-          value={name}
-          placeholder="Name"
-          className="new-person-form__name"
-          onChange={this.handleChange}
-          required
-        />
+      <div>
+        {
+          (showNewPersonForm)
+            ? (
+              <form
+                name="newPerson"
+                className="new-person-form"
+                onSubmit={this.handleSubmit}
+              >
+                <input
+                  type="text"
+                  name="name"
+                  value={name}
+                  placeholder="Name"
+                  className="new-person-form__name"
+                  onChange={this.handleChange}
+                  required
+                />
 
-        <div className="new-person-form__sex">
-          <label htmlFor="newPerson-male">
-            <input
-              id="newPerson-male"
-              type="radio"
-              name="sex"
-              value="m"
-              checked={sex === 'm'}
-              onChange={this.handleChange}
-              required
-            />
-            male
-          </label>
+                <div className="new-person-form__sex">
+                  <label htmlFor="newPerson-male">
+                    <input
+                      id="newPerson-male"
+                      type="radio"
+                      name="sex"
+                      value="m"
+                      checked={sex === 'm'}
+                      onChange={this.handleChange}
+                      required
+                    />
+                    male
+                  </label>
 
-          <label htmlFor="newPerson-female">
-            <input
-              id="newPerson-female"
-              type="radio"
-              name="sex"
-              value="f"
-              checked={sex === 'f'}
-              onChange={this.handleChange}
-            />
-            female
-          </label>
-        </div>
+                  <label htmlFor="newPerson-female">
+                    <input
+                      id="newPerson-female"
+                      type="radio"
+                      name="sex"
+                      value="f"
+                      checked={sex === 'f'}
+                      onChange={this.handleChange}
+                    />
+                    female
+                  </label>
+                </div>
 
+                <label htmlFor="newPerson-born">
+                  Born:
+                  <input
+                    id="newPerson-born"
+                    type="number"
+                    min="1500"
+                    name="born"
+                    value={born}
+                    placeholder="Year of born"
+                    className="new-person-form__life-dates"
+                    onChange={this.handleChange}
+                    required
+                  />
+                </label>
 
-        <label htmlFor="newPerson-born">
-          Born:
-          <input
-            id="newPerson-born"
-            type="number"
-            min="1500"
-            name="born"
-            value={born}
-            placeholder="Year of born"
-            className="new-person-form__life-dates"
-            onChange={this.handleChange}
-            required
-          />
-        </label>
+                <label htmlFor="newPerson-died">
+                  Died:
+                  <input
+                    id="newPerson-died"
+                    type="number"
+                    min="1500"
+                    name="died"
+                    value={died}
+                    placeholder="Year of died"
+                    className="new-person-form__life-dates"
+                    onChange={this.handleChange}
+                    required
+                  />
+                </label>
 
-        <label htmlFor="newPerson-died">
-          Died:
-          <input
-            id="newPerson-died"
-            type="number"
-            min="1500"
-            name="died"
-            value={died}
-            placeholder="Year of died"
-            className="new-person-form__life-dates"
-            onChange={this.handleChange}
-            required
-          />
-        </label>
+                <span className="error-message">{errorMessage}</span>
 
-        <span className="error-message">{errorMessage}</span>
+                <label htmlFor="newPerson-mother" className="new-person-form__parents">
+                  <span>Mother:</span>
+                  <select
+                    id="newPerson-mother"
+                    name="mother"
+                    value={mother}
+                    onChange={this.handleChange}
+                  >
+                    <option> </option>
+                    {mothers}
+                  </select>
+                </label>
 
-        <label htmlFor="newPerson-mother" className="new-person-form__parents">
-          <span>Mother:</span>
-          <select
-            id="newPerson-mother"
-            name="mother"
-            value={mother}
-            onChange={this.handleChange}
-          >
-            <option> </option>
-            {mothers}
-          </select>
-        </label>
+                <label htmlFor="newPerson-father" className="new-person-form__parents">
+                  <span>Father:</span>
+                  <select
+                    id="newPerson-father"
+                    name="father"
+                    value={father}
+                    onChange={this.handleChange}
+                  >
+                    <option> </option>
+                    {fathers}
+                  </select>
+                </label>
 
-        <label htmlFor="newPerson-father" className="new-person-form__parents">
-          <span>Father:</span>
-          <select
-            id="newPerson-father"
-            name="father"
-            value={father}
-            onChange={this.handleChange}
-          >
-            <option> </option>
-            {fathers}
-          </select>
-        </label>
+                <button
+                  type="submit"
+                  className="new-person-form__button"
+                >
+                  Add new person
+                </button>
 
-        <button
-          type="submit"
-          className="new-person-form__button"
-        >
-          Add new person
-        </button>
-
-        <button
-          type="button"
-          onClick={this.formClose}
-          className="new-person-form__button"
-        >
-          Close
-        </button>
-
-      </form>
+                <button
+                  type="button"
+                  onClick={this.formClose}
+                  className="new-person-form__button"
+                >
+                  Close
+                </button>
+              </form>
+            )
+            : (
+              <button
+                type="button"
+                className="app__add-new-person"
+                onClick={() => this.setState({ showNewPersonForm: true })}
+              >
+                Add new person
+              </button>
+            )
+        }
+      </div>
     );
   }
 }
 
 NewPerson.propTypes = {
   people: PropTypes.arrayOf(PropTypes.object),
-  updateAppState: PropTypes.func.isRequired,
+  onSubmitForm: PropTypes.func.isRequired,
 };
 
 NewPerson.defaultProps = {
