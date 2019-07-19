@@ -10,7 +10,7 @@ const getFullPeople = async () => {
     id: index + 1,
     ...person,
     father: person.father || ' ',
-    mother: person.father || ' ',
+    mother: person.mother || ' ',
     age: person.died - person.born,
     century: Math.ceil(person.died / 100),
     children: peopleFromServer.filter(
