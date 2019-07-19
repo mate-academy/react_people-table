@@ -32,16 +32,16 @@ function People(props) {
         handler(id);
       }}
     >
-      <td key={`user_${id}_id`} className="centered">{id}</td>
-      <td key={`user_${id}_name`} className={personClassNameStyle}>{name}</td>
-      <td key={`user_${id}_sex`} className="centered">{sex}</td>
-      <td key={`user_${id}_born`}>{born}</td>
-      <td key={`user_${id}_died`}>{died}</td>
-      <td key={`user_${id}_age`}>{age}</td>
-      <td key={`user_${id}_century`} className="centered">{century}</td>
-      <td key={`user_${id}_mother`}>{mother}</td>
-      <td key={`user_${id}_father`}>{father}</td>
-      <td key={`user_${id}_children`}>
+      <td className="centered">{id}</td>
+      <td className={personClassNameStyle}>{name}</td>
+      <td className="centered">{sex}</td>
+      <td>{born}</td>
+      <td>{died}</td>
+      <td>{age}</td>
+      <td className="centered">{century}</td>
+      <td>{mother}</td>
+      <td>{father}</td>
+      <td>
         {children !== undefined
           ? children.map(child => `${child.name},`) : ''
         }

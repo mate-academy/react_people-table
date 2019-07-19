@@ -10,7 +10,6 @@ class PeopleTable extends React.Component {
       selectedPerson: null,
       sortedPeopleList: this.props.peopleData,
     };
-    this.handler = this.handler.bind(this);
   }
 
   componentDidMount() {
@@ -28,19 +27,19 @@ class PeopleTable extends React.Component {
     }));
   };
 
-  handler(inputValue) {
+  handler = (inputValue) => {
     this.setState({
       selectedPerson: inputValue,
     });
-  }
+  };
 
   render() {
     const sortCases = ['id', 'name', 'sex', 'born', 'died', 'age'];
 
     return (
-      <table className="PeopleTable" key="table">
-        <thead key="tHead">
-          <tr key="head_row" className="table-head--row">
+      <table className="PeopleTable">
+        <thead>
+          <tr className="table-head--row">
             {sortCases.map(inputCase => (
               inputCase === 'sex'
                 ? (<td key={`tHead${inputCase}`}>{inputCase}</td>)
@@ -54,10 +53,10 @@ class PeopleTable extends React.Component {
                     </button>
                   </td>
                 )))}
-            <td key="tHead_century">century</td>
-            <td key="tHead_mother">mother</td>
-            <td key="tHead_father">father</td>
-            <td key="tHead_children">children</td>
+            <td>century</td>
+            <td>mother</td>
+            <td>father</td>
+            <td>children</td>
           </tr>
         </thead>
         <tbody key="tBody">
