@@ -9,18 +9,19 @@ class PeopleTable extends React.Component {
   render() {
     const { users } = this.props;
     const { inputValue } = this.props;
+    const { sortingHandle } = this.props;
     console.log(inputValue);
     return (
       <table className="people-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>century</th>
-            <th>name</th>
-            <th>sex</th>
-            <th>born</th>
-            <th>died</th>
-            <th>age</th>
+            <th className="people-table__head-cell" onClick={() => sortingHandle('id')}>id</th>
+            <th className="people-table__head-cell" onClick={() => sortingHandle('century')}>century</th>
+            <th className="people-table__head-cell" onClick={() => sortingHandle('name')}>name</th>
+            <th className="people-table__head-cell" onClick={() => sortingHandle('sex')}>sex</th>
+            <th className="people-table__head-cell" onClick={() => sortingHandle('born')}>born</th>
+            <th className="people-table__head-cell" onClick={() => sortingHandle('died')}>died</th>
+            <th className="people-table__head-cell" onClick={() => sortingHandle('age')}>age</th>
             <th>mother</th>
             <th>father</th>
           </tr>

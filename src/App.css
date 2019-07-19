@@ -31,3 +31,7 @@
   margin-bottom: 10px;
   border-radius: 5px;
 }
+
+.people-table__head-cell {
+  cursor: pointer;
+}

@@ -31,7 +31,7 @@ class App extends React.Component {
   }
 
   searchFilter = (event) => {
-    const {value} = event.target;
+    const { value } = event.target;
     this.setState(prevState => ({
       searchValue: value,
       visibleUsers: prevState.peoples
@@ -42,16 +42,26 @@ class App extends React.Component {
     }));
   };
 
+  sortingHandle = (sortValue) => {
+    console.log(sortValue);
+    this.setState(prevState => ({
+      visibleUsers: prevState.visibleUsers.sort((a, b) => (a[`${sortValue}`] > b[`${sortValue}`]) ? 1 : -1),
+    }));
+  };
+
   render() {
     return (
       <div className="App">
-        <h1>Number of users {this.state.peoples.length}</h1>
-        <input className="search-input"
-          onChange={this.searchFilter}
-        />
+        <h1 onClick={() => {console.log(this.state.visibleUsers)}}>Number of users {this.state.peoples.length}</h1>
+        <div>
+          <input className="search-input"
+                 onChange={this.searchFilter}
+          />
+        </div>
         <PeopleTable
           users={this.state.visibleUsers}
           inputValue={this.state.searchValue}
+          sortingHandle={this.sortingHandle}
         />
       </div>
     );
