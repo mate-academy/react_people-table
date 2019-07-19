@@ -8,21 +8,21 @@ class PeopleTable extends React.Component {
   };
 
   render() {
-    const { people } = this.props;
+    const { people, onSortFieldChanged } = this.props;
     const { selectedPersonId } = this.state;
     return (
       <table className="PeopleTable">
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Sex</th>
-            <th>Born</th>
-            <th>Died</th>
+            <th onClick={() => onSortFieldChanged('id')}>Id</th>
+            <th onClick={() => onSortFieldChanged('name')}>Name</th>
+            <th onClick={() => onSortFieldChanged('sex')}>Sex</th>
+            <th onClick={() => onSortFieldChanged('born')}>Born</th>
+            <th onClick={() => onSortFieldChanged('died')}>Died</th>
             <th>Mother</th>
             <th>Father</th>
-            <th>Age</th>
-            <th>Century</th>
+            <th onClick={() => onSortFieldChanged('age')}>Age</th>
+            <th onClick={() => onSortFieldChanged('century')}>Century</th>
             <th>Children</th>
           </tr>
         </thead>

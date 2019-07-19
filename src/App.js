@@ -20,27 +20,78 @@ const getPeopleFromServer = async () => {
   }));
 };
 
+const getSortedPeople = (people, sortField, query) => {
+  const normalizedQuery = query.toLowerCase();
+  return people
+    .filter(
+      person => (person.name.toLowerCase().includes(normalizedQuery))
+    )
+    .sort((a, b) => {
+      switch (typeof a[sortField]) {
+        case 'string':
+          return a[sortField].localeCompare(b[sortField]);
+
+        case 'number':
+        case 'boolean':
+          return a[sortField] - b[sortField];
+
+        default:
+          return 0;
+      }
+    });
+};
+
 class App extends React.Component {
+  people = [];
   state = {
-    people: [],
+    visiblePeople: [],
+    sortField: '',
+    query: '',
   };
 
   async componentDidMount() {
-    const people = await getPeopleFromServer();
+    this.people = await getPeopleFromServer();
 
-    this.setState({ people });
+    this.setState({ visiblePeople: this.people });
   }
 
+  setSortField = (sortField) => {
+    this.setState(({ query }) => ({
+      sortField,
+      visiblePeople: getSortedPeople(this.people, sortField, query),
+    }));
+  };
+
+  handleQueryChange = (event) => {
+    const query = event.target.value;
+    this.setState(({ sortField }) => ({
+      query,
+      visiblePeople: getSortedPeople(this.people, sortField, query),
+    }));
+  };
+
   render() {
-    const { people } = this.state;
+    const { visiblePeople, sortField, query } = this.state;
 
     return (
       <div className="App">
         <h1>
-          Number of People:
-          {people.length}
+          {visiblePeople.length}
+          {' '}
+          people sorted by
+          {' '}
+          {sortField}
         </h1>
-        <PeopleTable people={people} />
+
+        <input
+          type="text"
+          value={query}
+          onChange={this.handleQueryChange}
+        />
+        <PeopleTable
+          people={visiblePeople}
+          onSortFieldChanged={this.setSortField}
+        />
       </div>
     );
   }
