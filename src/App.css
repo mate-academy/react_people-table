@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #52565c;
+  text-align: center;
+  color: #ffffff;
+}
+
+table {
+  width: 90%;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 10px solid #fff;
+  border-radius: 10px;
+  border-spacing: 5px;
+}
+
+th {
+  background-color: #2c4060;
+}
+
+div {
+  margin: 7px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+td {
+  color: #000;
+}
+
+form {
+  width: 90%;
+  margin: 15px auto;
+}
+
+label {
+  margin: 0 20px 0 0;
+}
+
+.person--female {
+  background-color: lightpink;
+}
+
+.person--father {
+  background-color: cornflowerblue;
+}
+
+.before1650 {
+  text-decoration: line-through;
+}
+
+.after1800 {
+  font-weight: bold;
+}
+
+.older65 {
+  border: 3px solid green;
+}
+
+.selectedRow {
+  background-color: khaki;
+}
+
+
