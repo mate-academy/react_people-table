@@ -1,0 +1,17 @@
+.PeopleTable {
+  border-collapse: collapse;
+  border: 4px double black;
+  width: 850px;
+}
+
+th {
+  text-align: center;
+  background: #ccc;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+td {
+  padding: 5px;
+  border: 1px solid black;
+}
