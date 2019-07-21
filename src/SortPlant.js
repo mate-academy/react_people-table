@@ -15,10 +15,10 @@ const SortPlant = ({ sortType, peopleTemplate }) => {
       case 'boolean':
         return a[sortType] - b[sortType];
       default:
-      return 0;
+        return 0;
     }
   });
-   return sortedData;
+  return sortedData;
 };
 
 export default SortPlant;

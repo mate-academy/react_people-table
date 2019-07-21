@@ -2,13 +2,14 @@ import React from 'react';
 import addingClassNames from './addingClassNames';
 import addingClassNamesForTd from './addingClassNamesForTd';
 
-import './Person.css'
+import './Person.css';
 
-const Person = ({personDetails, handleSelect, selectedPersonId}) => {
+const Person = ({ personDetails, handleSelect, selectedPersonId }) => {
   return (
     <tr
       onClick={() => handleSelect(personDetails.id)}
-      className={addingClassNames(personDetails, selectedPersonId)}>
+      className={addingClassNames(personDetails, selectedPersonId)}
+    >
       <td>{personDetails.id}</td>
       <td className={addingClassNamesForTd(personDetails)}>
         {personDetails.name}
@@ -22,8 +23,7 @@ const Person = ({personDetails, handleSelect, selectedPersonId}) => {
       <td>{personDetails.century}</td>
       <td>{personDetails.children.join(', ')}</td>
     </tr>
-  )
+  );
 };
-
 
 export default Person;
