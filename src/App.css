@@ -59,6 +59,13 @@
   cursor: pointer;
 }
 
+.error {
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+  margin: 5px 0;
+}
+
 .shown-form {
   position: fixed;
   top: 0;

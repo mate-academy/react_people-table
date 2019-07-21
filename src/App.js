@@ -72,11 +72,11 @@ class App extends React.Component {
       ...newPerson,
       age: newPerson.died - newPerson.born,
       century: Math.ceil(newPerson.died / 100),
-      id: this.state.visiblePeople.length + 1,
+      id: this.state.people.length + 1,
     };
     this.setState(prevState => ({
       visiblePeople: [...prevState.visiblePeople, newPerson],
-      people: [...prevState.visiblePeople, newPerson],
+      people: [...prevState.people, newPerson],
       shownForm: false,
     }));
   }
