@@ -39,10 +39,10 @@ const getSortBy = field => (a, b) => {
 class App extends React.Component {
   state = {
     people: [],
+    forID: [],
     visiblePeople: [],
     isLoaded: false,
     sortField: '',
-
   };
 
   loadData = async() => {
@@ -51,22 +51,21 @@ class App extends React.Component {
     this.setState({
       people,
       visiblePeople: [...people],
+      forID: [...people],
       isLoaded: true,
     });
   };
 
   onSortPeopleBy = (field) => {
     field !== this.state.sortField
-      ? (this.setState(prevState => ({
+      ? this.setState(prevState => ({
         visiblePeople: prevState.visiblePeople.sort(getSortBy(field)),
         sortField: field,
       }))
-      ) : (
-        this.setState(prevState => ({
-          visiblePeople: prevState.visiblePeople.reverse(),
-        }))
-      );
-  }
+      : this.setState(prevState => ({
+        visiblePeople: prevState.visiblePeople.reverse(),
+      }));
+  };
 
   onSearchByName = (event) => {
     const searchField = event.target.value.toLowerCase();
@@ -81,8 +80,15 @@ class App extends React.Component {
     }));
   };
 
+  handleFormSubmit = (newPerson) => {
+    this.setState(prevState => ({
+      visiblePeople: [...prevState.visiblePeople, newPerson],
+      forID: [...prevState.visiblePeople, newPerson],
+    }));
+  };
+
   render() {
-    const { visiblePeople, isLoaded } = this.state;
+    const { forID, visiblePeople, isLoaded } = this.state;
     const { onSortPeopleBy } = this;
 
     return (
@@ -90,12 +96,11 @@ class App extends React.Component {
         <header className="text-monospace">
           <h1>
             {visiblePeople.length}
-            {' '}
+            {'  '}
             People in TABLE
           </h1>
           <h6>
             ⇵ People sorted by:
-            {' '}
             {this.state.sortField.toUpperCase()}
           </h6>
         </header>
@@ -113,7 +118,11 @@ class App extends React.Component {
                 />
               </label>
               <div className="add-btn">
-                <NewPerson people={visiblePeople} />
+                <NewPerson
+                  people={visiblePeople}
+                  forID={forID}
+                  handleFormSubmit={this.handleFormSubmit}
+                />
               </div>
             </div>
             <table className="PeopleTable table-borderless">
@@ -125,15 +134,9 @@ class App extends React.Component {
                   <th onClick={() => onSortPeopleBy('born')}>Born</th>
                   <th onClick={() => onSortPeopleBy('died')}>Died</th>
                   <th onClick={() => onSortPeopleBy('age')}>Age</th>
-                  <th onClick={() => onSortPeopleBy('century')}>
-                    Century
-                  </th>
-                  <th onClick={() => onSortPeopleBy('father')}>
-                    Father
-                  </th>
-                  <th onClick={() => onSortPeopleBy('mother')}>
-                    Mother
-                  </th>
+                  <th onClick={() => onSortPeopleBy('century')}>Century</th>
+                  <th onClick={() => onSortPeopleBy('father')}>Father</th>
+                  <th onClick={() => onSortPeopleBy('mother')}>Mother</th>
                   <th onClick={() => onSortPeopleBy('children')}>
                     Children
                   </th>
@@ -147,6 +150,7 @@ class App extends React.Component {
         ) : (
           <div className="start-btn">
             <button
+              title="Click to start loading"
               className="btn btn-info btn-lg text-monospace"
               onClick={this.loadData}
               type="button"
