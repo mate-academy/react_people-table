@@ -3,22 +3,22 @@ import PropTypes from 'prop-types';
 import './person.css';
 
 const Person = ({ person, onClickRow, selectPerson }) => {
-  const { id, name, sex, born, died, age, father, mother, children } = person;
-  const century = Math.ceil(died / 100);
-  const namesOfchildren = children.map(child => child.name);
+  const {
+    id, name, sex, born, died, age, father, mother, children, century,
+  } = person;
   const stylesForPersonName = {};
   const classesForPerson = ['person', `person--lived-in-${century}`];
 
   if (sex === 'f') {
     classesForPerson.push('person--female');
-    if (namesOfchildren.length !== 0) {
+    if (children.length !== 0) {
       classesForPerson.push(' person--mother');
     }
   }
 
   if (sex === 'm') {
     classesForPerson.push('person--male');
-    if (namesOfchildren.length !== 0) {
+    if (children.length !== 0) {
       classesForPerson.push(' person--father');
     }
   }
@@ -50,7 +50,7 @@ const Person = ({ person, onClickRow, selectPerson }) => {
       <td>{mother}</td>
       <td>{father}</td>
       <td>{century}</td>
-      <td>{namesOfchildren.join(', ')}</td>
+      <td>{children.join(', ')}</td>
     </tr>
   );
 };
@@ -65,6 +65,7 @@ Person.propTypes = {
     age: PropTypes.number.isRequired,
     father: PropTypes.string,
     mother: PropTypes.string,
+    century: PropTypes.number,
     children: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   onClickRow: PropTypes.func.isRequired,

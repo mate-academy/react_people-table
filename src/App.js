@@ -1,14 +1,10 @@
 import React from 'react';
+import { getPeopleWhithChildren } from './components/loadingData';
 import PeopleTable from './components/peopleTable/PeopleTable';
 import NewPerson from './components/newPerson/NewPerson';
 import './app.css';
 
-const getChildren = (people, person) => (
-  people.filter(currenPerson => (
-    currenPerson.mother === person.name || currenPerson.father === person.name
-  )));
-
-const getArrFromName = (name, usersValue) => {
+const isNameStarts = (name, usersValue) => {
   if (name) {
     if (usersValue.split(' ').length > 1) {
       return name.toLowerCase().startsWith(usersValue.toLowerCase());
@@ -30,23 +26,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('./api/people.json')
-      .then(response => response.json())
-      .then((people) => {
-        const peopleWhithChildren = people.map((currentPerson, currentIndex) => (
-          {
-            ...currentPerson,
-            id: currentIndex,
-            age: currentPerson.died - currentPerson.born,
-            children: getChildren(people, currentPerson),
-          }
-        ));
-
-        this.setState({
-          listOfPeople: peopleWhithChildren,
-          filtredPeople: peopleWhithChildren,
-        });
+    getPeopleWhithChildren().then((data) => {
+      this.setState({
+        listOfPeople: [...data],
+        filtredPeople: [...data],
       });
+    });
   }
 
   filterByNameAndParents = (event) => {
@@ -60,9 +45,9 @@ class App extends React.Component {
     if (value !== '') {
       this.setState({
         filtredPeople: people.filter((currentPerson) => {
-          const byName = getArrFromName(currentPerson.name, value);
-          const byMother = getArrFromName(currentPerson.mother, value);
-          const byFather = getArrFromName(currentPerson.father, value);
+          const byName = isNameStarts(currentPerson.name, value);
+          const byMother = isNameStarts(currentPerson.mother, value);
+          const byFather = isNameStarts(currentPerson.father, value);
 
           return byName || byMother || byFather;
         }),

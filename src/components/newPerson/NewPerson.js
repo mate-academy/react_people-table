@@ -64,6 +64,7 @@ class NewPerson extends React.Component {
       died: +died,
       id: people.length,
       age: died - born,
+      century: Math.ceil(died / 100),
       children: [],
     };
 
