@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 
 const classNames = require('classnames');
 
-function People(props) {
+function Human(props) {
   const {
     name, age, sex, century, children,
     id, died, born, mother, father,
@@ -26,7 +26,7 @@ function People(props) {
 
   return (
     <tr
-      key={`user_${id}`}
+      key={id}
       className={personRowClass}
       onClick={() => {
         handler(id);
@@ -50,13 +50,13 @@ function People(props) {
   );
 }
 
-People.propTypes = {
+Human.propTypes = {
   personData: propTypes.shape({}).isRequired,
   handler: propTypes.func.isRequired,
   selectedPerson: propTypes.number,
 };
-People.defaultProps = {
+Human.defaultProps = {
   selectedPerson: null,
 };
 
-export default People;
+export default Human;

@@ -15,7 +15,7 @@
     - `sex`
     - `born`
     - `died`
-    - `mother`ne
+    - `mother`
     - `father`
       ```jsx harmony
       <PeopleTable people={people} />

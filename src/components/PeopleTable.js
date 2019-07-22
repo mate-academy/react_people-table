@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import './PeopleTable.scss';
-import People from './People';
+import Human from './Human';
 
 class PeopleTable extends React.Component {
   constructor(props) {
@@ -63,8 +63,8 @@ class PeopleTable extends React.Component {
           {
             this.state.sortedPeopleList
               .map(onePersonData => (
-                <People
-                  key={`People_${onePersonData.id}`}
+                <Human
+                  key={`Human_${onePersonData.id}`}
                   personData={onePersonData}
                   handler={this.handler}
                   selectedPerson={this.state.selectedPerson}
