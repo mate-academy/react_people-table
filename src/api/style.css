@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100i,400,600,600i,700&display=swap");
+
+body {
+  padding: 0;
+  font-family: Montserrat;
+}
+
+* {
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.form {
+  box-shadow: 0 0 10px grey;
+}
+
+.search_list {
+  display: grid;
+  justify-content: center;
+}
+
+.search_field {
+  width: 600px;
+  margin: 0 0 20px 0;
+  padding: 0 20px;
+  font-size: 24px;
+  height: 50px;
+  border-radius: 30px;
+  border: 0;
+  box-shadow: 0 0 10px gray;
+  outline: none;
+}
+
+.table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 0 20px gray;
+}
+
+.form {
+  padding: 0;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+th {
+  transition: 0.2s;
+  user-select: none;
+  cursor: pointer;
+}
+
+th:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px gray;
+  border-radius: 10px;
+}
+
+.person--female {
+  background-color: lightpink;
+}
+
+.persBornBefore {
+  text-decoration: line-through;
+}
+
+.persDiedAfter {
+  font-weight: bold;
+}
+
+.ageMore {
+  background-color: rgb(101, 219, 81);
+}
+
+.person--father {
+  background-color: cornflowerblue;
+}
+
+.PeopleTable__row {
+  cursor: pointer;
+}
+
+.PeopleTable__row--selected {
+  background-color: rgb(251, 255, 0);
+}
+
+.button_load {
+  display: grid;
+  justify-content: center;
+}
+
+.button {
+  background-image: url(https://t-ec.bstatic.com/images/hotel/max1024x768/135/135722802.jpg);
+  user-select: none;
+  background-color: black;
+  color: aliceblue;
+  margin-top: 20px;
+  padding: 100px;
+  border-radius: 20px;
+  font-size: 30px;
+  outline: none;
+  border: 0;
+  box-shadow: 10px 10px 10px gray;
+  transition: 0.3s;
+}
+
+.button:hover {
+  transform: scale(1.1);
+}
