@@ -3,12 +3,14 @@ import PeopleTable from './components/PeopleTable';
 import getPeople from './api/getPeople';
 import './App.css';
 
-const getSortedPeople = (people, sortField) => {
+const getSortedPeople = (people, sortField, query = '') => {
   const callback = (typeof people[0][sortField] === 'string')
     ? (personA, personB) => personA[sortField].localeCompare(personB[sortField])
     : (personA, personB) => personA[sortField] - personB[sortField];
 
-  return [...people].sort(callback);
+  return [...people]
+    .filter(person => person.name.toLowerCase().includes(query.toLowerCase()))
+    .sort(callback);
 };
 
 class App extends React.Component {
@@ -16,6 +18,7 @@ class App extends React.Component {
     people: [],
     visiblePeople: [],
     sortField: 'id',
+    query: '',
   };
 
   async componentDidMount() {
@@ -31,14 +34,22 @@ class App extends React.Component {
   };
 
   sortBy = (sortField) => {
-    this.setState({
-      visiblePeople: getSortedPeople(this.state.people, sortField),
+    this.setState(state => ({
+      visiblePeople: getSortedPeople(state.people, sortField, state.query),
       sortField,
-    });
+    }));
+  };
+
+  handleQueryChange = (event) => {
+    const query = event.target.value;
+    this.setState(state => ({
+      visiblePeople: getSortedPeople(state.people, state.sortField, query),
+      query,
+    }));
   };
 
   render() {
-    const { people, visiblePeople } = this.state;
+    const { people, visiblePeople, query } = this.state;
     return (
       <div className="App">
         <h1>
@@ -48,6 +59,12 @@ class App extends React.Component {
           {' '}
           {this.state.sortField}
         </h1>
+
+        <input
+          type="text"
+          value={query}
+          onChange={this.handleQueryChange}
+        />
 
         <button type="button" onClick={() => this.sortBy('id')}>
           Sort by ID
