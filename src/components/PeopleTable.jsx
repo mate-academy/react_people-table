@@ -8,11 +8,7 @@ class PeopleTable extends React.Component {
 
   render() {
     const {
-      handleClickSortById,
-      handleClickSortByName,
-      handleClickSortByBorn,
-      handleClickSortByDied,
-      handleClickSortByAge,
+      handleClickSortBy,
       people,
     } = this.props;
     const { selectedPersonId } = this.state;
@@ -21,14 +17,14 @@ class PeopleTable extends React.Component {
       <table className="table">
         <thead>
           <tr>
-            <th onClick={handleClickSortById}>ID</th>
-            <th onClick={handleClickSortByName}>Name</th>
+            <th onClick={() => handleClickSortBy('id')}>ID</th>
+            <th onClick={() => handleClickSortBy('name')}>Name</th>
             <th>Sex</th>
-            <th onClick={handleClickSortByBorn}>Born</th>
-            <th onClick={handleClickSortByDied}>Died</th>
+            <th onClick={() => handleClickSortBy('born')}>Born</th>
+            <th onClick={() => handleClickSortBy('died')}>Died</th>
             <th>Mother</th>
             <th>Father</th>
-            <th onClick={handleClickSortByAge}>Age</th>
+            <th onClick={() => handleClickSortBy('age')}>Age</th>
             <th>Century</th>
             <th>Children</th>
           </tr>
@@ -37,7 +33,7 @@ class PeopleTable extends React.Component {
           {people.map(person => (
             <tr
               className={classnames({
-                PeopleTable__row: true,
+                'PeopleTable__row': true,
                 'PeopleTable__row--selected': person.id === selectedPersonId,
                 'person--father': person.sex === 'm'
                   && person.children.length > 0,

@@ -9,6 +9,7 @@ class App extends React.Component {
   state = {
     people: [],
     visiblePeople: [],
+    filtredSheet: [],
     isLoaded: false,
     isLoading: false,
     direction: 1,
@@ -57,38 +58,10 @@ class App extends React.Component {
     }
   };
 
-  handleClickSortById = () => {
+  handleClickSortBy = (field) => {
     this.setState(prevState => ({
       direction: prevState.direction === 1 ? -1 : 1,
-      visiblePeople: [...prevState.people].sort(this.getSortBy('id')),
-    }));
-  }
-
-  handleClickSortByName = () => {
-    this.setState(prevState => ({
-      direction: prevState.direction === 1 ? -1 : 1,
-      visiblePeople: [...prevState.people].sort(this.getSortBy('name')),
-    }));
-  }
-
-  handleClickSortByBorn = () => {
-    this.setState(prevState => ({
-      direction: prevState.direction === 1 ? -1 : 1,
-      visiblePeople: [...prevState.people].sort(this.getSortBy('born')),
-    }));
-  }
-
-  handleClickSortByDied = () => {
-    this.setState(prevState => ({
-      direction: prevState.direction === 1 ? -1 : 1,
-      visiblePeople: [...prevState.people].sort(this.getSortBy('died')),
-    }));
-  }
-
-  handleClickSortByAge = () => {
-    this.setState(prevState => ({
-      direction: prevState.direction === 1 ? -1 : 1,
-      visiblePeople: [...prevState.people].sort(this.getSortBy('age')),
+      visiblePeople: [...prevState.people].sort(this.getSortBy(field)),
     }));
   }
 
@@ -106,6 +79,17 @@ class App extends React.Component {
         visiblePeople: copiedPeople,
       };
     });
+  }
+
+  handleChangeFilter = () => {
+    this.setState({
+      filtredSheet: this.state.visiblePeople.filter(person => (
+        [person.name, person.mother, person.father]
+          .join('')
+          .toLowerCase()
+          .includes(this.state.search.toLowerCase())
+      ))
+    })
   }
 
   render() {
@@ -130,11 +114,7 @@ class App extends React.Component {
           />
           <PeopleTable
             people={filtredSheet}
-            handleClickSortByName={this.handleClickSortByName}
-            handleClickSortById={this.handleClickSortById}
-            handleClickSortByBorn={this.handleClickSortByBorn}
-            handleClickSortByDied={this.handleClickSortByDied}
-            handleClickSortByAge={this.handleClickSortByAge}
+            handleClickSortBy={this.handleClickSortBy}
           />
         </div>
       );
