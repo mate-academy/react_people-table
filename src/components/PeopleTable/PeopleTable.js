@@ -27,7 +27,7 @@ const PeopleTable = ({ users, setFilter, setSort }) => (
         <tr className="table__header">
           {titles.map(title => (
             <th
-              onClick={() => setSort(title.name.toLocaleLowerCase())}
+              onClick={() => setSort(title.name.toLowerCase())}
               key={title.id}
               name={title.name}
             >

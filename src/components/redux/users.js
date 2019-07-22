@@ -75,12 +75,7 @@ const usersReducer = (state = initialState, action) => {
 
 export default usersReducer;
 
-export const prepareUsers = (
-  users,
-  filterField,
-  sortField,
-  sortDirection
-) => {
+export const prepareUsers = (users, filterField, sortField, sortDirection) => {
   let result = [...users];
   if (sortField) {
     const createSorterBy = (field, name) => (a, b) => {
@@ -93,7 +88,9 @@ export const prepareUsers = (
           return a[field] - b[field];
 
         case 'object':
-          return name === 'Array' ? a[field].length - b[field].length : 0;
+          return name === 'Array'
+            ? a[field].length - b[field].length
+            : 0;
 
         default:
           return 0;
