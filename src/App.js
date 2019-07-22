@@ -9,7 +9,6 @@ class App extends React.Component {
   state = {
     people: [],
     visiblePeople: [],
-    filtredSheet: [],
     isLoaded: false,
     isLoading: false,
     direction: 1,
@@ -65,12 +64,6 @@ class App extends React.Component {
     }));
   }
 
-  updateSearch = (event) => {
-    this.setState({
-      search: event.target.value.slice(0),
-    });
-  }
-
   addPerson = (person) => {
     this.setState((prevState) => {
       const copiedPeople = [...prevState.visiblePeople, person];
@@ -81,39 +74,33 @@ class App extends React.Component {
     });
   }
 
-  handleChangeFilter = () => {
+  handleChangeFilter = (event) => {
+    const { value } = event.target
+
     this.setState({
-      filtredSheet: this.state.visiblePeople.filter(person => (
+      visiblePeople: this.state.people.filter(person => (
         [person.name, person.mother, person.father]
           .join('')
           .toLowerCase()
-          .includes(this.state.search.toLowerCase())
+          .includes(value.toLowerCase())
       ))
     })
   }
 
   render() {
-    const filtredSheet = this.state.visiblePeople.filter(person => (
-      [person.name, person.mother, person.father]
-        .join('')
-        .toLowerCase()
-        .includes(this.state.search.toLowerCase())
-    ));
-
     if (this.state.isLoaded) {
       return (
         <div>
           <CreatePerson
             onSubmit={this.addPerson}
-            people={filtredSheet}
+            people={this.state.visiblePeople}
           />
 
           <SearchField
-            search={this.state.search}
-            updateSearch={this.updateSearch}
+            handleChangeFilter={this.handleChangeFilter}
           />
           <PeopleTable
-            people={filtredSheet}
+            people={this.state.visiblePeople}
             handleClickSortBy={this.handleClickSortBy}
           />
         </div>
@@ -138,13 +125,12 @@ class App extends React.Component {
   }
 }
 
-const SearchField = ({ search, updateSearch }) => (
+const SearchField = ({ handleChangeFilter }) => (
   <div className="search_list">
     <input
       className="search_field"
       type="text"
-      value={search}
-      onChange={updateSearch}
+      onChange={handleChangeFilter}
       placeholder="Search"
     />
   </div>
