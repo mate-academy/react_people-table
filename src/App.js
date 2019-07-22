@@ -20,6 +20,7 @@ class App extends React.Component {
     peoples: [],
     visibleUsers: [],
     searchValue: '',
+    currentSorting: '',
   };
 
   async componentDidMount() {
@@ -43,19 +44,39 @@ class App extends React.Component {
   };
 
   sortingHandle = (sortValue) => {
-    console.log(sortValue);
+    if (this.state.currentSorting === sortValue) {
+      this.setState(prevState => ({
+        visibleUsers: prevState.visibleUsers.reverse(),
+      }));
+      return;
+    }
     this.setState(prevState => ({
-      visibleUsers: prevState.visibleUsers.sort((a, b) => (a[`${sortValue}`] > b[`${sortValue}`]) ? 1 : -1),
+      currentSorting: sortValue,
+      visibleUsers: prevState.visibleUsers
+        .sort((a, b) => {
+          switch (typeof a[`${sortValue}`]) {
+            case 'string':
+              return a[`${sortValue}`].localeCompare(b[`${sortValue}`]);
+            case 'number':
+            case 'boolean':
+              return a[`${sortValue}`] - b[`${sortValue}`];
+            default:
+              return 0;
+          }
+        }),
     }));
   };
 
   render() {
     return (
       <div className="App">
-        <h1 onClick={() => {console.log(this.state.visibleUsers)}}>Number of users {this.state.peoples.length}</h1>
+        <h1>
+          Number of users { this.state.peoples.length }
+        </h1>
         <div>
-          <input className="search-input"
-                 onChange={this.searchFilter}
+          <input
+            className="search-input"
+            onChange={this.searchFilter}
           />
         </div>
         <PeopleTable

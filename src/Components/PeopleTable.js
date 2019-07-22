@@ -10,7 +10,6 @@ class PeopleTable extends React.Component {
     const { users } = this.props;
     const { inputValue } = this.props;
     const { sortingHandle } = this.props;
-    console.log(inputValue);
     return (
       <table className="people-table">
         <thead>
