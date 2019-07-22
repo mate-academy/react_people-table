@@ -1,15 +1,13 @@
 /* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { appPropTypes } from './components/propTypes';
-import { startLoading, finishLoading } from './components/redux/processing';
-import { setUsers } from './components/redux/users';
-import { setUsersToShow } from './components/redux/usersToShow';
+import PropTypes from 'prop-types';
 
 import getUsers from './components/api/api';
-import './App.css';
+import { finishLoading } from './components/redux/loading';
+import { setUsers } from './components/redux/users';
 import PeopleTable from './components/PeopleTable/PeopleTable';
-import NewPerson from './components/NewPerson/NewPerson';
+import './App.css';
 
 class App extends Component {
   componentDidMount() {
@@ -17,58 +15,50 @@ class App extends Component {
   }
 
   loadData = async() => {
-    const {
-      startLoading,
-      finishLoading,
-      setUsers,
-      setUsersToShow,
-    } = this.props;
+    const { finishLoading, setUsers } = this.props;
 
-    startLoading();
-    let users = await getUsers();
-    users = users.map((user, i) => ({
-      ...user,
-      id: i + 1,
-      mother: user.mother || 'None',
-      father: user.father || 'None',
-      age: user.died - user.born,
-      century: Math.ceil(user.died / 100),
-      children: users.filter(
-        child => user.name === child.mother || user.name === child.father
-      ),
-    }));
+    const data = await getUsers();
+    const users = data
+      .map((user, i) => ({
+        id: i + 1,
+        ...user,
+        age: user.died - user.born,
+        century: Math.ceil(user.died / 100),
+      }))
+      .map((user, _i, people) => ({
+        ...user,
+        children: people.filter(
+          child => child.father === user.name || child.mother === user.name
+        ),
+      }));
 
     setUsers(users);
-    setUsersToShow(users);
     finishLoading();
-  }
+  };
 
   render() {
-    const { isLoading, isAddingNew } = this.props;
+    const { isLoading } = this.props;
     return (
-      <div className="container">
-        {isLoading ? 'Loading' : <PeopleTable />}
-        {isAddingNew && <NewPerson />}
-      </div>
+      <section className="container">
+        {isLoading ? (
+          <h1 className="container-header">Loading..</h1>
+        ) : (
+          <PeopleTable />
+        )}
+      </section>
     );
   }
 }
 
-App.propTypes = appPropTypes;
-
-const mapState = ({ isLoading, isAddingNew }) => ({
-  isLoading,
-  isAddingNew,
-});
-
-const mapDispatch2 = {
-  startLoading,
-  finishLoading,
-  setUsers,
-  setUsersToShow,
+App.propTypes = {
+  finishLoading: PropTypes.func.isRequired,
+  setUsers: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
+const mapState = ({ isLoading }) => ({ isLoading });
+const mapDispatch = { finishLoading, setUsers };
 export default connect(
   mapState,
-  mapDispatch2
+  mapDispatch
 )(App);

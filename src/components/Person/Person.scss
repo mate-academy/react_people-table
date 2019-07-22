@@ -1,0 +1,33 @@
+.person {
+  border-bottom: 1px solid rgba(34,36,38,.15);
+
+  td {
+    padding: 5px 3px 5px 5px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  
+  &--female {
+    background: rgba(255, 182, 193, 0.61);
+  }
+
+  &--born-before {
+    text-decoration: line-through;
+  }
+
+  &--died-after {
+    font-weight: 500;
+  }
+
+  &--age-more {
+    border-left: 1px solid rgba(0, 128, 0, 0.788);
+  }
+
+  &--father {
+    background: rgba(99, 147, 236, 0.486);
+  }
+
+  &--selected {
+    border: 2px solid rgba(27, 70, 112, 0.822);
+  }
+}
