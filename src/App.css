@@ -1,0 +1,27 @@
+.PeopleTable {
+  border-collapse: collapse;
+}
+
+.person--female {
+  background-color: lightpink;
+}
+
+.born--before_1650 {
+  text-decoration: line-through;
+}
+
+.died--after_1800 {
+  font-weight: bold;
+}
+
+.person--lived-over-65 {
+  border: 1px solid green;
+}
+
+.person--father {
+  background-color: cornflowerblue;
+}
+
+.row--selected {
+  border: 3px solid blue;
+}
