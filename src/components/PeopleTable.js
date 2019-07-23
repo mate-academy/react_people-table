@@ -64,7 +64,7 @@ class PeopleTable extends React.Component {
             this.state.sortedPeopleList
               .map(onePersonData => (
                 <Human
-                  key={`Human_${onePersonData.id}`}
+                  key={onePersonData.id}
                   personData={onePersonData}
                   handler={this.handler}
                   selectedPerson={this.state.selectedPerson}
