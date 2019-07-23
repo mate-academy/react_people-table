@@ -8,8 +8,10 @@ const getSortedPeople = (people, sortField, query = '') => {
     ? (personA, personB) => personA[sortField].localeCompare(personB[sortField])
     : (personA, personB) => personA[sortField] - personB[sortField];
 
-  return [...people]
-    .filter(person => person.name.toLowerCase().includes(query.toLowerCase()))
+  return people
+    .filter(person => (person.name + person.mother + person.father)
+      .toLowerCase()
+      .includes(query.toLowerCase()))
     .sort(callback);
 };
 
@@ -41,10 +43,10 @@ class App extends React.Component {
   };
 
   handleQueryChange = (event) => {
-    const query = event.target.value;
+    const { value } = event.target;
     this.setState(state => ({
-      visiblePeople: getSortedPeople(state.people, state.sortField, query),
-      query,
+      visiblePeople: getSortedPeople(state.people, state.sortField, value),
+      query: value,
     }));
   };
 
@@ -66,23 +68,38 @@ class App extends React.Component {
           onChange={this.handleQueryChange}
         />
 
-        <button type="button" onClick={() => this.sortBy('id')}>
+        <button
+          type="button"
+          onClick={() => this.sortBy('id')}
+        >
           Sort by ID
         </button>
 
-        <button type="button" onClick={() => this.sortBy('name')}>
+        <button
+          type="button"
+          onClick={() => this.sortBy('name')}
+        >
           Sort by name
         </button>
 
-        <button type="button" onClick={() => this.sortBy('age')}>
+        <button
+          type="button"
+          onClick={() => this.sortBy('age')}
+        >
           Sort by age
         </button>
 
-        <button type="button" onClick={() => this.sortBy('born')}>
+        <button
+          type="button"
+          onClick={() => this.sortBy('born')}
+        >
           Sort by year of birth
         </button>
 
-        <button type="button" onClick={() => this.sortBy('died')}>
+        <button
+          type="button"
+          onClick={() => this.sortBy('died')}
+        >
           Sort by year of death
         </button>
 
