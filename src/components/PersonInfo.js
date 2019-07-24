@@ -36,13 +36,13 @@ class PersonInfo extends React.Component {
           <td>{person.died}</td>
           <td>{person.age}</td>
           <td>
-            {person.mother === null || person.mother === undefined
+            {person.mother === null || person.mother === ''
               ? 'unknown'
               : person.mother
             }
           </td>
           <td>
-            {person.father === null || person.father === undefined
+            {person.father === null || person.father === ''
               ? 'unknown'
               : person.father
             }

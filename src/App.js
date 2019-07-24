@@ -6,19 +6,12 @@ import PeopleTable from './components/PeopleTable';
 import createSorterBy from './components/createSorterBy';
 import NewPerson from './components/NewPerson';
 
-const getAge = (person) => {
-  if (person.died === '') {
-    return 2019 - person.born;
-  }
-
-  return person.died - person.born;
-};
-
 class App extends React.Component {
   state = {
     people: [],
     visiblePeople: [],
     sortField: 'id',
+    isVisible: false,
   }
 
   componentDidMount() {
@@ -44,30 +37,45 @@ class App extends React.Component {
   };
 
   handleFilter = (event) => {
-    const { value, name } = event.target;
+    const { value } = event.target;
 
     this.setState(prevState => ({
       visiblePeople: prevState.people.filter(
-        (person) => {
-          if (person[name] !== null) {
-            return person[name]
+        person => ((
+          person.name
+            .toLowerCase()
+            .includes(value
+              .toLowerCase()
+              .trim())
+        ) || (
+          person.mother === null || person.mother === ''
+            ? 0
+            : person.mother
               .toLowerCase()
               .includes(value
                 .toLowerCase()
-                .trim());
-          }
-
-          return 0;
-        }
+                .trim())
+        ) || (
+          person.father === null || person.father === ''
+            ? 0
+            : person.father
+              .toLowerCase()
+              .includes(value
+                .toLowerCase()
+                .trim())
+        ))
       ),
     }));
   }
 
-  addNewPerson = (person) => {
-    console.log(person);
-    this.setState((prevState) => {
-      person.age = getAge(person);
+  toggleForm = () => {
+    this.setState(prevState => ({
+      isVisible: !prevState.isVisible,
+    }));
+  }
 
+  addNewPerson = (person) => {
+    this.setState((prevState) => {
       const people = [...prevState.people, person];
 
       return {
@@ -78,7 +86,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { visiblePeople } = this.state;
+    const { visiblePeople, isVisible } = this.state;
 
     return (
       <div className="App">
@@ -130,40 +138,48 @@ class App extends React.Component {
           </button>
         </div>
 
-        <div className="filter-inputs">
+        <div className="filter-input">
           <label htmlFor="name-input">
-            Filter by name:
+            Filter:
             <input
+              className="filter-input__input"
               type="text"
               id="name-input"
-              name="name"
-              onChange={this.handleFilter}
-            />
-          </label>
-          <label htmlFor="mother-input">
-            Filter by mother:
-            <input
-              type="text"
-              id="mother-input"
-              name="mother"
-              onChange={this.handleFilter}
-            />
-          </label>
-          <label htmlFor="father-input">
-            Filter by father:
-            <input
-              type="text"
-              id="father-input"
-              name="father"
               onChange={this.handleFilter}
             />
           </label>
         </div>
 
-        <NewPerson
-          peopleAmmount={visiblePeople.length}
-          onSubmit={this.addNewPerson}
-        />
+        { isVisible ? (
+          <>
+            <NewPerson
+              peopleAmmount={visiblePeople.length}
+              onSubmit={this.addNewPerson}
+            />
+
+            <div className="toggle-btn">
+              <button
+                type="button"
+                onClick={this.toggleForm}
+                className="toggle-btn"
+              >
+                Hide form
+              </button>
+            </div>
+
+          </>
+        ) : (
+          <div className="toggle-btn">
+            <button
+              type="button"
+              onClick={this.toggleForm}
+              className="toggle-btn"
+            >
+              Add new person
+            </button>
+          </div>
+        )
+        }
 
         <PeopleTable people={visiblePeople} />
       </div>

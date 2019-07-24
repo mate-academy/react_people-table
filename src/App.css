@@ -17,10 +17,48 @@ h1 {
   height: 50px;
 }
 
-.filter-inputs {
-  margin-bottom: 20px;
+.filter-input {
   display: flex;
   justify-content: space-around;
+}
+.filter-input__input {
+  width: 900px;
+  margin-left: 5px;
+}
+
+.toggle-btn {
+  width: 400px;
+  margin: 10px auto;
+}
+
+.add-person-form {
+  width: 400px;
+  height: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.add-person-form__field, .add-person-form__btn {
+  width: 100%;
+}
+.add-person-form__years-fields {
+  display: flex;
+  justify-content: space-between;
+}
+.add-person-form__sex-fields {
+  display: flex;
+  justify-content: space-around;
+}
+.add-person-form__sex-field {
+  width: 10px;
+}
+.add-person-form__years-field {
+  width: 50px;
+  margin-left: 5px;
+}
+.add-person-form__error {
+  color: red;
 }
 
 .people-table {
