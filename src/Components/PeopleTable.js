@@ -7,9 +7,7 @@ class PeopleTable extends React.Component {
   };
 
   render() {
-    const { users } = this.props;
-    const { inputValue } = this.props;
-    const { sortingHandle } = this.props;
+    const { users, inputValue, sortingHandle } = this.props;
     return (
       <table className="people-table">
         <thead>

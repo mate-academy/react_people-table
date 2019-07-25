@@ -1,19 +1,7 @@
 import React from 'react';
 import PeopleTable from './Components/PeopleTable';
 import './App.css';
-
-const getUsers = async() => {
-  const data = await fetch('https://mate-academy.github.io/react_people-table/api/people.json')
-    .then(response => response.json());
-  return data.map((user, index) => {
-    return {
-      id: index + 1,
-      ...user,
-      age: user.died - user.born,
-      century: Math.ceil(user.died / 100),
-    };
-  });
-};
+import getUsers from './Components/getUsers';
 
 class App extends React.Component {
   state = {
@@ -68,10 +56,12 @@ class App extends React.Component {
   };
 
   render() {
+    const { peoples, visibleUsers, searchValue } = this.state;
     return (
       <div className="App">
         <h1>
-          Number of users { this.state.peoples.length }
+          Number of users
+          { peoples.length }
         </h1>
         <div>
           <input
@@ -80,8 +70,8 @@ class App extends React.Component {
           />
         </div>
         <PeopleTable
-          users={this.state.visibleUsers}
-          inputValue={this.state.searchValue}
+          users={visibleUsers}
+          inputValue={searchValue}
           sortingHandle={this.sortingHandle}
         />
       </div>

@@ -1,9 +1,11 @@
 import React from 'react';
 
 const User = ({ user, isSelected, selectUser }) => {
-  let sex, lifeDuration, selectedClass = '';
+  let sex, lifeDuration, selectedClass, ageDuration = '';
   user.sex === 'm' ? sex = 'male' : sex = 'female';
-  user.born < 1650 ? lifeDuration = 'line-through'
+  ageDuration = user.age >= 65 ? 'green' : '';
+  user.born < 1650
+    ? lifeDuration = 'line-through'
     : user.died > 1800
       ? lifeDuration = 'bold'
       : lifeDuration = 'normal';
@@ -23,7 +25,7 @@ const User = ({ user, isSelected, selectUser }) => {
       <td className={`user--${sex}`}>{user.sex}</td>
       <td>{user.born}</td>
       <td>{user.died}</td>
-      <td>{user.age}</td>
+      <td className={ageDuration}>{user.age}</td>
       <td>{user.mother}</td>
       <td>{user.father}</td>
     </tr>
