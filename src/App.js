@@ -10,14 +10,11 @@ const getData = async() => {
     id: index,
     age: person.died - person.born,
     century: Math.ceil(person.died / 100),
-    children: [...getChildren(peopleData, person)],
+    children: peopleData
+      .filter(man => man.father === person.name
+        || man.mother === person.name)
+      .map(child => child.name).join(', '),
   }));
-};
-
-const getChildren = (people, person) => {
-  const children = people.filter(man => man.father === person.name
-    || man.mother === person.name);
-  return children.map(child => child.name).join(', ');
 };
 
 class App extends React.Component {
@@ -28,17 +25,27 @@ class App extends React.Component {
     sortField: '',
     currentSortField: '',
     currentPeople: [],
+    filterField: '',
+    query: '',
   };
 
   async componentDidMount() {
     this.people = await getData();
     this.setState({
-      visiblePeople: [...this.people],
+      visiblePeople: this.people,
     });
   }
 
-  setSortField = (sortField) => {
-    const { currentSortField, currentPeople, visiblePeople } = this.state;
+  getFilterSortPeoples = (sortField) => {
+    const {
+      currentSortField,
+      currentPeople,
+      visiblePeople,
+      query,
+    } = this.state;
+
+    const normalizedQuery = query.toLowerCase();
+
     if (currentSortField === sortField
       && currentPeople === visiblePeople) {
       return this.setState({
@@ -47,17 +54,24 @@ class App extends React.Component {
       });
     }
 
-    const sortPeople = [...this.people].sort((a, b) => {
-      switch (typeof a[sortField]) {
-        case 'string':
-          return a[sortField].localeCompare(b[sortField]);
-        case 'number':
-        case 'boolean':
-          return a[sortField] - b[sortField];
-        default:
-          return null;
-      }
-    });
+    const sortPeople = this.people
+      .filter((person) => {
+        const fieldForSearching = `
+        ${person.name} ${person.mother} ${person.father}`;
+
+        return fieldForSearching.toLowerCase().includes(normalizedQuery);
+      })
+      .sort((a, b) => {
+        switch (typeof a[sortField]) {
+          case 'string':
+            return a[sortField].localeCompare(b[sortField]);
+          case 'number':
+          case 'boolean':
+            return a[sortField] - b[sortField];
+          default:
+            return null;
+        }
+      });
 
     return this.setState({
       visiblePeople: sortPeople,
@@ -67,24 +81,51 @@ class App extends React.Component {
     });
   };
 
+  handleQueryChange = (event) => {
+    const query = event.target.value;
+    this.getFilterSortPeoples(query);
+    this.setState({
+      query,
+    });
+  };
+
+  setClearFilter = () => {
+    this.setState({
+      filterField: '',
+      query: '',
+      visiblePeople: this.people,
+    });
+  };
+
   render() {
-    const { visiblePeople, sortField } = this.state;
+    const {
+      visiblePeople,
+      query,
+    } = this.state;
+
     return (
       <main className="main">
-        {(sortField !== '')
-          ? (
-            <h1>
-              {`People sorted by ${sortField}`}
-            </h1>
-          ) : (
-            <h1>
-              {`People table with length ${visiblePeople.length}`}
-            </h1>
-          )
-        }
+        <h1>
+          {`People table with length ${visiblePeople.length}`}
+        </h1>
+        <div>
+          <input
+            type="text"
+            value={query}
+            placeholder="input word for filter"
+            onChange={this.handleQueryChange}
+            className="filter-input"
+          />
+          <button
+            className={query ? 'filter-clear' : 'hidden'}
+            onClick={this.setClearFilter}
+          >
+            X
+          </button>
+        </div>
         <PeopleTable
           people={visiblePeople}
-          onSortFieldChange={this.setSortField}
+          onSortFieldChange={this.getFilterSortPeoples}
         />
       </main>
     );

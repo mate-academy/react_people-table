@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import Person from './Person';
 import './styles/peopleTable.css';
 import './styles/person.css';
 
@@ -22,85 +23,78 @@ class PeopleTable extends React.Component {
     const { selectedPersonId } = this.state;
 
     return (
-      <table
-        className="people-table"
-        style={{ borderCollapse: 'collapse' }}
-      >
-        <thead className="people-table__thead">
-          <tr>
-            <th
-              className="people-table__item"
-              onClick={() => onSortFieldChange('id')}
-            >
-            ID
-            </th>
-            <th
-              className="people-table__item"
-              onClick={() => onSortFieldChange('name')}
-            >
-              Name
-            </th>
-            <th className="people-table__item">Sex</th>
-            <th
-              className="people-table__item"
-              onClick={() => onSortFieldChange('born')}
-            >
-              Born
-            </th>
-            <th
-              className="people-table__item"
-              onClick={() => onSortFieldChange('died')}
-            >
-              Died
-            </th>
-            <th
-              className="people-table__item"
-              onClick={() => onSortFieldChange('age')}
-            >
-              Age
-            </th>
-            <th
-              className="people-table__item"
-              onClick={() => onSortFieldChange('century')}
-            >
-              Century
-            </th>
-            <th className="people-table__item">Mother</th>
-            <th className="people-table__item">Father</th>
-            <th className="people-table__item">Children</th>
-          </tr>
-        </thead>
-        <tbody>
-          {people.map((person) => {
-            const rowClasses = ['people-table__row'];
-            if (person.id === selectedPersonId) {
-              rowClasses.push('people-table__row--selected');
-            }
-
-            const classParent = parentsClass(person);
-            rowClasses.push(classParent);
-
-            return (
-              <tr
-                key={person.id}
-                className={rowClasses.join(' ')}
-                onClick={() => this.setState({ selectedPersonId: person.id })}
+      <>
+        <table
+          className="people-table"
+        >
+          <thead className="people-table__thead">
+            <tr>
+              <th
+                className="people-table__item people-table__item--click"
+                onClick={() => onSortFieldChange('id')}
               >
-                <td className="person__item">{person.id + 1}</td>
-                <td className="person__item">{person.name}</td>
-                <td className="person__item">{person.sex}</td>
-                <td className="person__item">{person.born}</td>
-                <td className="person__item">{person.died}</td>
-                <td className="person__item">{person.age}</td>
-                <td className="person__item">{person.century}</td>
-                <td className="person__item">{person.mother}</td>
-                <td className="person__item">{person.father}</td>
-                <td className="person__item">{person.children}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                ID
+              </th>
+              <th
+                className="people-table__item people-table__item--click"
+                onClick={() => onSortFieldChange('name')}
+              >
+                Name
+              </th>
+              <th className="people-table__item">Sex</th>
+              <th
+                className="people-table__item people-table__item--click"
+                onClick={() => onSortFieldChange('born')}
+              >
+                Born
+              </th>
+              <th
+                className="people-table__item people-table__item--click"
+                onClick={() => onSortFieldChange('died')}
+              >
+                Died
+              </th>
+              <th
+                className="people-table__item people-table__item--click"
+                onClick={() => onSortFieldChange('age')}
+              >
+                Age
+              </th>
+              <th
+                className="people-table__item people-table__item--click"
+                onClick={() => onSortFieldChange('century')}
+              >
+                Century
+              </th>
+              <th className="people-table__item">Mother</th>
+              <th className="people-table__item">Father</th>
+              <th className="people-table__item">Children</th>
+            </tr>
+          </thead>
+          <tbody>
+            {people.map((person) => {
+              const rowClasses = ['people-table__row'];
+              if (person.id === selectedPersonId) {
+                rowClasses.push('people-table__row--selected');
+              }
+
+              const classParent = parentsClass(person);
+              rowClasses.push(classParent);
+
+              return (
+                <Person
+                  key={person.id}
+                  person={person}
+                  selected={person.id === selectedPersonId}
+                  onSelected={() => {
+                    this.setState({ selectedPersonId: person.id });
+                  }}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </>
     );
   }
 }
@@ -108,6 +102,8 @@ class PeopleTable extends React.Component {
 PeopleTable.propTypes = {
   people: propTypes.shape().isRequired,
   onSortFieldChange: propTypes.func
+    .isRequired,
+  onFilterFieldChange: propTypes.func
     .isRequired,
 };
 

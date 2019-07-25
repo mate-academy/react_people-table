@@ -1,57 +1,71 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import './styles/person.css';
+import classnames from 'classnames';
 
-const selectRow = (event) => {
-  const row = event.target.parentNode;
-  const childrenTable = row.parentElement.childNodes;
-  childrenTable.forEach((child) => {
-    if (child.classList.contains('person--selected')) {
-      child.classList.remove('person--selected');
+const Person = ({ person, selected, onSelected }) => {
+  const classes = classnames(
+    'Person',
+    `Person--lived-in-${person.century}`,
+    {
+      'Person--selected': selected,
+      'Person--man': person.sex === 'm',
+      'Person--woman': person.sex === 'f',
+      'Person--long-liver': person.age >= 65,
     }
-  });
+  );
 
-  row.classList.toggle('person--selected');
+  return (
+    <tr
+      key={person.id}
+      className={classes}
+      onClick={onSelected}
+    >
+      <td className="person__item">{person.id}</td>
+      <td className="person__item">{person.name}</td>
+      <td className="person__item">{person.sex}</td>
+      <td className="person__item">{person.born}</td>
+      <td className="person__item">{person.died}</td>
+      <td className="person__item">{person.age}</td>
+      <td className="person__item">{person.century}</td>
+      <td className="person__item">{person.mother}</td>
+      <td className="person__item">{person.father}</td>
+      <td className="person__item">{person.children}</td>
+    </tr>
+  );
 };
 
-const parentsClass = (person) => {
-  if (person.children.length > 0) {
-    return (person.sex === 'f')
-      ? 'person person--mother'
-      : 'person person--father';
-  }
-  return 'person';
-};
-
-const Person = ({ person }) => (
-  <tr className={parentsClass(person)} onClick={selectRow}>
-    <td className="person__item">{person.id + 1}</td>
-    <td className="person__item">{person.name}</td>
-    <td className="person__item">{person.sex}</td>
-    <td className="person__item">{person.born}</td>
-    <td className="person__item">{person.died}</td>
-    <td className="person__item">{person.age}</td>
-    <td className="person__item">{person.century}</td>
-    <td className="person__item">{person.mother}</td>
-    <td className="person__item">{person.father}</td>
-    <td className="person__item">{person.children}</td>
-
-  </tr>
+const PersonName = ({ person }) => (
+  <b style={{ color: person.sex === 'm' ? 'blue' : 'red' }}>
+    { person.name }
+  </b>
 );
 
-Person.propTypes = {
-  person: propTypes.shape({
-    born: propTypes.number,
-    died: propTypes.number,
-    age: propTypes.number,
-    century: propTypes.number,
-    name: propTypes.string,
-    sex: propTypes.string,
-    mother: propTypes.string,
-    father: propTypes.string,
-    id: propTypes.number,
-    children: propTypes.array,
-  }).isRequired,
+const PersonType = {
+  id: propTypes.number.isRequired,
+  born: propTypes.number.isRequired,
+  died: propTypes.number.isRequired,
+  age: propTypes.number.isRequired,
+  century: propTypes.number.isRequired,
+  name: propTypes.string.isRequired,
+  sex: propTypes.string.isRequired,
+  mother: propTypes.string.isRequired,
+  father: propTypes.string.isRequired,
+  children: propTypes.array.isRequired,
 };
 
+Person.propTypes = {
+  person: propTypes.shape(PersonType).isRequired.isRequired,
+  selected: propTypes.bool,
+  onSelected: propTypes.func,
+};
+
+Person.defaultProps = {
+  selected: false,
+  onSelected: () => {},
+};
+
+PersonName.propTypes = {
+  person: propTypes.shape().isRequired,
+};
 export default Person;
