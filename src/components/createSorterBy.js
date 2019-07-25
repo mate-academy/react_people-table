@@ -1,7 +1,4 @@
-let sortedPeople = [];
-let currentKey = '';
-
-const createSorterBy = ({ sortField, people }) => {
+const createSorterBy = (sortField, currentKey, sortedPeople, people) => {
   if (currentKey === sortField) {
     return sortedPeople.reverse();
   }

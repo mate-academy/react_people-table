@@ -24,6 +24,7 @@ h1 {
 .filter-input__input {
   width: 900px;
   margin-left: 5px;
+  border: 4px solid #474242;
 }
 
 .toggle-btn {
@@ -64,6 +65,7 @@ h1 {
 .people-table {
   width: 100%;
   border-collapse: collapse;
+  border: 4px solid #474242;
 }
 
 th,

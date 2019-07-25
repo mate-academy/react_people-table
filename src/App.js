@@ -11,6 +11,8 @@ class App extends React.Component {
     people: [],
     visiblePeople: [],
     sortField: 'id',
+    currentKey: '',
+    sortedPeople: [],
     isVisible: false,
   }
 
@@ -28,42 +30,37 @@ class App extends React.Component {
   };
 
   sortBy = (sortField) => {
-    this.setState({
-      sortField,
+    this.setState((prevState) => {
+      const {
+        people,
+        currentKey,
+        sortedPeople,
+      } = prevState;
+
+      return {
+        sortField,
+        visiblePeople: createSorterBy(
+          sortField,
+          currentKey,
+          sortedPeople,
+          people
+        ),
+      };
     });
-    this.setState(prevState => ({
-      visiblePeople: createSorterBy(prevState),
-    }));
   };
 
   handleFilter = (event) => {
-    const { value } = event.target;
+    let { value } = event.target;
+
+    value = value.toLowerCase().trim();
 
     this.setState(prevState => ({
       visiblePeople: prevState.people.filter(
-        person => ((
-          person.name
+        person => (
+          (person.name + person.mother + person.father)
             .toLowerCase()
-            .includes(value
-              .toLowerCase()
-              .trim())
-        ) || (
-          person.mother === null || person.mother === ''
-            ? 0
-            : person.mother
-              .toLowerCase()
-              .includes(value
-                .toLowerCase()
-                .trim())
-        ) || (
-          person.father === null || person.father === ''
-            ? 0
-            : person.father
-              .toLowerCase()
-              .includes(value
-                .toLowerCase()
-                .trim())
-        ))
+            .includes(value)
+        )
       ),
     }));
   }

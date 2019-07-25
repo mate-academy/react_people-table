@@ -117,7 +117,15 @@ class NewPerson extends React.Component {
   };
 
   render() {
-    const { errorsMap } = this.state;
+    const {
+      died,
+      born,
+      name,
+      children,
+      mother,
+      father,
+      errorsMap
+    } = this.state;
 
     return (
       <form
@@ -133,6 +141,7 @@ class NewPerson extends React.Component {
               id="name-field"
               type="text"
               name="name"
+              value={name}
               placeholder="FirstName LastName"
               onChange={this.handleFieldChange}
             />
@@ -187,6 +196,7 @@ class NewPerson extends React.Component {
                 id="born-field"
                 type="number"
                 name="born"
+                value={born}
                 min="0"
                 placeholder={new Date().getFullYear()}
                 onChange={this.handleFieldChange}
@@ -208,6 +218,7 @@ class NewPerson extends React.Component {
               id="dead-field"
               type="number"
               name="died"
+              value={died}
               min="0"
               placeholder={new Date().getFullYear()}
               onChange={this.handleFieldChange}
@@ -230,6 +241,7 @@ class NewPerson extends React.Component {
               id="mother-field"
               type="text"
               name="mother"
+              value={mother}
               placeholder="FirstName LastName"
               onChange={this.handleFieldChange}
             />
@@ -245,6 +257,7 @@ class NewPerson extends React.Component {
               id="father-field"
               type="text"
               name="father"
+              value={father}
               placeholder="FirstName LastName"
               onChange={this.handleFieldChange}
             />
@@ -260,6 +273,7 @@ class NewPerson extends React.Component {
               id="children-field"
               type="text"
               name="children"
+              value={children}
               placeholder="Please, separate names by comma"
               onChange={this.handleFieldChange}
             />
