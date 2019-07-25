@@ -25,7 +25,6 @@ class App extends React.Component {
     sortField: '',
     currentSortField: '',
     currentPeople: [],
-    filterField: '',
     query: '',
   };
 
@@ -91,7 +90,6 @@ class App extends React.Component {
 
   setClearFilter = () => {
     this.setState({
-      filterField: '',
       query: '',
       visiblePeople: this.people,
     });
