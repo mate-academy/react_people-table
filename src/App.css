@@ -1,0 +1,19 @@
+.PeopleTable {
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid black;
+}
+
+.tooOld {
+  text-decoration: line-through;
+}
+
+.longLiver {
+  color: #1cb81c;
+}
+
+.Person--selected {
+  background-color: #6f6fdf;
+}
