@@ -10,21 +10,6 @@ const GetPeoples = async() => {
   return people;
 };
 
-const sortedPeople = (people, targetField) => (
-  people.sort((a, b) => {
-    switch (typeof a[targetField]) {
-      case 'string':
-        return a[targetField].localeCompare(b[targetField]);
-
-      case 'boolean':
-      case 'number':
-        return a[targetField] - b[targetField];
-
-      default:
-        return 0;
-    }
-  }));
-
 class App extends Component {
   state = {
     people: [],
@@ -72,9 +57,21 @@ class App extends Component {
   }
 
   sortPeople = (targetField) => {
-    this.setState({
-      visiblePeople: sortedPeople([...this.people], targetField),
-    });
+    this.setState(prevstate => ({
+      visiblePeople: prevstate.people.sort((a, b) => {
+        switch (typeof a[targetField]) {
+          case 'string':
+            return a[targetField].localeCompare(b[targetField]);
+
+          case 'boolean':
+          case 'number':
+            return a[targetField] - b[targetField];
+
+          default:
+            return 0;
+        }
+      }),
+    }));
   }
 
   render() {
