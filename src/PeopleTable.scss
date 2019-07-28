@@ -1,0 +1,15 @@
+.Person {
+  cursor: pointer;
+
+  &:hover:not(.Person--selected) {
+    background-color: yellow;
+  }
+
+  &--selected {
+    background-color: yellowgreen;
+  }
+}
+
+td {
+  border: 1px solid black;
+}
