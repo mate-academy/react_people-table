@@ -11,9 +11,17 @@ td {
 }
 
 .longLiver {
-  color: #1cb81c;
+  border: 2px solid rgb(252, 2, 2);
 }
 
 .Person--selected {
-  background-color: #6f6fdf;
+  border: 3px solid rgb(255, 123, 0);
+}
+
+.Person--male {
+  background-color: rgb(171, 171, 216);
+}
+
+.Person--female {
+  background-color: rgb(216, 173, 173);
 }

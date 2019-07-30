@@ -15,9 +15,10 @@ class App extends Component {
     people: [],
     visiblePeople: [],
     inputValue: '',
+    sortField: '',
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const people = await GetPeoples();
 
     const peopleWithProps = people.map((person, index) => ({
@@ -25,6 +26,10 @@ class App extends Component {
       ...person,
       age: person.died - person.born,
       century: Math.ceil(person.died / 100),
+      children: people.filter(relative => relative.mother === person.name
+        || relative.father === person.name)
+        .map(relative => relative.name)
+        .join(', '),
     }));
 
     this.setState({
@@ -47,31 +52,34 @@ class App extends Component {
     this.setState(prevState => ({
       inputValue: inputText,
       visiblePeople: prevState.people.filter((person) => {
-        const byName = this.checkPersonInfo(person.name, inputText);
-        const byMother = this.checkPersonInfo(person.mother, inputText);
-        const byFather = this.checkPersonInfo(person.father, inputText);
+        const filterFields = person.name + person.mother + person.father;
 
-        return byName || byMother || byFather;
+        return this.checkPersonInfo(filterFields, inputText);
       }),
     }));
   }
 
   sortPeople = (targetField) => {
-    this.setState(prevstate => ({
-      visiblePeople: prevstate.people.sort((a, b) => {
-        switch (typeof a[targetField]) {
-          case 'string':
-            return a[targetField].localeCompare(b[targetField]);
+    (targetField !== this.state.sortField)
+      ? this.setState(prevstate => ({
+        visiblePeople: [...prevstate.people].sort((a, b) => {
+          switch (typeof a[targetField]) {
+            case 'string':
+              return a[targetField].localeCompare(b[targetField]);
 
-          case 'boolean':
-          case 'number':
-            return a[targetField] - b[targetField];
+            case 'boolean':
+            case 'number':
+              return a[targetField] - b[targetField];
 
-          default:
-            return 0;
-        }
-      }),
-    }));
+            default:
+              return 0;
+          }
+        }),
+        sortField: targetField,
+      }))
+      : this.setState(prevstate => ({
+        visiblePeople: [...prevstate.visiblePeople.reverse()],
+      }));
   }
 
   render() {
