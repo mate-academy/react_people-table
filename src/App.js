@@ -35,7 +35,11 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <PeopleTable peopleData={people} />
+        {
+          people.length ? (
+            <PeopleTable peopleData={people} />
+          ) : []
+        }
       </div>
     );
   }

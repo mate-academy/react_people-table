@@ -43,7 +43,10 @@ function Human(props) {
       <td>{father}</td>
       <td>
         {children !== undefined
-          ? children.map(child => `${child.name},`) : ''
+          ? children.map(
+            (child, index) => (index !== children.length - 1 ? `${child.name}, `
+              : `${child.name}`)
+          ) : ''
         }
       </td>
     </tr>

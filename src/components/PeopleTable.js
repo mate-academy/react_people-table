@@ -4,28 +4,20 @@ import './PeopleTable.scss';
 import Human from './Human';
 
 class PeopleTable extends React.Component {
-  sortedPeopleList = this.props.peopleData;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      direction: 1,
-      selectedPerson: null,
-    };
-  }
-
-  componentDidMount() {
-    setTimeout(() => this.sortData(), 70);
-  }
+  state = {
+    sortedPeopleList: [...this.props.peopleData],
+    direction: 1,
+    selectedPerson: null,
+  };
 
   sortData = (sortCase = 'id') => {
-    this.setState(state => ({
-      direction: state.direction === 1 ? -1 : 1,
+    this.setState(prevState => ({
+      direction: prevState.direction === 1 ? -1 : 1,
+      sortedPeopleList: [...this.props.peopleData]
+        .sort((a, b) => (sortCase === 'name'
+          ? prevState.direction * a[sortCase].localeCompare(b[sortCase])
+          : prevState.direction * (b[sortCase] - a[sortCase]))),
     }));
-    this.sortedPeopleList = [...this.props.peopleData]
-      .sort((a, b) => (sortCase === 'name'
-        ? this.state.direction * a[sortCase].localeCompare(b[sortCase])
-        : this.state.direction * (b[sortCase] - a[sortCase])));
   };
 
   handler = (inputValue) => {
@@ -36,6 +28,8 @@ class PeopleTable extends React.Component {
 
   render() {
     const sortCases = ['id', 'name', 'sex', 'born', 'died', 'age'];
+
+    const { sortedPeopleList, selectedPerson } = this.state;
 
     return (
       <table className="PeopleTable">
@@ -62,13 +56,13 @@ class PeopleTable extends React.Component {
         </thead>
         <tbody key="tBody">
           {
-            this.sortedPeopleList
+            sortedPeopleList
               .map(onePersonData => (
                 <Human
                   key={onePersonData.id}
                   personData={onePersonData}
                   handler={this.handler}
-                  selectedPerson={this.state.selectedPerson}
+                  selectedPerson={selectedPerson}
                 />
               ))
           }
