@@ -1,0 +1,13 @@
+#root {
+  padding: 50px;
+}
+
+.optionsContainer {
+  width: 420px;
+  margin: 0 auto;
+}
+
+.option__item {
+  width: 100%;
+  margin: 10px 0;
+}
