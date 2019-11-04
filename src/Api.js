@@ -1,4 +1,4 @@
-const link = 'api/people.json';
+const link = '../api/people.json';
 
 export const getPeopleData = async () => {
   const response = await fetch(link);
