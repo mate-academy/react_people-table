@@ -15,7 +15,7 @@ class App extends React.Component {
   }
 
   getPeopleData = async () => {
-    const response = await fetch('react_people-table/api/people.json');
+    const response = await fetch('/api/people.json');
 
     return response.json();
   }
