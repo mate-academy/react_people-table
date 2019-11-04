@@ -1,5 +1,4 @@
 import React from 'react';
-import { getPeopleData } from './Api';
 
 import PeopleTable from './components/PeopleTable/PeopleTable';
 
@@ -15,8 +14,14 @@ class App extends React.Component {
     }
   }
 
+  getPeopleData = async () => {
+    const response = await fetch('api/people.json');
+
+    return response.json();
+  }
+
   componentDidMount() {
-    getPeopleData()
+    this.getPeopleData()
       .then((people) => {
         const addSomeinfoToPeople = people
           .map(person => {
