@@ -1,0 +1,12 @@
+.PeopleTable {
+  border-collapse: collapse;
+}
+
+.Person--selected {
+  background-color: grey;
+}
+
+th,
+td {
+  border: 1px solid black;
+}
