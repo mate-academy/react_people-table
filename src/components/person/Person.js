@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Children from '../children/Children'; 
 
 class Person extends React.Component {
   render(){
@@ -16,6 +17,7 @@ class Person extends React.Component {
         age,
         century,
         selected,
+        children,
       }
     } = this.props;
 
@@ -30,6 +32,7 @@ class Person extends React.Component {
         <td>{mother}</td>
         <td className={age >= 65 ? 'moreThen65' : ''}>{age}</td>
         <td>{century}</td>
+        <Children children={children} />
       </tr>
     )
   }
