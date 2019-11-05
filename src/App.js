@@ -91,10 +91,6 @@ class App extends React.PureComponent {
     });
   };
 
-  sortPeople = (people, sortQuery) => {
-
-  };
-
   addNewPerson = (name, bornDate, deathDate, gender, mother, father) => {
     this.setState((prevState) => {
       const { people } = prevState;
