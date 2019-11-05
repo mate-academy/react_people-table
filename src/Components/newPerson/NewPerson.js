@@ -28,19 +28,19 @@ class NewPerson extends Component {
 
   nameChange = (event) => {
     this.setState({
-      name: event.target.value,
+      name: event.target.value.replace(/[^a-z\s]/gi, ''),
     });
   };
 
   dateBornChange = (event) => {
     this.setState({
-      bornDate: event.target.value,
+      bornDate: event.target.value.replace(/[^0-9]/g, ''),
     });
   };
 
   dateDeathChange = (event) => {
     this.setState({
-      deathDate: event.target.value,
+      deathDate: event.target.value.replace(/[^0-9]/g, ''),
     });
   };
 
@@ -95,6 +95,10 @@ class NewPerson extends Component {
   onSubmit = (event) => {
     const { name, bornDate, deathDate, gender, mother, father, addNewPerson } = this.state;
 
+    if (!name || !bornDate || !gender) {
+      return;
+    }
+
     addNewPerson(name, bornDate, deathDate, gender === 'Male' ? 'm' : 'f', mother, father);
 
     this.setState({
@@ -123,8 +127,8 @@ class NewPerson extends Component {
           <Form>
             <Form.Input fluid label="Full name" placeholder="Full name" value={name} onChange={this.nameChange} />
             <Form.Group widths="equal">
-              <Form.Input fluid label="Year of born" placeholder="xxxx" value={bornDate} onChange={this.dateBornChange} />
-              <Form.Input fluid label="Year of death" placeholder="xxxx" value={deathDate} onChange={this.dateDeathChange} />
+              <Form.Input fluid label="Year of born" placeholder="xxxx" value={bornDate} maxLength="4" onChange={this.dateBornChange} />
+              <Form.Input fluid label="Year of death" placeholder="xxxx" value={deathDate} maxLength="4" onChange={this.dateDeathChange} />
             </Form.Group>
             <Form.Group widths="equal">
               <Form.Select label="Mother" placeholder="Mother" options={motherOptions} onChange={this.motherChange} />

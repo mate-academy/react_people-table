@@ -21,11 +21,34 @@ class App extends React.PureComponent {
 
   getFilterQuery = state => state.filterQuery;
 
-  getFilteredPeople = createSelector(
-    [this.getPeople, this.getFilterQuery],
-    (people, filterQuery) => people.filter(person => person.name.includes(filterQuery)
-        || person.father.includes(filterQuery)
-        || person.mother.includes(filterQuery))
+  getSortQuery = state => state.sortQuery;
+
+  getFilteredAndSortedPeople = createSelector(
+    [this.getPeople, this.getFilterQuery, this.getSortQuery],
+    (people, filterQuery, sortQuery) => {
+      const filteredPeople = people.filter(person => person.name.includes(filterQuery)
+                                                || person.father.includes(filterQuery)
+                                                || person.mother.includes(filterQuery));
+
+      switch (sortQuery) {
+        case 'id':
+          return filteredPeople.sort((a, b) => a.id - b.id);
+        case 'name':
+          return filteredPeople.sort((a, b) => a.name.localeCompare(b.name));
+        case 'sex':
+          return filteredPeople.sort((a, b) => a.sex.localeCompare(b.sex));
+        case 'age':
+          return filteredPeople.sort((a, b) => a.age - b.age);
+        case 'born':
+          return filteredPeople.sort((a, b) => a.born - b.born);
+        case 'died':
+          return filteredPeople.sort((a, b) => a.died - b.died);
+        case 'century':
+          return filteredPeople.sort((a, b) => a.century - b.century);
+        default:
+          return filteredPeople;
+      }
+    }
   );
 
   loadPeopleFromServer = async () => {
@@ -69,24 +92,7 @@ class App extends React.PureComponent {
   };
 
   sortPeople = (people, sortQuery) => {
-    switch (sortQuery) {
-      case 'id':
-        return [...people].sort((a, b) => a.id - b.id);
-      case 'name':
-        return [...people].sort((a, b) => a.name.localeCompare(b.name));
-      case 'sex':
-        return [...people].sort((a, b) => a.sex.localeCompare(b.sex));
-      case 'age':
-        return [...people].sort((a, b) => a.age - b.age);
-      case 'born':
-        return [...people].sort((a, b) => a.born - b.born);
-      case 'died':
-        return [...people].sort((a, b) => a.died - b.died);
-      case 'century':
-        return [...people].sort((a, b) => a.century - b.century);
-      default:
-        return people;
-    }
+
   };
 
   addNewPerson = (name, bornDate, deathDate, gender, mother, father) => {
@@ -112,10 +118,9 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const { filterQuery, sortQuery } = this.state;
+    const { filterQuery } = this.state;
     const selectOptions = this.getSelectOptions();
-    const filteredPeople = this.getFilteredPeople(this.state);
-    const sortedPeople = this.sortPeople(filteredPeople, sortQuery);
+    const relevantPeople = this.getFilteredAndSortedPeople(this.state);
 
     return (
       <>
@@ -124,7 +129,7 @@ class App extends React.PureComponent {
           <Select className="option__item" placeholder="Sort by..." options={selectOptions} onChange={this.changeSelectValue} />
           <NewPerson className="option__item" people={this.state.people} addNewPerson={this.addNewPerson}/>
         </section>
-        <PeopleTable people={sortedPeople} />
+        <PeopleTable people={relevantPeople} />
       </>
     );
   }
