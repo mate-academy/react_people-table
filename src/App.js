@@ -43,12 +43,13 @@ export default class App extends Component {
       this.getSortedTable,
     ],
     (fullTable, filterOption, sortOption) => {
+      let optimizedFilterOption = filterOption.toLowerCase();
       const filteredTable = fullTable.filter(person =>
-        person.name.toLowerCase().includes(filterOption.toLowerCase())
+        person.name.toLowerCase().includes(optimizedFilterOption)
         || String(person.mother)
-                  .toLowerCase().includes(filterOption.toLowerCase())
+                  .toLowerCase().includes(optimizedFilterOption)
         || String(person.father)
-                  .toLowerCase().includes(filterOption.toLowerCase()));
+                  .toLowerCase().includes(optimizedFilterOption));
 
       switch(sortOption) {
         case `name`:
