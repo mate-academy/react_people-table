@@ -1,6 +1,7 @@
 # React - People table
 
 ## Demo link
+
  - [DEMO LINK](https://vitya63.github.io/react_people-table/)
 
 ## Task
