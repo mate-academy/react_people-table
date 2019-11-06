@@ -1,0 +1,15 @@
+.female {
+  background-color: #ffe7f2;
+}
+
+.male {
+  background-color: #e7f7ff;
+}
+
+.ageMore65 {
+  background-color: #d8ffe7;
+}
+
+.wasBornBefore1650 {
+  text-decoration: line-through;
+}
