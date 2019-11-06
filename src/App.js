@@ -56,7 +56,7 @@ class App extends React.Component {
             return '';
           }
 
-          return (person.name.includes(this.state.filtered));
+          return (person.name.toLowerCase().includes(this.state.filtered));
         }).sort((a, b) => a.name.localeCompare(b.name));
         break;
       case 'Mother':
@@ -65,7 +65,7 @@ class App extends React.Component {
             return '';
           }
 
-          return person.mother.includes(this.state.filtered);
+          return person.mother.toLowerCase().includes(this.state.filtered);
         }).sort((a, b) => a.mother.localeCompare(b.mother));
         break;
       case 'Father':
@@ -74,7 +74,7 @@ class App extends React.Component {
             return '';
           }
 
-          return person.father.word.includes(this.state.filtered);
+          return person.father.toLowerCase().includes(this.state.filtered);
         }).sort((a, b) => a.father.localeCompare(b.father));
         break;
       case 'Id':

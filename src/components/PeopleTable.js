@@ -24,7 +24,7 @@ function PeopleTable({ people, selector, props }) {
           <TableRow
             person={person}
             index={index}
-            key={person.name}
+            key={person.id}
             selector={selector}
             props={props}
           />
