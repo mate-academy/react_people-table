@@ -31,13 +31,14 @@ export default class PeopleTable extends Component {
           </tr>
         </thead>
         <tbody>
-          {tableInfo.map(person => <Person
-                                      person={person}
-                                      key={person.id}
-                                      select={this.selectOnClick}
-                                      index={this.state.activeRow}
-                                    />
-           )}
+          {tableInfo.map(person => (
+            <Person
+              person={person}
+              key={person.id}
+              select={this.selectOnClick}
+              index={this.state.activeRow}
+            />
+           ))}
         </tbody>
       </table>
     );
