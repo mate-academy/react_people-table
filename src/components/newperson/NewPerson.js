@@ -55,6 +55,14 @@ class NewPerson extends React.Component {
     }
 
     addNewUser(person);
+    this.setState({
+      name: '',
+      bornyear: '',
+      deathyear: '',
+      mother: '',
+      father: '',
+      sex: '',
+    })
   }
 
   render() {
