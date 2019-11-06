@@ -13,11 +13,11 @@ export default class App extends Component {
     sortType: '',
   }
 
-  loadData = async () => {
+  loadData = () => {
     Promise.all([tableData])
       .then(([table]) => {
         table.forEach((item, index) => {
-          item.id = index+1;
+          item.id = index + 1;
           item.century = Math.ceil(item.died / 100);
           item.age = item.died - item.born;
           item.children = (table.filter(child => child.mother === item.name || child.father === item.name) || {name: ''});
