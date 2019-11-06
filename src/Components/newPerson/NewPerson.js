@@ -62,29 +62,14 @@ class NewPerson extends Component {
     });
   };
 
-  getMotherOptions = (people) => {
+  getParentOptions = (people, gender) => {
     const { bornDate } = this.state;
 
     if (bornDate === null) {
       return;
     }
 
-    return people.filter(person => (person.born < bornDate - 10 && person.died >= bornDate) && person.sex === 'f')
-      .map(person => ({
-        key: person.name,
-        text: person.name,
-        value: person.name,
-      }));
-  };
-
-  getFatherOptions = (people) => {
-    const { bornDate } = this.state;
-
-    if (bornDate === null) {
-      return;
-    }
-
-    return people.filter(person => (person.born < bornDate - 10 && person.died >= bornDate) && person.sex === 'm')
+    return people.filter(person => (person.born < bornDate - 10 && person.died >= bornDate) && person.sex === gender)
       .map(person => ({
         key: person.name,
         text: person.name,
@@ -117,14 +102,14 @@ class NewPerson extends Component {
     const { showForm, name, bornDate, deathDate } = this.state;
     const { people } = this.props;
     const genderOptions = this.getGenderOpinons();
-    const motherOptions = this.getMotherOptions(people);
-    const fatherOptions = this.getFatherOptions(people);
+    const motherOptions = this.getMotherOptions(people, 'f');
+    const fatherOptions = this.getFatherOptions(people, 'm');
 
 
     return (
       showForm
         ? (
-          <Form>
+          <Form onSubmit={this.onSubmit}>
             <Form.Input fluid label="Full name" placeholder="Full name" value={name} onChange={this.nameChange} />
             <Form.Group widths="equal">
               <Form.Input fluid label="Year of born" placeholder="xxxx" value={bornDate} maxLength="4" onChange={this.dateBornChange} />
@@ -135,7 +120,7 @@ class NewPerson extends Component {
               <Form.Select label="Father" placeholder="Father" options={fatherOptions} onChange={this.fatherChange} />
             </Form.Group>
             <Form.Select placeholder="Gender" options={genderOptions} onChange={this.genderChange} />
-            <Button className="option__item" onClick={this.onSubmit}>Add new person</Button>
+            <Button className="option__item">Add new person</Button>
           </Form>
         )
         : <Button className="option__item" onClick={this.buttonClick}>New Person</Button>

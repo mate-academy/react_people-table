@@ -38,7 +38,7 @@ class PeopleTable extends PureComponent {
         <Table.Body>
           {people.map((person, index) => (
             <Person
-              key={index + 1}
+              key={person.name}
               person={person}
               personId={index + 1}
               onClick={this.selectPerson}

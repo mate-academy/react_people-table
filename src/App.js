@@ -26,9 +26,10 @@ class App extends React.PureComponent {
   getFilteredAndSortedPeople = createSelector(
     [this.getPeople, this.getFilterQuery, this.getSortQuery],
     (people, filterQuery, sortQuery) => {
-      const filteredPeople = people.filter(person => person.name.includes(filterQuery)
-                                                || person.father.includes(filterQuery)
-                                                || person.mother.includes(filterQuery));
+      const filteredPeople = people.filter(person =>
+        person.name.includes(filterQuery)
+        || person.father.includes(filterQuery)
+        || person.mother.includes(filterQuery));
 
       switch (sortQuery) {
         case 'id':
