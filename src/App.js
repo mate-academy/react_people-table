@@ -42,7 +42,7 @@ class App extends React.Component {
     }));
   };
 
-  filter = (e) => {
+  handleChangeFilter = (e) => {
     this.setState({ filtered: e.target.value });
   }
 
@@ -56,7 +56,10 @@ class App extends React.Component {
             return '';
           }
 
-          return (person.name.toLowerCase().includes(this.state.filtered));
+          return (
+            person.name.toLowerCase()
+              .includes(this.state.filtered.toLowerCase())
+          );
         }).sort((a, b) => a.name.localeCompare(b.name));
         break;
       case 'Mother':
@@ -65,7 +68,10 @@ class App extends React.Component {
             return '';
           }
 
-          return person.mother.toLowerCase().includes(this.state.filtered);
+          return (
+            person.mother.toLowerCase()
+              .includes(this.state.filtered.toLowerCase())
+          );
         }).sort((a, b) => a.mother.localeCompare(b.mother));
         break;
       case 'Father':
@@ -74,7 +80,10 @@ class App extends React.Component {
             return '';
           }
 
-          return person.father.toLowerCase().includes(this.state.filtered);
+          return (
+            person.father.toLowerCase()
+              .includes(this.state.filtered.toLowerCase())
+          );
         }).sort((a, b) => a.father.localeCompare(b.father));
         break;
       case 'Id':
@@ -121,7 +130,7 @@ class App extends React.Component {
         <Input
           type="text"
           placeholder="To filter!"
-          onChange={this.filter}
+          onChange={this.handleChangeFilter}
           value={this.state.filtered}
         />
         <Buttons sorter={this.sorter} />
