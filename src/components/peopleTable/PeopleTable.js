@@ -36,7 +36,8 @@ export default class PeopleTable extends Component {
                                       key={person.id}
                                       select={this.selectOnClick}
                                       index={this.state.activeRow}
-                                    />)}
+                                    />
+            )}
         </tbody>
       </table>
     );

@@ -13,11 +13,11 @@ export default class App extends Component {
     sortType: '',
   }
 
-  loadData = async () => {
+  loadData = () => {
     Promise.all([tableData])
       .then(([table]) => {
         table.forEach((item, index) => {
-          item.id = index+1;
+          item.id = index + 1;
           item.century = Math.ceil(item.died / 100);
           item.age = item.died - item.born;
           item.children = (table.filter(child => child.mother === item.name || child.father === item.name) || {name: ''});
@@ -44,9 +44,11 @@ export default class App extends Component {
     ],
     (fullTable, filterOption, sortOption) => {
       const filteredTable = fullTable.filter(person =>
-        person.name.includes(filterOption)
-        || String(person.mother).includes(filterOption)
-        || String(person.father).includes(filterOption));
+        person.name.toLowerCase().includes(filterOption.toLowerCase())
+        || String(person.mother)
+                  .toLowerCase().includes(filterOption.toLowerCase())
+        || String(person.father)
+                  .toLowerCase().includes(filterOption.toLowerCase()));
 
       switch(sortOption) {
         case `name`:
