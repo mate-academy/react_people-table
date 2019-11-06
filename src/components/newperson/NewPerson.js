@@ -81,7 +81,7 @@ class NewPerson extends React.Component {
               </label>
               <label>
                 Death year:<br />
-                <input type="date" name="deathyear" onChange={this.changeFormData} />
+                <input type="date" value={this.state.deathyear} name="deathyear" onChange={this.changeFormData} />
               </label>
           </div>
             <label>
