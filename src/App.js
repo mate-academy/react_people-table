@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createSelector } from 'reselect';
 import { PeopleTable } from './components/PeopleTable';
+import { getPeopleData } from "./api/people";
 
 const filterInput = (inputValue, peopleList) => [...peopleList]
   .filter((person) => {
@@ -62,7 +63,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getPeopleData()
+    getPeopleData()
       .then((people) => {
         const addInfo = people
           .map((person, ind) => {
@@ -88,12 +89,6 @@ class App extends Component {
       })
       .catch(() => this.setState({ hasError: true, isLoading: false }));
   }
-
-  getPeopleData = async() => {
-    const response = await fetch('/api/people.json');
-
-    return response.json();
-  };
 
   findChildren = (user, peopleArr) => {
     const childrenArr = [];
