@@ -1,0 +1,32 @@
+#root {
+  padding: 30px;
+}
+
+.wrapper {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.item {
+  width: 400px;
+}
+
+.wrapper-input {
+  display: flex;
+  justify-content: center;
+}
+
+.ageMore65 {
+  background-color: #fffc94;
+}
+
+.wasBornBefore1650 {
+  text-decoration: line-through;
+  background-color: lightgray;
+}
+
+h2 {
+  text-align: center;
+  color: white;
+}

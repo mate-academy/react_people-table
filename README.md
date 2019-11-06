@@ -8,7 +8,7 @@ Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
 1. Load `people` from [API](https://mate-academy.github.io/react_people-table/api/people.json)
   and show the number of currently visible people in the `App` component
 
-2. Implement `PeopleTable` component accepting an array of people as a param. 
+2. Implement `TablePeople` component accepting an array of people as a param. 
   It should show these columns: 
     - `id` (position in the original array starting from 1)
     - `name` 
@@ -18,10 +18,10 @@ Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
     - `mother`
     - `father`
       ```jsx harmony
-      <PeopleTable people={people} />
+      <TablePeople people={people} />
       ```
       ```html
-      <table className="PeopleTable">
+      <table className="TablePeople">
         <thead>...</thead>
         <tbody>...</tbody>
       </table>
