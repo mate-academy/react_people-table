@@ -8,8 +8,6 @@ const filterInput = (inputValue, peopleList) => [...peopleList]
 || person.mother.toLowerCase().includes(inputValue.toLowerCase())
 || person.father.toLowerCase().includes(inputValue.toLowerCase())) {
       return person;
-    } else {
-      return;
     }
   });
 
@@ -57,7 +55,6 @@ class App extends Component {
     this.state = {
       peopleList: [],
       hasError: false,
-      personId: 1,
       isLoading: true,
       inputValue: '',
       sortType: 'all',
