@@ -1,6 +1,8 @@
 import React from 'react';
 import Children from '../children/Children';
 
+
+
 const Person = (props) => {
   const {
     selectPerson,

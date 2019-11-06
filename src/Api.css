@@ -71,4 +71,49 @@ input {
   border-radius: 5px;
 }
 
+.new-person {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  margin: 50px auto;
+}
+
+label {
+  overflow: hidden;
+}
+
+.new-person-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: max-content;
+}
+
+form > label {
+  width: 60%;
+}
+
+label > input {
+  width: 90%;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+form > button {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.form-little-container {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+}
+
+.form-little-container > label > input {
+  width: 75%;
+}
+
+
 

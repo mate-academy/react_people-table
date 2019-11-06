@@ -11,14 +11,15 @@ const PeopleTable = (props) => {
   const {
     selectPerson,
     inputValueChange,
-    sortTypeChange,
+    SortingButtons,
     filterSortList,
+    addNewUser,
   } = props;
 
   return (
     <>
-      <NewPerson />
-      <Sort  sortTypeChange={sortTypeChange}/>
+      <NewPerson addNewUser={addNewUser} />
+      <Sort  SortingButtons={SortingButtons}/>
       <div className='filter'>
         <input type='text' placeholder="Write filter text" onChange={inputValueChange} />
       </div>
@@ -36,7 +37,7 @@ const PeopleTable = (props) => {
           <th>Children</th>
         </thead>
         <tbody>
-          {filterSortList.map(person => <Person person={person} selectPerson={selectPerson} />)}
+          {filterSortList.map(person => <Person person={person} selectPerson={selectPerson} key={person.id}/>)}
         </tbody>
       </table>
     </>

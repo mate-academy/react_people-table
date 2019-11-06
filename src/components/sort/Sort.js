@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Sort = ({ sortTypeChange }) => {
+const Sort = ({ SortingButtons }) => {
   return (
     <div className='sort'>
-      <button onClick={() => sortTypeChange('name')}>Sort by name</button>
-      <button onClick={() => sortTypeChange('id')}>Sort by id</button>
-      <button onClick={() => sortTypeChange('sex')}>Sort by sex</button>
-      <button onClick={() => sortTypeChange('born')}>Sort by born</button>
-      <button onClick={() => sortTypeChange('died')}>Sort by died</button>
-      <button onClick={() => sortTypeChange('age')}>Sort by age</button>
-      <button onClick={() => sortTypeChange('century')}>Sort by century</button>
-      <button onClick={() => sortTypeChange('all')}>Reset</button>
+      <button onClick={() => SortingButtons('name')}>Sort by name</button>
+      <button onClick={() => SortingButtons('id')}>Sort by id</button>
+      <button onClick={() => SortingButtons('sex')}>Sort by sex</button>
+      <button onClick={() => SortingButtons('born')}>Sort by born</button>
+      <button onClick={() => SortingButtons('died')}>Sort by died</button>
+      <button onClick={() => SortingButtons('age')}>Sort by age</button>
+      <button onClick={() => SortingButtons('century')}>Sort by century</button>
+      <button onClick={() => SortingButtons('all')}>Reset</button>
     </div>
   )
 }
 
 Sort.propTypes = {
-  sortTypeChange: PropTypes.func.isRequired,
+  SortingButtons: PropTypes.func.isRequired,
 }
 
 export default Sort;

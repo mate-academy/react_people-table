@@ -103,7 +103,7 @@ class App extends React.Component {
             }
           })
 
-        this.setState({ peopleList: addSomeinfoToPeople, isLoading: false, personId: this.getNewId() })
+        this.setState({ peopleList: addSomeinfoToPeople, isLoading: false })
       })
       .catch(() =>
         this.setState({ peopleListError: true })
@@ -146,8 +146,20 @@ class App extends React.Component {
     this.setState({ inputValue: event.target.value.toLowerCase() })
   }
 
-  sortTypeChange = (type) => {
+  SortingButtons = (type) => {
     this.setState({ sortType: type })
+  }
+
+  addNewUser = (person) => {
+    person.id = this.getNewId();
+    const { peopleList } = this.state;
+    const listWithNewPerson = [...peopleList, person];
+    this.setState(prev => {
+      return {
+        ...prev,
+        peopleList: listWithNewPerson,
+      }
+    })
   }
 
   render() {
@@ -165,7 +177,8 @@ class App extends React.Component {
           selectPerson={this.selectPerson}
           inputValueChange={this.inputValueChange}
           inputValue={this.state.inputValue}
-          sortTypeChange={this.sortTypeChange}
+          SortingButtons={this.SortingButtons}
+          addNewUser = {this.addNewUser}
         />
       )
     }
