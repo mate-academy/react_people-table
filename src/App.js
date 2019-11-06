@@ -25,30 +25,38 @@ const filterSortMemo = createSelector(
     switch(sortType) {
       case 'id':
         return filteredList
-          .sort((a,b) => a - b);
+          .sort((a, b) => a - b);
       case 'name':
         return filteredList
-          .sort((a,b) => a.name.localeCompare(b.name));
+          .sort((a, b) => a.name.localeCompare(b.name));
       case 'sex':
         return filteredList
-          .sort((a,b) => b.sex.localeCompare(a.sex));
+          .sort((a, b) => b.sex.localeCompare(a.sex));
       case 'born':
         return filteredList
-          .sort((a,b) => a.born - b.born);
+          .sort((a, b) => a.born - b.born);
       case 'died':
           return filteredList
-            .sort((a,b) => a.died - b.died);
+            .sort((a, b) => a.died - b.died);
       case 'age':
           return filteredList
-            .sort((a,b) => a.age - b.age);
+            .sort((a, b) => a.age - b.age);
       case 'century':
           return filteredList
-            .sort((a,b) => a.century - b.century);
+            .sort((a, b) => a.century - b.century);
       default:
         return filteredList;
     }
   }
 )
+
+const countPersonId = () => {
+  let currentId = 0;
+  return () => {
+    currentId++;
+    return currentId;
+  }
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -57,7 +65,7 @@ class App extends React.Component {
     this.state = {
       peopleList: [],
       peopleListError: false,
-      personId: 1,
+      personId: '',
       isLoading: true,
       inputValue: '',
       sortType: 'all',
@@ -70,6 +78,8 @@ class App extends React.Component {
     return response.json();
   }
 
+  getNewId = countPersonId();
+
   componentDidMount() {
     this.getPeopleData()
       .then((people) => {
@@ -77,26 +87,23 @@ class App extends React.Component {
           .map(person => {
             const age = person.died - person.born;
             const century = Math.ceil(person.died / 100);
-            const personId = this.state.personId;
-            const mother = person.mother ? person.mother : '';
-            const father = person.father ? person.father : '';
+            const mother = person.mother || '';
+            const father = person.father || '';
             const children = this.findChildren(person, people);
 
-
-            this.setState({ personId: this.state.personId + 1 })
             return {
               ...person,
               age: Number(age),
               century: Number(century),
               selected: false,
-              id: personId,
+              id: this.getNewId(),
               mother: mother,
               father: father,
               children: children,
             }
           })
 
-        this.setState({ peopleList: addSomeinfoToPeople, isLoading: false })
+        this.setState({ peopleList: addSomeinfoToPeople, isLoading: false, personId: this.getNewId() })
       })
       .catch(() =>
         this.setState({ peopleListError: true })
@@ -136,7 +143,7 @@ class App extends React.Component {
   }
 
   inputValueChange = (event) => {
-    this.setState({ inputValue: event.target.value })
+    this.setState({ inputValue: event.target.value.toLowerCase() })
   }
 
   sortTypeChange = (type) => {
