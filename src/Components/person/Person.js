@@ -1,30 +1,31 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { Table } from 'semantic-ui-react';
 
-class Person extends Component {
-  render() {
-    const { person: { id, name, sex, age, born, died, century, father, mother, children },
-      onClick, selectedId } = this.props;
-
-    return (
+const Person = (props) => {
+  const { person: { id, name, sex, age, born, died, century, father, mother, children },
+    selectPerson, selectedId } = props;
+  return (
+    <>
       <Table.Row
         active={selectedId === id}
-        onClick={onClick} data-person-id={id}>
+        onClick={selectPerson} data-person-id={id}
+      >
         <Table.Cell>{id}</Table.Cell>
         <Table.Cell
           className={born < 1650
-          ? 'wasBornBefore1650'
-          : null}>
+            ? 'wasBornBefore1650'
+            : null}
+        >
           {name}
         </Table.Cell>
-        <Table.Cell >{sex === 'm'
+        <Table.Cell >
+          {sex === 'm'
           ? <span>&#128102;&#127999;</span>
           : <span>&#128129;</span>}
         </Table.Cell>
         <Table.Cell
-          className={age >= 65
-          ? 'ageMore65'
-          : null}>
+          className={age >= 65 ? 'ageMore65' : null}
+        >
           {age}
         </Table.Cell>
         <Table.Cell>{born}</Table.Cell>
@@ -38,8 +39,8 @@ class Person extends Component {
           ))}
         </Table.Cell>
       </Table.Row>
-    );
-  }
-}
+    </>
+  );
+};
 
 export default Person;

@@ -40,7 +40,7 @@ class TablePeople extends Component {
               key={Math.random()}
               person={person}
               personId={index + 1}
-              onClick={this.selectPerson}
+              selectPerson={this.selectPerson}
               selectedId={selectedPersonId}
             />
           ))}
