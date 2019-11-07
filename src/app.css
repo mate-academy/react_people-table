@@ -1,0 +1,15 @@
+.classAge {
+  text-decoration: line-through;
+}
+
+.Person--male {
+  background-color: #57bb8a;
+}
+
+.Person--female {
+  background-color: #edd1db;
+}
+
+.age {
+  background-color: green;
+}
