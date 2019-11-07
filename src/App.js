@@ -4,7 +4,7 @@ import { Input } from 'semantic-ui-react';
 
 import { getPeople } from './api/api';
 import PeopleTable from './components/PeopleTable';
-import Buttons from './components/Buttons';
+import SortingButtons from './components/Buttons';
 import './app.css';
 
 class App extends React.Component {
@@ -46,6 +46,10 @@ class App extends React.Component {
     this.setState({ filtered: e.target.value });
   }
 
+  filterWrapper = item => (
+    item.toLowerCase().includes(this.state.filtered.toLowerCase())
+  )
+
   sorter = (cell) => {
     let peopleToState;
 
@@ -57,8 +61,7 @@ class App extends React.Component {
           }
 
           return (
-            person.name.toLowerCase()
-              .includes(this.state.filtered.toLowerCase())
+            this.filterWrapper(person.name)
           );
         }).sort((a, b) => a.name.localeCompare(b.name));
         break;
@@ -69,8 +72,7 @@ class App extends React.Component {
           }
 
           return (
-            person.mother.toLowerCase()
-              .includes(this.state.filtered.toLowerCase())
+            this.filterWrapper(person.mother)
           );
         }).sort((a, b) => a.mother.localeCompare(b.mother));
         break;
@@ -81,8 +83,7 @@ class App extends React.Component {
           }
 
           return (
-            person.father.toLowerCase()
-              .includes(this.state.filtered.toLowerCase())
+            this.filterWrapper(person.father)
           );
         }).sort((a, b) => a.father.localeCompare(b.father));
         break;
@@ -133,7 +134,7 @@ class App extends React.Component {
           onChange={this.handleChangeFilter}
           value={this.state.filtered}
         />
-        <Buttons sorter={this.sorter} />
+        <SortingButtons sorter={this.sorter} />
         <PeopleTable
           people={peopleToShow || people}
           selector={this.selector}

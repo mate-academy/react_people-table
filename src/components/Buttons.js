@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button } from 'semantic-ui-react';
 
-function Buttons({ sorter }) {
+function SortingButtons({ sorter }) {
   return (
     <>
       <Button onClick={() => sorter('Name')} color="blue">Name</Button>
@@ -18,4 +18,4 @@ function Buttons({ sorter }) {
   );
 }
 
-export default Buttons;
+export default SortingButtons;
