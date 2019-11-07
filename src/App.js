@@ -73,7 +73,7 @@ class App extends React.Component {
   }
 
   getPeopleData = async () => {
-    const response = await fetch('./api/people.json');
+    const response = await fetch('/api/people.json');
 
     return response.json();
   }
@@ -146,7 +146,7 @@ class App extends React.Component {
     this.setState({ inputValue: event.target.value.toLowerCase() })
   }
 
-  SortingButtons = (type) => {
+  changeSortType = (type) => {
     this.setState({ sortType: type })
   }
 
@@ -163,7 +163,6 @@ class App extends React.Component {
   }
 
   render() {
-
     if (this.state.isLoading) {
 
       return (
@@ -177,7 +176,7 @@ class App extends React.Component {
           selectPerson={this.selectPerson}
           inputValueChange={this.inputValueChange}
           inputValue={this.state.inputValue}
-          SortingButtons={this.SortingButtons}
+          changeSortType={this.changeSortType}
           addNewUser = {this.addNewUser}
         />
       )

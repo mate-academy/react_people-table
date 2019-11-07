@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Person from '../person/Person';
-import Sort from '../sort/Sort';
 import NewPerson from '../newperson/NewPerson';
-
-
+import SortingButtons from '../sort/SortingButtons';
 
 const PeopleTable = (props) => {
   const {
     selectPerson,
     inputValueChange,
-    SortingButtons,
+    changeSortType,
     filterSortList,
     addNewUser,
   } = props;
@@ -19,7 +17,7 @@ const PeopleTable = (props) => {
   return (
     <>
       <NewPerson addNewUser={addNewUser} />
-      <Sort  SortingButtons={SortingButtons}/>
+      <SortingButtons  changeSortType={changeSortType} />
       <div className='filter'>
         <input type='text' placeholder="Write filter text" onChange={inputValueChange} />
       </div>
