@@ -27,34 +27,13 @@ const peopleWithChildren = (people) => {
   }));
 };
 
-const getFilteredPeople = (people, query) => {
-  let normalizedQuery = '';
-
-  if (query) {
-    normalizedQuery = query.toLowerCase();
-  }
-
-  return people.filter(
-    (person) => {
-      let father = '';
-      let mother = '';
-
-      if (person.father) {
-        // eslint-disable-next-line
-        father = person.father;
-      }
-
-      if (person.mother) {
-        // eslint-disable-next-line
-        mother = person.mother;
-      }
-
-      return person.name.toLowerCase().includes(normalizedQuery)
-        || father.toLowerCase().includes(normalizedQuery)
-        || mother.toLowerCase().includes(normalizedQuery);
-    }
-  );
-};
+const getFilteredPeople = (people, query) => (
+  people.filter(person => (
+    person.name.toLowerCase().includes(query)
+    || (person.mother || '').toLowerCase().includes(query)
+    || (person.father || '').toLowerCase().includes(query)
+  ))
+);
 
 const getSortedPeople = (
   people, sortField, direction
@@ -65,7 +44,6 @@ const getSortedPeople = (
         secondPerson[sortField]
       ) * direction;
     case 'number':
-    case 'boolean':
       return direction > 0
         ? firstPerson[sortField] - secondPerson[sortField]
         : secondPerson[sortField] - firstPerson[sortField];
@@ -76,10 +54,8 @@ const getSortedPeople = (
 
 class App extends Component {
   state = {
-    // eslint-disable-next-line
     people: [],
     visiblePeople: [],
-    // eslint-disable-next-line
     direction: 1,
   };
 
@@ -88,7 +64,6 @@ class App extends Component {
     const normalizedPeople = peopleWithChildren(people);
 
     this.setState({
-      // eslint-disable-next-line
       people: normalizedPeople,
       visiblePeople: normalizedPeople,
     });
@@ -105,7 +80,6 @@ class App extends Component {
   setSort = (sortField) => {
     this.setState(({ visiblePeople, direction }) => ({
       visiblePeople: getSortedPeople(visiblePeople, sortField, direction),
-      // eslint-disable-next-line
       direction: direction === 1 ? -1 : 1,
     }));
   };
