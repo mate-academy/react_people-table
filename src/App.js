@@ -4,6 +4,7 @@ import { Input, Button } from 'semantic-ui-react';
 import { createSelector } from 'reselect';
 import { getData } from './utils';
 import TablePeople from './Components/tablePeople/TablePeople';
+import FilterButtons from "./Components/filterButtons/FilterButtons";
 
 class App extends React.Component {
   state = {
@@ -90,19 +91,15 @@ class App extends React.Component {
     return (
       <>
         <div className="wrapper-input">
-          <Input className="item"
-                 placeholder="Keyboard filter by name, mother and father"
-                 value={filterValue} onChange={this.changeFilterValue} />
+          <Input
+            className="item"
+            placeholder="Keyboard filter by name, mother and father"
+            value={filterValue}
+            onChange={this.changeFilterValue}
+          />
         </div>
         <h2>Filter by :</h2>
-        <div className="wrapper">
-        <Button onClick={this.changeSortValue}>id</Button>
-        <Button onClick={this.changeSortValue}>name</Button>
-        <Button onClick={this.changeSortValue}>sex</Button>
-        <Button onClick={this.changeSortValue}>age</Button>
-        <Button onClick={this.changeSortValue}>born</Button>
-        <Button onClick={this.changeSortValue}>century</Button>
-      </div>
+        <FilterButtons changeSortValue={this.changeSortValue}/>
         <TablePeople people={doneData}/>
       </>
     );
