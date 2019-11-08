@@ -79,7 +79,6 @@ class App extends React.Component {
 
   render() {
     const people = this.getSortedPeople(this.state);
-    const { search } = this.state;
 
     return (
       <div className="container">
@@ -87,7 +86,6 @@ class App extends React.Component {
           sort={this.sort}
         />
         <Filter
-          defaultValue={search}
           onValueChanged={value => this.setState({ search: value })}
         />
         <PeopleTable
