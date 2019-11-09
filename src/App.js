@@ -4,28 +4,17 @@ import './App.css';
 import Sorting from './components/Sorting';
 import getPeople from './api';
 
-const peopleWithChildren = (people) => {
-  const normlizedPeople = people.map((person, index) => ({
-    ...person,
-    id: index + 1,
-    age: person.died - person.born,
-    century: Math.ceil(person.died / 100),
-    mother: person.mother,
-    father: person.father,
-  }));
-
-  return people.map((person, index) => ({
-    ...person,
-    id: index + 1,
-    age: person.died - person.born,
-    century: Math.ceil(person.died / 100),
-    mother: person.mother,
-    father: person.father,
-    children: normlizedPeople.filter(
-      child => child.father === person.name || child.mother === person.name
-    ),
-  }));
-};
+const peopleWithChildren = people => people.map((person, index) => ({
+  ...person,
+  id: index + 1,
+  age: person.died - person.born,
+  century: Math.ceil(person.died / 100),
+  mother: person.mother,
+  father: person.father,
+  children: people.filter(
+    child => child.father === person.name || child.mother === person.name
+  ),
+}));
 
 const getFilteredPeople = (people, query) => (
   people.filter(person => (
