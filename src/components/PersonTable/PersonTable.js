@@ -17,7 +17,7 @@ class PersonTable extends React.Component {
     const { personIdSelect } = this.state;
 
     return (
-      <table className="table">
+      <table >
         <thead>
         <tr>
           <th>Id</th>
@@ -38,7 +38,7 @@ class PersonTable extends React.Component {
             key={Math.random()}
             person={person}
             personId={index + 1}
-            onClick={this.selectPerson}
+            selectPerson={this.selectPerson}
             selectedId={personIdSelect}
           />
           ))}

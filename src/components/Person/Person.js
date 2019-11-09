@@ -8,7 +8,7 @@ class Person extends React.Component {
 
     return (
       <tr
-        active={selectedId === id}
+        active={selectedId === id ? 'true' : 'false'}
         onClick={onClick}
         data-person-id={id}
       >
@@ -19,7 +19,7 @@ class Person extends React.Component {
         <td>
           {sex === 'f' ? <span>&#x2640;</span> : <span>&#x2642;</span>}
         </td>
-        <td className={age >= 65 ? 'ageAfter65' : null}>
+        <td className={age >= 65 ? 'ageAfter65' : ''}>
           {age}
         </td>
         <td>{born}</td>
@@ -28,7 +28,8 @@ class Person extends React.Component {
         <td>{mother}</td>
         <td>{father}</td>
         <td>
-          {children.map((child, index) => children.length - 1 !== index ? `${child.name}, ` : child.name)}
+          {children.map((child, index) =>
+            (children.length - 1 !== index ? `${child.name}, ` : child.name))}
         </td>
       </tr>
     );

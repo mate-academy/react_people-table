@@ -28,20 +28,20 @@ class App extends React.Component {
         || person.father.toLowerCase().includes(filterQuery.toLowerCase()));
 
       switch (sortQuery) {
-        case 'id':
-          return [...filterOfPeople].sort((a, b) => a.id - b.id);
-        case 'name':
-          return [...filterOfPeople].sort((a, b) => a.name.localeCompare(b.name));
-        case 'sex':
-          return [...filterOfPeople].sort((a, b) => a.sex.localeCompare(b.sex));
-        case 'age':
-          return [...filterOfPeople].sort((a, b) => a.age - b.age);
-        case 'born':
-          return [...filterOfPeople].sort((a, b) => a.born - b.born);
-        case 'died':
-          return [...filterOfPeople].sort((a, b) => a.died - b.died);
-        case 'century':
-          return [...filterOfPeople].sort((a, b) => a.century - b.century);
+        case 'Id':
+          return filterOfPeople.sort((a, b) => a.id - b.id);
+        case 'Name':
+          return filterOfPeople.sort((a, b) => a.name.localeCompare(b.name));
+        case 'Sex':
+          return filterOfPeople.sort((a, b) => a.sex.localeCompare(b.sex));
+        case 'Age':
+          return filterOfPeople.sort((a, b) => a.age - b.age);
+        case 'Born':
+          return filterOfPeople.sort((a, b) => a.born - b.born);
+        case 'Died':
+          return filterOfPeople.sort((a, b) => a.died - b.died);
+        case 'Сentury':
+          return filterOfPeople.sort((a, b) => a.century - b.century);
         default:
           return filterOfPeople;
       }
@@ -80,50 +80,54 @@ class App extends React.Component {
 
   render() {
     const { filterOfValue } = this.state;
-    const doneData = this.getFilterFromPeople(this.state);
+    const dataResult = this.getFilterFromPeople(this.state);
 
     return (
       <>
-        <div className="main-input">
+        <div className="main-input ui left icon input">
           <input
+            type="text"
+            placeholder="Search users..."
             className="item"
-            placeholder="Keyboard name"
             value={filterOfValue}
             onChange={this.handlerFilterValue}
           />
+          <i aria-hidden="true" className="users icon"></i>
         </div>
         <h2>Filter by:</h2>
         <div className="main_buttons">
-          <button
+          <button className="ui primary button"
             onClick={this.handlerSortValue}
             type='submit'>
             Id
           </button>
-          <button
+          <button className="ui primary button"
             onClick={this.handlerSortValue}
             type='submit'>
             Name
           </button>
-          <button
-            onClick={this.handlerSortValue}>
+          <button className="ui primary button"
+            onClick={this.handlerSortValue}
+            type='submit'>
             Sex
           </button>
-          <button
-            onClick={this.handlerSortValue}>
+          <button className="ui primary button"
+            onClick={this.handlerSortValue}
+            type='submit'>
             Age
           </button>
-          <button
+          <button className="ui primary button"
             onClick={this.handlerSortValue}
             type='submit'>
             Born
           </button>
-          <button
+          <button className="ui primary button"
             onClick={this.handlerSortValue}
             type='submit'>
             Century
           </button>
         </div>
-        <PersonTable people={doneData} />
+        <PersonTable people={dataResult} />
       </>
     );
   }
