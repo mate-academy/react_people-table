@@ -17,7 +17,7 @@ class PersonTable extends React.Component {
     const { personIdSelect } = this.state;
 
     return (
-      <table >
+      <table className="table ui blue inverted table">
         <thead>
         <tr>
           <th>Id</th>
