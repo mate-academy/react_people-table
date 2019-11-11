@@ -16,7 +16,7 @@ class App extends Component {
       state => state.inputValue,
     ],
     (initialTable, filterValue, inputValue) => {
-      const inputValueLow = inputValue.toLowerCase();
+      const inputValueLow = inputValue.toLowerCase().trim();
       const filterTable = initialTable
         .filter(
           person => person.name.toLowerCase().includes(inputValueLow)
