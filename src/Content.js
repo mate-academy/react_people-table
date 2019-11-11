@@ -6,14 +6,14 @@ import ListUsers from './ListUsers';
 
 
 class Content extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
       users: null,
       isLoaded: false,
-      value: '',
-      sortBy: null,
+      value: "",
+      sortBy: null
     };
 
     this.loads = this.loads.bind(this);
@@ -23,15 +23,17 @@ class Content extends React.Component {
 
   async loads() {
     this.setState({ isLoaded: true });
-    const users = await load('https://mate-academy.github.io/react_people-table/api/people.json');
+    const users = await load(
+      "https://mate-academy.github.io/react_people-table/api/people.json"
+    );
     this.setState({ users });
   }
 
-  filter (event) {
-    this.setState({value: event.target.value});
+  filter(event) {
+    this.setState({ value: event.target.value });
   }
 
-  SortBy (sortBy) {
+  SortBy(sortBy) {
     this.setState({ sortBy });
   }
 

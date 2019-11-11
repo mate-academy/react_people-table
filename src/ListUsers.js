@@ -49,7 +49,13 @@ function ListUsers(props) {
         <tbody>
           {users.map(user => {
             return (
-              <tr key={user.id + user.name} className={`Person--lived-in-${user.century}`, user.age >= 65 ? 'green' : 'red'}>
+              <tr
+                key={user.id + user.name}
+                className={
+                  (`Person--lived-in-${user.century}`,
+                  user.age >= 65 ? "green" : "red")
+                }
+              >
                 <td>{user.id}</td>
                 <td>{user.name}</td>
                 <td>{user.sex}</td>
