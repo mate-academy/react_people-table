@@ -86,7 +86,7 @@ class App extends React.Component {
           sort={this.sort}
         />
         <Filter
-          onValueChanged={value => this.setState({ search: value })}
+          onValueChanged={value => this.setState({ search: value.trim() })}
         />
         <PeopleTable
           people={people}
