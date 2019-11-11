@@ -19,28 +19,28 @@ class PersonTable extends React.Component {
     return (
       <table className="table ui blue inverted table">
         <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Sex</th>
-          <th>Age</th>
-          <th>Born</th>
-          <th>Died</th>
-          <th>Century</th>
-          <th>Mother</th>
-          <th>Father</th>
-          <th>Children</th>
-        </tr>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Sex</th>
+            <th>Age</th>
+            <th>Born</th>
+            <th>Died</th>
+            <th>Century</th>
+            <th>Mother</th>
+            <th>Father</th>
+            <th>Children</th>
+          </tr>
         </thead>
         <tbody>
-        {people.map((person, index) => (
-          <Person
-            key={Math.random()}
-            person={person}
-            personId={index + 1}
-            selectPerson={this.selectPerson}
-            selectedId={personIdSelect}
-          />
+          {people.map((person, index) => (
+            <Person
+              key={Math.random()}
+              person={person}
+              personId={person.id}
+              selectPerson={this.selectPerson}
+              selectedId={personIdSelect}
+            />
           ))}
         </tbody>
       </table>

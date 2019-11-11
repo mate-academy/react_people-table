@@ -4,13 +4,13 @@ class Person extends React.Component {
 
   render() {
     const { person: { id, name, sex, age, born, died, century, father, mother, children },
-      onClick, selectedId } = this.props;
+      selectPerson, selectedId } = this.props;
 
     return (
       <tr
         active={selectedId === id ? 'true' : 'false'}
-        onClick={onClick}
-        data-person-id={id}
+        onClick={selectPerson}
+        person-id={id}
       >
         <td>{id}</td>
         <td className={born < 1650 ? 'bornBefore1650' : null}>
