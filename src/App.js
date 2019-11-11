@@ -68,7 +68,7 @@ class App extends Component {
   setSort = (sortField) => {
     this.setState(({ visiblePeople, direction }) => ({
       visiblePeople: getSortedPeople(visiblePeople, sortField, direction),
-      direction: direction === 1 ? -1 : 1,
+      direction: !direction,
     }));
   };
 
