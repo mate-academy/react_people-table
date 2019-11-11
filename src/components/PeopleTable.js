@@ -16,23 +16,25 @@ class PeopleTable extends React.Component {
         <thead>
           <tr>
             <th className="sort-btn" onClick={() => handleSort('id')}>ID</th>
-            <th className="sort-btn" onClick={() => handleSort('id')}>Name</th>
-            <th className="sort-btn" onClick={() => handleSort('id')}>Sex</th>
-            <th className="sort-btn" onClick={() => handleSort('id')}>Born</th>
-            <th className="sort-btn" onClick={() => handleSort('id')}>Died</th>
-            <th className="sort-btn" onClick={() => handleSort('id')}>Age</th>
-            <th className="sort-btn" onClick={() => handleSort('id')}>
+            <th className="sort-btn" onClick={() => handleSort('name')}>
+              Name
+            </th>
+            <th className="sort-btn" onClick={() => handleSort('sex')}>
+              Sex
+            </th>
+            <th className="sort-btn" onClick={() => handleSort('born')}>
+              Born
+            </th>
+            <th className="sort-btn" onClick={() => handleSort('died')}>
+              Died
+            </th>
+            <th className="sort-btn" onClick={() => handleSort('age')}>Age</th>
+            <th className="sort-btn" onClick={() => handleSort('century')}>
               Century
             </th>
-            <th className="sort-btn" onClick={() => handleSort('id')}>
-              Mother
-            </th>
-            <th className="sort-btn" onClick={() => handleSort('id')}>
-              Father
-            </th>
-            <th className="sort-btn" onClick={() => handleSort('id')}>
-              Children
-            </th>
+            <th>Mother</th>
+            <th>Father</th>
+            <th>Children</th>
           </tr>
         </thead>
         <tbody>

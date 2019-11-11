@@ -28,11 +28,15 @@ const getSortedPeople = (
 ) => people.sort((firstPerson, secondPerson) => {
   switch (typeof firstPerson[sortField]) {
     case 'string':
-      return firstPerson[sortField].localeCompare(
-        secondPerson[sortField]
-      ) * direction;
+      return direction
+        ? firstPerson[sortField].localeCompare(
+          secondPerson[sortField]
+        )
+        : secondPerson[sortField].localeCompare(
+          firstPerson[sortField]
+        );
     case 'number':
-      return direction > 0
+      return direction
         ? firstPerson[sortField] - secondPerson[sortField]
         : secondPerson[sortField] - firstPerson[sortField];
     default:
@@ -42,9 +46,7 @@ const getSortedPeople = (
 
 class App extends Component {
   state = {
-    people: [],
     visiblePeople: [],
-    direction: 1,
   };
 
   async componentDidMount() {
