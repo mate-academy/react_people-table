@@ -1,7 +1,7 @@
 # React - People table
 
 ## Demo link
-Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
+[LINK](https://nikakarelets.github.io/react_people-table/)`
 
 ## Task 
 
@@ -28,24 +28,24 @@ Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
       ```
     - add `border-collapse: collapse` style to the table
 
-3. Implement `Person` component accepting a `person` and displaying all the data described above
+3. Implement `NewPerson` component accepting a `person` and displaying all the data described above
     ```html
-    <tr class="Person">
+    <tr class="NewPerson">
       <td></td>
       ...
       <td></td>
     </tr>
     ```
-    - add class `Person--male`/`Person--female` based on `sex`
+    - add class `NewPerson--male`/`NewPerson--female` based on `sex`
     - add `text-decoration: line-through` for the names of people born before `1650`
 
 4. Add `age` column (`person.died - person.born`)
     - use `green` color for the `age` of people who lived for `>= 65` years
 
 5. add `century` column (`Math.ceil(person.died / 100)`)
-    - add class `Person--lived-in-${century}` to each `<tr>`
+    - add class `NewPerson--lived-in-${century}` to each `<tr>`
 
-6. Mark a person row as selected when the user clicks on it (`Person--selected`)
+6. Mark a person row as selected when the user clicks on it (`NewPerson--selected`)
     - there can be only one selected person at a time
 
 7. Add a single `<input>` to filter people by `name`, `mother` and `father`
