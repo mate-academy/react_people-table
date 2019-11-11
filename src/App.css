@@ -67,48 +67,6 @@ th {
   border: 3px solid #172540;
 }
 
-.pointer {
-  cursor: pointer;
-  user-select: none;
-}
-
-button,
-button:active,
-button:focus {
-  outline: none;
-}
-
-.button-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.load-button {
-  background: #ffed86;
-  color: black;
-  white-space: nowrap;
-  border-radius: 10px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 10px 14px;
-  user-select: none;
-  border-color: #ffed86;
-  margin: 10px;
-  transition: 0.5s;
-}
-
-.load-button:hover {
-  border: none;
-  color: white;
-  font-size: 14px;
-  transform: scale(1.1);
-}
-
 .search__container {
   padding: 10px;
   display: flex;
@@ -152,4 +110,9 @@ button:focus {
   border-bottom: 1px solid #575756;
   border-radius: 0;
   background-position: 100% center;
+}
+
+.sort-btn {
+  cursor: pointer;
+  outline: none;
 }

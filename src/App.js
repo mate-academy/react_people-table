@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PeopleTable from './components/PeopleTable';
 import './App.css';
-import Sorting from './components/Sorting';
 import getPeople from './api';
 
 const peopleWithChildren = people => people.map((person, index) => ({
@@ -59,7 +58,7 @@ class App extends Component {
   }
 
   handleInputChange = (event) => {
-    const query = event.target.value;
+    const query = event.target.value.trim();
 
     this.setState(({ people }) => ({
       visiblePeople: getFilteredPeople(people, query),
@@ -86,7 +85,6 @@ class App extends Component {
             placeholder="Enter the name..."
           />
         </div>
-        <Sorting handleSort={this.setSort} />
         <PeopleTable
           people={visiblePeople}
           handleSort={this.setSort}

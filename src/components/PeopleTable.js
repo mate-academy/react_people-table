@@ -8,23 +8,31 @@ class PeopleTable extends React.Component {
   };
 
   render() {
-    const { people } = this.props;
+    const { people, handleSort } = this.props;
     const { selected } = this.state;
 
     return (
       <table className="people-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Sex</th>
-            <th>Born</th>
-            <th>Died</th>
-            <th>Age</th>
-            <th>Century</th>
-            <th>Mother</th>
-            <th>Father</th>
-            <th>Children</th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>ID</th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>Name</th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>Sex</th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>Born</th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>Died</th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>Age</th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>
+              Century
+            </th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>
+              Mother
+            </th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>
+              Father
+            </th>
+            <th className="sort-btn" onClick={() => handleSort('id')}>
+              Children
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -46,6 +54,11 @@ class PeopleTable extends React.Component {
 
 PeopleTable.propTypes = {
   people: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleSort: PropTypes.func,
+};
+
+PeopleTable.defaultProps = {
+  handleSort: () => {},
 };
 
 export default PeopleTable;
