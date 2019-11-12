@@ -5,7 +5,6 @@ import './App.css';
 import peopleList from './components/Api/Fetching';
 import PeopleTable from './components/peopleTable/PeopleTable';
 import Filter from './components/filter/Filter';
-import Sort from './components/sort/Sort';
 
 class App extends React.Component {
   constructor(props) {
@@ -82,14 +81,12 @@ class App extends React.Component {
 
     return (
       <div className="container">
-        <Sort
-          sort={this.sort}
-        />
         <Filter
           onValueChanged={value => this.setState({ search: value.trim() })}
         />
         <PeopleTable
           people={people}
+          sort={this.sort}
         />
       </div>
     );

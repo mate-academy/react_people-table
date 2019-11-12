@@ -14,20 +14,50 @@ class PeopleTable extends React.Component {
   };
 
   render() {
-    const { people } = this.props;
+    const { people, sort } = this.props;
     const { selectedLine } = this.state;
 
     return (
-      <table className="ui table">
+      <table className="ui table celled fixed sortable">
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Sex</th>
-            <th>Born</th>
-            <th>Died</th>
-            <th>Age</th>
-            <th>Century</th>
+            <th
+              className="one wide"
+              onClick={() => sort('id')}
+            >
+              Id
+            </th>
+            <th
+              onClick={() => sort('name')}
+            >
+              Name
+            </th>
+            <th
+              onClick={() => sort('sex')}
+            >
+              Sex
+            </th>
+            <th
+              onClick={() => sort('born')}
+            >
+              Born
+            </th>
+            <th
+              className="sort-btn"
+              onClick={() => sort('died')}
+            >
+              Died
+            </th>
+            <th
+              onClick={() => sort('age')}
+            >
+              Age
+            </th>
+            <th
+              onClick={() => sort('century')}
+            >
+              Century
+            </th>
             <th>Mother</th>
             <th>Father</th>
           </tr>
