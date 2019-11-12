@@ -1,4 +1,5 @@
 import React from 'react';
+import sort from './sort';
 
 function ListUsers(props) {
   const list = props.list;
@@ -13,10 +14,13 @@ function ListUsers(props) {
     if(value !== '') {
       users = users.filter(
         user =>
-          user.name.includes(value) ||
-          user.mother.includes(value) ||
-          user.father.includes(value)
+          user.name.toLowerCase().includes(value.trim().toLowerCase()) ||
+          user.mother.toLowerCase().includes(value.trim().toLowerCase()) ||
+          user.father.toLowerCase().includes(value.trim().toLowerCase())
       );
+    }
+    if(list.sortBy !== null) {
+      users = sort(users, list.sortBy);
     }
     if (list.sortBy === 'sex') {
       users = users.sort((a, b) => a.sex.localeCompare(b.sex));
