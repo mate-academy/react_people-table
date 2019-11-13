@@ -22,19 +22,7 @@ function ListUsers(props) {
     if(list.sortBy !== null) {
       users = sort(users, list.sortBy);
     }
-    if (list.sortBy === 'sex') {
-      users = users.sort((a, b) => a.sex.localeCompare(b.sex));
-    } else if (list.sortBy === 'id') {
-      users = users.sort((a, b) => a.id - b.id);
-    } else if (list.sortBy === 'born') {
-      users = users.sort((a, b) => a.born - b.born);
-    } else if (list.sortBy === 'age') {
-      users = users.sort((a, b) => a.age - b.age);
-    } else if (list.sortBy === 'century') {
-      users = users.sort((a, b) => a.century - b.century);
-    } else if (list.sortBy === 'died') {
-      users = users.sort((a, b) => a.died - b.died);
-    }
+
     return (
       <table>
         <thead>
