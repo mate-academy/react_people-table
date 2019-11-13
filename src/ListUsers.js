@@ -5,7 +5,7 @@ function ListUsers(props) {
   const list = props.list;
   let users = props.list.users;
   const value = props.list.value;
-  console.log(users)
+ 
   if(list.isLoaded && users === null) {
     return <p>...loading</p>
   } else if (!list.isLoaded && users === null) {
