@@ -1,7 +1,7 @@
 async function load (url) {
   const response = await fetch(url);
   const users = await response.json();
-  // console.log(users)
+
   return users.map((user, index) => {
     const {name, mother, father} = user
     return {
