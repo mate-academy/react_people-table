@@ -1,7 +1,42 @@
 import React from 'react';
+import { createSelector } from 'reselect';
 import PropTypes from 'prop-types';
 import TableItem from '../tableItem/TableItem';
 import Sorting from '../sorting/Sorting';
+
+const sortList = (sortMethod, people) => {
+  switch (sortMethod) {
+    case 'id':
+      return [...people]
+        .sort((a, b) => a.id - b.id);
+    case 'sex':
+      return [...people]
+        .sort((a, b) => a.sex.localeCompare(b.sex));
+    case 'name':
+      return [...people]
+        .sort((a, b) => a.name.localeCompare(b.name));
+    case 'age':
+      return [...people]
+        .sort((a, b) => b.age - a.age);
+    case 'born':
+      return [...people]
+        .sort((a, b) => b.born - a.born);
+    case 'died':
+      return [...people]
+        .sort((a, b) => a.died - b.died);
+    case 'century':
+      return [...people]
+        .sort((a, b) => a.century - b.century);
+    default:
+      return [...people];
+  }
+};
+
+const selectedList = createSelector(
+  obj => obj.sortMethod,
+  obj => obj.people,
+  (s, p) => sortList(s, p)
+);
 
 function PeopleTable({
   sortMethod, people, onSort, search,
@@ -9,38 +44,7 @@ function PeopleTable({
   let sortedList = [];
   let searchedList = [];
 
-  switch (sortMethod) {
-    case 'id':
-      sortedList = [...people]
-        .sort((a, b) => a.id - b.id);
-      break;
-    case 'sex':
-      sortedList = [...people]
-        .sort((a, b) => a.sex.localeCompare(b.sex));
-      break;
-    case 'name':
-      sortedList = [...people]
-        .sort((a, b) => a.name.localeCompare(b.name));
-      break;
-    case 'age':
-      sortedList = [...people]
-        .sort((a, b) => b.age - a.age);
-      break;
-    case 'born':
-      sortedList = [...people]
-        .sort((a, b) => b.born - a.born);
-      break;
-    case 'died':
-      sortedList = [...people]
-        .sort((a, b) => a.died - b.died);
-      break;
-    case 'century':
-      sortedList = [...people]
-        .sort((a, b) => a.century - b.century);
-      break;
-    default:
-      sortedList = [...people];
-  }
+  sortedList = selectedList({ sortMethod, people });
 
   searchedList = [...sortedList]
     .filter(person => person.name.toLowerCase().includes(search)
@@ -66,9 +70,8 @@ function PeopleTable({
         </thead>
         <tbody>
           {searchedList
-            .map(person => <TableItem key={person.id} man={person} />)}
+            .map(person => <TableItem key={person.id} person={person} />)}
         </tbody>
-
       </table>
     </>
   );

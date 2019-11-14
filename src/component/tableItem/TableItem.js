@@ -2,42 +2,42 @@ import React from 'react';
 import '../peopleTable/PeopleTable.css';
 import PropTypes from 'prop-types';
 
-function TableItem({ man }) {
+function TableItem({ person }) {
   return (
     <tr className="Person">
       <td>
-        {man.id}
+        {person.id}
       </td>
-      <td className={man.sex === 'm' ? 'Person--male' : 'Person--female'}>
-        {man.sex}
+      <td className={person.sex === 'm' ? 'Person--male' : 'Person--female'}>
+        {person.sex}
       </td>
-      <td className={man.born <= 1650 ? 'before1650' : null}>
-        {man.name}
+      <td className={person.born <= 1650 ? 'before1650' : null}>
+        {person.name}
       </td>
-      <td className={man.age >= 65 ? 'livedfor65' : null}>
-        {man.age}
-      </td>
-      <td>
-        {man.born}
+      <td className={person.age >= 65 ? 'livedfor65' : null}>
+        {person.age}
       </td>
       <td>
-        {man.died}
+        {person.born}
       </td>
       <td>
-        {man.mother || ''}
+        {person.died}
       </td>
       <td>
-        {man.father || ''}
+        {person.mother || ''}
       </td>
-      <td className={`person--lived-in-${man.century}`}>
-        {man.century}
+      <td>
+        {person.father || ''}
+      </td>
+      <td className={`person--lived-in-${person.century}`}>
+        {person.century}
       </td>
     </tr>
   );
 }
 
 TableItem.propTypes = {
-  man: PropTypes.objectOf(PropTypes.shape({
+  person: PropTypes.objectOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     sex: PropTypes.string.isRequired,
     born: PropTypes.number.isRequired,
