@@ -1,0 +1,13 @@
+html {
+  font-family: Arial, sans-serif;
+}
+
+.person {
+  &__bornBefore1650 {
+    text-decoration: line-through;
+  }
+
+  &__after65 {
+    color: green;
+  }
+}
