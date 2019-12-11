@@ -1,6 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Person from './Person';
+import PersonRow from './PersonRow';
+
+const tableHeaders = [
+  {
+    code: 'id',
+    label: 'Id',
+  },
+  {
+    code: 'name',
+    label: 'Name',
+  },
+  {
+    code: 'sex',
+    label: 'Sex',
+  },
+  {
+    code: 'born',
+    label: 'Born',
+  },
+  {
+    code: 'died',
+    label: 'Died',
+  },
+  {
+    code: 'age',
+    label: 'Age',
+  },
+  {
+    code: 'century',
+    label: 'Century',
+  },
+  {
+    code: 'mother',
+    label: 'Mother',
+  },
+  {
+    code: 'father',
+    label: 'Father',
+  },
+];
 
 class PeopleTable extends React.Component {
   state = { selectedElement: null };
@@ -14,23 +53,18 @@ class PeopleTable extends React.Component {
       <table className="peopleTable">
         <thead>
           <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Sex</th>
-            <th>Born</th>
-            <th>Died</th>
-            <th>Age</th>
-            <th>Century</th>
-            <th>Mother</th>
-            <th>Father</th>
+            {tableHeaders.map(header => (
+              <th key={header.code}>{header.label}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {people.map(
             singlePerson => (
-              <Person
+              <PersonRow
                 key={singlePerson.name}
                 person={singlePerson}
+                headers={tableHeaders}
                 selected={singlePerson.id === this.state.selectedElement}
                 handleClick={this.handleClick}
               />

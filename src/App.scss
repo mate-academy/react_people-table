@@ -3,6 +3,10 @@ html {
 }
 
 .person {
+  &--selected {
+    background-color: #e5e5e5;
+  }
+
   &__bornBefore1650 {
     text-decoration: line-through;
   }
