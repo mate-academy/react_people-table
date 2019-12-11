@@ -1,22 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Filter = (props) => {
+const Filter = ({ people, handleSearch }) => {
   const search = (event) => {
-    const inputText = event.target.value;
-    const columnsFilter = ['name', 'father', 'mother'];
+    const value = event.target.value.toLowerCase();
 
-    const searchResult = columnsFilter.map(item => (
-      props.people.filter(person => (
-        person[item] !== null && person[item].includes(inputText)
-      ))
+    const result = people.filter(({ name, mother, father }) => (
+      (name + mother + father).toLowerCase().includes(value)
     ));
 
-    const allResult = [...new Set(
-      searchResult.reduce((acc, item) => acc.concat(item))
-    )];
-
-    props.handleSearch(allResult, inputText);
+    handleSearch(result, value);
   };
 
   return (

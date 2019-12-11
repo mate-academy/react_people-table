@@ -1,72 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 class Person extends React.Component {
   state = { selectPerson: '' }
 
-  personSex = person => (
-    person.sex === 'm' ? 'person--male' : 'person--female'
-  )
-
-  bornYear = person => (
-    person.born < 1650 ? 'person--born' : ''
-  )
-
-  personAge = person => (
-    person.died - person.born
-  )
-
-  personCentury = person => (
-    Math.ceil(person.died / 100)
-  )
-
   selectText = (data) => {
     const text = this.props.selectText;
 
-    if (!text || !String(data).includes(text)) {
+    if (!text || !String(data).toLowerCase().includes(text)) {
       return data;
     }
 
-    const pattern = new RegExp(text, 'g');
+    if (!data) {
+      return '';
+    }
 
-    const result = data
-      .replace(pattern, ',<span></span>,')
-      .split(',')
-      .map(item => (item === '<span></span>'
-        ? <span className="select--text">{text}</span>
-        : item));
+    const result = [];
+
+    for (let i = 0; i < data.length; i += 1) {
+      const str = data.slice(i, i + text.length);
+
+      if (str.toLowerCase() === text) {
+        result.push(<span className="select--text">{str}</span>);
+        i += str.length - 1;
+      } else {
+        result.push(data[i]);
+      }
+    }
 
     return result;
   }
 
   render() {
+    const { selectPerson } = this.state;
+
     return (
       this.props.people.map(person => (
         <tr
           key={person.name}
-          className={`
-            ${this.personSex(person)}
-            Person--lived-in-${this.personCentury(person)}
-            ${person.name === this.state.selectPerson ? 'selected' : ''}`}
-          onClick={() => {
-            this.setState({ selectPerson: person.name });
-          }}
+          className={
+            cn(person.sex === 'm' ? 'person--male' : 'person--female',
+              `Person--lived-in-${Math.ceil(person.died / 100)}`,
+              person.name === selectPerson ? 'selected' : '')}
+          onClick={() => this.setState({ selectPerson: person.name })}
         >
           {Object.values(person).map(data => (
             data === person.name
               ? (
-                <td className={this.bornYear(person)}>
+                <td className={person.born < 1650 ? 'person--born' : ''}>
                   {this.selectText(data)}
                 </td>
               )
               : <td>{this.selectText(data)}</td>
           ))}
-          <td className={this.personAge(person) >= 65
-            ? 'person--old' : ''}
-          >
-            {this.personAge(person)}
-          </td>
-          <td>{this.personCentury(person)}</td>
         </tr>
       ))
     );

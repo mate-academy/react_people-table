@@ -7,7 +7,37 @@ const PeopleTable = (props) => {
     return [];
   }
 
-  const head = [...Object.keys(props.people[0]), 'age', 'century'];
+  const peopleCopy = () => (
+    props.people.map(item => ({
+      ...item,
+      age: item.died - item.born,
+      century: Math.ceil(item.died / 100),
+    }))
+  );
+
+  const newPeople = peopleCopy();
+
+  const head = [...Object.keys(newPeople[0])];
+
+  const sortTable = (event) => {
+    const column = event.target.textContent;
+    const sortArray = newPeople.sort((a, b) => {
+      switch (typeof a[column]) {
+        case 'string':
+          return a[column] > b[column] ? 1 : -1;
+        case 'number':
+          return a[column] - b[column];
+        default:
+          return 0;
+      }
+    });
+
+    if (props.isSorted) {
+      sortArray.reverse();
+    }
+
+    props.sortPeople(sortArray);
+  };
 
   return (
     <table
@@ -16,12 +46,19 @@ const PeopleTable = (props) => {
     >
       <thead>
         <tr>
-          {head.map(item => <th key={item}>{item}</th>)}
+          {head.map(item => (
+            <th
+              key={item}
+              onClick={sortTable}
+            >
+              {item}
+            </th>
+          ))}
         </tr>
       </thead>
       <tbody>
         {<Person
-          people={props.people}
+          people={newPeople}
           selectText={props.selectText}
         />}
       </tbody>
@@ -32,6 +69,8 @@ const PeopleTable = (props) => {
 PeopleTable.propTypes = {
   people: PropTypes.arrayOf.isRequired,
   selectText: PropTypes.string.isRequired,
+  sortPeople: PropTypes.func.isRequired,
+  isSorted: PropTypes.bool.isRequired,
 };
 
 export default PeopleTable;

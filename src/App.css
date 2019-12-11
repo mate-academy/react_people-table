@@ -50,7 +50,7 @@ th {
 .table__sort {
   position: absolute;
   right: 30px;
-  top: 100px;
+  top: 20px;
   width: 200px;
   text-align: center;
 }

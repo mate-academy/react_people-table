@@ -6,25 +6,37 @@ import people from './people';
 
 class App extends React.Component {
   state = {
-    people: [...people],
+    peopleList: [...people],
     selectText: '',
+    isSorted: false,
   }
 
   handleSearch = (search, inputText) => (
     this.setState({
-      people: search,
+      peopleList: search,
       selectText: inputText,
     })
   )
 
+  setSortState = sortPeople => (
+    this.setState(state => ({
+      peopleList: sortPeople,
+      isSorted: !state.isSorted,
+    }))
+  )
+
   render() {
+    const { peopleList, selectText, isSorted } = this.state;
+
     return (
       <div className="App">
         <h1>People table</h1>
-        <p>{`number of people - ${this.state.people.length}`}</p>
+        <p>{`number of people - ${peopleList.length}`}</p>
         <PeopleTable
-          people={this.state.people}
-          selectText={this.state.selectText}
+          people={peopleList}
+          selectText={selectText}
+          sortPeople={this.setSortState}
+          isSorted={isSorted}
         />
         <Filter
           people={people}
