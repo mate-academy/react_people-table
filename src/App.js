@@ -30,6 +30,49 @@ class App extends React.Component {
     this.setState({
       people: result,
       peopleCount: result.length,
+      // eslint-disable-next-line react/no-unused-state
+      sorted: false,
+    });
+  };
+
+  sortFields = (field) => {
+    this.setState((state) => {
+      const peopleCopy = [...state.people];
+
+      const newRows = {
+        people: peopleCopy.sort((a, b) => {
+          if (!a[field] && a[field] !== 0) {
+            if (!b[field] && b[field] !== 0) {
+              return -1;
+            }
+
+            return ''.localeCompare(b[field]);
+          }
+
+          if (!b[field] && b[field] !== 0) {
+            return a[field].localeCompare('');
+          }
+
+          if (typeof a[field] === 'string') {
+            return a[field].localeCompare(b[field]);
+          }
+
+          if (typeof a[field] === 'number') {
+            return a[field] - b[field];
+          }
+
+          return a[field].toString() - b[field].toString();
+        }),
+        sorted: !state.sorted,
+      };
+
+      if (!state.sorted) {
+        return newRows;
+      }
+
+      newRows.people.reverse();
+
+      return newRows;
     });
   };
 
@@ -45,7 +88,10 @@ class App extends React.Component {
           type="search"
           onChange={this.handleInputChange}
         />
-        <PeopleTable people={this.state.people} />
+        <PeopleTable
+          people={this.state.people}
+          sortFields={this.sortFields}
+        />
       </div>
     );
   }
