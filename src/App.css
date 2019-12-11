@@ -62,3 +62,7 @@ th {
   border: 1px solid #000;
   outline: none;
 }
+
+.select--text {
+  background-color: #ffa500;
+}

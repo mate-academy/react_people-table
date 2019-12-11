@@ -5,10 +5,16 @@ import PeopleTable from './PeopleTable';
 import people from './people';
 
 class App extends React.Component {
-  state = { people: [...people] }
+  state = {
+    people: [...people],
+    selectText: '',
+  }
 
-  handleSearch = search => (
-    this.setState({ people: search })
+  handleSearch = (search, inputText) => (
+    this.setState({
+      people: search,
+      selectText: inputText,
+    })
   )
 
   render() {
@@ -16,7 +22,10 @@ class App extends React.Component {
       <div className="App">
         <h1>People table</h1>
         <p>{`number of people - ${this.state.people.length}`}</p>
-        <PeopleTable people={this.state.people} />
+        <PeopleTable
+          people={this.state.people}
+          selectText={this.state.selectText}
+        />
         <Filter
           people={people}
           handleSearch={this.handleSearch}

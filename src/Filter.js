@@ -16,7 +16,7 @@ const Filter = (props) => {
       searchResult.reduce((acc, item) => acc.concat(item))
     )];
 
-    props.handleSearch(allResult);
+    props.handleSearch(allResult, inputText);
   };
 
   return (

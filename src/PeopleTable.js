@@ -20,12 +20,18 @@ const PeopleTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {<Person people={props.people} />}
+        {<Person
+          people={props.people}
+          selectText={props.selectText}
+        />}
       </tbody>
     </table>
   );
 };
 
-PeopleTable.propTypes = { people: PropTypes.arrayOf.isRequired };
+PeopleTable.propTypes = {
+  people: PropTypes.arrayOf.isRequired,
+  selectText: PropTypes.string.isRequired,
+};
 
 export default PeopleTable;

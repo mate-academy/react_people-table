@@ -20,6 +20,25 @@ class Person extends React.Component {
     Math.ceil(person.died / 100)
   )
 
+  selectText = (data) => {
+    const text = this.props.selectText;
+
+    if (!text || !String(data).includes(text)) {
+      return data;
+    }
+
+    const pattern = new RegExp(text, 'g');
+
+    const result = data
+      .replace(pattern, ',<span></span>,')
+      .split(',')
+      .map(item => (item === '<span></span>'
+        ? <span className="select--text">{text}</span>
+        : item));
+
+    return result;
+  }
+
   render() {
     return (
       this.props.people.map(person => (
@@ -35,8 +54,12 @@ class Person extends React.Component {
         >
           {Object.values(person).map(data => (
             data === person.name
-              ? <td className={this.bornYear(person)}>{data}</td>
-              : <td>{data}</td>
+              ? (
+                <td className={this.bornYear(person)}>
+                  {this.selectText(data)}
+                </td>
+              )
+              : <td>{this.selectText(data)}</td>
           ))}
           <td className={this.personAge(person) >= 65
             ? 'person--old' : null}
@@ -50,6 +73,9 @@ class Person extends React.Component {
   }
 }
 
-Person.propTypes = { people: PropTypes.arrayOf.isRequired };
+Person.propTypes = {
+  people: PropTypes.arrayOf.isRequired,
+  selectText: PropTypes.string.isRequired,
+};
 
 export default Person;
