@@ -30,8 +30,6 @@ class App extends React.Component {
     this.setState({
       people: result,
       peopleCount: result.length,
-      // eslint-disable-next-line react/no-unused-state
-      sorted: false,
     });
   };
 
