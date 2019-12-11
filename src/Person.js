@@ -9,7 +9,7 @@ class Person extends React.Component {
   )
 
   bornYear = person => (
-    person.born < 1650 ? 'person--born' : null
+    person.born < 1650 ? 'person--born' : ''
   )
 
   personAge = person => (
@@ -47,7 +47,7 @@ class Person extends React.Component {
           className={`
             ${this.personSex(person)}
             Person--lived-in-${this.personCentury(person)}
-            ${person.name === this.state.selectPerson ? 'selected' : null}`}
+            ${person.name === this.state.selectPerson ? 'selected' : ''}`}
           onClick={() => {
             this.setState({ selectPerson: person.name });
           }}
@@ -62,7 +62,7 @@ class Person extends React.Component {
               : <td>{this.selectText(data)}</td>
           ))}
           <td className={this.personAge(person) >= 65
-            ? 'person--old' : null}
+            ? 'person--old' : ''}
           >
             {this.personAge(person)}
           </td>
