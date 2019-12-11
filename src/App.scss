@@ -21,11 +21,23 @@ body {
   font-weight: bold;
 }
 
+.table-search {
+  margin-bottom: 15px;
+}
+
 .people-table {
   border-collapse: collapse;
 
   & th {
     background-color: rgb(245, 133, 133);
+  }
+
+  & .sort-button {
+    border: none;
+    width: 100%;
+    background-color: rgb(245, 133, 133);
+    cursor: pointer;
+    outline: none;
   }
 
   & th,
@@ -52,5 +64,10 @@ body {
 
   &--age-over-65 {
     color: green;
+  }
+
+  &--selected {
+    border: 1px solid red;
+    background-color: red;
   }
 }

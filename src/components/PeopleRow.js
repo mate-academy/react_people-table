@@ -1,36 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ClassNames from 'classnames';
 
-const makePersonsClassName = (person, columnName) => {
-  let className = 'person';
+const PeopleRow = (
+  { currentPerson, TABLE_HEADERS, highLightPerson, selectedPerson }
+) => {
+  const { born, age, sex, century, id } = currentPerson;
 
-  className += person.sex === 'm' ? ' person--male' : ' person--female';
-
-  if (columnName === 'name') {
-    return person.born < 1650 ? 'person--born-before-1650' : null;
-  }
-
-  if (columnName === 'age') {
-    return person.age >= 65 ? 'person--age-over-65' : null;
-  }
-
-  className += ` person--lived-in-${person.century}`;
-
-  return !columnName ? className : null;
+  return (
+    <tr
+      className={ClassNames(
+        'person',
+        sex === 'm' ? 'person--male' : 'person--female',
+        `person--lived-in-${century}`,
+        { 'person--selected': selectedPerson === id },
+      )}
+      onClick={() => highLightPerson(id)}
+    >
+      {TABLE_HEADERS.map(({ code }) => (
+        <td
+          key={code}
+          className={ClassNames({
+            'person--born-before-1650': code === 'name' && born < 1650,
+            'person--age-over-65': code === 'age' && age >= 65,
+          })}
+        >
+          {currentPerson[code]}
+        </td>
+      ))}
+    </tr>
+  );
 };
-
-const PeopleRow = ({ currentPerson, tableHeaders }) => (
-  <tr className={makePersonsClassName(currentPerson)}>
-    {tableHeaders.map(({ code }) => (
-      <td
-        key={code}
-        className={makePersonsClassName(currentPerson, code)}
-      >
-        {currentPerson[code]}
-      </td>
-    ))}
-  </tr>
-);
 
 PeopleRow.propTypes = {
   currentPerson: PropTypes.objectOf(
@@ -39,11 +39,13 @@ PeopleRow.propTypes = {
       PropTypes.number,
     ])
   ).isRequired,
-  tableHeaders: PropTypes.arrayOf(
+  TABLE_HEADERS: PropTypes.arrayOf(
     PropTypes.objectOf(
       PropTypes.string
     )
   ).isRequired,
+  highLightPerson: PropTypes.func.isRequired,
+  selectedPerson: PropTypes.number.isRequired,
 };
 
 export default PeopleRow;
