@@ -7,15 +7,9 @@ import people from './people';
 class App extends React.Component {
   state = { people: [...people] }
 
-  handleName = (event) => {
-    const inputText = event.target.value;
-    const key = event.target.id;
-
-    this.setState({
-      people: people.filter(person => (
-        person[key] !== null && person[key].includes(inputText))),
-    });
-  }
+  handleSearch = search => (
+    this.setState({ people: search })
+  )
 
   render() {
     return (
@@ -23,7 +17,10 @@ class App extends React.Component {
         <h1>People table</h1>
         <p>{`number of people - ${this.state.people.length}`}</p>
         <PeopleTable people={this.state.people} />
-        <Filter handleName={this.handleName} />
+        <Filter
+          people={people}
+          handleSearch={this.handleSearch}
+        />
       </div>
     );
   }

@@ -2,27 +2,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Filter = (props) => {
-  const filterKeys = ['name', 'mother', 'father'];
+  const search = (event) => {
+    const inputText = event.target.value;
+    const columnsFilter = ['name', 'father', 'mother'];
+
+    const searchResult = columnsFilter.map(item => (
+      props.people.filter(person => (
+        person[item] !== null && person[item].includes(inputText)
+      ))
+    ));
+
+    const allResult = [...new Set(
+      searchResult.reduce((acc, item) => acc.concat(item))
+    )];
+
+    props.handleSearch(allResult);
+  };
 
   return (
     <div className="table__sort">
-      {filterKeys.map(item => (
-        <label htmlFor="name">
-          Filter by&nbsp;
-          {item}
-          &nbsp;
-          <input
-            type="text"
-            id={item}
-            onChange={props.handleName}
-            className="sort__input"
-          />
-        </label>
-      ))}
+      <label htmlFor="search">
+        Search
+        <input
+          type="text"
+          id="search"
+          onChange={search}
+          className="sort__input"
+          autoComplete="off"
+        />
+      </label>
     </div>
   );
 };
 
-Filter.propTypes = { handleName: PropTypes.func.isRequired };
+Filter.propTypes = {
+  handleSearch: PropTypes.func.isRequired,
+  people: PropTypes.arrayOf.isRequired,
+};
 
 export default Filter;
