@@ -8,7 +8,6 @@ class App extends React.Component {
   state = {
     peopleList: [...people],
     selectText: '',
-    isSorted: false,
   }
 
   handleSearch = (search, inputText) => (
@@ -18,15 +17,12 @@ class App extends React.Component {
     })
   )
 
-  setSortState = sortPeople => (
-    this.setState(state => ({
-      peopleList: sortPeople,
-      isSorted: !state.isSorted,
-    }))
-  )
+  setSortState = (sortPeople) => {
+    this.setState({ peopleList: sortPeople });
+  }
 
   render() {
-    const { peopleList, selectText, isSorted } = this.state;
+    const { peopleList, selectText } = this.state;
 
     return (
       <div className="App">
@@ -36,7 +32,6 @@ class App extends React.Component {
           people={peopleList}
           selectText={selectText}
           sortPeople={this.setSortState}
-          isSorted={isSorted}
         />
         <Filter
           people={people}

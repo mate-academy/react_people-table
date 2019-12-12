@@ -21,6 +21,8 @@ const PeopleTable = (props) => {
 
   const sortTable = (event) => {
     const column = event.target.textContent;
+
+    const prevArr = [...newPeople];
     const sortArray = newPeople.sort((a, b) => {
       switch (typeof a[column]) {
         case 'string':
@@ -32,7 +34,7 @@ const PeopleTable = (props) => {
       }
     });
 
-    if (props.isSorted) {
+    if (prevArr[0][column] === sortArray[0][column]) {
       sortArray.reverse();
     }
 
@@ -70,7 +72,6 @@ PeopleTable.propTypes = {
   people: PropTypes.arrayOf.isRequired,
   selectText: PropTypes.string.isRequired,
   sortPeople: PropTypes.func.isRequired,
-  isSorted: PropTypes.bool.isRequired,
 };
 
 export default PeopleTable;
