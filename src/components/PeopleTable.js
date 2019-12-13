@@ -31,13 +31,13 @@ class PeopleTable extends Component {
   render = () => {
     const { people, sortTable } = this.props;
     const { selectedId } = this.state;
-    const TABLE_HEADERS = createTableHeaders(people);
+    const tableHeaders = createTableHeaders(people);
 
     return (
       <table className="people-table">
         <thead>
           <tr>
-            {TABLE_HEADERS.map(({ name, code }) => (
+            {tableHeaders.map(({ name, code }) => (
               <th key={name}>
                 <button
                   type="button"
@@ -57,7 +57,7 @@ class PeopleTable extends Component {
             <PeopleRow
               key={person.id}
               currentPerson={person}
-              TABLE_HEADERS={TABLE_HEADERS}
+              tableHeaders={tableHeaders}
               highLightPerson={this.setSelectedId}
               selectedPerson={selectedId}
             />

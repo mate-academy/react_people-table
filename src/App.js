@@ -11,8 +11,8 @@ const addPeopleFields = peopleArr => (
     (person, index) => ({
       id: index + 1,
       ...person,
-      mother: !person.mother ? '' : person.mother,
-      father: !person.father ? '' : person.father,
+      mother: person.mother || '',
+      father: person.father || '',
       age: person.died - person.born,
       century: Math.ceil(person.died / 100),
     })

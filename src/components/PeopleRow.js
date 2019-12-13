@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ClassNames from 'classnames';
 
 const PeopleRow = (
-  { currentPerson, TABLE_HEADERS, highLightPerson, selectedPerson }
+  { currentPerson, tableHeaders, highLightPerson, selectedPerson }
 ) => {
   const { born, age, sex, century, id } = currentPerson;
 
@@ -17,7 +17,7 @@ const PeopleRow = (
       )}
       onClick={() => highLightPerson(id)}
     >
-      {TABLE_HEADERS.map(({ code }) => (
+      {tableHeaders.map(({ code }) => (
         <td
           key={code}
           className={ClassNames({
@@ -39,7 +39,7 @@ PeopleRow.propTypes = {
       PropTypes.number,
     ])
   ).isRequired,
-  TABLE_HEADERS: PropTypes.arrayOf(
+  tableHeaders: PropTypes.arrayOf(
     PropTypes.objectOf(
       PropTypes.string
     )
