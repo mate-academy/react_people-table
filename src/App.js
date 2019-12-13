@@ -4,6 +4,7 @@ import './App.scss';
 
 import peopleFromServer from './people';
 import PeopleTable from './components/PeopleTable';
+import debounce from './helpers';
 
 const addPeopleFields = peopleArr => (
   peopleArr.map(
@@ -25,19 +26,18 @@ class App extends Component {
     people: [...peopleList],
   }
 
+  applyFilterWithDebounce = debounce(value => this.setState({
+    people: peopleList.filter(
+      ({ name, mother, father }) => (name + mother + father)
+        .toLowerCase()
+        .includes(value)
+    ),
+  }), 500);
+
   searchPeople = (event) => {
     const value = event.target.value.trim().toLowerCase();
-    let timer;
 
-    clearTimeout(timer);
-
-    timer = setTimeout(() => this.setState({
-      people: peopleList.filter(
-        ({ name, mother, father }) => (name + mother + father)
-          .toLowerCase()
-          .includes(value)
-      ),
-    }), 500);
+    this.applyFilterWithDebounce(value);
   };
 
   sortTable = (event) => {
@@ -53,10 +53,11 @@ class App extends Component {
     }
 
     this.setState((prevState) => {
-      if (!prevState.isSorted) {
+      if (!prevState.isSorted || prevState.prevField !== field) {
         return {
           people: [...prevState.people].sort(callback),
           isSorted: true,
+          prevField: field,
         };
       }
 
