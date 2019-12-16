@@ -1,0 +1,32 @@
+.peopleTable {
+  border-collapse: collapse;
+  /* border: 1px solid red; */
+}
+
+p {
+  padding: 0;
+  margin: 0;
+}
+
+td,
+tr,
+th {
+  border: 1px solid grey;
+  padding: 5px;
+}
+
+.person--male {
+  background-color: #b2b0b0;
+}
+
+.person--female {
+  background-color: #c798e0;
+}
+
+.bornBefore1650 {
+  text-decoration: line-through;
+}
+
+.ageMore65 {
+  background-color: #c5e0de;
+}
