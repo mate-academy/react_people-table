@@ -35,6 +35,26 @@ class PeopleTable extends React.Component {
       }
       ));
     }
+
+    if (((sortingBy === 'sex') && (sort === 'desc'))
+      || ((sortingBy === 'name') && (sort === 'desc'))) {
+      this.setState(prevState => ({
+        peopleList: [...prevState.peopleList]
+          .sort((a, b) => a[sortingBy].localeCompare(b[sortingBy])),
+        sort: 'asc',
+      }
+      ));
+    }
+
+    if (((sortingBy === 'sex') && (sort === 'asc'))
+      || ((sortingBy === 'name') && (sort === 'asc'))) {
+      this.setState(prevState => ({
+        peopleList: [...prevState.peopleList]
+          .sort((a, b) => b[sortingBy].localeCompare(a[sortingBy])),
+        sort: 'desc',
+      }
+      ));
+    }
   };
 
   clickHandler = id => (
@@ -53,31 +73,15 @@ class PeopleTable extends React.Component {
         <table className="PeopleTable">
           <thead>
             <tr>
-
-              <th onClick={this.getSortedData}>
-                Id
-              </th>
-
-              <th>Name</th>
-              <th>Sex</th>
-
-              <th onClick={this.getSortedData}>
-                Born
-              </th>
-
-              <th onClick={this.getSortedData}>
-                Died
-              </th>
-
+              <th onClick={this.getSortedData}>Id</th>
+              <th onClick={this.getSortedData}>Name</th>
+              <th onClick={this.getSortedData}>Sex</th>
+              <th onClick={this.getSortedData}>Born</th>
+              <th onClick={this.getSortedData}>Died</th>
               <th>Mother</th>
               <th>Father</th>
-              <th onClick={this.getSortedData}>
-                Age
-              </th>
-
-              <th onClick={this.getSortedData}>
-                Century
-              </th>
+              <th onClick={this.getSortedData}>Age</th>
+              <th onClick={this.getSortedData}>Century</th>
             </tr>
           </thead>
           <tbody>
