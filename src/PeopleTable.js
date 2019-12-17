@@ -2,81 +2,92 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PersonRow from './PersonRow';
 
-const tableHeaders = [
+const TABLE_HEADERS = [
   {
     code: 'id',
     label: 'Id',
+    type: 'number',
   },
   {
     code: 'name',
     label: 'Name',
+    type: 'string',
   },
   {
     code: 'sex',
     label: 'Sex',
+    type: 'string',
   },
   {
     code: 'born',
     label: 'Born',
+    type: 'number',
   },
   {
     code: 'died',
     label: 'Died',
+    type: 'number',
   },
   {
     code: 'age',
     label: 'Age',
+    type: 'number',
   },
   {
     code: 'century',
     label: 'Century',
+    type: 'number',
   },
   {
     code: 'mother',
     label: 'Mother',
+    type: 'string',
   },
   {
     code: 'father',
     label: 'Father',
+    type: 'string',
   },
 ];
 
 class PeopleTable extends React.Component {
   state = { selectedElement: null };
 
-  handleClick = id => this.setState({ selectedElement: id });
+  selectRow = id => this.setState({ selectedElement: id });
 
   render() {
-    const { people } = this.props;
+    const { people, sortFields } = this.props;
 
     return (
-      <table className="peopleTable">
-        <thead>
-          <tr>
-            {tableHeaders.map(header => (
-              <th
-                key={header.code}
-                onClick={() => this.props.sortFields(header.code)}
-              >
-                {header.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {people.map(
-            singlePerson => (
-              <PersonRow
-                key={singlePerson.name}
-                person={singlePerson}
-                headers={tableHeaders}
-                selected={singlePerson.id === this.state.selectedElement}
-                handleClick={this.handleClick}
-              />
-            )
-          )}
-        </tbody>
-      </table>
+      people.length > 0 && (
+        <table className="people__table">
+          <thead>
+            <tr>
+              {TABLE_HEADERS.map(header => (
+                <th
+                  key={header.code}
+                  onClick={() => sortFields(header.code, header.type)}
+                >
+                  {header.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {people.map(
+              person => (
+                <PersonRow
+                  key={person.name}
+                  person={person}
+                  headers={TABLE_HEADERS}
+                  selected={person.id === this.state.selectedElement}
+                  selectRow={this.selectRow}
+                />
+              )
+            )}
+          </tbody>
+        </table>
+      )
     );
   }
 }

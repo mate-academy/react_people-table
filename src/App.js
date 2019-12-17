@@ -1,4 +1,5 @@
 import React from 'react';
+import { DebounceInput } from 'react-debounce-input';
 import People from './people';
 import './App.scss';
 import PeopleTable from './PeopleTable';
@@ -20,7 +21,7 @@ class App extends React.Component {
     peopleCount: this.people.length,
   };
 
-  handleInputChange = (e) => {
+  searchInTable = (e) => {
     const searchQuery = e.target.value.trim().toLowerCase();
     const result = this.people.filter(
       person => (person.name + person.mother + person.father).toLowerCase()
@@ -33,63 +34,71 @@ class App extends React.Component {
     });
   };
 
-  sortFields = (field) => {
-    this.setState((state) => {
-      const peopleCopy = [...state.people];
+  sortFields = (field, type) => {
+    this.setState((prevState) => {
+      let peopleCopy = [...prevState.people];
 
-      const newRows = {
-        people: peopleCopy.sort((a, b) => {
-          if (!a[field] && a[field] !== 0) {
-            if (!b[field] && b[field] !== 0) {
-              return -1;
-            }
-
-            return ''.localeCompare(b[field]);
-          }
-
-          if (!b[field] && b[field] !== 0) {
-            return a[field].localeCompare('');
-          }
-
-          if (typeof a[field] === 'string') {
-            return a[field].localeCompare(b[field]);
-          }
-
-          if (typeof a[field] === 'number') {
-            return a[field] - b[field];
-          }
-
-          return a[field].toString() - b[field].toString();
-        }),
-        sorted: !state.sorted,
-      };
-
-      if (!state.sorted) {
-        return newRows;
+      if (prevState.sortField === field) {
+        return {
+          people: peopleCopy.reverse(),
+        };
       }
 
-      newRows.people.reverse();
+      switch (type) {
+        case 'string':
+          peopleCopy = peopleCopy
+            .map(person => ({
+              ...person,
+              [field]: person[field] || '',
+            }))
+            .sort((a, b) => a[field].localeCompare(b[field]));
 
-      return newRows;
+          return {
+            people: peopleCopy,
+            sortField: field,
+          };
+
+        case 'number':
+          peopleCopy.sort((a, b) => a[field] - b[field]);
+
+          return {
+            people: peopleCopy,
+            sortField: field,
+          };
+
+        default:
+          peopleCopy.sort();
+
+          return {
+            people: peopleCopy,
+            sortField: field,
+          };
+      }
     });
   };
 
   render() {
     return (
       <div className="App">
-        <h1>
+        <h1 className="title">
           People table
-          {' '}
-          {this.state.peopleCount}
         </h1>
-        <input
+        <DebounceInput
+          className="search"
+          placeholder="Type to search..."
           type="search"
-          onChange={this.handleInputChange}
+          debounceTimeout={500}
+          onChange={this.searchInTable}
         />
-        <PeopleTable
-          people={this.state.people}
-          sortFields={this.sortFields}
-        />
+        <section className="people">
+          <PeopleTable
+            people={this.state.people}
+            sortFields={this.sortFields}
+          />
+          <div className="people__count">
+            {`Rows in table: ${this.state.peopleCount}`}
+          </div>
+        </section>
       </div>
     );
   }
