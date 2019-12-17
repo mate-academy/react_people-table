@@ -1,0 +1,81 @@
+html {
+  font-family: "Calisto MT", helvetica, arial, sans-serif;
+}
+
+.heading {
+  text-align: center;
+}
+
+.wrap {
+  position: absolute;
+  width: 10%;
+  padding-left: 295px;
+  transform: rotateZ(90deg);
+}
+
+.amountOfPeople {
+  text-align: center;
+  color: cadetblue;
+  padding: 10px;
+  box-shadow: 0 5px 16px 10px rgba(255,246,0,0.22);
+  border-radius: 10px;
+  transform: rotateZ(180deg);
+}
+
+table {
+  border-collapse: collapse;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(255,0,0,0.22);
+  background-color: white;
+  border-radius: 20px;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+td {
+  padding: 13px;
+}
+
+tr:hover {
+  box-shadow: 0 5px 25px 5px rgba(223, 245, 225,1);
+}
+
+th {
+  padding-top: 10px;
+  text-align: center;
+}
+
+thead {
+  box-shadow: 0 10px 17px rgba(223, 245, 225,1);
+  border-radius: 10px;
+  background-color: #dff5eb;
+}
+
+.bornBefore1650 {
+  text-decoration: line-through;
+}
+
+.ageOver65YearsOld {
+  color: mediumseagreen;
+}
+
+.selected {
+  box-shadow: 0 10px 28px rgba(147,184,48,0.5);
+  transition: box-shadow 0.3s;
+}
+
+input[type="text"] {
+  box-shadow: 0 10px 100px rgba(240,230,48,0.5);
+  border-radius: 5px;
+  outline: none;
+  height: 24px;
+  width: 220px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  padding-left: 5px;
+}
