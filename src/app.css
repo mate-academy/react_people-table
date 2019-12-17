@@ -1,0 +1,38 @@
+.table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.person {
+  border: 1px solid green;
+  text-align: center;
+}
+
+.person:hover {
+  cursor: pointer;
+}
+
+.person--selected {
+  border: 2px solid yellow;
+}
+
+.person--male {
+  background-color: lightblue;
+}
+
+.person--female {
+  background-color: pink;
+}
+
+.born_before_1650 {
+  text-decoration: line-through;
+}
+
+.age_more_65 {
+  color: rgb(23, 161, 23);
+}
+
+.column-header {
+  padding: 5px 10px;
+  text-transform: uppercase;
+}
