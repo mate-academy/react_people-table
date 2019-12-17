@@ -83,14 +83,14 @@ class App extends React.Component {
         <h1 className="title">
           People table
         </h1>
-        <DebounceInput
-          className="search"
-          placeholder="Type to search..."
-          type="search"
-          debounceTimeout={500}
-          onChange={this.searchInTable}
-        />
         <section className="people">
+          <DebounceInput
+            className="search"
+            placeholder="Type to search..."
+            type="search"
+            debounceTimeout={500}
+            onChange={this.searchInTable}
+          />
           <PeopleTable
             people={this.state.people}
             sortFields={this.sortFields}
