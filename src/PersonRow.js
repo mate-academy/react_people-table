@@ -30,7 +30,7 @@ class PersonRow extends React.Component {
             className={
               cn(
                 header.code === 'name'
-                  && { person__bornBefore1650: born < 1650 },
+                  person__bornBefore1650: header.code === 'name' && born < 1650 
                 header.code === 'age'
                   && { person__after65: age >= 65 }
               )
