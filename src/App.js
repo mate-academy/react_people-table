@@ -35,7 +35,7 @@ class App extends React.Component {
           name,
           sex,
           born,
-          died,
+          died: died || Infinity,
           mother,
           father,
           children: prevState.allPeople
@@ -44,7 +44,9 @@ class App extends React.Component {
             .map(currentChild => currentChild.name)
             .join(', '),
           age: died ? died - born : date.getFullYear() - born,
-          century: Math.ceil(died / 100),
+          century:
+            died ? Math.ceil(died / 100)
+              : Math.ceil(date.getFullYear() / 100),
           id:
             Math.max(...[...prevState.allPeople].map(person => person.id)) + 1,
         },

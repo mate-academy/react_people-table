@@ -61,7 +61,7 @@ body * {
 }
 
 .person--old {
-  border: 2px solid green;
+  border: 2px solid green !important;
 }
 
 .person--selected {

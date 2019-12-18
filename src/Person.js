@@ -5,14 +5,14 @@ const Person = ({ person, isSelected, selectPerson }) => {
   const trClassName = (currentPerson) => {
     let name = 'person';
 
+    name += ` person--lived-in-${currentPerson.century}`;
     name += isSelected ? ' person--selected' : '';
     name += currentPerson.sex === 'm' ? ' person--man' : ' person--woman';
-    name += currentPerson.age >= 65 ? ' person--old' : '';
 
     return name;
   };
 
-  const tdClassName = (currentPerson) => {
+  const tdNameClassName = (currentPerson) => {
     let name = '';
 
     if (currentPerson.born < 1650) {
@@ -32,13 +32,17 @@ const Person = ({ person, isSelected, selectPerson }) => {
       onClick={selectPerson}
     >
       <td>{person.id}</td>
-      <td className={tdClassName(person)}>
+      <td className={tdNameClassName(person)}>
         {person.name}
       </td>
       <td>{person.sex}</td>
       <td>{person.born}</td>
-      <td>{person.died}</td>
-      <td>{person.age}</td>
+      <td>{person.died < Infinity ? person.died : ''}</td>
+      <td
+        className={person.age >= 65 ? 'person--old' : ''}
+      >
+        {person.age}
+      </td>
       <td>{person.century}</td>
       <td>{person.mother}</td>
       <td>{person.father}</td>
