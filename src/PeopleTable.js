@@ -47,27 +47,18 @@ class PeopleTable extends React.Component {
       }
       ));
     } else {
+      if ((sortingBy === 'name') || (sortingBy === 'sex')) {
+        this.setState(prevState => ({
+          peopleList: [...prevState.peopleList]
+            .sort((a, b) => a[sortingBy].localeCompare(b[sortingBy])),
+          sortedField: sortingBy,
+        }
+        ));
+      }
+
       this.setState(prevState => ({
         peopleList: [...prevState.peopleList]
           .sort((a, b) => a[sortingBy] - b[sortingBy]),
-        sortedField: sortingBy,
-      }
-      ));
-    }
-
-    if (((sortingBy === 'sex') && (sortedField !== sortingBy))
-      || ((sortingBy === 'name') && (sortedField !== sortingBy))) {
-      this.setState(prevState => ({
-        peopleList: [...prevState.peopleList]
-          .sort((a, b) => a[sortingBy].localeCompare(b[sortingBy])),
-        sortedField: sortingBy,
-      }
-      ));
-    } else if ((((sortingBy === 'sex') && (sortedField === sortingBy))
-      || ((sortingBy === 'name') && (sortedField === sortingBy)))) {
-      this.setState(prevState => ({
-        peopleList: [...prevState.peopleList]
-          .sort((a, b) => b[sortingBy].localeCompare(a[sortingBy])),
         sortedField: sortingBy,
       }
       ));
