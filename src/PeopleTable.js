@@ -17,21 +17,22 @@ class PeopleTable extends React.Component {
   }
 
   handleFilter = (event) => {
-    const text = event.target.value.trim();
+    const text = event.target.value.trim().toLowerCase();
 
     const filteredList = [...this.people]
       .filter(item => (item.name.toLowerCase()
-        .search(text.toLowerCase()) !== -1)
-      && ((item.mother)
-        ? item.mother.toLowerCase()
-          .search(text.toLowerCase()) !== -1
+        .match(text.toLowerCase()))
+      || ((item.mother !== null)
+        ? (item.mother.toLowerCase()
+          .match(text.toLowerCase()))
         : 1)
-      && ((item.father)
-        ? item.father.toLowerCase()
-          .search(text.toLowerCase()) !== -1
+      || ((item.father !== null)
+        ? (item.father.toLowerCase()
+          .match(text.toLowerCase()))
         : 1));
 
-    this.setState({ peopleList: filteredList });
+    this.setState({ peopleList: filteredList
+      .filter(item => item.mother && item.father) });
   };
 
   getSortedData = (event) => {
