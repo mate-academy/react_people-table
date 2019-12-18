@@ -63,7 +63,7 @@ class NewPerson extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { addPerson, addChildren } = this.props;
+    const { addPerson, updateChildren } = this.props;
     const { name, sex, born, died, mother, father } = this.state;
 
     if (!name.trim() || name.match(/[^a-z\s]+/g)) {
@@ -94,7 +94,7 @@ class NewPerson extends React.Component {
       && (died ? died - born > 0 : date.getFullYear() - born > 0)
       && (died ? died - born <= 150 : date.getFullYear() - born <= 150)) {
       addPerson(name, sex, born, died, mother, father);
-      addChildren();
+      updateChildren();
 
       this.setState(prevState => ({
         name: '',
@@ -228,7 +228,7 @@ class NewPerson extends React.Component {
 NewPerson.propTypes = {
   peopleList: PropTypes.oneOfType(Array).isRequired,
   addPerson: PropTypes.func.isRequired,
-  addChildren: PropTypes.func.isRequired,
+  updateChildren: PropTypes.func.isRequired,
 };
 
 export default NewPerson;

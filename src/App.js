@@ -54,7 +54,7 @@ class App extends React.Component {
     }));
   };
 
-  addChildren = () => {
+  updateChildren = () => {
     this.setState(prevState => ({
       allPeople:
         prevState.allPeople.map(person => (
@@ -111,7 +111,7 @@ class App extends React.Component {
       <div className="people">
         <NewPerson
           addPerson={this.addPerson}
-          addChildren={this.addChildren}
+          updateChildren={this.updateChildren}
           peopleList={allPeople}
         />
         <input
