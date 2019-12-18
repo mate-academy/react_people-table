@@ -10,7 +10,7 @@ class PeopleTable extends React.Component {
     this.state = {
       peopleList: [...this.people],
       personSelected: 0,
-      sort: 'asc',
+      sortedField: 'id',
     };
 
     this.handleFilter = this.handleFilter.bind(this);
@@ -37,42 +37,38 @@ class PeopleTable extends React.Component {
 
   getSortedData = (event) => {
     const sortingBy = event.target.valueOf().textContent.toLowerCase();
-    const { sort } = this.state;
+    const { sortedField } = this.state;
 
-    if (sort === 'desc') {
+    if (sortedField === sortingBy) {
+      this.setState(prevState => ({
+        peopleList: [...prevState.peopleList]
+          .reverse(),
+        sortedField: sortingBy,
+      }
+      ));
+    } else {
       this.setState(prevState => ({
         peopleList: [...prevState.peopleList]
           .sort((a, b) => a[sortingBy] - b[sortingBy]),
-        sort: 'asc',
+        sortedField: sortingBy,
       }
       ));
     }
 
-    if (sort === 'asc') {
-      this.setState(prevState => ({
-        peopleList: [...prevState.peopleList]
-          .sort((a, b) => b[sortingBy] - a[sortingBy]),
-        sort: 'desc',
-      }
-      ));
-    }
-
-    if (((sortingBy === 'sex') && (sort === 'desc'))
-      || ((sortingBy === 'name') && (sort === 'desc'))) {
+    if (((sortingBy === 'sex') && (sortedField !== sortingBy))
+      || ((sortingBy === 'name') && (sortedField !== sortingBy))) {
       this.setState(prevState => ({
         peopleList: [...prevState.peopleList]
           .sort((a, b) => a[sortingBy].localeCompare(b[sortingBy])),
-        sort: 'asc',
+        sortedField: sortingBy,
       }
       ));
-    }
-
-    if (((sortingBy === 'sex') && (sort === 'asc'))
-      || ((sortingBy === 'name') && (sort === 'asc'))) {
+    } else if ((((sortingBy === 'sex') && (sortedField === sortingBy))
+      || ((sortingBy === 'name') && (sortedField === sortingBy)))) {
       this.setState(prevState => ({
         peopleList: [...prevState.peopleList]
           .sort((a, b) => b[sortingBy].localeCompare(a[sortingBy])),
-        sort: 'desc',
+        sortedField: sortingBy,
       }
       ));
     }
