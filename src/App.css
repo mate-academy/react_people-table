@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+}
+
+body * {
+  outline: none;
+}
+
+.people {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.people__search {
+  width: 60%;
+  height: 40px;
+  border: 1px solid rgba(210, 199, 242, 1);
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.people-table {
+  border-collapse: collapse;
+  border: 3px solid rgba(210, 199, 242, 1);
+  width: 95%;
+  margin: 10px auto;
+}
+
+.people-table td {
+  border: 1px solid #9460cc;
+}
+
+.people-table thead {
+  background-color: rgba(210, 199, 242, 1);
+}
+
+.people-table thead tr th {
+  border: 1px solid #9460cc;
+}
+
+.people-table tr:hover {
+  background-color: rgba(210, 199, 242, 1);
+  cursor: pointer;
+}
+
+.person--born-before-1650 {
+  text-decoration: line-through;
+}
+
+.person--died-after-1800 {
+  font-weight: bold;
+}
+
+.person--woman {
+  background-color: #e4d8f2;
+}
+
+.person--man {
+  background-color: #bddbf2;
+}
+
+.person--old {
+  border: 2px solid green;
+}
+
+.person--selected {
+  border: 3px solid #9460cc;
+}
+
+.title:hover {
+  cursor: pointer;
+  background-color: #ab8dcc;
+  transition: background-color 1s;
+}
+
+.title--sorting {
+  background-color: #9460cc;
+}
+
+.new-person {
+  border: 3px solid rgba(210, 199, 242, 1);
+  border-radius: 10px;
+  width: 60%;
+  margin: 10px auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.new-person__name {
+  display: block;
+  margin: 10px auto;
+}
+
+.new-person__sex {
+  display: block;
+  margin: 10px auto;
+}
+
+.new-person__year {
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
+.new-person__parent {
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
+.new-person__err {
+  color: red;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.new-person__submit {
+  border: 1px solid rgba(210, 199, 242, 1);
+  border-radius: 10px;
+  background-color: rgba(210, 199, 242, 0.6);
+  transition: background-color 1s;
+  width: 100px;
+  height: 40px;
+}
+
+.new-person__submit:hover {
+  background-color: rgba(210, 199, 242, 1);
+  cursor: pointer;
+}
