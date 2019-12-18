@@ -63,7 +63,7 @@ class NewPerson extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { addPerson } = this.props;
+    const { addPerson, addChildren } = this.props;
     const { name, sex, born, died, mother, father } = this.state;
 
     if (!name.trim() || name.match(/[^a-z\s]+/g)) {
@@ -90,8 +90,11 @@ class NewPerson extends React.Component {
       }));
     }
 
-    if (name.trim() && born) {
+    if (name.trim() && born
+      && (died ? died - born > 0 : date.getFullYear() - born > 0)
+      && (died ? died - born <= 150 : date.getFullYear() - born <= 150)) {
       addPerson(name, sex, born, died, mother, father);
+      addChildren();
 
       this.setState(prevState => ({
         name: '',
@@ -142,8 +145,8 @@ class NewPerson extends React.Component {
           onChange={event => this.handleSelectSex(event)}
           className="new-person__sex"
         >
-          <option value="m">m</option>
-          <option value="f">f</option>
+          <option value="m">male</option>
+          <option value="f">female</option>
         </select>
 
         <select
@@ -225,6 +228,7 @@ class NewPerson extends React.Component {
 NewPerson.propTypes = {
   peopleList: PropTypes.oneOfType(Array).isRequired,
   addPerson: PropTypes.func.isRequired,
+  addChildren: PropTypes.func.isRequired,
 };
 
 export default NewPerson;

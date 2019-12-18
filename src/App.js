@@ -54,6 +54,22 @@ class App extends React.Component {
     }));
   };
 
+  addChildren = () => {
+    this.setState(prevState => ({
+      allPeople:
+        prevState.allPeople.map(person => (
+          {
+            ...person,
+            children: prevState.allPeople
+              .filter(child => (
+                child.father === person.name || child.mother === person.name))
+              .map(currentChild => currentChild.name)
+              .join(', '),
+          }
+        )),
+    }));
+  };
+
   handleSearchingInputChange = ({ target: { value } }) => {
     this.setState(prevState => ({
       searchingItem: value,
@@ -95,6 +111,7 @@ class App extends React.Component {
       <div className="people">
         <NewPerson
           addPerson={this.addPerson}
+          addChildren={this.addChildren}
           peopleList={allPeople}
         />
         <input
