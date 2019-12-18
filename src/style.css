@@ -1,5 +1,6 @@
 html {
   font-family: "Calisto MT", helvetica, arial, sans-serif;
+  background-color: rgba(255,255,0,0.1);
 }
 
 .heading {
@@ -7,10 +8,8 @@ html {
 }
 
 .wrap {
-  position: absolute;
   width: 10%;
-  padding-left: 295px;
-  transform: rotateZ(90deg);
+  margin: 0 auto;
 }
 
 .amountOfPeople {
@@ -19,7 +18,6 @@ html {
   padding: 10px;
   box-shadow: 0 5px 16px 10px rgba(255,246,0,0.22);
   border-radius: 10px;
-  transform: rotateZ(180deg);
 }
 
 table {

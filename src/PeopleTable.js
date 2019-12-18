@@ -12,7 +12,27 @@ class PeopleTable extends React.Component {
       personSelected: 0,
       sort: 'asc',
     };
+
+    this.handleFilter = this.handleFilter.bind(this);
   }
+
+  handleFilter = (event) => {
+    const text = event.target.value.trim();
+
+    const filteredList = [...this.people]
+      .filter(item => (item.name.toLowerCase()
+        .search(text.toLowerCase()) !== -1)
+      && ((item.mother)
+        ? item.mother.toLowerCase()
+          .search(text.toLowerCase()) !== -1
+        : 1)
+      && ((item.father)
+        ? item.father.toLowerCase()
+          .search(text.toLowerCase()) !== -1
+        : 1));
+
+    this.setState({ peopleList: filteredList });
+  };
 
   getSortedData = (event) => {
     const sortingBy = event.target.valueOf().textContent.toLowerCase();
@@ -69,6 +89,7 @@ class PeopleTable extends React.Component {
         <input
           type="text"
           placeholder="Search"
+          onChange={this.handleFilter}
         />
         <table className="PeopleTable">
           <thead>
