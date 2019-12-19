@@ -54,20 +54,18 @@ class NewPerson extends React.Component {
     const { addPerson, updateChildren, updateSortedPeople } = this.props;
     const { name, sex, born, died, mother, father } = this.state;
 
-    if (name.trim()) {
-      addPerson(name, sex, born, died, mother, father);
-      updateChildren();
-      updateSortedPeople();
+    addPerson(name.trim(), sex, born, died, mother, father);
+    updateChildren();
+    updateSortedPeople();
 
-      this.setState(prevState => ({
-        name: '',
-        sex: prevState.sex,
-        born: '',
-        died: '',
-        mother: '',
-        father: '',
-      }));
-    }
+    this.setState(prevState => ({
+      name: '',
+      sex: prevState.sex,
+      born: '',
+      died: '',
+      mother: '',
+      father: '',
+    }));
   };
 
   render() {
