@@ -39,6 +39,20 @@ body * {
   border: 1px solid #9460cc;
 }
 
+.title--with-sorting:hover {
+  cursor: pointer;
+  background-color: #ab8dcc;
+  transition: background-color 1s;
+}
+
+.title--sorting {
+  background-color: #9460cc;
+}
+
+.title--without-sorting {
+  cursor: auto;
+}
+
 .people-table tr:hover {
   background-color: rgba(210, 199, 242, 1);
   cursor: pointer;
@@ -53,29 +67,19 @@ body * {
 }
 
 .person--woman {
-  background-color: #e4d8f2;
+  background-color: rgba(245, 198, 242, 0.5);
 }
 
 .person--man {
-  background-color: #bddbf2;
+  background-color: rgba(198, 228, 245, 0.5);
 }
 
 .person--old {
-  border: 2px solid green !important;
+  background-color: rgba(153, 224, 171, 0.6);
 }
 
 .person--selected {
   border: 3px solid #9460cc;
-}
-
-.title:hover {
-  cursor: pointer;
-  background-color: #ab8dcc;
-  transition: background-color 1s;
-}
-
-.title--sorting {
-  background-color: #9460cc;
 }
 
 .new-person {
@@ -100,17 +104,12 @@ body * {
 .new-person__year {
   margin-bottom: 10px;
   margin-left: 5px;
+  margin-top: 10px;
 }
 
 .new-person__parent {
   margin-bottom: 10px;
   margin-left: 5px;
-}
-
-.new-person__err {
-  color: red;
-  font-size: 16px;
-  margin-bottom: 5px;
 }
 
 .new-person__submit {

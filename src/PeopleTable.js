@@ -31,16 +31,16 @@ class PeopleTable extends React.Component {
             {titles.map(title => (
               <th
                 className={title === sortingTitle
-                  ? 'title title--sorting'
-                  : 'title'}
+                  ? 'title--with-sorting title--sorting'
+                  : 'title--with-sorting'}
                 onClick={() => setSortBy(title)}
               >
                 {title.toUpperCase()}
               </th>
             ))}
-            <th>MOTHER</th>
-            <th>FATHER</th>
-            <th>CHILDREN</th>
+            <th className="title--without-sorting">MOTHER</th>
+            <th className="title--without-sorting">FATHER</th>
+            <th className="title--without-sorting">CHILDREN</th>
           </tr>
         </thead>
         <tbody>

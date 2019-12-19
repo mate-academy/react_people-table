@@ -5,6 +5,18 @@ import NewPerson from './NewPerson';
 import people from './people';
 
 const date = new Date();
+const availableYears = [];
+const minWomanBirth = Math.min(...people
+  .filter(person => person.sex === 'f')
+  .map(person => person.born));
+const minManBirth = Math.min(...people
+  .filter(person => person.sex === 'm')
+  .map(person => person.born));
+
+for (let i = Math.max(minWomanBirth, minManBirth) + 16;
+  i <= date.getFullYear(); i += 1) {
+  availableYears.push(i);
+}
 
 const getPeopleWithChildren = listOfPeople => (
   listOfPeople.map((person, index) => ({
@@ -25,6 +37,7 @@ class App extends React.Component {
     allPeople: getPeopleWithChildren(people),
     currentSortingTitle: '',
     searchingItem: '',
+    reversed: false,
   };
 
   addPerson = (name, sex, born, died, mother, father) => {
@@ -35,7 +48,7 @@ class App extends React.Component {
           name,
           sex,
           born,
-          died: died || Infinity,
+          died,
           mother,
           father,
           children: prevState.allPeople
@@ -43,10 +56,10 @@ class App extends React.Component {
               child.father === name || child.mother === name))
             .map(currentChild => currentChild.name)
             .join(', '),
-          age: died ? died - born : date.getFullYear() - born,
+          age: died === Infinity ? date.getFullYear() - born : died - born,
           century:
-            died ? Math.ceil(died / 100)
-              : Math.ceil(date.getFullYear() / 100),
+            died === Infinity ? Math.ceil(date.getFullYear() / 100)
+              : Math.ceil(died / 100),
           id:
             Math.max(...[...prevState.allPeople].map(person => person.id)) + 1,
         },
@@ -67,6 +80,17 @@ class App extends React.Component {
               .join(', '),
           }
         )),
+    }));
+  };
+
+  updateSortedPeople = () => {
+    this.setState(prevState => ({
+      allPeople: prevState.reversed
+        ? this
+          .getSortedPeople(prevState.allPeople, prevState.currentSortingTitle)
+          .reverse()
+        : this
+          .getSortedPeople(prevState.allPeople, prevState.currentSortingTitle),
     }));
   };
 
@@ -97,6 +121,7 @@ class App extends React.Component {
       allPeople: currentSortingTitle === sortingTitle
         ? [...allPeople].reverse()
         : this.getSortedPeople(allPeople, sortingTitle),
+      reversed: currentSortingTitle === sortingTitle,
       currentSortingTitle: sortingTitle,
     }));
   };
@@ -112,7 +137,9 @@ class App extends React.Component {
         <NewPerson
           addPerson={this.addPerson}
           updateChildren={this.updateChildren}
+          updateSortedPeople={this.updateSortedPeople}
           peopleList={allPeople}
+          years={availableYears}
         />
         <input
           onChange={this.handleSearchingInputChange}

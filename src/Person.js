@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import PersonName from './PersonName';
 
 const Person = ({ person, isSelected, selectPerson }) => {
   const trClassName = (currentPerson) => {
@@ -7,7 +8,6 @@ const Person = ({ person, isSelected, selectPerson }) => {
 
     name += ` person--lived-in-${currentPerson.century}`;
     name += isSelected ? ' person--selected' : '';
-    name += currentPerson.sex === 'm' ? ' person--man' : ' person--woman';
 
     return name;
   };
@@ -23,6 +23,8 @@ const Person = ({ person, isSelected, selectPerson }) => {
       name += 'person--died-after-1800';
     }
 
+    name += currentPerson.sex === 'm' ? ' person--man' : ' person--woman';
+
     return name;
   };
 
@@ -32,9 +34,10 @@ const Person = ({ person, isSelected, selectPerson }) => {
       onClick={selectPerson}
     >
       <td>{person.id}</td>
-      <td className={tdNameClassName(person)}>
-        {person.name}
-      </td>
+      <PersonName
+        person={person}
+        tdNameClassName={tdNameClassName}
+      />
       <td>{person.sex}</td>
       <td>{person.born}</td>
       <td>{person.died < Infinity ? person.died : ''}</td>

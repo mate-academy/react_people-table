@@ -2,29 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const date = new Date();
-const years = [];
-
-for (let i = 1530; i <= date.getFullYear(); i += 1) {
-  years.push(i);
-}
 
 class NewPerson extends React.Component {
   state = {
     name: '',
-    sex: 'm',
+    sex: '',
     born: '',
     died: '',
     mother: '',
     father: '',
-    nameError: '',
-    bornError: '',
-    ageError: '',
   };
 
   handleNameChange = ({ target: { value } }) => {
     this.setState(prevState => ({
-      name: value,
-      nameError: '',
+      name: value.replace(/^ +|[^a-z\s]+/g, ''),
     }));
   };
 
@@ -37,15 +28,12 @@ class NewPerson extends React.Component {
   handleSelectBorn = ({ target: { value } }) => {
     this.setState(prevState => ({
       born: value,
-      bornError: '',
-      ageError: '',
     }));
   };
 
   handleSelectDied = ({ target: { value } }) => {
     this.setState(prevState => ({
       died: value,
-      ageError: '',
     }));
   };
 
@@ -63,67 +51,29 @@ class NewPerson extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { addPerson, updateChildren } = this.props;
+    const { addPerson, updateChildren, updateSortedPeople } = this.props;
     const { name, sex, born, died, mother, father } = this.state;
 
-    if (!name.trim() || name.match(/[^a-z\s]+/g)) {
-      this.setState(prevState => ({
-        nameError: 'invalid name',
-      }));
-    }
-
-    if (!born) {
-      this.setState(prevState => ({
-        bornError: 'choose year of birth',
-      }));
-    }
-
-    if ((died ? died - born > 150 : date.getFullYear() - born > 150)) {
-      this.setState(prevState => ({
-        ageError: 'age is too big',
-      }));
-    }
-
-    if ((died - born < 0)) {
-      this.setState(prevState => ({
-        ageError: 'invalid dates',
-      }));
-    }
-
-    if (name.trim() && born
-      && (died ? died - born > 0 : date.getFullYear() - born > 0)
-      && (died ? died - born <= 150 : date.getFullYear() - born <= 150)) {
+    if (name.trim()) {
       addPerson(name, sex, born, died, mother, father);
       updateChildren();
+      updateSortedPeople();
 
       this.setState(prevState => ({
         name: '',
-        sex: 'm',
+        sex: prevState.sex,
         born: '',
         died: '',
         mother: '',
         father: '',
-        nameError: '',
-        bornError: '',
-        ageError: '',
       }));
     }
   };
 
   render() {
     const
-      {
-        name,
-        sex,
-        born,
-        died,
-        mother,
-        father,
-        nameError,
-        bornError,
-        ageError,
-      } = this.state;
-    const { peopleList } = this.props;
+      { name, sex, born, died, mother, father } = this.state;
+    const { peopleList, years } = this.props;
 
     return (
       <form
@@ -137,22 +87,33 @@ class NewPerson extends React.Component {
           placeholder="Enter name"
           onChange={this.handleNameChange}
           className="new-person__name"
+          required
         />
-        {nameError && <div className="new-person__err">{nameError}</div>}
 
-        <select
-          value={sex}
+        <input
+          type="radio"
+          name="sex"
+          value="m"
+          id="male"
           onChange={event => this.handleSelectSex(event)}
-          className="new-person__sex"
-        >
-          <option value="m">male</option>
-          <option value="f">female</option>
-        </select>
+        />
+        <label htmlFor="male" className={`new-person__${sex}`}>male</label>
+        <input
+          type="radio"
+          name="sex"
+          value="f"
+          id="female"
+          onChange={event => this.handleSelectSex(event)}
+        />
+        <label htmlFor="female" className={`new-person__${sex}`}>female</label>
+
+        <br />
 
         <select
           value={born}
           onChange={event => this.handleSelectBorn(event)}
           className="new-person__year"
+          required
         >
           <option value="">born</option>
           {[...years].map(year => (
@@ -164,15 +125,18 @@ class NewPerson extends React.Component {
           value={died}
           onChange={event => this.handleSelectDied(event)}
           className="new-person__year"
+          required
         >
           <option value="">died</option>
-          {[...years].map(year => (
-            <option value={year} key={year}>{year}</option>
-          ))}
+          {born && years
+            .filter(yearOfDeath => yearOfDeath >= Number(born)
+              && yearOfDeath <= Number(born) + 149)
+            .map(year => (
+              <option value={year} key={year}>{year}</option>
+            ))}
+          {date.getFullYear() - born < 150
+          && (<option value={Infinity}>alive</option>)}
         </select>
-
-        {bornError && <div className="new-person__err">{bornError}</div>}
-        {born && ageError && <div className="new-person__err">{ageError}</div>}
 
         <br />
 
@@ -180,11 +144,13 @@ class NewPerson extends React.Component {
           value={mother}
           onChange={event => this.handleSelectMother(event)}
           className="new-person__parent"
+          required
         >
           <option value="">Choose mother</option>
           {born
           && peopleList
-            .filter(person => person.sex === 'f' && person.died > born)
+            .filter(person => person.sex === 'f' && person.died >= born
+              && person.born <= born - 16)
             .map(woman => woman.name)
             .map(currentWoman => (
               <option
@@ -200,11 +166,13 @@ class NewPerson extends React.Component {
           value={father}
           onChange={event => this.handleSelectFather(event)}
           className="new-person__parent"
+          required
         >
           <option value="">Choose father</option>
           {born
           && peopleList
-            .filter(person => person.sex === 'm' && person.died > born)
+            .filter(person => person.sex === 'm' && person.died >= born
+              && person.born <= born - 16)
             .map(man => man.name)
             .map(currentMan => (
               <option value={currentMan} key={currentMan}>{currentMan}</option>
@@ -227,8 +195,10 @@ class NewPerson extends React.Component {
 
 NewPerson.propTypes = {
   peopleList: PropTypes.oneOfType(Array).isRequired,
+  years: PropTypes.oneOfType(Array).isRequired,
   addPerson: PropTypes.func.isRequired,
   updateChildren: PropTypes.func.isRequired,
+  updateSortedPeople: PropTypes.func.isRequired,
 };
 
 export default NewPerson;
