@@ -15,7 +15,7 @@ class NewPerson extends React.Component {
 
   handleNameChange = ({ target: { value } }) => {
     this.setState(prevState => ({
-      name: value.replace(/^ |[^a-z|\s]+/g, ''),
+      name: value.replace(/^ |[^a-zA-Z|\s]+/g, ''),
     }));
   };
 
@@ -92,6 +92,7 @@ class NewPerson extends React.Component {
           type="radio"
           name="sex"
           value="m"
+          required={sex === ''}
           id="male"
           onChange={event => this.handleSelectSex(event)}
         />
@@ -100,6 +101,7 @@ class NewPerson extends React.Component {
           type="radio"
           name="sex"
           value="f"
+          required={sex === ''}
           id="female"
           onChange={event => this.handleSelectSex(event)}
         />
