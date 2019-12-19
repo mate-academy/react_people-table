@@ -15,7 +15,7 @@ class NewPerson extends React.Component {
 
   handleNameChange = ({ target: { value } }) => {
     this.setState(prevState => ({
-      name: value.replace(/^ +|[^a-z\s]+/g, ''),
+      name: value.replace(/^ |[^a-z|\s]+/g, ''),
     }));
   };
 
