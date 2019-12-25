@@ -14,43 +14,20 @@ class NewPerson extends React.Component {
   };
 
   handleNameChange = ({ target: { value } }) => {
-    this.setState(prevState => ({
+    this.setState({
       name: value.replace(/^ |[^a-zA-Z|\s]+/g, ''),
-    }));
+    });
   };
 
-  handleSelectSex = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      sex: value,
-    }));
-  };
-
-  handleSelectBorn = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      born: value,
-    }));
-  };
-
-  handleSelectDied = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      died: value,
-    }));
-  };
-
-  handleSelectMother = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      mother: value,
-    }));
-  };
-
-  handleSelectFather = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      father: value,
-    }));
+  handleSelect = ({ target: { value } }, key) => {
+    this.setState({
+      [key]: value,
+    });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
+
     const { addPerson, updateChildren, updateSortedPeople } = this.props;
     const { name, sex, born, died, mother, father } = this.state;
 
@@ -94,24 +71,24 @@ class NewPerson extends React.Component {
           value="m"
           required={sex === ''}
           id="male"
-          onChange={event => this.handleSelectSex(event)}
+          onChange={event => this.handleSelect(event, 'sex')}
         />
-        <label htmlFor="male" className={`new-person__${sex}`}>male</label>
+        <label htmlFor="male">male</label>
         <input
           type="radio"
           name="sex"
           value="f"
           required={sex === ''}
           id="female"
-          onChange={event => this.handleSelectSex(event)}
+          onChange={event => this.handleSelect(event, 'sex')}
         />
-        <label htmlFor="female" className={`new-person__${sex}`}>female</label>
+        <label htmlFor="female">female</label>
 
         <br />
 
         <select
           value={born}
-          onChange={event => this.handleSelectBorn(event)}
+          onChange={event => this.handleSelect(event, 'born')}
           className="new-person__year"
           required
         >
@@ -123,7 +100,7 @@ class NewPerson extends React.Component {
 
         <select
           value={died}
-          onChange={event => this.handleSelectDied(event)}
+          onChange={event => this.handleSelect(event, 'died')}
           className="new-person__year"
           required
         >
@@ -142,7 +119,7 @@ class NewPerson extends React.Component {
 
         <select
           value={mother}
-          onChange={event => this.handleSelectMother(event)}
+          onChange={event => this.handleSelect(event, 'mother')}
           className="new-person__parent"
           required
         >
@@ -164,7 +141,7 @@ class NewPerson extends React.Component {
 
         <select
           value={father}
-          onChange={event => this.handleSelectFather(event)}
+          onChange={event => this.handleSelect(event, 'father')}
           className="new-person__parent"
           required
         >
@@ -194,8 +171,21 @@ class NewPerson extends React.Component {
 }
 
 NewPerson.propTypes = {
-  peopleList: PropTypes.oneOfType(Array).isRequired,
-  years: PropTypes.oneOfType(Array).isRequired,
+  peopleList: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    sex: PropTypes.string.isRequired,
+    born: PropTypes.number.isRequired,
+    died: PropTypes.number.isRequired,
+    age: PropTypes.number.isRequired,
+    mother: PropTypes.string.isRequired,
+    father: PropTypes.string.isRequired,
+    children: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      sex: PropTypes.string,
+    })).isRequired,
+  })).isRequired,
+  years: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   addPerson: PropTypes.func.isRequired,
   updateChildren: PropTypes.func.isRequired,
   updateSortedPeople: PropTypes.func.isRequired,

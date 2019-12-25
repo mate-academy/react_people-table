@@ -6,6 +6,7 @@ import people from './people';
 
 const date = new Date();
 const availableYears = [];
+
 const minWomanBirth = Math.min(...people
   .filter(person => person.sex === 'f')
   .map(person => person.born));
@@ -23,9 +24,7 @@ const getPeopleWithChildren = listOfPeople => (
     ...person,
     children: listOfPeople
       .filter(child => (
-        child.father === person.name || child.mother === person.name))
-      .map(currentChild => currentChild.name)
-      .join(', '),
+        child.father === person.name || child.mother === person.name)),
     age: person.died - person.born,
     century: Math.ceil(person.died / 100),
     id: index + 1,
@@ -40,73 +39,19 @@ class App extends React.Component {
     reversed: false,
   };
 
-  addPerson = (name, sex, born, died, mother, father) => {
-    this.setState(prevState => ({
-      allPeople: [
-        ...prevState.allPeople,
-        {
-          name,
-          sex,
-          born,
-          died,
-          mother,
-          father,
-          children: prevState.allPeople
-            .filter(child => (
-              child.father === name || child.mother === name))
-            .map(currentChild => currentChild.name)
-            .join(', '),
-          age: died === Infinity ? date.getFullYear() - born : died - born,
-          century:
-            died === Infinity ? Math.ceil(date.getFullYear() / 100)
-              : Math.ceil(died / 100),
-          id:
-            Math.max(...[...prevState.allPeople].map(person => person.id)) + 1,
-        },
-      ],
-    }));
-  };
-
-  updateChildren = () => {
-    this.setState(prevState => ({
-      allPeople:
-        prevState.allPeople.map(person => (
-          {
-            ...person,
-            children: prevState.allPeople
-              .filter(child => (
-                child.father === person.name || child.mother === person.name))
-              .map(currentChild => currentChild.name)
-              .join(', '),
-          }
-        )),
-    }));
-  };
-
-  updateSortedPeople = () => {
-    this.setState(prevState => ({
-      allPeople: prevState.reversed
-        ? this
-          .getSortedPeople(prevState.allPeople, prevState.currentSortingTitle)
-          .reverse()
-        : this
-          .getSortedPeople(prevState.allPeople, prevState.currentSortingTitle),
-    }));
-  };
-
   handleSearchingInputChange = ({ target: { value } }) => {
-    this.setState(prevState => ({
-      searchingItem: value,
-    }));
+    this.setState({
+      searchingItem: value.toLowerCase(),
+    });
   };
 
   getSearchedPeople = (listOfPeople, searchingName) => (
     listOfPeople.filter(person => (
-      person.name.toLowerCase().includes(searchingName.toLowerCase())
-        || (person.father || '').toLowerCase()
-          .includes(searchingName.toLowerCase())
-        || (person.mother || '').toLowerCase()
-          .includes(searchingName.toLowerCase())
+      person.name.toLowerCase().includes(searchingName)
+      || (person.father || '').toLowerCase()
+        .includes(searchingName)
+      || (person.mother || '').toLowerCase()
+        .includes(searchingName)
     )));
 
   getSortedPeople = (listOfPeople, sortingTitle) => (
@@ -126,11 +71,58 @@ class App extends React.Component {
     }));
   };
 
+  addPerson = (name, sex, born, died, mother, father) => {
+    this.setState(prevState => ({
+      allPeople: [
+        ...prevState.allPeople,
+        {
+          name,
+          sex,
+          born,
+          died,
+          mother,
+          father,
+          children: prevState.allPeople
+            .filter(child => (
+              child.father === name || child.mother === name)),
+          age: died < Infinity ? died - born : date.getFullYear() - born,
+          century:
+            died < Infinity ? Math.ceil(died / 100)
+              : Math.ceil(date.getFullYear() / 100),
+          id:
+            Math.max(...prevState.allPeople.map(person => person.id)) + 1,
+        },
+      ],
+    }));
+  };
+
+  updateChildren = () => {
+    this.setState(prevState => ({
+      allPeople:
+        prevState.allPeople.map(person => (
+          {
+            ...person,
+            children: prevState.allPeople
+              .filter(child => (
+                child.father === person.name || child.mother === person.name)),
+          }
+        )),
+    }));
+  };
+
+  updateSortedPeople = () => {
+    this.setState(prevState => ({
+      allPeople: prevState.reversed
+        ? this
+          .getSortedPeople(prevState.allPeople, prevState.currentSortingTitle)
+          .reverse()
+        : this
+          .getSortedPeople(prevState.allPeople, prevState.currentSortingTitle),
+    }));
+  };
+
   render() {
     const { currentSortingTitle, searchingItem, allPeople } = this.state;
-    const visiblePeople = searchingItem
-      ? [...this.getSearchedPeople(allPeople, searchingItem)]
-      : [...allPeople];
 
     return (
       <div className="people">
@@ -148,7 +140,7 @@ class App extends React.Component {
           placeholder="Search"
         />
         <PeopleTable
-          people={visiblePeople}
+          people={this.getSearchedPeople(allPeople, searchingItem)}
           setSortBy={this.setSortBy}
           sortingTitle={currentSortingTitle}
         />
