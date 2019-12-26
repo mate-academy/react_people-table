@@ -16,7 +16,7 @@ class App extends React.Component {
   state = {
     people: [...changedPeople],
     filtered: [],
-    sortColumn: '',
+    sortColumn: 'id',
   };
 
   toFilter = (value) => {

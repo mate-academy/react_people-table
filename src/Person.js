@@ -17,7 +17,7 @@ const Person = ({ person, index, handler, selected }) => {
   return (
     <tr
       className={rowClasses}
-      onClick={() => handler(index + 1)}
+      onClick={() => handler(index)}
     >
       <td>{person.id}</td>
       <td className={bornBefore1650}>{person.name}</td>

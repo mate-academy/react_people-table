@@ -7,10 +7,10 @@ const columnTitles
   = ['id', 'name', 'sex', 'born', 'died', 'age', 'century', 'mother', 'father'];
 
 class PeopleTable extends React.Component {
-  state = { selectedRow: 0 }
+  state = { selectedRow: '' }
 
   clickhandler = (index) => {
-    this.setState({ selectedRow: index });
+    this.setState({ selectedRow: this.props.people[index].id });
   }
 
   render() {
@@ -34,7 +34,7 @@ class PeopleTable extends React.Component {
               person={person}
               index={i}
               handler={this.clickhandler}
-              selected={i + 1 === selectedRow}
+              selected={person.id === selectedRow}
             />
           ))}
         </tbody>
