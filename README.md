@@ -74,6 +74,9 @@ Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
       who were alive in the year of birth (so the select should be empty before the born year was entered)
 
 ## React Router tasks
+```
+/people/carlos-haverbeck?query=carl&sorBy=born&sortOrder=desc
+```
 Add React Router into the `PeopleTable` working like described below:
 
 1. The component should appear only when the URL starts from `/people` so People table is not visible on `/` or `/not-people`
