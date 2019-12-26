@@ -1,0 +1,70 @@
+.born-before-1650 {
+  text-decoration: line-through;
+}
+
+.older_than_65 {
+  color: green;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+
+table {
+  position: relative;
+  width: 90vw;
+  margin: auto;
+  border: 2px solid;
+  border-radius: 1em;
+  overflow: hidden;
+  border-collapse: collapse;
+  cursor: pointer;
+}
+
+thead,
+td:first-child {
+  background-color: #bae8e8;
+}
+
+td {
+  max-width: 150px;
+}
+
+tr:nth-child(even) {
+  background-color: #e3f6f5;
+}
+
+.people-list__searchInput {
+  padding: 0 10px;
+  display: flex;
+  margin: 20px auto;
+  border: 1px solid #bae8e8;
+  background-color: #e3f6f5;
+  border-radius: 1em;
+  outline: none;
+
+}
+
+.people-list__person-count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.person.person--selected {
+  background-color: #32afa9;
+}
+
+.male {
+  color: blue;
+}
+
+.female {
+  color: violet;
+}
