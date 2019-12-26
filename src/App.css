@@ -1,0 +1,38 @@
+.PeopleTable {
+  border-collapse: collapse;
+}
+
+.person--female {
+  background: lightpink;
+}
+
+.people__Born--Before_1650 {
+  text-decoration: line-through;
+}
+
+.people__Died--Before_1800 {
+  font-weight: bold;
+}
+
+.people__old_65 {
+  border: 2px solid green;
+}
+
+.person--father {
+  background: cornflowerblue;
+}
+
+
+.person {
+  border: 1px solid black;
+}
+
+.PeopleTable__row--selected:hover {
+  cursor: pointer;
+  background-color: yellowgreen;
+}
+
+.PeopleTable__row--selected {
+  border: 3px solid blue;
+}
+
