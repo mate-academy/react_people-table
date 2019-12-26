@@ -86,7 +86,7 @@ Add React Router into the `PeopleTable` working like described below:
 1. When sorting add `?sortBy=born` param to the URL
     - It should work together with filter
     - The people should be sorted by `born` if the page is loaded with `?sortBy=born`
-    - (*) add `?sortOrder=ask` or `desc` to add ability to sort in reversed order
+    - (*) add `?sortOrder=asc` or `desc` to add ability to sort in reversed order
 1. (*) Use `/people/new` address to show the `NewPerson` component
     - When the person is added you should navigate back to the `/people` page
 
