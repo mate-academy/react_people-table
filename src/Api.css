@@ -1,0 +1,119 @@
+body {
+  margin: 50px;
+}
+
+.PeopleTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.Person, tr:hover {
+  background-color: yellow;
+  cursor: pointer;
+}
+
+.female {
+  background-color: pink;
+}
+
+.male {
+  background-color: lightblue;
+}
+
+.lineThrough {
+  text-decoration: line-through
+}
+
+.moreThen65 {
+  background-color: lightgreen;
+}
+
+.filter {
+  width: 100%;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.sort {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  width: max-content;
+  padding: 10px;
+  border: none;
+  outline: none;
+  margin: 0 10px;
+  border-radius: 5px;
+  background-color: #e0e1e2;
+  color: #5a5a5a;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+  background-color: #bebebe;
+  color: black;
+  cursor: pointer;
+}
+
+input {
+  width: 50%;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  background-color: #e0e1e2;
+  border-radius: 5px;
+}
+
+.new-person {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  margin: 50px auto;
+}
+
+label {
+  overflow: hidden;
+}
+
+.new-person-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: max-content;
+}
+
+form > label {
+  width: 60%;
+}
+
+label > input {
+  width: 90%;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+form > button {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.form-little-container {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+}
+
+.form-little-container > label > input {
+  width: 75%;
+}
+
+
+
