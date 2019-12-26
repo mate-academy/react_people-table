@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ClassNames from 'classnames';
+import PersonName from './PersonName';
 
-const Person = ({ person, selectedRow, selectRow }) => {
+const Person = ({ person, history, match, location }) => {
   const trClass = ClassNames(
     { person: true },
     { 'person--male': person.sex === 'm' },
     { 'person--female': person.sex === 'f' },
     { [`person--lived-in-${Math.ceil(person.died / 100)}`]: true },
-    { 'person--selected': person.id === selectedRow }
+    {
+      'person--selected': person.name
+        .toLowerCase().replace(/ /g, '-') === match.params.person,
+    }
   );
   const nameClass = ClassNames(
     { person__cell: true },
@@ -23,13 +27,21 @@ const Person = ({ person, selectedRow, selectRow }) => {
   return (
     <tr
       className={trClass}
-      onClick={() => selectRow(person.id)}
+      onClick={() => {
+        history.push({
+          pathname: `/people/${person.name.toLowerCase().replace(/ /g, '-')}`,
+          search: location.search,
+        });
+      }}
     >
       <td className="person__cell person__cell--first">
         {person.id}
         .
       </td>
-      <td className={nameClass}>{person.name}</td>
+      <PersonName
+        nameClass={nameClass}
+        name={person.name}
+      />
       <td className="person__cell">{person.sex}</td>
       <td className="person__cell">{person.born}</td>
       <td className="person__cell">{person.died}</td>
@@ -66,8 +78,9 @@ Person.propTypes = {
     century: PropTypes.number,
     children: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-  selectedRow: PropTypes.number.isRequired,
-  selectRow: PropTypes.func.isRequired,
+  history: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({}).isRequired,
 };
 
 export default Person;

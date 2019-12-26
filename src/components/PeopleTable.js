@@ -1,125 +1,95 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Person from './Person';
+import sortArrows from '../arrows.png';
 
-class PeopleTable extends React.Component {
-  state = {
-    selectedRow: 0,
-    sortUpBy: '',
-    sortDownBy: '',
-  }
+const PeopleTable = ({ people, history, location, match }) => {
+  const search = new URLSearchParams(location.search);
+  const sortBy = search.get('sortBy');
+  let sortedPeople = people;
 
-  selectRow = (selectedRow) => {
-    this.setState({ selectedRow });
-  }
+  if (sortBy) {
+    const order = search.get('sortOrder') === 'desc' ? -1 : 1;
 
-  sortUp = (sortUpBy) => {
-    this.setState({
-      sortUpBy,
-      sortDownBy: '',
-    });
-  }
-
-  sortDown = (sortDownBy) => {
-    this.setState({
-      sortDownBy,
-      sortUpBy: '',
-    });
-  }
-
-  render() {
-    const { selectedRow, sortUpBy, sortDownBy } = this.state;
-    let { people } = this.props;
-
-    if (sortUpBy) {
-      if (sortUpBy === 'name' || sortUpBy === 'sex') {
-        people = [...people]
-          .sort((a, b) => a[sortUpBy].localeCompare(b[sortUpBy]));
-      } else {
-        people = [...people]
-          .sort((a, b) => a[sortUpBy] - b[sortUpBy]);
-      }
-    } else if (sortDownBy) {
-      if (sortDownBy === 'name' || sortDownBy === 'sex') {
-        people = [...people]
-          .sort((a, b) => -a[sortDownBy].localeCompare(b[sortDownBy]));
-      } else {
-        people = [...people]
-          .sort((a, b) => b[sortDownBy] - a[sortDownBy]);
-      }
+    if (sortBy === 'name' || sortBy === 'sex') {
+      sortedPeople = [...people]
+        .sort((a, b) => a[sortBy].localeCompare(b[sortBy]) * order);
+    } else {
+      sortedPeople = [...people]
+        .sort((a, b) => (a[sortBy] - b[sortBy]) * order);
     }
-
-    return (
-      <table className="people-table">
-        <thead className="people-table__heading">
-          <tr>
-            {[
-              'id',
-              'name',
-              'sex',
-              'born',
-              'died',
-              'father',
-              'mother',
-              'age',
-              'century',
-              'children',
-            ].map(column => (
-              <th key={column}>
-                {column}
-                {(column !== 'father'
-                  && column !== 'mother'
-                  && column !== 'children') && (
-                  <>
-                    <button
-                      type="button"
-                      className="people-table__sort"
-                      onClick={() => this.sortUp(column)}
-                    >
-                      <span
-                        role="img"
-                        aria-label="Arrow up"
-                      >
-                        ⬆️
-                      </span>
-                    </button>
-
-                    <button
-                      className="people-table__sort"
-                      type="button"
-                      onClick={() => this.sortDown(column)}
-                    >
-                      <span
-                        role="img"
-                        aria-label="Arrow down"
-                      >
-                        ⬇️
-                      </span>
-                    </button>
-                  </>
-                )}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="people-table__main">
-          {people.map(personData => (
-            <Person
-              key={personData.name}
-              person={personData}
-              selectedRow={selectedRow}
-              selectRow={this.selectRow}
-            />
-          ))}
-        </tbody>
-      </table>
-    );
   }
-}
+
+  return (
+    <table className="people-table">
+      <thead className="people-table__heading">
+        <tr>
+          {[
+            'id',
+            'name',
+            'sex',
+            'born',
+            'died',
+            'father',
+            'mother',
+            'age',
+            'century',
+            'children',
+          ].map(column => (
+            <th key={column}>
+              {column}
+              {(column !== 'father'
+                && column !== 'mother'
+                && column !== 'children') && (
+                <>
+                  <button
+                    type="button"
+                    className="people-table__sort"
+                    onClick={() => {
+                      if (search.get('sortBy') === column
+                        && search.get('sortOrder') === 'asc') {
+                        search.set('sortOrder', 'desc');
+                      } else {
+                        search.set('sortOrder', 'asc');
+                      }
+
+                      search.set('sortBy', column);
+
+                      history.push({ search: search.toString() });
+                    }}
+                  >
+                    <img
+                      src={sortArrows}
+                      width="20"
+                      alt="Sorting arrows"
+                    />
+                  </button>
+                </>
+              )}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody className="people-table__main">
+        {sortedPeople.map(personData => (
+          <Person
+            key={personData.name}
+            person={personData}
+            history={history}
+            match={match}
+            location={location}
+          />
+        ))}
+      </tbody>
+    </table>
+  );
+};
 
 PeopleTable.propTypes = {
-  people: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string }))
-    .isRequired,
+  people: PropTypes.arrayOf(PropTypes.object).isRequired,
+  history: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({}).isRequired,
 };
 
 export default PeopleTable;
