@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap');
+
+html {
+  font-family: Raleway, sans-serif;
+}
+
+body {
+  background: url('./images/light-gray.jpg');
+  margin: 0;
+}
+
+.App {
+  padding: 40px;
+}
+
+.main-title {
+  margin: 0;
+}
+
+.table-info {
+  font-weight: bold;
+}
+
+.table-search {
+  margin-bottom: 15px;
+}
+
+.people-table {
+  border-collapse: collapse;
+
+  & th {
+    background-color: rgb(245, 133, 133);
+  }
+
+  & .sort-button {
+    border: none;
+    width: 100%;
+    background-color: rgb(245, 133, 133);
+    cursor: pointer;
+    outline: none;
+  }
+
+  & th,
+  & td {
+    border: 1px solid black;
+    padding: 0 10px;
+    line-height: 1.5;
+  }
+
+}
+
+.person {
+  &--male {
+    background-color: #c5e0de;
+  }
+
+  &--female {
+    background-color: #ddddc2;
+  }
+
+  &--born-before-1650 {
+    text-decoration: line-through;
+  }
+
+  &--age-over-65 {
+    color: green;
+  }
+
+  &--selected {
+    border: 1px solid red;
+    background-color: red;
+  }
+}
