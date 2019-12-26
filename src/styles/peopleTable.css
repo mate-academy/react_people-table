@@ -1,0 +1,23 @@
+.people-table {
+  padding: 10px 0;
+  box-sizing: border-box;
+  background: #fbffd4;
+  width: 95%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-left: 2px solid #ce6666;
+  border-right: 2px solid #ce6666;
+}
+
+.people-table__thead {
+  background: #ce6666;
+}
+
+.people-table__item {
+  padding: 5px;
+}
+
+.people-table__item--click:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}

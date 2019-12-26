@@ -1,0 +1,31 @@
+.main {
+  text-align: center;
+}
+
+.filter-input {
+  margin-bottom: 20px;
+  padding-left: 12px;
+  width: 200px;
+  height: 36px;
+  font-size: 18px;
+}
+
+.filter-clear {
+  width: 30px;
+  height: 36px;
+  position: relative;
+  left: -40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.filter-input:focus,
+.filter-clear:focus {
+  outline: none;
+  border: 1px solid #ce6666;
+}
+
+.hidden {
+  visibility: hidden;
+}

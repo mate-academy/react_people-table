@@ -1,0 +1,19 @@
+.Person__item {
+  padding: 5px 0;
+}
+
+.Person--long-liver {
+  border: 2px solid green;
+}
+
+.Person--man {
+  background: cornflowerblue;
+}
+
+.Person--woman {
+  background: #ff5856;
+}
+
+.Person--selected {
+  border: 3px solid blue;
+}
