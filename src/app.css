@@ -35,4 +35,9 @@
 .column-header {
   padding: 5px 10px;
   text-transform: uppercase;
+  cursor: pointer;
+}
+
+.column-header:hover {
+  transform: scale(1.2);
 }
