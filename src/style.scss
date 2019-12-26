@@ -1,0 +1,98 @@
+body {
+  margin: 0;
+  background-color: #fbfdfe;
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  &__input {
+    margin-right: 10px;
+    padding: 6px;
+    border: 2px solid #abc2e3;
+    border-radius: 8px;
+    outline: none;
+  }
+}
+
+.people-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  &__heading {
+    background-color: #abc2e3;
+  }
+
+  &__sort {
+    padding: 1px 3px 1px 5px;
+    border-radius: 5px;
+    background-color: #fbfdfe;
+    border: 1px solid #abc2e3;
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+      border-color: darkblue;
+    }
+  }
+
+  &__main {
+    background-color: #d5e7f1;
+  }
+}
+
+.person {
+
+  &:hover {
+    background-color: #abc2e3;
+  }
+
+  &__cell {
+    padding: 4px 0;
+
+    &--first {
+      padding: 4px 10px;
+    }
+  }
+
+  &__former {
+    text-decoration: line-through;
+  }
+
+  &__long-living {
+    color: seagreen;
+  }
+
+  &.person--selected {
+    background-color: pink;
+  }
+
+  &__children {
+    position: relative;
+
+    &:hover .person__children-list {
+      display: block;
+    }
+  }
+
+  &__children-list {
+    position: absolute;
+    top: -17px;
+    left: -4px;
+    z-index: 1;
+    display: none;
+    padding: 5px;
+    background-color: #fbfdfe;
+    border-radius: 10px;
+  }
+
+  &--male .person__name {
+    color: #594fc4;
+  }
+
+  &--female .person__name {
+    color: #b83d3f;
+  }
+}
