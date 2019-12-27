@@ -62,11 +62,11 @@ class App extends React.Component {
     )));
 
   setSortBy = (sortingTitle) => {
-    this.setState(({ allPeople, currentSortingTitle }) => ({
+    this.setState(({ allPeople, currentSortingTitle, reversed }) => ({
       allPeople: currentSortingTitle === sortingTitle
         ? [...allPeople].reverse()
         : this.getSortedPeople(allPeople, sortingTitle),
-      reversed: currentSortingTitle === sortingTitle,
+      reversed: currentSortingTitle === sortingTitle ? !reversed : false,
       currentSortingTitle: sortingTitle,
     }));
   };
