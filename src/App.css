@@ -1,0 +1,68 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.App {
+  position: relative;
+}
+
+.people-table {
+  border-collapse: collapse;
+}
+
+td {
+  padding: 10px;
+}
+
+tr {
+  cursor: pointer;
+}
+
+thead {
+  background-color: #ffa500;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+th {
+  padding: 10px;
+}
+
+.person--born {
+  text-decoration: line-through;
+  font-weight: bold;
+}
+
+.person--old {
+  color: green;
+  font-weight: bold;
+}
+
+.selected {
+  border: 2px solid rgb(0, 102, 255);
+  color: #ffa500;
+}
+
+.table__sort {
+  position: absolute;
+  right: 30px;
+  top: 20px;
+  width: 200px;
+  text-align: center;
+}
+
+.sort__input {
+  margin-bottom: 20px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #000;
+  outline: none;
+}
+
+.select--text {
+  background-color: #ffa500;
+}
