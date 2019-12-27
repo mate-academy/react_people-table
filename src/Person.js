@@ -3,34 +3,53 @@ import cn from 'classnames';
 import PropTypes from 'prop-types';
 import PersonName from './PersonName';
 
-const Person = ({ person }) => (
+const Person = ({ person, headers }) => (
   <>
-    <td>{person.id}</td>
-    <td
-      className={cn({ 'born-before-1650': person.born < 1650 })
-      }
-    >
-      <PersonName person={person} />
-    </td>
-    <td>{person.sex}</td>
-    <td>{person.born}</td>
-    <td>{person.died}</td>
-    <td><PersonName mother={person.mother} /></td>
-    <td><PersonName father={person.father} /></td>
-    <td className={cn({
-      older_than_65: person.age >= 65,
-      younger_than_65: person.age < 65,
-    })}
-    >
-      {person.age}
-    </td>
-    <td>{person.century}</td>
-    <td><PersonName kids={person.children} /></td>
+    {headers.map(header => (
+      <td
+        key={header}
+        className={cn(
+          header === 'name' && { 'born-before-1650': person.born < 1650 },
+          header === 'age' && { older_than_65: person.age >= 65 },
+          header === 'age' && { younger_than_65: person.age < 65 },
+        )}
+      >
+        {(() => {
+          switch (header) {
+            case 'children':
+              return (
+                person[header].map(child => (
+                  <div key={child.name}>
+                    <PersonName person={child.name} sex={child.sex} />
+                  </div>
+                ))
+              );
+            case 'name':
+              return (
+                <PersonName
+                  person={person[header]}
+                  sex={person.sex}
+                />
+              );
+            case 'father':
+            case 'mother':
+              return (
+                <PersonName
+                  person={person[header]}
+                  sex={header === 'father' ? 'm' : 'f'}
+                />
+              );
+            default: return person[header];
+          }
+        })()}
+      </td>
+    ))}
   </>
 );
 
 Person.propTypes = {
   person: PropTypes.objectOf(PropTypes.any).isRequired,
+  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Person;

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Person from './Person';
 
+const USTORTABLE_TITLES = ['mother', 'father', 'children'];
+
 const PeopleTable = ({ people }) => {
   const [isSorting, setIsSorting] = useState('id');
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,7 +14,7 @@ const PeopleTable = ({ people }) => {
     setIsSelected(person.name);
   };
 
-  const header = [
+  const headers = [
     'id',
     'name',
     'sex',
@@ -72,12 +74,9 @@ const PeopleTable = ({ people }) => {
   const filteredPeople = !searchTerm
     ? people
     : people
-      .filter(person => person.name.toLowerCase()
-        .includes(searchTerm.trim().toLowerCase())
-      || (person.mother && person.mother.toLowerCase()
-        .includes(searchTerm.trim().toLowerCase()))
-      || (person.father && person.father.toLowerCase()
-        .includes(searchTerm.trim().toLowerCase())));
+      .filter(person => (person.name + person.mother + person.father)
+        .toLowerCase()
+        .includes(searchTerm.trim().toLowerCase()));
 
   return (
     <>
@@ -98,21 +97,21 @@ const PeopleTable = ({ people }) => {
       <table className="people-table">
         <thead>
           <tr>
-            {header.map(head => (
-              ['mother', 'father', 'children'].includes(head) ? (
+            {headers.map(header => (
+              USTORTABLE_TITLES.includes(header) ? (
                 <td
-                  key={head}
+                  key={header}
                   role="presentation"
                 >
-                  {head}
+                  {header}
                 </td>
               ) : (
                 <td
-                  key={head}
+                  key={header}
                   role="presentation"
-                  onClick={() => sortPeopleBy(head)}
+                  onClick={() => sortPeopleBy(header)}
                 >
-                  {head}
+                  {header}
                 </td>
               )
             ))}
@@ -133,7 +132,7 @@ const PeopleTable = ({ people }) => {
               )}
               onClick={() => toggler(person)}
             >
-              <Person person={person} />
+              <Person person={person} headers={headers} />
             </tr>
           ))}
         </tbody>

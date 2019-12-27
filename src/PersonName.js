@@ -2,64 +2,26 @@ import React, { } from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 
-const PersonName = ({ person, kids, mother, father }) => (
+const PersonName = ({ person, sex }) => (
   <>
-    {kids && (
-    <>
-      {kids.map(child => (
-        <div
-          key={child.name}
-          className={cn(
-            { male: child.sex === 'm' },
-            { female: child.sex === 'f' }
-          )}
-        >
-          {child.name}
-        </div>
-      ))}
-    </>
-    )}
-    {person && (
-      <span
-        className={cn(
-          { male: person.sex === 'm' },
-          { female: person.sex === 'f' }
-        )}
-      >
-        {person.name}
-      </span>
-    )}
-    {mother && (
-      <span
-        className={cn(
-          'female'
-        )}
-      >
-        {mother}
-      </span>
-    )}
-    {father && (
-      <span
-        className={cn(
-          'male'
-        )}
-      >
-        {father}
-      </span>
-    )}
+
+    <span
+      className={cn(
+        { male: sex === 'm' },
+        { female: sex === 'f' }
+      )}
+    >
+      {person}
+    </span>
   </>
 );
 
 PersonName.propTypes = {
-  person: PropTypes.objectOf(PropTypes.any),
-  kids: PropTypes.arrayOf(PropTypes.any),
-  mother: PropTypes.string,
-  father: PropTypes.string,
+  person: PropTypes.string,
+  sex: PropTypes.string,
 };
 PersonName.defaultProps = {
-  person: {},
-  kids: [],
-  mother: '',
-  father: '',
+  person: '',
+  sex: '',
 };
 export default PersonName;
