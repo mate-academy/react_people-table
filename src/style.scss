@@ -1,0 +1,71 @@
+body,
+h1 {
+  font-family: Roboto, sans-serif;
+  margin: 0;
+}
+
+.table {
+  background: whitesmoke;
+  padding-top: 30px;
+  &__title {
+    text-align: center;
+  }
+}
+
+.title {
+  text-align: center;
+}
+
+table {
+  border: 2px solid rgb(27, 41, 49);
+  width: 80%;
+  margin: 0 auto;
+}
+
+th {
+  text-align: left;
+  background: rgb(108, 167, 245);
+  padding: 5px;
+  border: 1px solid black;
+}
+
+td {
+  padding: 5px;
+  border: 1px solid black;
+}
+
+.Person {
+  &--decoration {
+    text-decoration: line-through;
+  }
+  &--green {
+    color: rgb(13, 170, 13);
+  }
+
+  &--selected {
+    background: rgb(255, 236, 131);
+  }
+}
+
+.serch {
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+
+  &__title {
+    font-size: 24px;
+    margin: 18px;
+  }
+
+  &__input {
+    margin: 10px 0;
+    font-size: 20px;
+    outline: none;
+    padding: 0 10px;
+    border: 1px solid black;
+
+    &:focus {
+      border: 2px solid rgb(177, 198, 255);
+    }
+  }
+}
