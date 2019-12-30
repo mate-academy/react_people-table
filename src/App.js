@@ -1,7 +1,7 @@
 import React from 'react';
 import peopleFromServer from './people';
-import PeopleTable from './PeopleTable';
 import PeopleFilter from './PeopleFilter';
+import PeopleTable from './PeopleTable';
 import { debounce } from './debounce';
 import './App.css';
 
