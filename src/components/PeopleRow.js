@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 import ClassNames from 'classnames';
 import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 
-const PeopleRow = ({
-  currentPerson,
-  tableHeaders,
-  highlightPerson,
-  selectedPerson,
-  highlightedValue,
-}) => {
-  const { born, age, sex, century, id, name } = currentPerson;
+const PeopleRow = ({ currentPerson, tableHeaders, highlightedValue }) => {
+  const { born, age, sex, century, name } = currentPerson;
   const history = useHistory();
   const match = useRouteMatch();
   const location = useLocation();
+  const path = `${match.path}/${name.replace(/\W/g, '-').toLowerCase()}`;
+
+  const setHistory = () => {
+    history.push({
+      pathname: path,
+      search: location.search,
+    });
+  };
 
   const highlightText = (text) => {
     if (!highlightedValue) {
@@ -39,15 +41,9 @@ const PeopleRow = ({
         'person',
         sex === 'm' ? 'person--male' : 'person--female',
         `person--lived-in-${century}`,
-        { 'person--selected': selectedPerson === id },
+        { 'person--selected': location.pathname === path },
       )}
-      onClick={() => {
-        highlightPerson(id);
-        history.push({
-          pathname: `${match.path}/${name.replace(/\W/g, '-').toLowerCase()}`,
-          search: location.search,
-        });
-      }}
+      onClick={setHistory}
     >
       {tableHeaders.map(({ code }) => (
         <td
@@ -76,8 +72,6 @@ PeopleRow.propTypes = {
       PropTypes.string
     )
   ).isRequired,
-  highlightPerson: PropTypes.func.isRequired,
-  selectedPerson: PropTypes.number.isRequired,
   highlightedValue: PropTypes.string.isRequired,
 };
 

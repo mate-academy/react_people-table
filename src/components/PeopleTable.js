@@ -1,14 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import PeopleRow from './PeopleRow';
 
 const PeopleTable = ({ people, sortTable, highlightedValue }) => {
-  const [selectedId, setSelectedId] = useState(0);
-
-  const selectPerson = (id) => {
-    setSelectedId(id);
-  };
-
   let prevArgs = [];
   let prevValue = null;
   const createTableHeaders = (...args) => {
@@ -60,8 +54,6 @@ const PeopleTable = ({ people, sortTable, highlightedValue }) => {
             key={person.id}
             currentPerson={person}
             tableHeaders={tableHeaders}
-            highlightPerson={selectPerson}
-            selectedPerson={selectedId}
             highlightedValue={highlightedValue}
           />
         ))}

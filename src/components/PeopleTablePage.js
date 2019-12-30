@@ -22,8 +22,6 @@ const originalPeople = addPeopleFields(peopleFromServer);
 const PeopleTablePage = () => {
   const [highlightedValue, setHighlightedValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
-  const [activeColumn, setActiveColumn] = useState(null);
-  const [direction, setDirection] = useState(null);
 
   const history = useHistory();
   const location = useLocation();
@@ -41,20 +39,20 @@ const PeopleTablePage = () => {
     search.set('query', value);
     const query = search.get('query');
 
+    if (!query.trim()) {
+      search.delete('query');
+    }
+
     setHighlightedValue(value);
     applyFilterWithDebounce(query);
     historyPushWithDebounce();
   };
 
   const sortTable = (clickedColumn) => {
-    search.set('sortBy', clickedColumn);
-
-    if (activeColumn !== clickedColumn) {
-      setActiveColumn(clickedColumn);
-      setDirection('asc');
+    if (search.get('sortBy') !== clickedColumn) {
+      search.set('sortBy', clickedColumn);
       search.set('sortOrder', 'asc');
     } else {
-      setDirection(direction === 'asc' ? 'desc' : 'asc');
       search.set('sortOrder', direction === 'asc' ? 'desc' : 'asc');
     }
 
@@ -68,6 +66,8 @@ const PeopleTablePage = () => {
   );
 
   let sortType = '';
+  const activeColumn = search.get('sortBy');
+  const direction = search.get('sortOrder');
 
   if (searchedPeople[0]) {
     sortType = typeof searchedPeople[0][activeColumn];
