@@ -1,0 +1,53 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.table {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #ea2424eb;
+  color: white;
+}
+
+td,
+tr,
+th {
+  border: 1px solid #121111;
+  padding: 5px;
+}
+
+.man {
+  background-color: #6a92ec;
+}
+
+.woman {
+  background-color: #eb5aee;
+}
+
+.born-before-1650 {
+  text-decoration: line-through;
+}
+
+.lived-more-65 {
+  color: green;
+}
+
+.highlighted {
+  background-color: red;
+}
+
+.search-input {
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid black;
+  outline: none;
+  padding: 10px;
+  box-sizing: border-box;
+}
