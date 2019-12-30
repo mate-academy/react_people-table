@@ -11,7 +11,7 @@ const App = () => (
     </Link>
     <Switch>
       <Route path="/" exact component={HomePage} />
-      <Route path="/people" component={PeopleTable} />
+      <Route path="/people/:selectedUser?" component={PeopleTable} />
     </Switch>
   </div>
 );

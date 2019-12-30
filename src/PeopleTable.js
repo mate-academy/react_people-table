@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Person from './Person';
 import { getPeople } from './people';
 
@@ -13,10 +14,9 @@ const getPeopleList = peopleArr => (
   )
 );
 
-const PeopleTable = () => {
+const PeopleTable = ({ history, location, match }) => {
   const [people, setPeople] = useState([]);
   const [query, setQuery] = useState('');
-  const [personSelected, setPersonSelected] = useState(0);
 
   useEffect(() => {
     getPeople()
@@ -24,10 +24,6 @@ const PeopleTable = () => {
         setPeople(getPeopleList(peopleFromServer));
       });
   }, []);
-
-  const clickHandler = (id) => {
-    setPersonSelected(id);
-  };
 
   const filteredList = people.filter(
     item => (item.name.toLowerCase()
@@ -68,18 +64,26 @@ const PeopleTable = () => {
         </thead>
         <tbody>
           {filteredList
-            .filter(item => item.mother && item.father).map(person => (
+            .filter(item => item.mother && item.father)
+            .map(person => (
               <Person
                 person={person}
+                history={history}
+                match={match}
+                location={location}
                 key={person.name}
-                clickHandler={clickHandler}
-                personSelected={personSelected}
               />
             ))}
         </tbody>
       </table>
     </>
   );
+};
+
+PeopleTable.propTypes = {
+  history: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({}).isRequired,
 };
 
 export default PeopleTable;

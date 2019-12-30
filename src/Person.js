@@ -5,18 +5,27 @@ import './style.css';
 const Person
   = (
     { person: { id, name, sex, born, died, mother, father, age, century },
-      clickHandler,
-      personSelected }
+      history,
+      match,
+      location }
   ) => {
     const sexOfPerson = [...sex].toString();
     const bornBefore1650 = born < 1650;
     const ageOver65YearsOld = age >= 65;
 
+    const clickHandler = () => {
+      history.push({
+        pathname: `/people/${name.toLowerCase().replace(/ /g, '-')}`,
+        search: location.search,
+      });
+    };
+
     return (
       <tr
-        onClick={() => clickHandler(id)}
+        onClick={() => clickHandler()}
         className={
-          personSelected === id ? 'selected' : ''}
+          match.params.selectedUser === name
+            .toLowerCase().replace(/ /g, '-') ? 'selected' : ''}
       >
         <td>{id}</td>
         <td className={
@@ -60,8 +69,9 @@ const Person
 Person.propTypes = {
   person: PropTypes.oneOfType([PropTypes.object])
     .isRequired,
-  clickHandler: PropTypes.func.isRequired,
-  personSelected: PropTypes.number.isRequired,
+  history: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({}).isRequired,
 };
 
 export default Person;
