@@ -23,7 +23,7 @@ const Header = () => (
 
     <Switch>
       <Route path="/" exact render={() => <h1>Home</h1>} />
-      <Route path="/people" exact component={PeoplePage} />
+      <Route path="/people" component={PeoplePage} />
       <Route render={() => <h1>Error</h1>} />
     </Switch>
   </>

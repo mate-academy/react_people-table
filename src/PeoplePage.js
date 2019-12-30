@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import propTypes from 'prop-types';
 import people from './people';
 import PeopleTable from './PeopleTable';
 
@@ -13,14 +14,24 @@ const preparedPeople = people.map(
   })
 );
 
-const PeoplePage = () => {
+const PeoplePage = (props) => {
   const [inputValue, setFiltered] = useState('');
   const [isSelected, setSelected] = useState(null);
   const [direction, setDirection] = useState('');
   const [sortType, setSortType] = useState('');
+  const { match } = props;
+  const { history } = props;
+  const { location } = props;
+  const params = new URLSearchParams();
 
-  const makeSelected = (id) => {
-    setSelected(id);
+  const makeSelected = (selectedId) => {
+    setSelected(selectedId);
+    let { name } = preparedPeople.find(person => person.id === selectedId);
+
+    name = name.toLowerCase().replace(/ /g, '-');
+    history.push({
+      pathname: `${match.path}/${name}`,
+    });
   };
 
   let visiblePeople = preparedPeople;
@@ -39,12 +50,21 @@ const PeoplePage = () => {
   }
 
   const sortBy = (type) => {
+    params.append('sortBy', type);
+
     if (type === sortType) {
       setDirection(direction === 'asc' ? 'desc' : 'asc');
+      params.append('sortOrder', direction);
     } else {
       setDirection('asc');
       setSortType(type);
+      params.append('sortOrder', direction);
     }
+
+    history.push({
+      pathname: `${location.pathname}`,
+      search: `?${params.toString()}`,
+    });
   };
 
   if (visiblePeople.length !== 0) {
@@ -79,6 +99,12 @@ const PeoplePage = () => {
       isSelected={isSelected}
     />
   );
+};
+
+PeoplePage.propTypes = {
+  match: propTypes.objectOf(propTypes.any).isRequired,
+  history: propTypes.objectOf(propTypes.any).isRequired,
+  location: propTypes.objectOf(propTypes.any).isRequired,
 };
 
 export default PeoplePage;
