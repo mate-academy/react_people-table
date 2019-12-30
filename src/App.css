@@ -68,3 +68,8 @@ tr:nth-child(even) {
 .female {
   color: violet;
 }
+
+.link {
+  text-decoration: inherit;
+  color: inherit;
+}

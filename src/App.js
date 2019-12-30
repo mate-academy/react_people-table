@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Route, HashRouter } from 'react-router-dom';
 import PeopleTable from './PeopleTable';
 import peopleFromServer from './people';
 import './App.css';
@@ -27,7 +28,14 @@ const App = () => {
 
   return (
     <div className="App">
-      <PeopleTable people={visiblePeople} />
+      <HashRouter>
+        <Route
+          path="/people/:name?"
+          render={props => (
+            <PeopleTable {...props} people={visiblePeople} />
+          )}
+        />
+      </HashRouter>
     </div>
   );
 };

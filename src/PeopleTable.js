@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Person from './Person';
 
-const USTORTABLE_TITLES = ['mother', 'father', 'children'];
-
+const UNSORTABLE_TITLES = ['mother', 'father', 'children'];
 const PeopleTable = ({ people }) => {
   const [isSorting, setIsSorting] = useState('id');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isSelected, setIsSelected] = useState('');
-
-  const toggler = (person) => {
-    setIsSelected(person.name);
-  };
+  const history = useHistory();
+  const location = useLocation();
+  const match = useRouteMatch();
+  const params = new URLSearchParams(location.search);
 
   const headers = [
     'id',
@@ -27,17 +25,35 @@ const PeopleTable = ({ people }) => {
     'children',
   ];
 
-  const getSortMethod = (title) => {
+  const getSortMethod = (title, order) => {
     switch (title) {
       case 'id':
       case 'age':
       case 'century':
       case 'born':
       case 'died':
-        return (a, b) => a[title] - b[title];
+        if (order === 'asc') {
+          return (a, b) => a[title] - b[title];
+        }
+
+        if (order === 'desc') {
+          return (a, b) => b[title] - a[title];
+        }
+
+        return undefined;
+
       case 'name':
       case 'sex':
-        return (a, b) => a[title].localeCompare(b[title]);
+        if (order === 'asc') {
+          return (a, b) => a[title].localeCompare(b[title]);
+        }
+
+        if (order === 'desc') {
+          return (a, b) => b[title].localeCompare(a[title]);
+        }
+
+        return undefined;
+
       default: return undefined;
     }
   };
@@ -48,16 +64,22 @@ const PeopleTable = ({ people }) => {
     if (title !== isSorting) {
       visiblePeople.sort(getSortMethod(title));
       setIsSorting(title);
+      params.set('sortBy', title);
+      history.push({ search: `?${params.toString()}` });
+      params.set('sortOrder', 'asc');
+      history.push({ search: `?${params.toString()}` });
     } else {
       visiblePeople.reverse();
       setIsSorting('');
+      params.set('sortOrder', 'desc');
+      history.push({ search: `?${params.toString()}` });
     }
   };
 
   const handleChange = (value) => {
-    setSearchTerm(
-      value.trim().toLowerCase()
-    );
+    params.set('query', value.trim().toLowerCase());
+    !value.trim() && params.delete('query');
+    history.push({ search: `${params.toString()}` });
   };
 
   const debounce = (f, delay) => {
@@ -71,12 +93,19 @@ const PeopleTable = ({ people }) => {
 
   const debouncedHandleChange = debounce(handleChange, 1000);
 
-  const filteredPeople = !searchTerm
-    ? people
+  const setHistory = person => history.push({
+    pathname: `${person.name.split(' ').join('-').toLowerCase()}`,
+    search: location.search,
+  });
+
+  const visiblePeople = !params.get('query')
+    ? [...people]
+      .sort(getSortMethod(params.get('sortBy'), params.get('sortOrder')))
     : people
       .filter(person => (person.name + person.mother + person.father)
         .toLowerCase()
-        .includes(searchTerm.trim().toLowerCase()));
+        .includes(params.get('query')))
+      .sort(getSortMethod(params.get('sortBy'), params.get('sortOrder')));
 
   return (
     <>
@@ -89,8 +118,8 @@ const PeopleTable = ({ people }) => {
       {
         (
           <span className="people-list__person-count">
-            {` ${filteredPeople.length}
-                  ${filteredPeople.length === 1 ? 'person' : 'persons'} found`}
+            {` ${visiblePeople.length}
+                  ${visiblePeople.length === 1 ? 'person' : 'persons'} found`}
           </span>
         )
       }
@@ -98,7 +127,7 @@ const PeopleTable = ({ people }) => {
         <thead>
           <tr>
             {headers.map(header => (
-              USTORTABLE_TITLES.includes(header) ? (
+              UNSORTABLE_TITLES.includes(header) ? (
                 <td
                   key={header}
                   role="presentation"
@@ -118,9 +147,9 @@ const PeopleTable = ({ people }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredPeople.map(person => (
+          {visiblePeople.map(person => (
             <tr
-              key={person.name}
+              key={person.name + person.father}
               className={cn(
                 'person',
                 {
@@ -128,11 +157,12 @@ const PeopleTable = ({ people }) => {
                   'person--female': person.sex === 'f',
                 },
                 `person person--lived-in-${Math.ceil(person.died / 100)}`,
-                { 'person--selected': isSelected === person.name }
+                { 'person--selected': person.name
+                  .split(' ').join('-').toLowerCase() === match.params.name },
               )}
-              onClick={() => toggler(person)}
+              onClick={() => setHistory(person)}
             >
-              <Person person={person} headers={headers} />
+              <Person personData={person} headers={headers} />
             </tr>
           ))}
         </tbody>
