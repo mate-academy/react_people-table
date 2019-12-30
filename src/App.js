@@ -9,13 +9,16 @@ const preparedPeople = people.map(
     ...person,
     id: index + 1,
     centure: Math.ceil(person.died / 100),
+    age: person.died - person.born,
+    mother: person.mother || '',
+    father: person.father || '',
   })
 );
 
 const App = () => {
   const [inputValue, setFiltered] = useState('');
   const [isSelected, setSelected] = useState(0);
-  const [isSorted, setSorted] = useState(false);
+  const [direction, setDirection] = useState('');
   const [sortType, setSortType] = useState('');
 
   const makeSelected = (id) => {
@@ -30,81 +33,58 @@ const App = () => {
       .trim()
       .replace(/\d/g, '');
 
-    visiblePeople = visiblePeople.filter(
+    visiblePeople = preparedPeople.filter(
       ({ name, mother, father }) => (
         (name + mother + father).toLowerCase().includes(searchQuery)
       )
     );
   }
 
-  if (isSorted) {
-    switch (sortType) {
-      case 'id':
-      case 'centure':
-        visiblePeople = [...visiblePeople]
-          .sort((a, b) => b[sortType] - a[sortType]);
-        break;
-      case 'age':
-        visiblePeople = [...visiblePeople]
-          .sort((a, b) => (a.died - a.born) - (b.died - b.born));
-        break;
-      case 'name':
-      case 'mother':
-      case 'father':
-      case 'sex':
+  const sortBy = (type) => {
+    if (type === sortType) {
+      setDirection(direction === 'asc' ? 'desc' : 'asc');
+    } else {
+      setDirection('asc');
+      setSortType(type);
+    }
+  };
+
+  if (visiblePeople.length !== 0) {
+    switch (typeof visiblePeople[0][sortType]) {
+      case 'string':
         visiblePeople = [...visiblePeople]
           .sort(
-            (a, b) => (a[sortType] && b[sortType] !== null ? a[sortType]
-              .localeCompare(b[sortType]) : 0)
+            (a, b) => a[sortType].localeCompare(b[sortType])
           );
+        break;
+
+      case 'number':
+        visiblePeople = [...visiblePeople]
+          .sort((a, b) => b[sortType] - a[sortType]);
         break;
 
       default:
     }
-  } else if (!isSorted && sortType !== '') {
-    switch (sortType) {
-      case 'id':
-      case 'centure':
-        visiblePeople = [...visiblePeople]
-          .sort((a, b) => a[sortType] - b[sortType]);
-        break;
-      case 'age':
-        visiblePeople = [...visiblePeople]
-          .sort((a, b) => (b.died - b.born) - (a.died - a.born));
-        break;
-      case 'name':
-      case 'mother':
-      case 'father':
-      case 'sex':
-        visiblePeople = [...visiblePeople]
-          .sort(
-            (a, b) => (a[sortType] && b[sortType] !== null ? b[sortType]
-              .localeCompare(a[sortType]) : 0)
-          );
-        break;
 
-      default:
+    if (direction === 'desc') {
+      visiblePeople = visiblePeople.reverse();
     }
   }
 
   return (
     <PeopleTable
+      sortBy={sortBy}
       makeSelected={makeSelected}
       visiblePeople={visiblePeople}
       inputValue={inputValue}
       setFiltered={setFiltered}
       isSelected={isSelected}
-      sortType={sortType}
-      isSorted={isSorted}
-      setSorted={setSorted}
-      setSortType={setSortType}
     />
   );
 };
 
 const PeopleTable = (
-  { inputValue, isSorted, visiblePeople, setFiltered, isSelected,
-    setSortType, setSorted, makeSelected }
+  { inputValue, visiblePeople, setFiltered, isSelected, sortBy, makeSelected }
 ) => (
   <div className="App">
     <h1>
@@ -124,21 +104,21 @@ const PeopleTable = (
           <tr>
             <th
               onClick={() => {
-                setSortType('id'); setSorted(!isSorted);
+                sortBy('id');
               }}
             >
             id
             </th>
             <th
               onClick={() => {
-                setSortType('name'); setSorted(!isSorted);
+                sortBy('name');
               }}
             >
             name
             </th>
             <th
               onClick={() => {
-                setSortType('sex'); setSorted(!isSorted);
+                sortBy('sex');
               }}
             >
               sex
@@ -147,28 +127,28 @@ const PeopleTable = (
             <th>died</th>
             <th
               onClick={() => {
-                setSortType('age'); setSorted(!isSorted);
+                sortBy('age');
               }}
             >
               age
             </th>
             <th
               onClick={() => {
-                setSortType('mother'); setSorted(!isSorted);
+                sortBy('mother');
               }}
             >
             mother
             </th>
             <th
               onClick={() => {
-                setSortType('father'); setSorted(!isSorted);
+                sortBy('father');
               }}
             >
             father
             </th>
             <th
               onClick={() => {
-                setSortType('centure'); setSorted(!isSorted);
+                sortBy('centure');
               }}
             >
             centure
@@ -227,12 +207,10 @@ const PeopleTable = (
 
 PeopleTable.propTypes = {
   inputValue: propTypes.string.isRequired,
-  isSorted: propTypes.bool.isRequired,
   visiblePeople: propTypes.arrayOf(objectOf).isRequired,
   setFiltered: propTypes.func.isRequired,
   isSelected: propTypes.number.isRequired,
-  setSortType: propTypes.func.isRequired,
-  setSorted: propTypes.func.isRequired,
+  sortBy: propTypes.func.isRequired,
   makeSelected: propTypes.func.isRequired,
 };
 
