@@ -123,3 +123,23 @@ body * {
 .person--woman {
   color: #e80cb8;
 }
+
+.people__link {
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  padding-top: 10px;
+  height: 30px;
+  width: 80px;
+  background-color: rgba(210, 199, 242, 0.6);
+  border: 1px solid black;
+  border-radius: 10px;
+  text-decoration: none;
+  color: black;
+  transition: background-color 1s;
+}
+
+.people__link:hover {
+  background-color: rgba(210, 199, 242, 1);
+  cursor: pointer;
+}
