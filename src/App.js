@@ -14,28 +14,28 @@ const App = () => {
   const getPeople = async() => {
     const peopleArr = await loadPeople();
 
-    setPeopleArr(peopleArr);
+    setPeopleArr(peopleArr.map((item, index) => (
+      {
+        ...item, id: index + 1,
+      }
+    )));
   };
 
   const changeName = (event) => {
-    setSerchName(event.target.value);
+    setSerchName(event.target.value.trimLeft());
   };
 
-  const filterPeople = (arr, serch) => {
-    if (serch === '') {
-      return arr;
+  const filterPeople = (arr, serch) => arr.filter((item) => {
+    if ((item.name.toLowerCase().includes(serch.toLowerCase().trim()))
+      || (item.mother !== null
+        && item.mother.toLowerCase().includes(serch.toLowerCase().trim()))
+      || (item.father !== null
+        && item.father.toLowerCase().includes(serch.toLowerCase().trim()))) {
+      return item;
     }
 
-    return arr.filter((item) => {
-      if ((item.name.includes(serch))
-      || (item.mother !== null && item.mother.includes(serch))
-      || (item.father !== null && item.father.includes(serch))) {
-        return item;
-      }
-
-      return false;
-    });
-  };
+    return false;
+  });
 
   const sortPeople = (select) => {
     switch (select) {
@@ -52,6 +52,14 @@ const App = () => {
           setPeopleArr([...people]
             .sort((a, b) => a.born - b.born));
           setValueButton('born');
+        }
+
+        break;
+      case 'id':
+        if (select !== selectedButton) {
+          setPeopleArr([...people]
+            .sort((a, b) => a.id - b.id));
+          setValueButton('id');
         }
 
         break;

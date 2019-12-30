@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropType from 'prop-types';
+import cn from 'classnames';
 
-const Person = ({ item, index }) => {
+const Person = ({ item }) => {
   const [selectedTr, setSelectedTr] = useState('');
 
   useEffect(() => {
@@ -10,13 +11,14 @@ const Person = ({ item, index }) => {
   return (
     <tr
       className={
-        // eslint-disable-next-line no-sequences
-        item.sex === 'f' ? 'Person--female' : 'Person--male',
-        selectedTr === index ? 'Person--selected' : ''
+        cn(
+          item.sex === 'f' ? 'Person--female' : 'Person--male',
+          { 'Person--selected': selectedTr }
+        )
       }
-      onClick={() => setSelectedTr(index)}
+      onClick={() => setSelectedTr(item.id)}
     >
-      <td>{index + 1}</td>
+      <td>{item.id}</td>
       <td className={item.born < 1650
         ? 'Person--decoration' : ''}
       >
@@ -42,7 +44,6 @@ const Person = ({ item, index }) => {
 Person.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   item: PropType.object.isRequired,
-  index: PropType.number.isRequired,
 };
 
 export default Person;

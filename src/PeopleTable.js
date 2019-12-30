@@ -7,7 +7,11 @@ const PeopleTable = ({ people, sortPeople }) => (
   <table>
     <thead>
       <tr>
-        <th>id</th>
+        <th
+          onClick={() => sortPeople('id')}
+        >
+          id
+        </th>
         <th
           onClick={() => sortPeople('name')}
         >
