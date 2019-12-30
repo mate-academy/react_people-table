@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { DebounceInput as SearchInput } from 'react-debounce-input';
 import PropTypes from 'prop-types';
 import Person from './Person';
 import { getPeople } from './people';
@@ -16,7 +17,7 @@ const getPeopleList = peopleArr => (
 
 const PeopleTable = ({ history, location, match }) => {
   const [people, setPeople] = useState([]);
-  const [query, setQuery] = useState('');
+  const searchParams = new URLSearchParams(location.search);
 
   useEffect(() => {
     getPeople()
@@ -25,28 +26,29 @@ const PeopleTable = ({ history, location, match }) => {
       });
   }, []);
 
-  const filteredList = people.filter(
-    item => (item.name.toLowerCase()
-      .match(query.toLowerCase()))
-        || ((item.mother !== null)
-          ? (item.mother.toLowerCase()
-            .match(query.toLowerCase()))
-          : 1)
-        || ((item.father !== null)
-          ? (item.father.toLowerCase()
-            .match(query.toLowerCase()))
-          : 1)
-  );
+  const filteredList = searchParams.get('query')
+    ? (people.filter(
+      item => (item.name.concat(item.mother).concat(item.father))
+        .toLowerCase()
+        .includes((searchParams.get('query')))
+    ))
+    : [...people];
+
+  const setCurrentQuery = ({ value }) => {
+    searchParams.set('query', value.trim().toLowerCase());
+    !value.trim() && searchParams.delete('query');
+    history.push({
+      search: searchParams.toString(),
+    });
+  };
 
   return (
     <>
-      <input
+      <SearchInput
         type="text"
         placeholder="Search"
-        value={query}
-        onChange={(event) => {
-          setQuery(event.target.value.trim().toLowerCase());
-        }}
+        debounceTimeout={500}
+        onChange={e => setCurrentQuery(e.target)}
       />
       <table className="PeopleTable">
         <thead>
@@ -64,7 +66,6 @@ const PeopleTable = ({ history, location, match }) => {
         </thead>
         <tbody>
           {filteredList
-            .filter(item => item.mother && item.father)
             .map(person => (
               <Person
                 person={person}

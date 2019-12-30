@@ -4,10 +4,9 @@ import './style.css';
 
 const Person
   = (
-    { person: { id, name, sex, born, died, mother, father, age, century },
-      history,
-      match,
-      location }
+    { person:
+       { id, name, sex, born, died, mother, father, age, century },
+    history, match, location }
   ) => {
     const sexOfPerson = [...sex].toString();
     const bornBefore1650 = born < 1650;
@@ -15,7 +14,7 @@ const Person
 
     const clickHandler = () => {
       history.push({
-        pathname: `/people/${name.toLowerCase().replace(/ /g, '-')}`,
+        pathname: `/people/${name.split(' ').join('-').toLowerCase()}`,
         search: location.search,
       });
     };
@@ -25,7 +24,7 @@ const Person
         onClick={() => clickHandler()}
         className={
           match.params.selectedUser === name
-            .toLowerCase().replace(/ /g, '-') ? 'selected' : ''}
+            .split(' ').join('-').toLowerCase() ? 'selected' : ''}
       >
         <td>{id}</td>
         <td className={
