@@ -1,6 +1,5 @@
 .peopleTable {
   border-collapse: collapse;
-  /* border: 1px solid red; */
 }
 
 p {
@@ -29,4 +28,20 @@ th {
 
 .ageMore65 {
   background-color: #c5e0de;
+}
+
+tr:hover {
+  cursor: pointer;
+}
+
+.selected {
+  background-color: bisque;
+}
+
+.search {
+  width: 200px;
+  height: 30px;
+  text-align: center;
+  padding-left: 0;
+  font-size: 15px;
 }
