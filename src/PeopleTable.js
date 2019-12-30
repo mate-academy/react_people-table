@@ -39,8 +39,13 @@ const PeopleTable = ({ match, history, location }) => {
   const urlParams = new URLSearchParams(location.search);
 
   const handleSearchingInputChange = ({ target: { value } }) => {
-    urlParams.set('query', value.toLowerCase());
-    history.push({ search: urlParams.toString() });
+    if (value === '') {
+      urlParams.delete('query');
+      history.push({ search: urlParams.toString() });
+    } else {
+      urlParams.set('query', value.toLowerCase());
+      history.push({ search: urlParams.toString() });
+    }
   };
 
   const getSearchedPeople = (listOfPeople, searchingName) => (
@@ -92,6 +97,12 @@ const PeopleTable = ({ match, history, location }) => {
 
   return (
     <>
+      <h3>
+        Currently visible people:
+        {' '}
+        {getSearchedPeople(people, urlParams.get('query') || '')
+          .length}
+      </h3>
       <input
         onChange={handleSearchingInputChange}
         className="people__search"
@@ -127,7 +138,7 @@ const PeopleTable = ({ match, history, location }) => {
           </tr>
         </thead>
         <tbody>
-          {[...getSearchedPeople([...people], urlParams.get('query') || '')]
+          {getSearchedPeople(people, urlParams.get('query') || '')
             .map(currentPerson => (
               <Person
                 key={currentPerson.id}
