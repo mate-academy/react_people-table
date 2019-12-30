@@ -101,8 +101,8 @@ Person.propTypes = {
     born: PropTypes.number.isRequired,
     died: PropTypes.number.isRequired,
     age: PropTypes.number.isRequired,
-    mother: PropTypes.string.isRequired,
-    father: PropTypes.string.isRequired,
+    mother: PropTypes.string,
+    father: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string,
       sex: PropTypes.string,

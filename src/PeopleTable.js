@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import { Route, NavLink, Switch } from 'react-router-dom';
+import { DebounceInput } from 'react-debounce-input';
 import Person from './Person';
 import getData from './getDataApi';
+import NewPerson from './NewPerson';
 
 const peopleURL
   = 'https://mate-academy.github.io/react_people-table/api/people.json';
+
+const date = new Date();
 
 const getPeopleWithChildren = listOfPeople => (
   listOfPeople.map((person, index) => ({
@@ -84,9 +89,40 @@ const PeopleTable = ({ match, history, location }) => {
         urlParams.set('sortBy', sortingTitle);
         urlParams.set('sortOrder', 'asc');
       }
-
-      history.push({ search: urlParams.toString() });
+    } else {
+      urlParams.set('sortBy', sortingTitle);
+      urlParams.set('sortOrder', 'asc');
     }
+
+    history.push({ search: urlParams.toString() });
+  };
+
+  const addPerson = (name, sex, born, died, mother, father) => {
+    setPeople([...people, {
+      name,
+      sex,
+      born,
+      died,
+      mother,
+      father,
+      children: people
+        .filter(child => (
+          child.father === name || child.mother === name)),
+      age: died < Infinity ? died - born : date.getFullYear() - born,
+      century:
+        died < Infinity ? Math.ceil(died / 100)
+          : Math.ceil(date.getFullYear() / 100),
+      id:
+        Math.max(...people.map(person => person.id)) + 1,
+    }]);
+  };
+
+  const updateChildren = () => {
+    setPeople(people.map(person => ({
+      ...person,
+      children: people.filter(child => (
+        child.father === person.name || child.mother === person.name)),
+    })));
   };
 
   const titles = [
@@ -111,13 +147,33 @@ const PeopleTable = ({ match, history, location }) => {
 
   return (
     <>
+      <Switch>
+        <Route
+          path="/people/new"
+          exact
+          render={() => (
+            <NewPerson
+              addPerson={addPerson}
+              peopleList={people}
+              updateChildren={updateChildren}
+              match={match}
+              history={history}
+              location={location}
+            />
+          )}
+        />
+        <Route path="/people/:personName?" exact>
+          <NavLink to="/people/new" className="people__link">add</NavLink>
+        </Route>
+      </Switch>
       <h3>
         Currently visible people:
         {' '}
         {visiblePeople
           .length}
       </h3>
-      <input
+      <DebounceInput
+        debounceTimeout={500}
         onChange={handleSearchingInputChange}
         className="people__search"
         type="text"
