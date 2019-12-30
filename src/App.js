@@ -31,41 +31,17 @@ class App extends React.Component {
     if (sortBy === this.state.isSortedBy) {
       this.setState(prevState => ({ people: prevState.people.reverse() }));
     } else {
-      switch (sortBy) {
-        case 'name':
+      switch (typeof this.state.people[0][sortBy]) {
+        case 'string':
           this.setState(prevState => ({
             people: prevState.people
-              .sort((a, b) => a.name.localeCompare(b.name)),
+              .sort((a, b) => a[sortBy].localeCompare(b[sortBy])),
           }));
           break;
-        case 'sex':
+        case 'number':
           this.setState(prevState => ({
             people: prevState.people
-              .sort((a, b) => a.sex.localeCompare(b.sex)),
-          }));
-          break;
-        case 'born':
-          this.setState(prevState => ({
-            people: prevState.people
-              .sort((a, b) => a.born - b.born),
-          }));
-          break;
-        case 'died':
-          this.setState(prevState => ({
-            people: prevState.people
-              .sort((a, b) => a.died - b.died),
-          }));
-          break;
-        case 'age':
-          this.setState(prevState => ({
-            people: prevState.people
-              .sort((a, b) => a.age - b.age),
-          }));
-          break;
-        case 'century':
-          this.setState(prevState => ({
-            people: prevState.people
-              .sort((a, b) => a.century - b.century),
+              .sort((a, b) => a[sortBy] - b[sortBy]),
           }));
           break;
         default:
