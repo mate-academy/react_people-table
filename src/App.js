@@ -38,16 +38,10 @@ class App extends React.Component {
               .sort((a, b) => a[sortBy].localeCompare(b[sortBy])),
           }));
           break;
-        case 'number':
-          this.setState(prevState => ({
-            people: prevState.people
-              .sort((a, b) => a[sortBy] - b[sortBy]),
-          }));
-          break;
         default:
           this.setState(prevState => ({
             people: prevState.people
-              .sort((a, b) => a.id - b.id),
+              .sort((a, b) => a[sortBy] - b[sortBy]),
           }));
       }
     }
