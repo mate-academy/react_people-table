@@ -2,6 +2,7 @@ import React from 'react';
 import peopleFromServer from './people';
 import PeopleTable from './PeopleTable';
 import PeopleFilter from './PeopleFilter';
+import { debounce } from './debounce';
 import './App.css';
 
 const preparedPeople = peopleFromServer.map(
@@ -19,28 +20,63 @@ class App extends React.Component {
   state = {
     people: [...preparedPeople],
     filter: '',
+    isSortedBy: 'id',
   }
 
-  filterPeople = (input) => {
-    this.setState({ filter: input.toLowerCase() });
-  }
+  filterPeople = debounce((input) => {
+    this.setState({ filter: input.trim().toLowerCase() });
+  }, 500);
 
-  sortByNameAZ = (event) => {
-    event.preventDefault();
+  sortPeopleBy = (sortBy) => {
+    if (sortBy === this.state.isSortedBy) {
+      this.setState(prevState => ({ people: prevState.people.reverse() }));
+    } else {
+      switch (sortBy) {
+        case 'name':
+          this.setState(prevState => ({
+            people: prevState.people
+              .sort((a, b) => a.name.localeCompare(b.name)),
+          }));
+          break;
+        case 'sex':
+          this.setState(prevState => ({
+            people: prevState.people
+              .sort((a, b) => a.sex.localeCompare(b.sex)),
+          }));
+          break;
+        case 'born':
+          this.setState(prevState => ({
+            people: prevState.people
+              .sort((a, b) => a.born - b.born),
+          }));
+          break;
+        case 'died':
+          this.setState(prevState => ({
+            people: prevState.people
+              .sort((a, b) => a.died - b.died),
+          }));
+          break;
+        case 'age':
+          this.setState(prevState => ({
+            people: prevState.people
+              .sort((a, b) => a.age - b.age),
+          }));
+          break;
+        case 'century':
+          this.setState(prevState => ({
+            people: prevState.people
+              .sort((a, b) => a.century - b.century),
+          }));
+          break;
+        default:
+          this.setState(prevState => ({
+            people: prevState.people
+              .sort((a, b) => a.id - b.id),
+          }));
+      }
+    }
 
-    this.setState(prevState => ({
-      people: prevState.people
-        .sort((a, b) => a.name.localeCompare(b.name)),
-    }));
-  }
-
-  sortByNameZA = (event) => {
-    event.preventDefault();
-
-    this.setState(prevState => ({
-      people: prevState.people
-        .sort((a, b) => b.name.localeCompare(a.name)),
-    }));
+    this.setState({ isSortedBy: sortBy });
   }
 
   render() {
@@ -62,8 +98,7 @@ class App extends React.Component {
         </h4>
         <PeopleTable
           people={visiblePeople}
-          sortByNameAZ={this.sortByNameAZ}
-          sortByNameZA={this.sortByNameZA}
+          sortPeopleBy={this.sortPeopleBy}
         />
       </div>
     );

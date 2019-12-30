@@ -16,39 +16,35 @@ class PeopleTable extends React.Component {
   }
 
   render() {
-    const { people, sortByNameAZ, sortByNameZA } = this.props;
+    const { people, sortPeopleBy } = this.props;
 
     return (
       <table className="PeopleTable">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>
-              Name
-              <a
-                title="Sort A to Z order"
-                href="#/"
-                className="sorting"
-                onClick={sortByNameAZ}
-              >
-                &#8639;
-              </a>
-              <a
-                title="Sort Z to A order"
-                href="#/"
-                className="sorting"
-                onClick={sortByNameZA}
-              >
-                &#8642;
-              </a>
+            <th onClick={() => sortPeopleBy('id')}>
+              ID
             </th>
-            <th>Sex</th>
-            <th>Born</th>
-            <th>Died</th>
+            <th onClick={() => sortPeopleBy('name')}>
+              Name
+            </th>
+            <th onClick={() => sortPeopleBy('sex')}>
+              Sex
+            </th>
+            <th onClick={() => sortPeopleBy('born')}>
+              Born
+            </th>
+            <th onClick={() => sortPeopleBy('died')}>
+              Died
+            </th>
             <th>Mother</th>
             <th>Father</th>
-            <th>Age</th>
-            <th>Century</th>
+            <th onClick={() => sortPeopleBy('age')}>
+              Age
+            </th>
+            <th onClick={() => sortPeopleBy('century')}>
+              Century
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -68,8 +64,7 @@ class PeopleTable extends React.Component {
 
 PeopleTable.propTypes = {
   people: PropTypes.arrayOf(PropTypes.object).isRequired,
-  sortByNameAZ: PropTypes.func.isRequired,
-  sortByNameZA: PropTypes.func.isRequired,
+  sortPeopleBy: PropTypes.func.isRequired,
 };
 
 export default PeopleTable;
