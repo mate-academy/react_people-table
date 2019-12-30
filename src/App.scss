@@ -9,8 +9,29 @@ body {
   margin: 0;
 }
 
-.App {
+.nav {
   padding: 40px;
+
+  &__list {
+    margin: 0 0 10px;
+    padding: 0;
+    display: flex;
+    list-style: none;
+  }
+
+  &__link {
+    margin-right: 10px;
+    text-decoration: none;
+    padding: 4px;
+    border: 2px solid black;
+    border-radius: 6px;
+    color: black;
+    background-color: rgb(172, 226, 195);
+
+    &--active {
+      background-color: skyblue;
+    }
+  }
 }
 
 .main-title {

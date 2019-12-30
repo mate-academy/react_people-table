@@ -1,78 +1,81 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import PeopleRow from './PeopleRow';
 
-const createTableHeaders = (people) => {
-  if (people.length === 0) {
-    return [{ name: 'There are no people' }];
-  }
+const PeopleTable = ({ people, sortTable, highlightedValue }) => {
+  const [selectedId, setSelectedId] = useState(0);
 
-  return (
-    Object.keys(people[0]).map(
+  const selectPerson = (id) => {
+    setSelectedId(id);
+  };
+
+  let prevArgs = [];
+  let prevValue = null;
+  const createTableHeaders = (...args) => {
+    if (args.every((arg, i) => arg === prevArgs[i])) {
+      return prevValue;
+    }
+
+    const [currentPeople] = args;
+
+    prevArgs = args;
+    if (people.length === 0) {
+      prevValue = [{ name: 'There are no people' }];
+
+      return prevValue;
+    }
+
+    prevValue = Object.keys(currentPeople[0]).map(
       key => ({
         code: key, name: key[0].toUpperCase() + key.slice(1,),
       })
-    )
+    );
+
+    return prevValue;
+  };
+
+  const tableHeaders = createTableHeaders(people);
+
+  return (
+    <table className="people-table">
+      <thead>
+        <tr>
+          {tableHeaders.map(({ name, code }) => (
+            <th key={name}>
+              <button
+                type="button"
+                className="sort-button"
+                onClick={() => sortTable(code)}
+              >
+                {name}
+              </button>
+            </th>
+          ))}
+        </tr>
+      </thead>
+
+      <tbody>
+        {people.map(person => (
+          <PeopleRow
+            key={person.id}
+            currentPerson={person}
+            tableHeaders={tableHeaders}
+            highlightPerson={selectPerson}
+            selectedPerson={selectedId}
+            highlightedValue={highlightedValue}
+          />
+        ))}
+      </tbody>
+    </table>
   );
 };
-
-class PeopleTable extends Component {
-  state = {
-    selectedId: 0,
-  }
-
-  setSelectedId = (id) => {
-    this.setState({
-      selectedId: id,
-    });
-  };
-
-  render = () => {
-    const { people, sortTable } = this.props;
-    const { selectedId } = this.state;
-    const tableHeaders = createTableHeaders(people);
-
-    return (
-      <table className="people-table">
-        <thead>
-          <tr>
-            {tableHeaders.map(({ name, code }) => (
-              <th key={name}>
-                <button
-                  type="button"
-                  value={code}
-                  className="sort-button"
-                  onClick={sortTable}
-                >
-                  {name}
-                </button>
-              </th>
-            ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {people.map(person => (
-            <PeopleRow
-              key={person.id}
-              currentPerson={person}
-              tableHeaders={tableHeaders}
-              highLightPerson={this.setSelectedId}
-              selectedPerson={selectedId}
-            />
-          ))}
-        </tbody>
-      </table>
-    );
-  };
-}
 
 PeopleTable.propTypes = {
   people: PropTypes.arrayOf(
     PropTypes.object
   ).isRequired,
   sortTable: PropTypes.func.isRequired,
+  highlightedValue: PropTypes.string.isRequired,
 };
 
 export default PeopleTable;

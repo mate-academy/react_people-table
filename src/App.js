@@ -1,97 +1,39 @@
-import React, { Component } from 'react';
-
+import React from 'react';
+import { NavLink, Switch, Route } from 'react-router-dom';
 import './App.scss';
+import HomePage from './components/HomePage';
+import PeopleTablePage from './components/PeopleTablePage';
 
-import peopleFromServer from './people';
-import PeopleTable from './components/PeopleTable';
-import debounce from './helpers';
+const App = () => (
+  <div className="nav">
+    <ul className="nav__list">
+      <li className="nav__item">
+        <NavLink
+          className="nav__link"
+          activeClassName="nav__link--active"
+          exact
+          to="/"
+        >
+          Home
+        </NavLink>
+      </li>
 
-const addPeopleFields = peopleArr => (
-  peopleArr.map(
-    (person, index) => ({
-      id: index + 1,
-      ...person,
-      mother: person.mother || '',
-      father: person.father || '',
-      age: person.died - person.born,
-      century: Math.ceil(person.died / 100),
-    })
-  )
+      <li className="nav__item">
+        <NavLink
+          className="nav__link"
+          activeClassName="nav__link--active"
+          to="/people"
+        >
+          People Table
+        </NavLink>
+      </li>
+    </ul>
+
+    <Switch>
+      <Route path="/" exact component={HomePage} />
+      <Route path="/people" component={PeopleTablePage} />
+    </Switch>
+  </div>
 );
-
-const peopleList = addPeopleFields(peopleFromServer);
-
-class App extends Component {
-  state = {
-    people: [...peopleList],
-  }
-
-  applyFilterWithDebounce = debounce(value => this.setState({
-    people: peopleList.filter(
-      ({ name, mother, father }) => (name + mother + father)
-        .toLowerCase()
-        .includes(value)
-    ),
-  }), 500);
-
-  searchPeople = (event) => {
-    const value = event.target.value.trim().toLowerCase();
-
-    this.applyFilterWithDebounce(value);
-  };
-
-  sortTable = (event) => {
-    const field = event.target.value;
-    let callback;
-
-    switch (typeof peopleList[0][field]) {
-      case 'string':
-        callback = (a, b) => a[field].localeCompare(b[field]);
-        break;
-      default:
-        callback = (a, b) => a[field] - b[field];
-    }
-
-    this.setState((prevState) => {
-      if (!prevState.isSorted || prevState.prevField !== field) {
-        return {
-          people: [...prevState.people].sort(callback),
-          isSorted: true,
-          prevField: field,
-        };
-      }
-
-      return {
-        people: prevState.people.reverse(),
-        isSorted: false,
-      };
-    });
-  };
-
-  render = () => {
-    const { people } = this.state;
-
-    return (
-      <div className="App">
-        <h1 className="main-title">People table</h1>
-        <p className="table-info">
-          {`Number of people: ${people.length}`}
-        </p>
-
-        <input
-          type="search"
-          className="table-search"
-          placeholder="Search for people"
-          onChange={this.searchPeople}
-        />
-
-        <PeopleTable
-          people={people}
-          sortTable={this.sortTable}
-        />
-      </div>
-    );
-  }
-}
 
 export default App;
