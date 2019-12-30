@@ -64,22 +64,29 @@ const PeopleTable = ({ match, history, location }) => {
         : firstPerson[sortingTitle] - secondPerson[sortingTitle]
     )));
 
-  const setSortBy = (sortingTitle) => {
-    if (urlParams.get('sortBy') === sortingTitle
-      && urlParams.get('sortOrder') === 'asc') {
-      urlParams.set('sortOrder', 'desc');
-    } else {
-      urlParams.set('sortOrder', 'asc');
+  const setSortBy = (listOfPeople, sortingTitle, sortingOrder) => {
+    if (sortingOrder === 'desc') {
+      return ([...getSortedPeople(listOfPeople, sortingTitle)].reverse());
     }
 
-    if (sortingTitle === urlParams.get('sortBy')) {
-      setPeople([...people].reverse());
-    } else {
-      setPeople([...getSortedPeople(people, sortingTitle)]);
-    }
+    return [...getSortedPeople(listOfPeople, sortingTitle)];
+  };
 
-    urlParams.set('sortBy', sortingTitle);
-    history.push({ search: urlParams.toString() });
+  const handleSortClick = (sortingTitle) => {
+    if (urlParams.get('sortBy') && urlParams.get('sortOrder')) {
+      if (sortingTitle === urlParams.get('sortBy')) {
+        if (urlParams.get('sortOrder') === 'asc') {
+          urlParams.set('sortOrder', 'desc');
+        } else {
+          urlParams.set('sortOrder', 'asc');
+        }
+      } else {
+        urlParams.set('sortBy', sortingTitle);
+        urlParams.set('sortOrder', 'asc');
+      }
+
+      history.push({ search: urlParams.toString() });
+    }
   };
 
   const titles = [
@@ -95,12 +102,19 @@ const PeopleTable = ({ match, history, location }) => {
     'children',
   ];
 
+  let visiblePeople = getSearchedPeople(people, urlParams.get('query') || '');
+
+  visiblePeople = urlParams.get('sortBy') && urlParams.get('sortOrder')
+    ? setSortBy([...visiblePeople],
+      urlParams.get('sortBy'), urlParams.get('sortOrder'))
+    : visiblePeople;
+
   return (
     <>
       <h3>
         Currently visible people:
         {' '}
-        {getSearchedPeople(people, urlParams.get('query') || '')
+        {visiblePeople
           .length}
       </h3>
       <input
@@ -128,7 +142,7 @@ const PeopleTable = ({ match, history, location }) => {
                           'title--sortable',
                           { 'title--active': urlParams.get('sortBy') === title }
                         )}
-                      onClick={() => setSortBy(title)}
+                      onClick={() => handleSortClick(title)}
                     >
                       {title.toUpperCase()}
                     </th>
@@ -138,7 +152,7 @@ const PeopleTable = ({ match, history, location }) => {
           </tr>
         </thead>
         <tbody>
-          {getSearchedPeople(people, urlParams.get('query') || '')
+          {visiblePeople
             .map(currentPerson => (
               <Person
                 key={currentPerson.id}
