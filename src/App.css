@@ -1,0 +1,50 @@
+.People--filter {
+  background-color: rgb(232, 255, 251);
+}
+
+.PeopleTable {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px auto;
+}
+
+.PeopleTable td {
+  padding: 5px;
+  border: 1px solid black;
+}
+
+.PeopleTable th {
+  padding: 7px;
+  border: 1px solid black;
+  background-color: rgb(135, 179, 180);
+}
+
+.Person {
+  border: 1px solid black;
+}
+
+.Person--male {
+  background-color: rgb(215, 228, 252);
+}
+
+.Person--female {
+  background-color: rgb(252, 239, 241);
+}
+
+.born-before-1650 {
+  text-decoration: line-through;
+}
+
+.lived-65 {
+  color: rgb(0, 156, 0);
+}
+
+.Person--selected {
+  font-weight: bold;
+  background-color: rgb(27, 153, 153);
+  color: white;
+}
+
+.sorting {
+  padding-left: 5px;
+}
