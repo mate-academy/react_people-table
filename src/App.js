@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, HashRouter } from 'react-router-dom';
+import { Route, HashRouter, Switch, Link } from 'react-router-dom';
 import PeopleTable from './PeopleTable';
 import peopleFromServer from './people';
 import './App.css';
@@ -29,12 +29,22 @@ const App = () => {
   return (
     <div className="App">
       <HashRouter>
-        <Route
-          path="/people/:name?"
-          render={props => (
-            <PeopleTable {...props} people={visiblePeople} />
-          )}
-        />
+        <Switch>
+          <Route
+            path="/people/:name?"
+            render={props => (
+              <PeopleTable {...props} people={visiblePeople} />
+            )}
+          />
+          <Route path="/">
+            <Link
+              className="init-button"
+              to="/people"
+            >
+              Start
+            </Link>
+          </Route>
+        </Switch>
       </HashRouter>
     </div>
   );

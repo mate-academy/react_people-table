@@ -73,3 +73,24 @@ tr:nth-child(even) {
   text-decoration: inherit;
   color: inherit;
 }
+
+.init-button {
+  margin-top: 50px;
+  text-align: center;
+  width: 150px;
+  height: 75px;
+  border: 1px solid #bae8e8;
+  border-radius: 1em;
+  background-color: #e3f6f5;
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  line-height: 75px;
+  color: #297ca0;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.init-button:hover {
+  background-color: #32afa9;
+  color: black;
+}
