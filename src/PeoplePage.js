@@ -22,49 +22,65 @@ const PeoplePage = (props) => {
   const { match } = props;
   const { history } = props;
   const { location } = props;
-  const params = new URLSearchParams();
+  const params = new URLSearchParams(location.search);
 
   const makeSelected = (selectedId) => {
-    setSelected(selectedId);
-    let { name } = preparedPeople.find(person => person.id === selectedId);
+    if (
+      preparedPeople.find(person => person.id === selectedId)
+    ) {
+      setSelected(selectedId);
+      let { name } = preparedPeople.find(person => person.id === selectedId);
 
-    name = name.toLowerCase().replace(/ /g, '-');
-    history.push({
-      pathname: `${match.path}/${name}`,
-    });
+      name = name.toLowerCase().replace(/ /g, '-');
+      history.push({
+        pathname: `${match.path}/${name}`,
+      });
+    }
   };
 
   let visiblePeople = preparedPeople;
 
-  if (inputValue) {
-    const searchQuery = inputValue
+  const handleInputChange = (value) => {
+    const searchQuery = value
       .toLowerCase()
       .trim()
       .replace(/\d/g, '');
 
+    setFiltered(searchQuery);
+
+    params.set('query', searchQuery);
+    if (!searchQuery) {
+      params.delete('query');
+    }
+
+    history.push({ search: `${params.toString()}` });
+  };
+
+  if (inputValue) {
     visiblePeople = preparedPeople.filter(
       ({ name, mother, father }) => (
-        (name + mother + father).toLowerCase().includes(searchQuery)
+        (name + mother + father).toLowerCase().includes(inputValue)
       )
     );
   }
 
   const sortBy = (type) => {
-    params.append('sortBy', type);
+    params.set('sortBy', type);
 
     if (type === sortType) {
       setDirection(direction === 'asc' ? 'desc' : 'asc');
-      params.append('sortOrder', direction);
+      params.set('sortOrder', direction);
+      history.push({
+        search: params.toString(),
+      });
     } else {
       setDirection('asc');
       setSortType(type);
-      params.append('sortOrder', direction);
+      params.set('sortOrder', direction);
+      history.push({
+        search: params.toString(),
+      });
     }
-
-    history.push({
-      pathname: `${location.pathname}`,
-      search: `?${params.toString()}`,
-    });
   };
 
   if (visiblePeople.length !== 0) {
@@ -91,6 +107,7 @@ const PeoplePage = (props) => {
 
   return (
     <PeopleTable
+      handleInputChange={handleInputChange}
       sortBy={sortBy}
       makeSelected={makeSelected}
       visiblePeople={visiblePeople}

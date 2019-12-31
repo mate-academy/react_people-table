@@ -1,9 +1,11 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import cn from 'classnames';
+import { DebounceInput } from 'react-debounce-input';
 
 const PeopleTable = (
-  { inputValue, visiblePeople, setFiltered, isSelected, sortBy, makeSelected }
+  { inputValue, visiblePeople, isSelected,
+    sortBy, makeSelected, handleInputChange }
 ) => (
   <>
     <h1>
@@ -11,11 +13,12 @@ const PeopleTable = (
         `People in table - ${visiblePeople.length}`
       }
     </h1>
-    <input
-      className="search"
+    <DebounceInput
       placeholder="search by name/mother/father"
+      className="search"
+      onChange={e => handleInputChange(e.target.value)}
       value={inputValue}
-      onChange={e => setFiltered(e.target.value)}
+      debounceTimeout={700}
     />
     { visiblePeople.length === 0 ? <p>no people exist</p> : (
       <table className={cn('peopleTable')}>
@@ -139,7 +142,7 @@ const PeopleTable = (
 PeopleTable.propTypes = {
   inputValue: propTypes.string.isRequired,
   visiblePeople: propTypes.arrayOf(propTypes.object).isRequired,
-  setFiltered: propTypes.func.isRequired,
+  handleInputChange: propTypes.func.isRequired,
   isSelected: propTypes.oneOf([propTypes.object, propTypes.number]).isRequired,
   sortBy: propTypes.func.isRequired,
   makeSelected: propTypes.func.isRequired,
