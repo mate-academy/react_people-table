@@ -2,13 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const date = new Date();
-const years = [];
 
-for (let i = 1558; i < date.getFullYear(); i += 1) {
-  years.push(i);
-}
-
-const NewPerson = ({ history, peopleList, addPerson, updateChildren }) => {
+const NewPerson = ({ currentPeople, addPerson, updateChildren, history }) => {
   const [name, setName] = useState('');
   const [sex, setSex] = useState('');
   const [born, setBorn] = useState('');
@@ -16,7 +11,7 @@ const NewPerson = ({ history, peopleList, addPerson, updateChildren }) => {
   const [mother, setMother] = useState('');
   const [father, setFather] = useState('');
 
-  const operations = {
+  const setters = {
     name: setName,
     sex: setSex,
     born: setBorn,
@@ -30,7 +25,7 @@ const NewPerson = ({ history, peopleList, addPerson, updateChildren }) => {
   };
 
   const handleSelect = ({ target: { value } }, key) => {
-    operations[key](value);
+    setters[key](value);
   };
 
   const handleSubmit = (event) => {
@@ -48,6 +43,19 @@ const NewPerson = ({ history, peopleList, addPerson, updateChildren }) => {
 
     history.push('/people');
   };
+
+  const availableYears = [];
+  const minWomanBirth = Math.min(...currentPeople
+    .filter(person => person.sex === 'f')
+    .map(person => person.born));
+  const minManBirth = Math.min(...currentPeople
+    .filter(person => person.sex === 'm')
+    .map(person => person.born));
+
+  for (let i = Math.max(minWomanBirth, minManBirth) + 16;
+    i <= date.getFullYear(); i += 1) {
+    availableYears.push(i);
+  }
 
   return (
     <form
@@ -92,7 +100,7 @@ const NewPerson = ({ history, peopleList, addPerson, updateChildren }) => {
         required
       >
         <option value="">born</option>
-        {[...years].map(year => (
+        {availableYears.map(year => (
           <option value={year} key={year}>{year}</option>
         ))}
       </select>
@@ -104,7 +112,7 @@ const NewPerson = ({ history, peopleList, addPerson, updateChildren }) => {
         required
       >
         <option value="">died</option>
-        {born && years
+        {born && availableYears
           .filter(yearOfDeath => yearOfDeath >= Number(born)
             && yearOfDeath <= Number(born) + 149)
           .map(year => (
@@ -124,7 +132,7 @@ const NewPerson = ({ history, peopleList, addPerson, updateChildren }) => {
       >
         <option value="">Choose mother</option>
         {born
-        && peopleList
+        && currentPeople
           .filter(person => person.sex === 'f' && person.died >= born
             && person.born <= born - 16)
           .map(woman => woman.name)
@@ -146,7 +154,7 @@ const NewPerson = ({ history, peopleList, addPerson, updateChildren }) => {
       >
         <option value="">Choose father</option>
         {born
-        && peopleList
+        && currentPeople
           .filter(person => person.sex === 'm' && person.died >= born
             && person.born <= born - 16)
           .map(man => man.name)
@@ -169,7 +177,7 @@ const NewPerson = ({ history, peopleList, addPerson, updateChildren }) => {
 };
 
 NewPerson.propTypes = {
-  peopleList: PropTypes.arrayOf(PropTypes.shape({
+  currentPeople: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     sex: PropTypes.string.isRequired,

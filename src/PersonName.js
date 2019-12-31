@@ -8,7 +8,12 @@ const PersonName = ({ name, sex }) => (
 );
 
 PersonName.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   sex: PropTypes.string.isRequired,
 };
+
+PersonName.defaultProps = {
+  name: '',
+};
+
 export default PersonName;

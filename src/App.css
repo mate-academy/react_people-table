@@ -143,3 +143,12 @@ body * {
   background-color: rgba(210, 199, 242, 1);
   cursor: pointer;
 }
+
+.people__link--add {
+  background-color: rgba(153, 224, 171, 0.6);
+  width: 160px;
+}
+
+.people__link--add:hover {
+  background-color: rgba(153, 224, 171, 1);
+}

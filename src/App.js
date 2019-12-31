@@ -6,7 +6,7 @@ import PeopleTable from './PeopleTable';
 const App = () => (
   <div className="people">
     <NavLink to="/people" className="people__link">People</NavLink>
-    <Route path="/people/:personName?" component={PeopleTable} />
+    <Route path="/people/:personName?" exact component={PeopleTable} />
   </div>
 );
 

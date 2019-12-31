@@ -47,6 +47,10 @@ const Person = ({ titles, person, match, history, location }) => {
                 {person.sex}
               </td>
             );
+          case 'died':
+            return (
+              <td>{person.died < Infinity ? person.died : 'alive'}</td>
+            );
           case 'age':
             return (
               <td
@@ -117,11 +121,7 @@ Person.propTypes = {
     { push: PropTypes.func },
   ).isRequired,
   location: PropTypes.shape({
-    search: PropTypes.shape({
-      sortBy: PropTypes.string,
-      sortOrder: PropTypes.string,
-      query: PropTypes.string,
-    }),
+    search: PropTypes.string,
   }).isRequired,
 };
 

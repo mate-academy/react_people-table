@@ -33,12 +33,40 @@ const PeopleTable = ({ match, history, location }) => {
 
   const loadPeopleFromServer = async() => {
     try {
-      const peopleList = await getData(peopleURL);
+      const listOfPeople = await getData(peopleURL);
 
-      setPeople([...getPeopleWithChildren(peopleList)]);
+      setPeople([...getPeopleWithChildren(listOfPeople)]);
     } catch {
       setPeople([]);
     }
+  };
+
+  const addPerson = (name, sex, born, died, mother, father) => {
+    setPeople(prevPeople => ([...prevPeople, {
+      name,
+      sex,
+      born: Number(born),
+      died: Number(died),
+      mother,
+      father,
+      children: prevPeople
+        .filter(child => (
+          child.father === name || child.mother === name)),
+      age: died < Infinity ? died - born : date.getFullYear() - born,
+      century:
+        died < Infinity ? Math.ceil(died / 100)
+          : Math.ceil(date.getFullYear() / 100),
+      id:
+        Math.max(...prevPeople.map(person => person.id)) + 1,
+    }]));
+  };
+
+  const updateChildren = () => {
+    setPeople(prevPeople => (prevPeople.map(person => ({
+      ...person,
+      children: prevPeople.filter(child => (
+        child.father === person.name || child.mother === person.name)),
+    }))));
   };
 
   const urlParams = new URLSearchParams(location.search);
@@ -46,11 +74,11 @@ const PeopleTable = ({ match, history, location }) => {
   const handleSearchingInputChange = ({ target: { value } }) => {
     if (value === '') {
       urlParams.delete('query');
-      history.push({ search: urlParams.toString() });
     } else {
       urlParams.set('query', value.toLowerCase());
-      history.push({ search: urlParams.toString() });
     }
+
+    history.push({ search: urlParams.toString() });
   };
 
   const getSearchedPeople = (listOfPeople, searchingName) => (
@@ -61,21 +89,6 @@ const PeopleTable = ({ match, history, location }) => {
       || (person.mother || '').toLowerCase()
         .includes(searchingName)
     )));
-
-  const getSortedPeople = (listOfPeople, sortingTitle) => (
-    listOfPeople.sort((firstPerson, secondPerson) => (
-      typeof firstPerson[sortingTitle] === 'string'
-        ? firstPerson[sortingTitle].localeCompare(secondPerson[sortingTitle])
-        : firstPerson[sortingTitle] - secondPerson[sortingTitle]
-    )));
-
-  const setSortBy = (listOfPeople, sortingTitle, sortingOrder) => {
-    if (sortingOrder === 'desc') {
-      return ([...getSortedPeople(listOfPeople, sortingTitle)].reverse());
-    }
-
-    return [...getSortedPeople(listOfPeople, sortingTitle)];
-  };
 
   const handleSortClick = (sortingTitle) => {
     if (urlParams.get('sortBy') && urlParams.get('sortOrder')) {
@@ -97,32 +110,19 @@ const PeopleTable = ({ match, history, location }) => {
     history.push({ search: urlParams.toString() });
   };
 
-  const addPerson = (name, sex, born, died, mother, father) => {
-    setPeople([...people, {
-      name,
-      sex,
-      born,
-      died,
-      mother,
-      father,
-      children: people
-        .filter(child => (
-          child.father === name || child.mother === name)),
-      age: died < Infinity ? died - born : date.getFullYear() - born,
-      century:
-        died < Infinity ? Math.ceil(died / 100)
-          : Math.ceil(date.getFullYear() / 100),
-      id:
-        Math.max(...people.map(person => person.id)) + 1,
-    }]);
-  };
+  const getSortedPeople = (listOfPeople, sortingTitle) => (
+    [...listOfPeople].sort((firstPerson, secondPerson) => (
+      typeof firstPerson[sortingTitle] === 'string'
+        ? firstPerson[sortingTitle].localeCompare(secondPerson[sortingTitle])
+        : firstPerson[sortingTitle] - secondPerson[sortingTitle]
+    )));
 
-  const updateChildren = () => {
-    setPeople(people.map(person => ({
-      ...person,
-      children: people.filter(child => (
-        child.father === person.name || child.mother === person.name)),
-    })));
+  const setSortBy = (listOfPeople, sortingTitle, sortingOrder) => {
+    if (sortingOrder === 'desc') {
+      return ([...getSortedPeople(listOfPeople, sortingTitle)].reverse());
+    }
+
+    return [...getSortedPeople(listOfPeople, sortingTitle)];
   };
 
   const titles = [
@@ -138,12 +138,13 @@ const PeopleTable = ({ match, history, location }) => {
     'children',
   ];
 
-  let visiblePeople = getSearchedPeople(people, urlParams.get('query') || '');
+  let visiblePeople
+    = [...getSearchedPeople(people, urlParams.get('query') || '')];
 
   visiblePeople = urlParams.get('sortBy') && urlParams.get('sortOrder')
-    ? setSortBy([...visiblePeople],
-      urlParams.get('sortBy'), urlParams.get('sortOrder'))
-    : visiblePeople;
+    ? [...setSortBy([...visiblePeople],
+      urlParams.get('sortBy'), urlParams.get('sortOrder'))]
+    : [...visiblePeople];
 
   return (
     <>
@@ -153,8 +154,8 @@ const PeopleTable = ({ match, history, location }) => {
           exact
           render={() => (
             <NewPerson
+              currentPeople={people}
               addPerson={addPerson}
-              peopleList={people}
               updateChildren={updateChildren}
               match={match}
               history={history}
@@ -163,64 +164,77 @@ const PeopleTable = ({ match, history, location }) => {
           )}
         />
         <Route path="/people/:personName?" exact>
-          <NavLink to="/people/new" className="people__link">add</NavLink>
+          <NavLink
+            to="/people/new"
+            className="people__link people__link--add"
+          >
+            Add new person
+          </NavLink>
         </Route>
       </Switch>
-      <h3>
-        Currently visible people:
-        {' '}
-        {visiblePeople
-          .length}
-      </h3>
-      <DebounceInput
-        debounceTimeout={500}
-        onChange={handleSearchingInputChange}
-        className="people__search"
-        type="text"
-        placeholder="Search"
-      />
-      <table className="people-table">
-        <thead>
-          <tr>
-            {titles.map((title) => {
-              switch (title) {
-                case 'mother':
-                case 'father':
-                case 'children':
-                  return (
-                    <th>{title.toUpperCase()}</th>
-                  );
-                default:
-                  return (
-                    <th
-                      className={
-                        cn(
-                          'title--sortable',
-                          { 'title--active': urlParams.get('sortBy') === title }
-                        )}
-                      onClick={() => handleSortClick(title)}
-                    >
-                      {title.toUpperCase()}
-                    </th>
-                  );
-              }
-            })}
-          </tr>
-        </thead>
-        <tbody>
+      {match.url !== '/people/new' && (
+        <h3>
+          Currently visible people:
+          {' '}
           {visiblePeople
-            .map(currentPerson => (
-              <Person
-                key={currentPerson.id}
-                titles={titles}
-                person={currentPerson}
-                match={match}
-                history={history}
-                location={location}
-              />
-            ))}
-        </tbody>
-      </table>
+            .length}
+        </h3>
+      )}
+      {match.url !== '/people/new' && (
+        <DebounceInput
+          debounceTimeout={500}
+          onChange={handleSearchingInputChange}
+          className="people__search"
+          type="text"
+          placeholder="Search"
+        />
+      )}
+      {match.url !== '/people/new' && (
+        <table className="people-table">
+          <thead>
+            <tr>
+              {titles.map((title) => {
+                switch (title) {
+                  case 'mother':
+                  case 'father':
+                  case 'children':
+                    return (
+                      <th key={title}>{title.toUpperCase()}</th>
+                    );
+                  default:
+                    return (
+                      <th
+                        key={title}
+                        className={
+                          cn(
+                            'title--sortable',
+                            { 'title--active':
+                                urlParams.get('sortBy') === title }
+                          )}
+                        onClick={() => handleSortClick(title)}
+                      >
+                        {title.toUpperCase()}
+                      </th>
+                    );
+                }
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {visiblePeople
+              .map(currentPerson => (
+                <Person
+                  key={currentPerson.id}
+                  titles={titles}
+                  person={currentPerson}
+                  match={match}
+                  history={history}
+                  location={location}
+                />
+              ))}
+          </tbody>
+        </table>
+      )}
     </>
   );
 };
@@ -235,7 +249,7 @@ PeopleTable.propTypes = {
     { push: PropTypes.func },
   ).isRequired,
   location: PropTypes.shape({
-    search: PropTypes.shape({}),
+    search: PropTypes.string,
   }).isRequired,
 };
 
