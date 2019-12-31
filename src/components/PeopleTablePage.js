@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import peopleFromServer from '../people';
 import PeopleTable from './PeopleTable';
@@ -13,6 +13,9 @@ const addPeopleFields = peopleArr => (
       father: person.father || '',
       age: person.died - person.born,
       century: Math.ceil(person.died / 100),
+      children: peopleArr.filter(
+        child => child.father === person.name || child.mother === person.name
+      ).map(child => child.name).join(', '),
     })
   )
 );
@@ -20,14 +23,9 @@ const addPeopleFields = peopleArr => (
 const originalPeople = addPeopleFields(peopleFromServer);
 
 const PeopleTablePage = () => {
-  const [highlightedValue, setHighlightedValue] = useState('');
-  const [searchValue, setSearchValue] = useState('');
-
   const history = useHistory();
   const location = useLocation();
   const search = new URLSearchParams(location.search);
-
-  const applyFilterWithDebounce = debounce(query => setSearchValue(query), 500);
 
   const historyPushWithDebounce = debounce(() => {
     history.push({ search: search.toString() });
@@ -37,14 +35,11 @@ const PeopleTablePage = () => {
     const value = event.target.value.trim().toLowerCase();
 
     search.set('query', value);
-    const query = search.get('query');
 
-    if (!query.trim()) {
+    if (!(search.get('query') || '').trim()) {
       search.delete('query');
     }
 
-    setHighlightedValue(value);
-    applyFilterWithDebounce(query);
     historyPushWithDebounce();
   };
 
@@ -59,10 +54,12 @@ const PeopleTablePage = () => {
     history.push({ search: search.toString() });
   };
 
+  let query = search.get('query');
+
   const searchedPeople = originalPeople.filter(
-    ({ name, mother, father }) => (name + mother + father)
+    ({ name, mother, father, children }) => (name + mother + father + children)
       .toLowerCase()
-      .includes(searchValue)
+      .includes(query || '')
   );
 
   let sortType = '';
@@ -84,6 +81,8 @@ const PeopleTablePage = () => {
     sortedPeople.reverse();
   }
 
+  query = query || '';
+
   return (
     <>
       <h1 className="main-title">People table</h1>
@@ -101,7 +100,7 @@ const PeopleTablePage = () => {
       <PeopleTable
         people={sortedPeople}
         sortTable={sortTable}
-        highlightedValue={highlightedValue}
+        highlightedValue={query}
       />
     </>
   );
