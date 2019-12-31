@@ -6,9 +6,6 @@ import PeopleTable from './PeopleTable';
 const App = () => (
   <div className="App">
     <Link to="/" exact activeClassName="active" />
-    <Link to="/people" className="btn">
-      PEOPLE
-    </Link>
     <Switch>
       <Route path="/" exact component={HomePage} />
       <Route path="/people/:selectedUser?" component={PeopleTable} />
@@ -16,6 +13,13 @@ const App = () => (
   </div>
 );
 
-const HomePage = () => <h1 className="home-page">Home page</h1>;
+const HomePage = () => (
+  <>
+    <Link to="/people" className="btn">
+      PEOPLE
+    </Link>
+    <h1 className="home-page">Home page</h1>
+  </>
+);
 
 export default App;
