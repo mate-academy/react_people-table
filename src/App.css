@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+}
+
+body * {
+  outline: none;
+}
+
+.people {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.people__search {
+  width: 60%;
+  height: 40px;
+  border: 1px solid rgba(210, 199, 242, 1);
+  border-radius: 10px;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.people-table {
+  border-collapse: collapse;
+  border: 3px solid rgba(210, 199, 242, 1);
+  width: 95%;
+  margin: 10px auto;
+}
+
+.people-table td {
+  border: 1px solid #9460cc;
+}
+
+.people-table thead {
+  background-color: rgba(210, 199, 242, 1);
+}
+
+.title--sortable:hover {
+  cursor: pointer;
+  background-color: #ab8dcc;
+  transition: background-color 1s;
+}
+
+.title--active {
+  background-color: #9460cc;
+}
+
+.people-table thead tr th {
+  border: 1px solid #9460cc;
+}
+
+.people-table tr:hover {
+  background-color: rgba(210, 199, 242, 1);
+}
+
+.person--born-before-1650 {
+  text-decoration: line-through;
+}
+
+.person--died-after-1800 {
+  font-weight: bold;
+}
+
+.person--female {
+  background-color: rgba(245, 198, 242, 0.5);
+}
+
+.person--male {
+  background-color: rgba(198, 228, 245, 0.5);
+}
+
+.person--old {
+  background-color: rgba(153, 224, 171, 0.6);
+}
+
+.person--selected {
+  border: 3px solid #9460cc;
+}
+
+.new-person {
+  border: 3px solid rgba(210, 199, 242, 1);
+  border-radius: 10px;
+  width: 60%;
+  margin: 10px auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.new-person__name {
+  display: block;
+  margin: 10px auto;
+}
+
+.new-person__year {
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
+.new-person__parent {
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
+.new-person__submit {
+  border: 1px solid rgba(210, 199, 242, 1);
+  border-radius: 10px;
+  background-color: rgba(210, 199, 242, 0.6);
+  transition: background-color 1s;
+  width: 100px;
+  height: 40px;
+}
+
+.new-person__submit:hover {
+  background-color: rgba(210, 199, 242, 1);
+  cursor: pointer;
+}
+
+.person--man {
+  color: #0a39c7;
+}
+
+.person--woman {
+  color: #e80cb8;
+}
+
+.people__link {
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+  padding-top: 10px;
+  height: 30px;
+  width: 80px;
+  background-color: rgba(210, 199, 242, 0.6);
+  border: 1px solid black;
+  border-radius: 10px;
+  text-decoration: none;
+  color: black;
+  transition: background-color 1s;
+}
+
+.people__link:hover {
+  background-color: rgba(210, 199, 242, 1);
+  cursor: pointer;
+}
+
+.people__link--add {
+  background-color: rgba(153, 224, 171, 0.6);
+  width: 160px;
+}
+
+.people__link--add:hover {
+  background-color: rgba(153, 224, 171, 1);
+}
