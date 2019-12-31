@@ -91,20 +91,14 @@ const PeopleTable = ({ match, history, location }) => {
     )));
 
   const handleSortClick = (sortingTitle) => {
-    if (urlParams.get('sortBy') && urlParams.get('sortOrder')) {
-      if (sortingTitle === urlParams.get('sortBy')) {
-        if (urlParams.get('sortOrder') === 'asc') {
-          urlParams.set('sortOrder', 'desc');
-        } else {
-          urlParams.set('sortOrder', 'asc');
-        }
-      } else {
-        urlParams.set('sortBy', sortingTitle);
-        urlParams.set('sortOrder', 'asc');
-      }
-    } else {
+    if (urlParams.get('sortBy') !== sortingTitle) {
       urlParams.set('sortBy', sortingTitle);
       urlParams.set('sortOrder', 'asc');
+    } else if (!urlParams.get('sortOrder')) {
+      urlParams.set('sortOrder', 'desc');
+    } else {
+      urlParams.set('sortOrder',
+        urlParams.get('sortOrder') === 'asc' ? 'desc' : 'asc');
     }
 
     history.push({ search: urlParams.toString() });
@@ -141,9 +135,9 @@ const PeopleTable = ({ match, history, location }) => {
   let visiblePeople
     = [...getSearchedPeople(people, urlParams.get('query') || '')];
 
-  visiblePeople = urlParams.get('sortBy') && urlParams.get('sortOrder')
+  visiblePeople = urlParams.get('sortBy')
     ? [...setSortBy([...visiblePeople],
-      urlParams.get('sortBy'), urlParams.get('sortOrder'))]
+      urlParams.get('sortBy'), urlParams.get('sortOrder') || 'asc')]
     : [...visiblePeople];
 
   return (
