@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Sort = ({ toSort, title }) => (
+const Sort = ({ handleSort, title }) => (
   <th
-    onClick={() => toSort(title)}
+    onClick={() => handleSort(title)}
     className="column-header"
   >
     {title}
@@ -11,7 +11,7 @@ const Sort = ({ toSort, title }) => (
 );
 
 Sort.propTypes = {
-  toSort: PropTypes.func.isRequired,
+  handleSort: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
 };
 

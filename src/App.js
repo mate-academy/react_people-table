@@ -1,72 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './app.css';
-import peopleList from './peopleList';
+import { Route, Link } from 'react-router-dom';
 import PeopleTable from './PeopleTable';
-import Filter from './Filter';
 
-const changedPeople = peopleList
-  .map((person, i) => ({
-    ...person,
-    id: i + 1,
-    age: person.died - person.born,
-    century: Math.ceil(person.died / 100),
-  }));
+import { getPeople } from './PeopleAPI';
 
-class App extends React.Component {
-  state = {
-    people: [...changedPeople],
-    filtered: [],
-    sortColumn: 'id',
-  };
+const App = () => {
+  const [people, setPeople] = useState([]);
 
-  toFilter = (value) => {
-    this.setState(prev => ({
-      filtered: prev.people.filter(person => person.name.toLowerCase()
-        .includes(value.toLowerCase())
-        || (person.mother !== null
-          && person.mother.toLowerCase().includes(value.toLowerCase()))
-        || (person.father !== null
-          && person.father.toLowerCase().includes(value.toLowerCase()))),
-    }));
-  }
-
-  sortingArr = (arr, col) => arr.sort((a, b) => (typeof (a[col]) === 'string'
-    ? a[col].localeCompare(b[col])
-    : a[col] - b[col]))
-
-  toSort = (title) => {
-    this.state.filtered.length
-      ? this.setState(prev => ({
-        sortColumn: title,
-        filtered: title !== prev.sortColumn
-          ? this.sortingArr(prev.filtered, title)
-          : prev.filtered.reverse(),
-      }))
-      : this.setState(prev => ({
-        sortColumn: title,
-        people: title !== prev.sortColumn
-          ? this.sortingArr(prev.people, title)
-          : prev.people.reverse(),
+  useEffect(() => {
+    getPeople().then((peopleFromServer) => {
+      const preparedPeople = peopleFromServer.map((person, i) => ({
+        ...person,
+        id: i + 1,
+        age: person.died - person.born,
+        century: Math.ceil(person.died / 100),
+        children: peopleFromServer
+          .filter(child => child.mother === person.name
+            || child.father === person.name),
       }));
-  }
 
-  render() {
-    const { people, filtered } = this.state;
+      setPeople(preparedPeople);
+    });
+  }, []);
 
-    return (
-      <div className="App">
-        <h1>
-          People table
-          {people.length}
-        </h1>
-        <Filter toFilter={this.toFilter} />
-        <PeopleTable
-          people={filtered.length ? filtered : people}
-          toSort={this.toSort}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      <Link to="/people" className="start">People table</Link>
+      <Route
+        path="/people/:name?"
+        render={({ match }) => (<PeopleTable people={people} match={match} />)}
+      />
+    </div>
+  );
+};
 
 export default App;

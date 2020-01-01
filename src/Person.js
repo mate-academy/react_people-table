@@ -28,6 +28,7 @@ const Person = ({ person, index, handler, selected }) => {
       <td>{person.century}</td>
       <td>{person.mother}</td>
       <td>{person.father}</td>
+      <td>{person.children.map(child => `${child.name}, `)}</td>
     </tr>
   );
 };
