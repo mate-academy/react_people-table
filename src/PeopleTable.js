@@ -3,7 +3,7 @@ import React, { Fragment, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Person from './Person';
 
-const PeopleTable = (people) => {
+const PeopleTable = ({ peopleList }) => {
   const [setSelectedPerson] = useState('Person--selected');
   const [personInURL, setPersonInURL] = useState(null);
 
@@ -45,7 +45,7 @@ const PeopleTable = (people) => {
       </thead>
       <tbody>
         {
-          people.map((person, index) => (
+          peopleList.map((person, index) => (
             <Fragment key={person.name}>
               <Person
                 person={person}
@@ -61,8 +61,8 @@ const PeopleTable = (people) => {
   );
 };
 
-PeopleTable.propType = {
-  people: PropTypes.arrayOf(PropTypes.any).isRequired,
+PeopleTable.propTypes = {
+  peopleList: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default PeopleTable;

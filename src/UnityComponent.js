@@ -229,7 +229,9 @@ const UnityComponent = () => {
               sort by century
                 </button>
               </nav>
-              <PeopleTable people={peopleList} />
+              <PeopleTable
+                peopleList={peopleList}
+              />
             </div>
           )
       }
