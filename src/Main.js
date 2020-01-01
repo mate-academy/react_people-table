@@ -4,7 +4,7 @@ import PeopleTable from './PeopleTable';
 
 const url = 'https://mate-academy.github.io/react_people-table/api/people.json';
 
-const UnityComponent = () => {
+const Main = () => {
   const [peopleAmount, setPeopleAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [people, setPeople] = useState([]);
@@ -239,4 +239,4 @@ const UnityComponent = () => {
   );
 };
 
-export default UnityComponent;
+export default Main;

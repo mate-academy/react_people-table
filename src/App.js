@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
-import UnityComponent from './UnityComponent';
+import Main from './Main';
 
 const App = () => (
   <HashRouter>
@@ -21,7 +21,7 @@ const App = () => (
       >
         people list
       </NavLink>
-      <Route path="/people" component={UnityComponent} />
+      <Route path="/people" component={Main} />
     </div>
   </HashRouter>
 );
