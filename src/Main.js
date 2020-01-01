@@ -14,10 +14,14 @@ const Main = () => {
   const location = useLocation();
   const history = useHistory();
   const searchParams = new URLSearchParams(location.search);
-  const searchParams2 = new URLSearchParams(location.search);
 
   let nameFromUrl = location.search.toString()
-    .match(/(query)=.+(?=\/|\?|:|&|\b)/g);
+    .match(/(query)=.+(?=[:|&|\b])/g);
+
+  if (!nameFromUrl) {
+    nameFromUrl = location.search.toString()
+      .match(/(query)=.+(?=\/|\?|:|&|\b)/g);
+  }
 
   if (nameFromUrl) {
     nameFromUrl = nameFromUrl[0].split('=')[1].split('+').join(' ');
@@ -87,8 +91,8 @@ const Main = () => {
     ];
 
     setPeopleList(sortedPeople);
-    searchParams2.set('sortBy', 'name');
-    history.push({ search: searchParams2.toString() });
+    searchParams.set('sortBy', 'name');
+    history.push({ search: searchParams.toString() });
   };
 
   const sortById = () => {
@@ -98,8 +102,8 @@ const Main = () => {
     ];
 
     setPeopleList(sortedPeople);
-    searchParams2.set('sortBy', 'id');
-    history.push({ search: searchParams2.toString() });
+    searchParams.set('sortBy', 'id');
+    history.push({ search: searchParams.toString() });
   };
 
   const sortBySex = () => {
@@ -109,8 +113,8 @@ const Main = () => {
     ];
 
     setPeopleList(sortedPeople);
-    searchParams2.set('sortBy', 'sex');
-    history.push({ search: searchParams2.toString() });
+    searchParams.set('sortBy', 'sex');
+    history.push({ search: searchParams.toString() });
   };
 
   const sortByBorn = () => {
@@ -120,8 +124,8 @@ const Main = () => {
     ];
 
     setPeopleList(sortedPeople);
-    searchParams2.set('sortBy', 'born');
-    history.push({ search: searchParams2.toString() });
+    searchParams.set('sortBy', 'born');
+    history.push({ search: searchParams.toString() });
   };
 
   const sortByDied = () => {
@@ -131,8 +135,8 @@ const Main = () => {
     ];
 
     setPeopleList(sortedPeople);
-    searchParams2.set('sortBy', 'died');
-    history.push({ search: searchParams2.toString() });
+    searchParams.set('sortBy', 'died');
+    history.push({ search: searchParams.toString() });
   };
 
   const sortByAge = () => {
@@ -142,8 +146,8 @@ const Main = () => {
     ];
 
     setPeopleList(sortedPeople);
-    searchParams2.set('sortBy', 'age');
-    history.push({ search: searchParams2.toString() });
+    searchParams.set('sortBy', 'age');
+    history.push({ search: searchParams.toString() });
   };
 
   const sortByCentury = () => {
@@ -154,8 +158,8 @@ const Main = () => {
     ];
 
     setPeopleList(sortedPeople);
-    searchParams2.set('sortBy', 'century');
-    history.push({ search: searchParams2.toString() });
+    searchParams.set('sortBy', 'century');
+    history.push({ search: searchParams.toString() });
   };
 
   return (
