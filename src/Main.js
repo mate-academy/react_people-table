@@ -10,6 +10,7 @@ const Main = () => {
   const [people, setPeople] = useState([]);
   const [peopleList, setPeopleList] = useState([]);
   const [query, setQuery] = useState(null);
+  const [sortBy, setSortBy] = useState(null);
 
   const location = useLocation();
   const history = useHistory();
@@ -27,9 +28,51 @@ const Main = () => {
     nameFromUrl = nameFromUrl[0].split('=')[1].split('+').join(' ');
   }
 
+  let sortByFromUrl = location.search.toString()
+    .match(/(sortBy)=.+(?=[:|&|\b])/g);
+
+  if (!sortByFromUrl) {
+    sortByFromUrl = location.search.toString()
+      .match(/(sortBy)=.+(?=\/|\?|:|&|\b)/g);
+  }
+
   if (nameFromUrl && nameFromUrl !== query) {
     setQuery(nameFromUrl);
     findPerson(nameFromUrl);
+  }
+
+  if (sortByFromUrl) {
+    sortByFromUrl = sortByFromUrl[0].split('=')[1].split('+').join(' ');
+  }
+
+  if (sortByFromUrl && sortByFromUrl !== sortBy) {
+    setSortBy(sortByFromUrl);
+
+    switch (sortByFromUrl) {
+      case 'name':
+        sortByName();
+        break;
+      case 'id':
+        sortById();
+        break;
+      case 'sex':
+        sortBySex();
+        break;
+      case 'born':
+        sortByBorn();
+        break;
+      case 'died':
+        sortByDied();
+        break;
+      case 'age':
+        sortByAge();
+        break;
+      case 'century':
+        sortByCentury();
+        break;
+      default:
+        break;
+    }
   }
 
   if (isLoading) {
@@ -84,7 +127,7 @@ const Main = () => {
 
   const inputText = debounce(findPerson, 1000);
 
-  const sortByName = () => {
+  function sortByName() {
     const sortedPeople = [
       ...peopleList.sort((person1, person2) => (
         person1.name.localeCompare(person2.name))),
@@ -93,9 +136,9 @@ const Main = () => {
     setPeopleList(sortedPeople);
     searchParams.set('sortBy', 'name');
     history.push({ search: searchParams.toString() });
-  };
+  }
 
-  const sortById = () => {
+  function sortById() {
     const sortedPeople = [
       ...peopleList.sort((person1, person2) => (
         person1.id - person2.id)),
@@ -104,9 +147,9 @@ const Main = () => {
     setPeopleList(sortedPeople);
     searchParams.set('sortBy', 'id');
     history.push({ search: searchParams.toString() });
-  };
+  }
 
-  const sortBySex = () => {
+  function sortBySex() {
     const sortedPeople = [
       ...peopleList.sort((person1, person2) => (
         person1.sex.localeCompare(person2.sex))),
@@ -115,9 +158,9 @@ const Main = () => {
     setPeopleList(sortedPeople);
     searchParams.set('sortBy', 'sex');
     history.push({ search: searchParams.toString() });
-  };
+  }
 
-  const sortByBorn = () => {
+  function sortByBorn() {
     const sortedPeople = [
       ...peopleList.sort((person1, person2) => (
         person1.born - person2.born)),
@@ -126,9 +169,9 @@ const Main = () => {
     setPeopleList(sortedPeople);
     searchParams.set('sortBy', 'born');
     history.push({ search: searchParams.toString() });
-  };
+  }
 
-  const sortByDied = () => {
+  function sortByDied() {
     const sortedPeople = [
       ...peopleList.sort((person1, person2) => (
         person1.died - person2.died)),
@@ -137,9 +180,9 @@ const Main = () => {
     setPeopleList(sortedPeople);
     searchParams.set('sortBy', 'died');
     history.push({ search: searchParams.toString() });
-  };
+  }
 
-  const sortByAge = () => {
+  function sortByAge() {
     const sortedPeople = [
       ...peopleList.sort((person1, person2) => (
         person1.died - person1.born) - (person2.died - person2.born)),
@@ -148,9 +191,9 @@ const Main = () => {
     setPeopleList(sortedPeople);
     searchParams.set('sortBy', 'age');
     history.push({ search: searchParams.toString() });
-  };
+  }
 
-  const sortByCentury = () => {
+  function sortByCentury() {
     const sortedPeople = [
       ...peopleList.sort((person1, person2) => (
         (Math.ceil(person1.died / 100)))
@@ -160,7 +203,7 @@ const Main = () => {
     setPeopleList(sortedPeople);
     searchParams.set('sortBy', 'century');
     history.push({ search: searchParams.toString() });
-  };
+  }
 
   return (
     <div className="App">
