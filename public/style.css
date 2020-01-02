@@ -19,11 +19,7 @@
   border-collapse: collapse;
 }
 
-.head__td {
-  padding: 10px;
-}
-
-.body__td {
+.tr:nth-child(even) {
   font-size: 15px;
   font-weight: normal;
   background-color: lightslategray;
@@ -32,10 +28,13 @@
 
 }
 
-.body__td-light {
-  font-size: 15px;
+.tr:nth-child(odd) {
   font-weight: normal;
   background-color: lightskyblue;
+}
+
+td {
+  font-size: 15px;
   text-align: start;
   padding: 10px;
 }
@@ -48,15 +47,15 @@
   color: #a5315b;
 }
 
-[data-earlyborn="earlyBorn"] {
+.earlyBorn {
   text-decoration: line-through;
 }
 
-[data-greenlive="greenLive"] {
+.greenLive {
   color: green;
 }
 
-#Person--selected {
+.Person--selected {
   font-weight: 15px;
   border: 4px solid#c02020;
 }

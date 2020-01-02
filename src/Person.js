@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import cn from 'classnames';
 
 const Person = ({
   person,
@@ -22,48 +23,49 @@ const Person = ({
 
   return (
     <tr
-      className={person.sex === 'm'
-        ? `tr Person--male
-          Person--lived-in-${century}
-        `
-        : `tr Person--female
-          Person--lived-in-${century}
-        `}
+      className={
+        cn({
+          tr: true,
+          'Person--male': person.sex === 'm',
+          'Person--female': person.sex === 'f',
+          'Person--selected': person.name.toLowerCase() === personInURL,
+          earlyBorn: person.born < 1650,
+        })
+      }
 
-      id={person.name.toLowerCase() === personInURL
-        ? 'Person--selected'
-        : person.name}
-      data-earlyborn={person.born < 1650 ? 'earlyBorn' : ''}
       onClick={personSelected}
     >
-      <td className={index % 2 === 0 ? 'body__td' : 'body__td-light'}>
+      <td>
         {person.id}
       </td>
-      <td className={index % 2 === 0 ? 'body__td' : 'body__td-light'}>
+      <td>
         {person.name}
       </td>
-      <td className={index % 2 === 0 ? 'body__td' : 'body__td-light'}>
+      <td>
         {person.sex}
       </td>
-      <td className={index % 2 === 0 ? 'body__td' : 'body__td-light'}>
+      <td>
         {person.born}
       </td>
-      <td className={index % 2 === 0 ? 'body__td' : 'body__td-light'}>
+      <td>
         {person.died}
       </td>
-      <td className={index % 2 === 0 ? 'body__td' : 'body__td-light'}>
+      <td>
         {person.mother}
       </td>
-      <td className={index % 2 === 0 ? 'body__td' : 'body__td-light'}>
+      <td>
         {person.father}
       </td>
       <td
-        className={index % 2 === 0 ? 'body__td' : 'body__td-light'}
-        data-greenlive={person.died - person.born >= 65 ? 'greenLive' : ''}
+        className={
+          cn({
+            greenLive: person.died - person.born >= 65,
+          })
+        }
       >
         {person.died - person.born}
       </td>
-      <td className={index % 2 === 0 ? 'body__td' : 'body__td-light'}>
+      <td>
         {century}
       </td>
     </tr>

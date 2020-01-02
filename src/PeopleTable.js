@@ -31,15 +31,15 @@ const PeopleTable = ({ peopleList }) => {
     <table className="people__table">
       <thead className="table__head">
         <tr>
-          <td className="head__td">id</td>
-          <td className="head__td">name</td>
-          <td className="head__td">sex</td>
-          <td className="head__td">born</td>
-          <td className="head__td">died</td>
-          <td className="head__td">mother</td>
-          <td className="head__td">father</td>
-          <td className="head__td">age</td>
-          <td className="head__td">century</td>
+          <td>id</td>
+          <td>name</td>
+          <td>sex</td>
+          <td>born</td>
+          <td>died</td>
+          <td>mother</td>
+          <td>father</td>
+          <td>age</td>
+          <td>century</td>
 
         </tr>
       </thead>

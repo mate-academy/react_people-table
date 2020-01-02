@@ -15,64 +15,18 @@ const Main = () => {
   const location = useLocation();
   const history = useHistory();
   const searchParams = new URLSearchParams(location.search);
-
-  let nameFromUrl = location.search.toString()
-    .match(/(query)=.+(?=[:|&|\b])/g);
-
-  if (!nameFromUrl) {
-    nameFromUrl = location.search.toString()
-      .match(/(query)=.+(?=\/|\?|:|&|\b)/g);
-  }
-
-  if (nameFromUrl) {
-    nameFromUrl = nameFromUrl[0].split('=')[1].split('+').join(' ');
-  }
-
-  let sortByFromUrl = location.search.toString()
-    .match(/(sortBy)=.+(?=[:|&|\b])/g);
-
-  if (!sortByFromUrl) {
-    sortByFromUrl = location.search.toString()
-      .match(/(sortBy)=.+(?=\/|\?|:|&|\b)/g);
-  }
+  const sortTags = ['name', 'id', 'sex', 'born', 'died', 'age', 'century'];
+  const nameFromUrl = searchParams.get('query');
+  const sortByFromUrl = searchParams.get('sortBy');
 
   if (nameFromUrl && nameFromUrl !== query) {
     setQuery(nameFromUrl);
     findPerson(nameFromUrl);
   }
 
-  if (sortByFromUrl) {
-    sortByFromUrl = sortByFromUrl[0].split('=')[1].split('+').join(' ');
-  }
-
   if (sortByFromUrl && sortByFromUrl !== sortBy) {
     setSortBy(sortByFromUrl);
-
-    switch (sortByFromUrl) {
-      case 'name':
-        sortByName();
-        break;
-      case 'id':
-        sortById();
-        break;
-      case 'sex':
-        sortBySex();
-        break;
-      case 'born':
-        sortByBorn();
-        break;
-      case 'died':
-        sortByDied();
-        break;
-      case 'age':
-        sortByAge();
-        break;
-      case 'century':
-        sortByCentury();
-        break;
-      default:
-        break;
-    }
+    sort(sortByFromUrl);
   }
 
   if (isLoading) {
@@ -127,81 +81,80 @@ const Main = () => {
 
   const inputText = debounce(findPerson, 1000);
 
-  function sortByName() {
-    const sortedPeople = [
-      ...peopleList.sort((person1, person2) => (
-        person1.name.localeCompare(person2.name))),
-    ];
+  function sort(e) {
+    let sortedPeople = [];
+    const sortName = typeof (e) === 'string' ? e : e.target.value;
+
+    switch (sortName) {
+      case 'name':
+        sortedPeople = [
+          ...peopleList.sort((person1, person2) => (
+            person1.name.localeCompare(person2.name))),
+        ];
+
+        searchParams.set('sortBy', 'name');
+        break;
+
+      case 'id':
+        sortedPeople = [
+          ...peopleList.sort((person1, person2) => (
+            person1.id - person2.id)),
+        ];
+
+        searchParams.set('sortBy', 'id');
+        break;
+
+      case 'sex':
+        sortedPeople = [
+          ...peopleList.sort((person1, person2) => (
+            person1.sex.localeCompare(person2.sex))),
+        ];
+
+        searchParams.set('sortBy', 'sex');
+        break;
+
+      case 'born':
+        sortedPeople = [
+          ...peopleList.sort((person1, person2) => (
+            person1.born - person2.born)),
+        ];
+
+        searchParams.set('sortBy', 'born');
+        break;
+
+      case 'died':
+        sortedPeople = [
+          ...peopleList.sort((person1, person2) => (
+            person1.died - person2.died)),
+        ];
+
+        searchParams.set('sortBy', 'died');
+        break;
+
+      case 'age':
+        sortedPeople = [
+          ...peopleList.sort((person1, person2) => (
+            person1.died - person1.born) - (person2.died - person2.born)),
+        ];
+
+        searchParams.set('sortBy', 'age');
+        break;
+
+      case 'century':
+        sortedPeople = [
+          ...peopleList.sort((person1, person2) => (
+            (Math.ceil(person1.died / 100)))
+              - ((Math.ceil(person2.died / 100)))),
+        ];
+
+        searchParams.set('sortBy', 'century');
+        break;
+
+      default:
+        break;
+    }
 
     setPeopleList(sortedPeople);
-    searchParams.set('sortBy', 'name');
-    history.push({ search: searchParams.toString() });
-  }
-
-  function sortById() {
-    const sortedPeople = [
-      ...peopleList.sort((person1, person2) => (
-        person1.id - person2.id)),
-    ];
-
-    setPeopleList(sortedPeople);
-    searchParams.set('sortBy', 'id');
-    history.push({ search: searchParams.toString() });
-  }
-
-  function sortBySex() {
-    const sortedPeople = [
-      ...peopleList.sort((person1, person2) => (
-        person1.sex.localeCompare(person2.sex))),
-    ];
-
-    setPeopleList(sortedPeople);
-    searchParams.set('sortBy', 'sex');
-    history.push({ search: searchParams.toString() });
-  }
-
-  function sortByBorn() {
-    const sortedPeople = [
-      ...peopleList.sort((person1, person2) => (
-        person1.born - person2.born)),
-    ];
-
-    setPeopleList(sortedPeople);
-    searchParams.set('sortBy', 'born');
-    history.push({ search: searchParams.toString() });
-  }
-
-  function sortByDied() {
-    const sortedPeople = [
-      ...peopleList.sort((person1, person2) => (
-        person1.died - person2.died)),
-    ];
-
-    setPeopleList(sortedPeople);
-    searchParams.set('sortBy', 'died');
-    history.push({ search: searchParams.toString() });
-  }
-
-  function sortByAge() {
-    const sortedPeople = [
-      ...peopleList.sort((person1, person2) => (
-        person1.died - person1.born) - (person2.died - person2.born)),
-    ];
-
-    setPeopleList(sortedPeople);
-    searchParams.set('sortBy', 'age');
-    history.push({ search: searchParams.toString() });
-  }
-
-  function sortByCentury() {
-    const sortedPeople = [
-      ...peopleList.sort((person1, person2) => (
-        (Math.ceil(person1.died / 100)))
-          - ((Math.ceil(person2.died / 100)))),
-    ];
-
-    setPeopleList(sortedPeople);
-    searchParams.set('sortBy', 'century');
     history.push({ search: searchParams.toString() });
   }
 
@@ -226,55 +179,21 @@ const Main = () => {
                     inputText(e.target.value);
                   }}
                 />
-                <button
-                  type="button"
-                  onClick={sortByName}
-                  className="sort__button"
-                >
-                  sort by name
-                </button>
-                <button
-                  type="button"
-                  onClick={sortById}
-                  className="sort__button"
-                >
-                  sort by id
-                </button>
-                <button
-                  type="button"
-                  onClick={sortBySex}
-                  className="sort__button"
-                >
-                  sort by sex
-                </button>
-                <button
-                  type="button"
-                  onClick={sortByBorn}
-                  className="sort__button"
-                >
-                  sort by born
-                </button>
-                <button
-                  type="button"
-                  onClick={sortByDied}
-                  className="sort__button"
-                >
-                  sort by died
-                </button>
-                <button
-                  type="button"
-                  onClick={sortByAge}
-                  className="sort__button"
-                >
-                  sort by age
-                </button>
-                <button
-                  type="button"
-                  onClick={sortByCentury}
-                  className="sort__button"
-                >
-              sort by century
-                </button>
+                {
+                  sortTags.map(tagName => (
+                    <button
+                      type="button"
+                      onClick={sort}
+                      className="sort__button"
+                      value={tagName}
+                      key={tagName}
+                    >
+                      sort by
+                      {' '}
+                      {tagName}
+                    </button>
+                  ))
+                }
               </nav>
               <PeopleTable
                 peopleList={peopleList}
