@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap');
+
+html {
+  font-family: Raleway, sans-serif;
+}
+
+body {
+  background: url('./images/light-gray.jpg');
+  margin: 0;
+}
+
+.nav {
+  padding: 40px;
+
+  &__list {
+    margin: 0 0 10px;
+    padding: 0;
+    display: flex;
+    list-style: none;
+  }
+
+  &__link {
+    margin-right: 10px;
+    text-decoration: none;
+    padding: 4px;
+    border: 2px solid black;
+    border-radius: 6px;
+    color: black;
+    background-color: rgb(172, 226, 195);
+
+    &--active {
+      background-color: skyblue;
+    }
+  }
+}
+
+.main-title {
+  margin: 0;
+}
+
+.table-info {
+  font-weight: bold;
+}
+
+.table-search {
+  margin-bottom: 15px;
+}
+
+.people-table {
+  border-collapse: collapse;
+
+  & th {
+    background-color: rgb(245, 133, 133);
+  }
+
+  & .sort-button {
+    border: none;
+    width: 100%;
+    background-color: rgb(245, 133, 133);
+    cursor: pointer;
+    outline: none;
+  }
+
+  & th,
+  & td {
+    border: 1px solid black;
+    padding: 0 10px;
+    line-height: 1.5;
+  }
+
+}
+
+.person {
+  &--male {
+    background-color: #c5e0de;
+  }
+
+  &--female {
+    background-color: #ddddc2;
+  }
+
+  &--born-before-1650 {
+    text-decoration: line-through;
+  }
+
+  &--age-over-65 {
+    color: green;
+  }
+
+  &--selected {
+    border: 1px solid red;
+    background-color: red;
+  }
+}
