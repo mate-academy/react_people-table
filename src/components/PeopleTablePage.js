@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import peopleFromServer from '../people';
 import PeopleTable from './PeopleTable';
@@ -26,6 +26,13 @@ const PeopleTablePage = () => {
   const history = useHistory();
   const location = useLocation();
   const search = new URLSearchParams(location.search);
+  const query = (search.get('query') || '').toLowerCase();
+
+  const [highlightedValue, setHighlightedValue] = useState(query);
+
+  useEffect(() => {
+    setHighlightedValue(query);
+  }, [query]);
 
   const historyPushWithDebounce = debounce(() => {
     history.push({ search: search.toString() });
@@ -40,7 +47,8 @@ const PeopleTablePage = () => {
       search.delete('query');
     }
 
-    historyPushWithDebounce();
+    setHighlightedValue(value);
+    historyPushWithDebounce(value);
   };
 
   const sortTable = (clickedColumn) => {
@@ -54,12 +62,10 @@ const PeopleTablePage = () => {
     history.push({ search: search.toString() });
   };
 
-  let query = search.get('query');
-
   const searchedPeople = originalPeople.filter(
     ({ name, mother, father, children }) => (name + mother + father + children)
       .toLowerCase()
-      .includes(query || '')
+      .includes(query)
   );
 
   let sortType = '';
@@ -81,8 +87,6 @@ const PeopleTablePage = () => {
     sortedPeople.reverse();
   }
 
-  query = query || '';
-
   return (
     <>
       <h1 className="main-title">People table</h1>
@@ -95,12 +99,13 @@ const PeopleTablePage = () => {
         className="table-search"
         placeholder="Search for people"
         onChange={searchPeople}
+        value={highlightedValue}
       />
 
       <PeopleTable
         people={sortedPeople}
         sortTable={sortTable}
-        highlightedValue={query}
+        highlightedValue={highlightedValue}
       />
     </>
   );
