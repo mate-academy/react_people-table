@@ -73,6 +73,25 @@ Add link here: `[DEMO LINK](https://olesmarola.github.io/react_people-table/)`
     - implement `<select>` for `mother` and `father` it should display only people of appropriate sex
       who were alive in the year of birth (so the select should be empty before the born year was entered)
 
+## React Router tasks
+```
+/people/carlos-haverbeck?query=carl&sorBy=born&sortOrder=desc
+```
+Add React Router into the `PeopleTable` working like described below:
+
+1. The component should appear only when the URL starts from `/people` so People table is not visible on `/` or `/not-people`
+1. When selecting a person navigate to `/people/carolus-haverbeke` where so the person name is added to the URL
+    - `Carolus Haverbeke` should be selected if the page is loaded at `/people/carolus-haverbeke` 
+1. When filtering people please add `?query=asd` where `asd` is a string entered by the user
+    - The `query` should be preserved in the URL when selecting a user or changing selection
+    - Filter the people if the page is loaded with `?query=asd`
+    - (*) Use `debounce` so the entered value is updated only when the user stoped typing for at least `500ms`
+1. When sorting add `?sortBy=born` param to the URL
+    - It should work together with filter
+    - The people should be sorted by `born` if the page is loaded with `?sortBy=born`
+    - (*) add `?sortOrder=asc` or `desc` to add ability to sort in reversed order
+1. (*) Use `/people/new` address to show the `NewPerson` component
+    - When the person is added you should navigate back to the `/people` page
 
 ## Workflow
 - Fork the repository with task
