@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PersonRow from './PersonRow';
 
@@ -50,51 +51,73 @@ const TABLE_HEADERS = [
   },
 ];
 
-class PeopleTable extends React.Component {
-  state = { selectedElement: null };
+const PeopleTable = ({ people, sortFields, sortData }) => {
+  const location = useLocation();
+  const history = useHistory();
+  const match = useRouteMatch();
+  const search = new URLSearchParams(location.search);
+  const sortBy = search.get('sortBy');
+  const sortOrder = search.get('sortOrder');
 
-  selectRow = id => this.setState({ selectedElement: id });
+  useEffect(() => {
+    if (sortBy) {
+      sortFields(
+        sortBy,
+        TABLE_HEADERS.find(h => h.code === sortBy).type, sortOrder
+      );
+    }
+  }, []);
 
-  render() {
-    const { people, sortFields } = this.props;
+  const selectRow = (id) => {
+    history.push({
+      pathname: `/people/${people
+        .find(person => id === person.id).name
+        .toLowerCase()
+        .replace(/\s/g, '-')}`,
+      search: location.search,
+    });
+  };
 
-    return (
-      people.length > 0 && (
-        <table className="people__table">
-          <thead>
-            <tr>
-              {TABLE_HEADERS.map(header => (
-                <th
-                  key={header.code}
-                  onClick={() => sortFields(header.code, header.type)}
-                >
-                  {header.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {people.map(
-              person => (
-                <PersonRow
-                  key={person.name}
-                  person={person}
-                  headers={TABLE_HEADERS}
-                  selected={person.id === this.state.selectedElement}
-                  selectRow={this.selectRow}
-                />
-              )
-            )}
-          </tbody>
-        </table>
-      )
-    );
-  }
-}
+  return (
+    people.length > 0 && (
+      <table className="people__table">
+        <thead>
+          <tr>
+            {TABLE_HEADERS.map(header => (
+              <th
+                key={header.code}
+                onClick={() => {
+                  sortFields(header.code, header.type);
+                }}
+              >
+                {header.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {people.map(
+            person => (
+              <PersonRow
+                key={person.name}
+                person={person}
+                headers={TABLE_HEADERS}
+                selected={person.name
+                  .toLowerCase()
+                  .replace(/\s/g, '-') === match.params.person}
+                selectRow={selectRow}
+              />
+            )
+          )}
+        </tbody>
+      </table>
+    )
+  );
+};
 
 PeopleTable.propTypes = {
   people: PropTypes.arrayOf(PropTypes.object).isRequired,
   sortFields: PropTypes.func.isRequired,
 };
 
-export default PeopleTable;
+export default React.memo(PeopleTable);
