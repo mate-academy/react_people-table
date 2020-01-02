@@ -5,7 +5,7 @@ import { DebounceInput } from 'react-debounce-input';
 
 const PeopleTable = (
   { inputValue, visiblePeople, isSelected,
-    sortBy, makeSelected, handleInputChange }
+    sortBy, makeSelected, handleInputChange, pathNameOfPeople }
 ) => (
   <>
     <h1>
@@ -100,14 +100,26 @@ const PeopleTable = (
                     cn(
                       'person', 'person--male',
                       `person--lived-in-${person.centure}`,
-                      { selected: isSelected === person.id }
+                      {
+                        selected: isSelected === person.id
+                        || pathNameOfPeople === person
+                          .name
+                          .toLowerCase()
+                          .replace(/ /g, '-'),
+                      }
                     )
                   )
                   : (
                     cn(
                       'person', 'person--female',
                       `person--lived-in-${person.centure}`,
-                      { selected: isSelected === person.id }
+                      {
+                        selected: isSelected === person.id
+                        || pathNameOfPeople === person
+                          .name
+                          .toLowerCase()
+                          .replace(/ /g, '-'),
+                      }
                     )
                   )
                 }
@@ -146,6 +158,7 @@ PeopleTable.propTypes = {
   isSelected: propTypes.oneOf([propTypes.object, propTypes.number]).isRequired,
   sortBy: propTypes.func.isRequired,
   makeSelected: propTypes.func.isRequired,
+  pathNameOfPeople: propTypes.string.isRequired,
 };
 
 export default PeopleTable;

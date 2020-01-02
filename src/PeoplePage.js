@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import people from './people';
 import PeopleTable from './PeopleTable';
@@ -15,14 +15,19 @@ const preparedPeople = people.map(
 );
 
 const PeoplePage = (props) => {
-  const [inputValue, setFiltered] = useState('');
-  const [isSelected, setSelected] = useState(null);
-  const [direction, setDirection] = useState('');
-  const [sortType, setSortType] = useState('');
   const { match } = props;
   const { history } = props;
   const { location } = props;
   const params = new URLSearchParams(location.search);
+  const query = params.get('query');
+  const [inputValue, setFiltered] = useState(query);
+  const [isSelected, setSelected] = useState(null);
+
+  useEffect(() => {
+    setFiltered(query);
+  }, [query]);
+
+  let visiblePeople = preparedPeople;
 
   const makeSelected = (selectedId) => {
     if (
@@ -38,7 +43,7 @@ const PeoplePage = (props) => {
     }
   };
 
-  let visiblePeople = preparedPeople;
+  const pathNameOfPeople = location.pathname.split('/').slice(2).join('');
 
   const handleInputChange = (value) => {
     const searchQuery = value
@@ -67,40 +72,43 @@ const PeoplePage = (props) => {
   const sortBy = (type) => {
     params.set('sortBy', type);
 
-    if (type === sortType) {
-      setDirection(direction === 'asc' ? 'desc' : 'asc');
-      params.set('sortOrder', direction);
-      history.push({
-        search: params.toString(),
-      });
+    if (type === params.get('sortBy')) {
+      params.set('sortOrder', (
+        params.get('sortOrder') === 'asc' ? 'desc' : 'asc'));
     } else {
-      setDirection('asc');
-      setSortType(type);
-      params.set('sortOrder', direction);
-      history.push({
-        search: params.toString(),
-      });
+      params.set('sortOrder', (
+        params.get('sortOrder') === 'asc' ? 'desc' : 'asc'));
     }
+
+    history.push({
+      search: params.toString(),
+    });
   };
 
+  const sortByFromSearchParams = params.get('sortBy');
+
   if (visiblePeople.length !== 0) {
-    switch (typeof visiblePeople[0][sortType]) {
+    switch (typeof visiblePeople[0][sortByFromSearchParams]) {
       case 'string':
         visiblePeople = [...visiblePeople]
           .sort(
-            (a, b) => a[sortType].localeCompare(b[sortType])
+            (a, b) => a[sortByFromSearchParams].localeCompare(
+              b[sortByFromSearchParams]
+            )
           );
         break;
 
       case 'number':
         visiblePeople = [...visiblePeople]
-          .sort((a, b) => b[sortType] - a[sortType]);
+          .sort(
+            (a, b) => b[sortByFromSearchParams] - a[sortByFromSearchParams]
+          );
         break;
 
       default:
     }
 
-    if (direction === 'desc') {
+    if (params.get('sortOrder') === 'desc') {
       visiblePeople = visiblePeople.reverse();
     }
   }
@@ -114,6 +122,7 @@ const PeoplePage = (props) => {
       inputValue={inputValue}
       setFiltered={setFiltered}
       isSelected={isSelected}
+      pathNameOfPeople={pathNameOfPeople}
     />
   );
 };
