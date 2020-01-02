@@ -2,9 +2,9 @@ import React from 'react';
 import ClassNames from 'classnames';
 import PropTypes from 'prop-types';
 
-const Person = ({ personData, columns, selected, highlight }) => (
+const Person = ({ personData, columns, highlight, match }) => (
   <tr
-    onClick={() => highlight(personData.id)}
+    onClick={() => highlight(personData.name)}
     className={ClassNames(
       personData.sex === 'm' ? 'man' : 'woman',
       `Person--lived-in-${personData.century}`,
@@ -16,7 +16,8 @@ const Person = ({ personData, columns, selected, highlight }) => (
         className={ClassNames({
           'born-before-1650': column === 'name' && personData.born < 1650,
           'lived-more-65': column === 'age' && personData.age >= 65,
-          highlighted: selected === personData.id,
+          highlighted: personData.name
+            .toLowerCase().replace(/ /g, '-') === match,
         })}
       >
         {personData[column]}
@@ -26,9 +27,19 @@ const Person = ({ personData, columns, selected, highlight }) => (
 );
 
 Person.propTypes = {
-  personData: PropTypes.objectOf.isRequired,
+  personData: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    mother: PropTypes.string,
+    father: PropTypes.string,
+    sex: PropTypes.string.isRequired,
+    born: PropTypes.number.isRequired,
+    died: PropTypes.number.isRequired,
+    age: PropTypes.number.isRequired,
+    century: PropTypes.number.isRequired,
+  }).isRequired,
+  match: PropTypes.string.isRequired,
   columns: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selected: PropTypes.number.isRequired,
   highlight: PropTypes.func.isRequired,
 };
 

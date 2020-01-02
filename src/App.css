@@ -23,6 +23,10 @@ th {
   padding: 5px;
 }
 
+th:hover {
+  cursor: pointer;
+}
+
 .man {
   background-color: #6a92ec;
 }
@@ -50,4 +54,23 @@ th {
   outline: none;
   padding: 10px;
   box-sizing: border-box;
+}
+
+.link {
+  display: inline-block;
+  width: 100px;
+  line-height: 40px;
+  color: white;
+  text-decoration: none;
+  background-color: #ffb100;
+  text-align: center;
+  font-size: 20px;
+}
+
+.link:hover {
+  opacity: 0.8;
+}
+
+.link--active {
+  background-color: #33f011;
 }

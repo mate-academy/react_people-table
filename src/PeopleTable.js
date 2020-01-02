@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory, useLocation, useRouteMatch } from 'react-router';
 import Person from './Person';
 
 const PeopleTable = ({ people, sort }) => {
-  const [selectedPerson, setSelectedPerson] = useState(0);
   const columns = ['id', 'name', 'sex', 'born', 'died',
     'mother', 'father', 'age', 'century'];
+  const match = useRouteMatch();
+  const history = useHistory();
+  const location = useLocation();
 
-  const highlightPerson = (id) => {
-    setSelectedPerson(id);
+  const highlightPerson = (name) => {
+    history.push({
+      pathname: `/table/${name.toLowerCase().replace(/ /g, '-')}`,
+      search: location.search,
+    });
   };
 
   return (
@@ -23,7 +29,7 @@ const PeopleTable = ({ people, sort }) => {
       <tbody>
         {people.map(person => (
           <Person
-            selected={selectedPerson}
+            match={match.params.personName}
             highlight={highlightPerson}
             personData={person}
             columns={columns}
