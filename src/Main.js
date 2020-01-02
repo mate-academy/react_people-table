@@ -84,6 +84,7 @@ const Main = () => {
   function sort(e) {
     let sortedPeople = [];
     const sortName = typeof (e) === 'string' ? e : e.target.value;
+    const previousOrder = [...peopleList];
 
     switch (sortName) {
       case 'name':
@@ -152,6 +153,11 @@ const Main = () => {
 
       default:
         break;
+    }
+
+    if (JSON.stringify(sortedPeople)
+    === JSON.stringify(previousOrder)) {
+      sortedPeople.reverse();
     }
 
     setPeopleList(sortedPeople);
