@@ -13,7 +13,7 @@ const Person = ({ item }) => {
       className={
         cn(
           item.sex === 'f' ? 'Person--female' : 'Person--male',
-          { 'Person--selected': selectedTr }
+          selectedTr === item.id ? 'Person--selected' : ''
         )
       }
       onClick={() => setSelectedTr(item.id)}

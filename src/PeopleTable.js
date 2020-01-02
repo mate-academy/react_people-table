@@ -46,9 +46,9 @@ const PeopleTable = ({ people, sortPeople }) => (
         <th>father</th>
       </tr>
     </thead>
-    {people.map((item, i) => (
+    {people.map(item => (
       <tbody key={item.name}>
-        <Person item={item} index={i} />
+        <Person item={item} />
       </tbody>
     ))}
   </table>

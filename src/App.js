@@ -25,12 +25,9 @@ const App = () => {
     setSerchName(event.target.value.trimLeft());
   };
 
-  const filterPeople = (arr, serch) => arr.filter((item) => {
-    if ((item.name.toLowerCase().includes(serch.toLowerCase().trim()))
-      || (item.mother !== null
-        && item.mother.toLowerCase().includes(serch.toLowerCase().trim()))
-      || (item.father !== null
-        && item.father.toLowerCase().includes(serch.toLowerCase().trim()))) {
+  const filterPeople = (arr, search) => arr.filter((item) => {
+    if ((item.mother + item.father + item.name)
+      .toLowerCase().includes(search.toLowerCase().trim())) {
       return item;
     }
 
@@ -40,37 +37,25 @@ const App = () => {
   const sortPeople = (select) => {
     switch (select) {
       case 'name':
+      case 'sex':
         if (select !== selectedButton) {
           setPeopleArr([...people]
-            .sort((a, b) => a.name.localeCompare(b.name)));
-          setValueButton('name');
-        }
-
-        break;
-      case 'born':
-        if (select !== selectedButton) {
-          setPeopleArr([...people]
-            .sort((a, b) => a.born - b.born));
-          setValueButton('born');
-        }
-
-        break;
-      case 'id':
-        if (select !== selectedButton) {
-          setPeopleArr([...people]
-            .sort((a, b) => a.id - b.id));
-          setValueButton('id');
+            .sort((a, b) => a[select].localeCompare(b[select])));
+          setValueButton(select);
         }
 
         break;
       case 'died':
+      case 'born':
+      case 'id':
         if (select !== selectedButton) {
           setPeopleArr([...people]
-            .sort((a, b) => a.born - b.born));
-          setValueButton('died');
+            .sort((a, b) => a[select] - b[select]));
+          setValueButton(select);
         }
 
         break;
+
       case 'age':
         if (select !== selectedButton) {
           setPeopleArr([...people]
@@ -85,14 +70,6 @@ const App = () => {
             .sort((a, b) => (
               Math.ceil(a.died / 100)) - (Math.ceil(b.died / 100))));
           setValueButton('centery');
-        }
-
-        break;
-      case 'sex':
-        if (select !== selectedButton) {
-          setPeopleArr([...people]
-            .sort((a, b) => a.sex.localeCompare(b.sex)));
-          setValueButton('sex');
         }
 
         break;
