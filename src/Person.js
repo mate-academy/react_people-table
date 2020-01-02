@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Person = ({ person, index, handler, selected }) => {
+const Person = ({ person, handler, selected }) => {
   const active = selected ? 'person--selected' : '';
   const rowClass = person.sex === 'f'
     ? 'person person--female'
@@ -17,7 +17,7 @@ const Person = ({ person, index, handler, selected }) => {
   return (
     <tr
       className={rowClasses}
-      onClick={() => handler(index)}
+      onClick={() => handler(person.id)}
     >
       <td>{person.id}</td>
       <td className={bornBefore1650}>{person.name}</td>
@@ -35,7 +35,6 @@ const Person = ({ person, index, handler, selected }) => {
 
 Person.propTypes = {
   person: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
   handler: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
 };

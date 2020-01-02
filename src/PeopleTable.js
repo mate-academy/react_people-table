@@ -24,11 +24,14 @@ const PeopleTable = ({ match, people }) => {
   const searchParams = new URLSearchParams(location.search);
   const input = searchParams.get('query');
   const sortOrder = searchParams.get('sortOrder');
+  const sortColumnUrl = searchParams.get('sortBy');
 
-  const handleSelectRow = (index) => {
-    history
-      .push(`/people/${(people[index].name)
-        .toLowerCase().replace(/\s/g, '-')}`);
+  const handleSelectRow = (id) => {
+    history.push({
+      pathname: `/people/${(people.find(person => person.id === id).name)
+        .toLowerCase().replace(/\s/g, '-')}`,
+      search: location.search,
+    });
   };
 
   const debounce = (f, delay) => {
@@ -83,7 +86,7 @@ const PeopleTable = ({ match, people }) => {
       ? a[col].localeCompare(b[col])
       : a[col] - b[col]));
 
-  const sortPeople = sortingArr(filteredPeople, sortColumn);
+  const sortPeople = sortingArr(filteredPeople, sortColumnUrl);
 
   const PeopleToShow = sortOrder === 'desc'
     ? sortPeople.reverse()
@@ -121,10 +124,9 @@ const PeopleTable = ({ match, people }) => {
           </tr>
         </thead>
         <tbody>
-          {PeopleToShow.map((person, i) => (
+          {PeopleToShow.map(person => (
             <Person
               person={person}
-              index={i}
               handler={handleSelectRow}
               selected={person.name.toLowerCase().replace(/\s/g, '-')
                 === match.params.name}
