@@ -27,7 +27,7 @@ const PeopleTable
 
     const clickHandler = (name) => {
       history.push({
-        pathname: `${match.path}/${name.replace(/\s+/g, '')}`,
+        pathname: `${match.path}/${name.replace(/\s+/g, '-').toLowerCase()}`,
         search: location.search,
       });
     };

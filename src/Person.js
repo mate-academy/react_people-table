@@ -13,7 +13,8 @@ const Person
     = `${cn({
       Person: true,
       'Person--selected':
-        location.pathname === `/people/${name.replace(/\s+/g, '')}`,
+        location.pathname === `/people/${name.replace(/\s+/g, '-')
+          .toLowerCase()}`,
     })} Person--lived-in-${century}`;
 
     return (
