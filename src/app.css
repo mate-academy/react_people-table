@@ -1,0 +1,71 @@
+.App {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.start {
+  display: block;
+  width: 140px;
+  height: 30px;
+  text-decoration: none;
+  border: 1px solid darkgreen;
+  line-height: 30px;
+  text-align: center;
+  margin: 15px;
+  background-color: lightgreen;
+  color: black;
+}
+
+.count {
+  margin: 0 0 0 15px;
+}
+
+.input {
+  width: 250px;
+  height: 30px;
+  margin: 15px;
+}
+
+.person {
+  border: 1px solid green;
+  text-align: center;
+  font-size: 13px;
+}
+
+.person:hover {
+  cursor: pointer;
+}
+
+.person--selected {
+  border: 2px solid yellow;
+}
+
+.person--male {
+  background-color: lightblue;
+}
+
+.person--female {
+  background-color: pink;
+}
+
+.born_before_1650 {
+  text-decoration: line-through;
+}
+
+.age_more_65 {
+  color: rgb(23, 161, 23);
+}
+
+.column-header {
+  padding: 5px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.column-header:hover {
+  transform: scale(1.2);
+}
