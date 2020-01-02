@@ -1,5 +1,5 @@
 {
-  "homepage": "https://mate-academy.github.io/react_people-table",
+  "homepage": "https://banduraweb.github.io/react_people-table",
   "name": "react_people-table",
   "version": "0.1.0",
   "private": true,
@@ -9,8 +9,12 @@
   "dependencies": {
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-debounce-input": "^3.2.2",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.0.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2"
   },
   "devDependencies": {
     "@mate-academy/eslint-config-react": "*",
@@ -34,14 +38,7 @@
     "extends": "react-app"
   },
   "lint-staged": {
-    "*.css": [
-      "stylelint",
-      "git add"
-    ],
-    "*.js": [
-      "eslint",
-      "git add"
-    ]
+
   },
   "browserslist": {
     "production": [

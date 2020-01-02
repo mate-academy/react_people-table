@@ -1,0 +1,39 @@
+.female {
+  color: pink;
+}
+
+.male {
+  color: #308dc0;
+}
+
+.lineThrough {
+  text-decoration: line-through;
+}
+
+.age {
+  color: #2ecc40;
+}
+
+.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #26a69a;
+}
+
+a {
+  list-style: none;
+  text-decoration: none;
+}
+
+.selected {
+  font-size: 30px;
+  color: #26a69a;
+}
+
+.HeaderCell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
