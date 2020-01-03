@@ -4,6 +4,7 @@ import { DebounceInput } from 'react-debounce-input';
 import './App.scss';
 import PeopleTable from './PeopleTable';
 import { getPeopleFromServer } from './api';
+import { TABLE_HEADERS } from './const';
 
 const getPeopleWithIds = peopleList => peopleList.map(
   (person, i) => ({
@@ -16,7 +17,6 @@ const getPeopleWithIds = peopleList => peopleList.map(
 
 const PeoplePage = () => {
   const [people, setPeople] = useState([]);
-  const [curField, setCurField] = useState('');
   const location = useLocation();
   const history = useHistory();
   const search = new URLSearchParams(location.search);
@@ -43,8 +43,20 @@ const PeoplePage = () => {
     );
   }
 
-  const sortData = (field, type) => {
-    let peopleCopy = [...people];
+  const handleSortClick = (sortingTitle) => {
+    if (search.get('sortBy') !== sortingTitle) {
+      search.set('sortBy', sortingTitle);
+      search.set('sortOrder', 'asc');
+    } else {
+      search.set('sortOrder',
+        search.get('sortOrder') === 'asc' ? 'desc' : 'asc');
+    }
+
+    history.push({ search: search.toString() });
+  };
+
+  const getSortedPeople = (listOfPeople, field, type) => {
+    let peopleCopy = [...listOfPeople];
 
     switch (type) {
       case 'string':
@@ -69,29 +81,20 @@ const PeoplePage = () => {
     }
   };
 
-  const sortFields = (field, type, sortOrder) => {
-    search.set('sortBy', field);
+  const setSortBy = (listOfPeople, field, sortOrder) => {
+    const fieldType = TABLE_HEADERS.find(header => header.code === field).type;
 
-    if (field !== curField) {
-      if (sortOrder === 'asc') {
-        setPeople(sortData(field, type));
-        search.set('sortOrder', 'asc');
-      } else {
-        setPeople(sortData(field, type).reverse());
-        search.set('sortOrder', 'desc');
-      }
-
-      setCurField(field);
-    } else {
-      setPeople(prev => [...prev].reverse());
-      setCurField('');
-      search.set(
-        'sortOrder', search.get('sortOrder') === 'desc' ? 'asc' : 'desc'
-      );
+    if (sortOrder === 'desc') {
+      return getSortedPeople(listOfPeople, field, fieldType).reverse();
     }
 
-    history.push({ search: search.toString() });
+    return getSortedPeople(listOfPeople, field, fieldType);
   };
+
+  visiblePeople = search.get('sortBy')
+    ? [...setSortBy([...visiblePeople],
+      search.get('sortBy'), search.get('sortOrder') || 'asc')]
+    : [...visiblePeople];
 
   return (
     <div className="App">
@@ -113,8 +116,7 @@ const PeoplePage = () => {
           ? (
             <PeopleTable
               people={visiblePeople}
-              sortFields={sortFields}
-              sortData={sortData}
+              handleSortClick={handleSortClick}
             />
           )
           : 'Loading...'

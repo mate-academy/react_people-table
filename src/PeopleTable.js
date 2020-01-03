@@ -1,72 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PersonRow from './PersonRow';
+import { TABLE_HEADERS } from './const';
 
-const TABLE_HEADERS = [
-  {
-    code: 'id',
-    label: 'Id',
-    type: 'number',
-  },
-  {
-    code: 'name',
-    label: 'Name',
-    type: 'string',
-  },
-  {
-    code: 'sex',
-    label: 'Sex',
-    type: 'string',
-  },
-  {
-    code: 'born',
-    label: 'Born',
-    type: 'number',
-  },
-  {
-    code: 'died',
-    label: 'Died',
-    type: 'number',
-  },
-  {
-    code: 'age',
-    label: 'Age',
-    type: 'number',
-  },
-  {
-    code: 'century',
-    label: 'Century',
-    type: 'number',
-  },
-  {
-    code: 'mother',
-    label: 'Mother',
-    type: 'string',
-  },
-  {
-    code: 'father',
-    label: 'Father',
-    type: 'string',
-  },
-];
-
-const PeopleTable = ({ people, sortFields, sortData }) => {
+const PeopleTable = ({ people, handleSortClick }) => {
   const location = useLocation();
   const history = useHistory();
   const match = useRouteMatch();
-  const search = new URLSearchParams(location.search);
-  const sortBy = search.get('sortBy');
-  const sortOrder = search.get('sortOrder');
-
-  useEffect(() => {
-    if (sortBy) {
-      sortFields(
-        sortBy,
-        TABLE_HEADERS.find(h => h.code === sortBy).type, sortOrder
-      );
-    }
-  }, []);
 
   const selectRow = (id) => {
     history.push({
@@ -87,7 +28,7 @@ const PeopleTable = ({ people, sortFields, sortData }) => {
               <th
                 key={header.code}
                 onClick={() => {
-                  sortFields(header.code, header.type);
+                  handleSortClick(header.code);
                 }}
               >
                 {header.label}
