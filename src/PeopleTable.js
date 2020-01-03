@@ -1,70 +1,74 @@
 import React from 'react';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Person from './Person';
 
-class PeopleTable extends React.Component {
-  state = { selectedPerson: '' }
+const PeopleTable = ({ people, setSortBy }) => {
+  const history = useHistory();
+  const location = useLocation();
+  const { personName } = useParams();
 
-  selectPerson = (event, name) => {
-    event.preventDefault();
+  const selectPerson = (name) => {
+    const selectedName = name.toLowerCase().split(' ').join('-');
 
-    if (name !== this.state.selectedPerson) {
-      this.setState({ selectedPerson: name });
+    if (selectedName !== personName) {
+      history.push({
+        pathname: `/people/${selectedName}`,
+        search: location.search,
+      });
     } else {
-      this.setState({ selectedPerson: '' });
+      history.push({
+        pathname: `/people`,
+        search: location.search,
+      });
     }
-  }
+  };
 
-  render() {
-    const { people, sortPeopleBy } = this.props;
-
-    return (
-      <table className="PeopleTable">
-        <thead>
-          <tr>
-            <th onClick={() => sortPeopleBy('id')}>
-              ID
-            </th>
-            <th onClick={() => sortPeopleBy('name')}>
-              Name
-            </th>
-            <th onClick={() => sortPeopleBy('sex')}>
-              Sex
-            </th>
-            <th onClick={() => sortPeopleBy('born')}>
-              Born
-            </th>
-            <th onClick={() => sortPeopleBy('died')}>
-              Died
-            </th>
-            <th>Mother</th>
-            <th>Father</th>
-            <th onClick={() => sortPeopleBy('age')}>
-              Age
-            </th>
-            <th onClick={() => sortPeopleBy('century')}>
-              Century
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {people.map(person => (
-            <Person
-              key={person.id}
-              person={person}
-              selectPerson={this.selectPerson}
-              selectedPerson={this.state.selectedPerson}
-            />
-          ))}
-        </tbody>
-      </table>
-    );
-  }
-}
+  return (
+    <table className="PeopleTable">
+      <thead>
+        <tr>
+          <th className="sorting" onClick={() => setSortBy('id')}>
+            ID
+          </th>
+          <th className="sorting" onClick={() => setSortBy('name')}>
+            Name
+          </th>
+          <th className="sorting" onClick={() => setSortBy('sex')}>
+            Sex
+          </th>
+          <th className="sorting" onClick={() => setSortBy('born')}>
+            Born
+          </th>
+          <th className="sorting" onClick={() => setSortBy('died')}>
+            Died
+          </th>
+          <th>Mother</th>
+          <th>Father</th>
+          <th className="sorting" onClick={() => setSortBy('age')}>
+            Age
+          </th>
+          <th className="sorting" onClick={() => setSortBy('century')}>
+            Century
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {people.map(person => (
+          <Person
+            key={person.id}
+            person={person}
+            selectPerson={selectPerson}
+          />
+        ))}
+      </tbody>
+    </table>
+  );
+};
 
 PeopleTable.propTypes = {
   people: PropTypes.arrayOf(PropTypes.object).isRequired,
-  sortPeopleBy: PropTypes.func.isRequired,
+  setSortBy: PropTypes.func.isRequired,
 };
 
 export default PeopleTable;

@@ -1,17 +1,23 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const Person = ({ person, selectedPerson, selectPerson }) => {
+const Person = ({ person, selectPerson }) => {
+  const { personName } = useParams();
+
   const personSex = (person.sex === 'm')
     ? 'Person Person--male'
     : 'Person Person--female';
   const livenInCentury = `Person--lived-in-${person.century}`;
-  const selected = (person.name === selectedPerson) ? 'Person--selected' : '';
+  const selected = (person.name
+    .toLowerCase().split(' ').join('-') === personName)
+    ? 'Person--selected'
+    : '';
 
   return (
     <tr
       className={`${personSex} ${livenInCentury} ${selected}`}
-      onClick={event => selectPerson(event, person.name)}
+      onClick={() => selectPerson(person.name)}
     >
       <td>{person.id}</td>
       <td className={person.born < 1650 ? 'born-before-1650' : ''}>
@@ -37,7 +43,6 @@ Person.propTypes = {
       PropTypes.number,
     ])
   ).isRequired,
-  selectedPerson: PropTypes.string.isRequired,
   selectPerson: PropTypes.func.isRequired,
 };
 
