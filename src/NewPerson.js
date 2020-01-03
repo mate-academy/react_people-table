@@ -108,7 +108,7 @@ const NewPerson = ({ addPerson, people }) => {
             value={motherSelected}
             required="required"
           >
-            {<option value="">Choose the mother</option>}
+            {<option value="">Choose mother</option>}
             {bornSelected && people
               .filter(({ sex, died }) => sex === 'f' && died >= bornSelected)
               .map(({ name }) => (
@@ -122,7 +122,7 @@ const NewPerson = ({ addPerson, people }) => {
             value={fatherSelected}
             required="required"
           >
-            {<option value="">Choose the father</option>}
+            {<option value="">Choose father</option>}
             {bornSelected && people
               .filter(({ sex, died }) => sex === 'm' && died >= bornSelected)
               .map(({ name }) => (
@@ -135,6 +135,8 @@ const NewPerson = ({ addPerson, people }) => {
           <label htmlFor="f">
             <input
               type="radio"
+              className="input_radio"
+              title=""
               id="f"
               value="f"
               onChange={event => handleSelect(event, setSex)}
@@ -145,6 +147,8 @@ const NewPerson = ({ addPerson, people }) => {
           <label htmlFor="m">
             <input
               type="radio"
+              className="input_radio"
+              title=""
               id="m"
               value="m"
               onChange={event => handleSelect(event, setSex)}
