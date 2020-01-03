@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PersonRow from './PersonRow';
@@ -61,4 +61,4 @@ PeopleTable.propTypes = {
   sortFields: PropTypes.func.isRequired,
 };
 
-export default React.memo(PeopleTable);
+export default memo(PeopleTable);

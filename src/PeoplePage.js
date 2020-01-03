@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
 import './App.scss';
@@ -129,4 +129,4 @@ const PeoplePage = () => {
   );
 };
 
-export default PeoplePage;
+export default memo(PeoplePage);

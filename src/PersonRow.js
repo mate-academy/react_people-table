@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -46,4 +46,4 @@ PersonRow.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default PersonRow;
+export default memo(PersonRow);
