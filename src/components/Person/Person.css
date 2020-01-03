@@ -1,0 +1,16 @@
+.crossed-out {
+  text-decoration: line-through;
+}
+
+.highlighted {
+  color: greenyellow;
+}
+
+.Person:hover {
+  cursor: pointer;
+  background-color: #ccc;
+}
+
+.Person--selected {
+  background-color: darkgray;
+}
