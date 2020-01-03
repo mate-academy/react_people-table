@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropType from 'prop-types';
 import cn from 'classnames';
+import { NavLink } from 'react-router-dom';
 
 const Person = ({ item }) => {
   const [selectedTr, setSelectedTr] = useState('');
@@ -13,17 +14,20 @@ const Person = ({ item }) => {
       className={
         cn(
           item.sex === 'f' ? 'Person--female' : 'Person--male',
-          selectedTr === item.id ? 'Person--selected' : ''
         )
       }
       onClick={() => setSelectedTr(item.id)}
     >
       <td>{item.id}</td>
-      <td className={item.born < 1650
-        ? 'Person--decoration' : ''}
+      <NavLink
+        to={`/table/${item.name.split(' ').join('-')}`}
       >
-        {item.name}
-      </td>
+        <td className={item.born < 1650
+          ? 'Person Person--decoration' : 'Person'}
+        >
+          {item.name}
+        </td>
+      </NavLink>
       <td>{item.sex}</td>
       <td>{item.born}</td>
       <td>{item.died}</td>

@@ -4,6 +4,22 @@ h1 {
   margin: 0;
 }
 
+.linkGo {
+  text-align: center;
+  color: blue;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.active {
+  background: yellow;
+}
+
 .table {
   background: whitesmoke;
   padding-top: 30px;
@@ -35,6 +51,7 @@ td {
 }
 
 .Person {
+  display: block;
   &--decoration {
     text-decoration: line-through;
   }
