@@ -12,6 +12,7 @@ const App = () => {
   const history = useHistory();
   const searchParams = new URLSearchParams(location.search);
   const [people, setPeopleArr] = useState([]);
+
   const searchNameQuery = searchParams.get('query') || '';
   const [searchName, setSerchName] = useState(searchNameQuery);
   const [selectedButton, setValueButton] = useState('');
@@ -136,7 +137,8 @@ const App = () => {
               />
             </div>
             <PeopleTable
-              people={filterPeople(people, location.search.slice(7))}
+              people={filterPeople(people, searchNameQuery)}
+
               sortPeople={sortPeople}
             />
           </div>
