@@ -1,5 +1,5 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { DebounceInput } from 'react-debounce-input';
 
@@ -17,7 +17,7 @@ const PeopleTable = (
       placeholder="search by name/mother/father"
       className="search"
       onChange={e => handleInputChange(e.target.value)}
-      value={inputValue}
+      value={inputValue || ''}
       debounceTimeout={700}
     />
     { visiblePeople.length === 0 ? <p>no people exist</p> : (
@@ -94,7 +94,8 @@ const PeopleTable = (
             visiblePeople.map(person => (
               <tr
                 key={person.id}
-                onClick={() => makeSelected(person.id)}
+                onClick={() => makeSelected(person.id)
+                }
                 className={person.sex === 'm'
                   ? (
                     cn(
@@ -152,13 +153,13 @@ const PeopleTable = (
 );
 
 PeopleTable.propTypes = {
-  inputValue: propTypes.string.isRequired,
-  visiblePeople: propTypes.arrayOf(propTypes.object).isRequired,
-  handleInputChange: propTypes.func.isRequired,
-  isSelected: propTypes.oneOf([propTypes.object, propTypes.number]).isRequired,
-  sortBy: propTypes.func.isRequired,
-  makeSelected: propTypes.func.isRequired,
-  pathNameOfPeople: propTypes.string.isRequired,
+  isSelected: PropTypes.number.isRequired,
+  visiblePeople: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  sortBy: PropTypes.func.isRequired,
+  makeSelected: PropTypes.func.isRequired,
+  pathNameOfPeople: PropTypes.string.isRequired,
+  inputValue: PropTypes.string.isRequired,
 };
 
 export default PeopleTable;

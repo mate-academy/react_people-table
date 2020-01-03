@@ -15,13 +15,11 @@ const preparedPeople = people.map(
 );
 
 const PeoplePage = (props) => {
-  const { match } = props;
-  const { history } = props;
-  const { location } = props;
+  const { match, history, location } = props;
   const params = new URLSearchParams(location.search);
   const query = params.get('query');
   const [inputValue, setFiltered] = useState(query);
-  const [isSelected, setSelected] = useState(null);
+  const [isSelected, setSelected] = useState(-1);
 
   useEffect(() => {
     setFiltered(query);
@@ -29,7 +27,8 @@ const PeoplePage = (props) => {
 
   let visiblePeople = preparedPeople;
 
-  const makeSelected = (selectedId) => {
+  const makeSelected
+  = (selectedId) => {
     if (
       preparedPeople.find(person => person.id === selectedId)
     ) {
@@ -39,6 +38,7 @@ const PeoplePage = (props) => {
       name = name.toLowerCase().replace(/ /g, '-');
       history.push({
         pathname: `${match.path}/${name}`,
+        search: params.toString(),
       });
     }
   };
@@ -108,7 +108,7 @@ const PeoplePage = (props) => {
       default:
     }
 
-    if (params.get('sortOrder') === 'desc') {
+    if (params.get('sortOrder') === 'asc') {
       visiblePeople = visiblePeople.reverse();
     }
   }
