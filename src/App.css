@@ -1,0 +1,35 @@
+table,
+th,
+td,
+tr {
+  border: 1px solid black;
+}
+
+th {
+  cursor: pointer;
+}
+
+.early1650 {
+  text-decoration: line-through;
+}
+
+.older_65 {
+  color: green;
+  font-weight: bold;
+}
+
+.person__name {
+  cursor: pointer;
+}
+
+.active {
+  background-color: yellow;
+}
+
+.female {
+  background-color: pink;
+}
+
+.male {
+  background-color: lightskyblue;
+}
