@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  NavLink,
+} from 'react-router-dom';
 
 const Person = ({ person, history, location }) => (
   <tr
@@ -16,7 +19,12 @@ const Person = ({ person, history, location }) => (
     <td
       className={person.born < 1650 ? 'early1650 person__name' : 'person__name'}
     >
-      {person.name}
+      <NavLink
+        to={`/people/${person.name.replace(/\s/g, '_').toLowerCase()}`}
+        className="link__name"
+      >
+        {person.name}
+      </NavLink>
     </td>
     <td>{person.sex}</td>
     <td>{person.century}</td>

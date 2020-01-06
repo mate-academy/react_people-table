@@ -31,18 +31,18 @@ const PeopleList = ({ people }) => {
           .toLowerCase().trim().includes(value.toLocaleLowerCase()))
     ));
 
-  const sortBy = searchParams.get('sortBy');
+  const sortParam = searchParams.get('sort');
 
-  if (sortBy) {
+  if (sortParam) {
     sortedPeople
-      = (typeof people[0][sortBy] === 'number'
-      || typeof people[0][sortBy] === 'boolean')
+      = (typeof people[0][sortParam] === 'number'
+      || typeof people[0][sortParam] === 'boolean')
         ? [...results]
-          .sort((a, b) => (a[sortBy] - b[sortBy])
-          * (searchParams.get('sortOrder') === 'asc' ? 1 : -1))
+          .sort((a, b) => (a[sortParam] - b[sortParam])
+          * (searchParams.get('orderOfSorting') === 'asc' ? 1 : -1))
         : [...results]
-          .sort((a, b) => (a[sortBy].localeCompare(b[sortBy]))
-          * (searchParams.get('sortOrder') === 'asc' ? 1 : -1));
+          .sort((a, b) => (a[sortParam].localeCompare(b[sortParam]))
+          * (searchParams.get('orderOfSorting') === 'asc' ? 1 : -1));
   } else {
     sortedPeople = results;
   }
@@ -57,20 +57,22 @@ const PeopleList = ({ people }) => {
   };
 
   const sortPeople = (param) => {
-    searchParams.set('sortBy', param);
+    searchParams.set('sort', param);
 
-    if (searchParams.get('sortBy') === param
-      && searchParams.get('sortOrder') === 'asc') {
-      searchParams.set('sortOrder', 'desc');
+    if (searchParams.get('sort') === param
+      && searchParams.get('orderOfSorting') === 'asc') {
+      searchParams.set('orderOfSorting', 'desc');
     } else {
-      searchParams.set('sortOrder', 'asc');
+      searchParams.set('orderOfSorting', 'asc');
     }
 
     history.push({ search: searchParams.toString() });
   };
 
   return (
-    <div>
+    <div
+      className="people"
+    >
       <h2>People</h2>
       <Route path={path}>
 
@@ -80,7 +82,6 @@ const PeopleList = ({ people }) => {
               className="ui input"
               type="text"
               placeholder="Search..."
-
               onChange={handlerInput}
             />
           </div>

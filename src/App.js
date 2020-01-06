@@ -12,11 +12,13 @@ import PeopleList from './components/peopleList';
 
 const App = () => {
   const [people, setPeople] = useState([]);
+  const [isLoad, setIsLoad] = useState(false);
 
   useEffect(() => {
     async function fetchPeople() {
       const peopleFromServer = await getPeople();
 
+      setIsLoad(true);
       setPeople(peopleFromServer.map((person, i) => (
         {
           ...person,
@@ -37,51 +39,64 @@ const App = () => {
   }, []);
 
   return (
-
-    <div className="App">
-      <h1>People table</h1>
-
-      <section>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <NavLink
-                  exact
-                  to="/"
-                  className="nav__link"
-                >
+    <div
+      className="App"
+    >
+      <h1
+        className="header"
+      >
+        People table
+      </h1>
+      <section className="main">
+        <nav
+          className="nav"
+        >
+          <ul
+            className="nav__list"
+          >
+            <li
+              className="nav__item"
+            >
+              <NavLink
+                exact
+                to="/"
+                className="nav__link"
+              >
                   Home
-                </NavLink>
-              </li>
+              </NavLink>
+            </li>
 
-              <li>
-                <NavLink
-                  to="/people/"
-                  className="nav__link"
-                >
+            <li>
+              <NavLink
+                to="/people/"
+                className="nav__link"
+              >
                   People
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
 
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route
-              path="/people"
-              render={props => (
-                <PeopleList
-                  {...props}
-                  people={people}
-                  setPeople={setPeople}
-                />
-              )}
-            />
-          </Switch>
-        </div>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route
+            path="/people"
+            render={props => (
+              isLoad
+                ? (
+                  <PeopleList
+                    {...props}
+                    people={people}
+                    setPeople={setPeople}
+                  />
+                ) : (
+                  'Loading...'
+                )
+            )}
+          />
+        </Switch>
       </section>
     </div>
   );
