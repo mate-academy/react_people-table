@@ -1,0 +1,67 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+}
+
+table {
+  border: 1px solid black;
+  margin: 10px auto;
+}
+
+th {
+  cursor: pointer;
+}
+
+.nav__list {
+  display: flex;
+  list-style: none;
+}
+
+.nav__link {
+  text-decoration: none;
+  padding: 10px;
+}
+
+.people {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.early1650 {
+  text-decoration: line-through;
+}
+
+.older_65 {
+  color: green;
+  font-weight: bold;
+}
+
+.person__name {
+  cursor: pointer;
+}
+
+.active {
+  background-color: greenyellow;
+  color: black;
+}
+
+.link__name {
+  text-decoration: none;
+  color: black;
+}
+
+.female {
+  background-color: pink;
+}
+
+.male {
+  background-color: lightskyblue;
+}
