@@ -1,0 +1,42 @@
+body {
+  font-family: cursive;
+  margin: 0;
+}
+
+table {
+  cursor: pointer;
+}
+
+td:hover {
+  background-color: rgb(156, 156, 156);
+}
+
+.people_table {
+  display: flex;
+  justify-content: center;
+}
+
+.before_1650 {
+  text-decoration: line-through;
+}
+
+.man {
+  background-color: rgb(113, 172, 196);
+}
+
+.woman {
+  background-color: rgb(238, 186, 196);
+}
+
+.long_liver {
+  color: cadetblue;
+}
+
+h1 {
+  visibility: hidden;
+}
+
+.input {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
