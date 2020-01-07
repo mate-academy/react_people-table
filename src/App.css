@@ -1,0 +1,72 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+}
+
+.table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 30px auto;
+
+}
+
+.table th {
+  border: 1px solid black;
+  padding: 5px 20px;
+}
+
+.man {
+  background: lightblue;
+}
+
+.woman {
+  background: pink;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.green {
+  color: green;
+  background: lightgreen;
+}
+
+.link {
+  padding: 5px 20px;
+  border: 1px solid lightblue;
+  color: lightcoral;
+  background: #fcfcfc;
+  margin: 20px;
+}
+
+.link:hover {
+  background: lightblue;
+}
+
+.input {
+  text-align: left;
+  padding: 5px;
+}
+
+.tableTitle {
+  background: gray;
+  text-transform: uppercase;
+}
+
+.tableTitle:hover {
+  cursor: pointer;
+  background: #999;
+}
+
+.selected {
+  background: #987;
+}
+
+.active {
+  background: coral;
+  color: white;
+}
