@@ -1,0 +1,106 @@
+html,
+body {
+  margin: 0;
+}
+
+.title {
+  font-family: "Julius Sans One", sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.nav-link {
+  font-family: "Fredericka the Great", cursive;
+  text-decoration: none;
+  display: block;
+  width: 20%;
+  height: 5%;
+  border: 1px solid black;
+  color: black;
+  padding: 20px;
+  text-align: center;
+  margin: 35px auto;
+}
+
+.home {
+  font-family: "Fredericka the Great", cursive;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.image {
+  display: block;
+  width: 600px;
+  height: 450px;
+  background: url("./images/family.jpg") no-repeat;
+  background-size: 550px auto;
+  background-position: center;
+  opacity: 0.8;
+  margin: 0 auto;
+}
+
+.input {
+  display: block;
+  width: 90%;
+  box-sizing: border-box;
+  box-shadow: 0 1px 8px rgba(61, 78, 97, 0.1);
+  border: 1px solid #e1e7ed;
+  border-radius: 5px;
+  font-weight: 300;
+  color: #3e4e61;
+  height: 42px;
+  font-size: 14px;
+  padding: 13px 0 13px 15px;
+  outline: none;
+  margin: 50px auto;
+}
+
+.people__table {
+  border: 1px solid grey;
+  margin: 0 auto;
+  width: 90%;
+  margin-bottom: 50px;
+}
+
+.people__table-items {
+  font-family: "Barlow", sans-serif;
+  padding: 10px;
+  text-align: center;
+}
+
+.people__table-items-id {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.people__table-rows {
+  font-family: "Fredericka the Great", cursive;
+  text-align: center;
+  padding: 20px;
+  border-bottom: 1px solid grey;
+  font-size: 22px;
+}
+
+.born-before-1650 {
+  text-decoration: line-through;
+  font-family: "Dancing Script", cursive;
+  text-align: center;
+  font-size: 18px;
+}
+
+.female {
+  font-family: "Barlow", sans-serif;
+  text-align: center;
+  background-color: #e9eef0;
+}
+
+.male {
+  font-family: "Barlow", sans-serif;
+  text-align: center;
+  background-color: #ccc;
+}
+
+.high-longevity {
+  text-align: center;
+  background-color: #e6ffff;
+}
