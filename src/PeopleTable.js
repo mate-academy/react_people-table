@@ -34,7 +34,9 @@ const PeopleTable = ({ people, history, location, match, selectText }) => {
     });
   }
 
-  const head = [...Object.keys(sortedPople[0])];
+  const head = [
+    'id', 'name', 'sex', 'born', 'died', 'father', 'mother', 'age',
+  ];
 
   return (
     <table

@@ -7,16 +7,17 @@ import people from './people';
 const PeoplePage = ({ history, location, match }) => {
   const search = new URLSearchParams(location.search);
   let query = search.get('query');
-
-  let sortPeople = people.map(item => ({
+  const peopleData = people.map(item => ({
     ...item,
     age: item.died - item.born,
     century: Math.ceil(item.died / 100),
   }));
 
+  let sortPeople = peopleData;
+
   if (query) {
     query = query.toLowerCase();
-    sortPeople = people.filter(({ name, mother, father }) => (
+    sortPeople = peopleData.filter(({ name, mother, father }) => (
       (name + mother + father).toLowerCase().includes(query)
     ));
   }
