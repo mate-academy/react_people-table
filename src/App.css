@@ -1,0 +1,75 @@
+.table {
+  border: 3px solid lightskyblue;
+  border-radius: 2%;
+  margin: 200px auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+p {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 24px;
+}
+
+.th {
+  padding: 5px 20px;
+}
+
+.man {
+  background: lightblue;
+}
+
+.woman {
+  background: lightpink;
+}
+
+.oldest {
+  color: green;
+}
+
+.link {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.link:hover {
+  background: lightseagreen;
+}
+
+.input {
+  position: relative;
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 15vw;
+  left: calc(50% - 8vw);
+  background: #f1f1f1;
+}
+
+.tableTitle:hover {
+  cursor: pointer;
+  background: lightsteelblue;
+}
+
+.selected {
+  background: limegreen;
+}
+
+.active {
+  background: lightsalmon;
+  color: white;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
