@@ -13,13 +13,15 @@ const App = () => {
   const searchParams = new URLSearchParams(location.search);
   const [people, setPeopleArr] = useState([]);
 
+  const sortBy = searchParams.get('sortBy');
   const searchNameQuery = searchParams.get('query') || '';
   const [searchName, setSerchName] = useState(searchNameQuery);
   const [selectedButton, setValueButton] = useState('');
 
   useEffect(() => {
     setSerchName(searchNameQuery);
-  }, [searchNameQuery]);
+    sortPeople(sortBy);
+  }, [searchNameQuery, sortBy]);
 
   const setCurrentQuery = (query) => {
     searchParams.set('query', query);
@@ -51,6 +53,8 @@ const App = () => {
   });
 
   const sortPeople = (select) => {
+    searchParams.set('sortBy', select);
+    history.push({ search: searchParams.toString() });
     switch (select) {
       case 'name':
       case 'sex':
@@ -91,9 +95,6 @@ const App = () => {
         break;
       default: setPeopleArr([...people]);
     }
-
-    searchParams.set('sortBy', select);
-    history.push({ search: searchParams.toString() });
 
     if (select === selectedButton) {
       const arrReverse = [...people].reverse();

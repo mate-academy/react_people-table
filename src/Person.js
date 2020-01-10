@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropType from 'prop-types';
 import cn from 'classnames';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const Person = ({ item }) => {
   const [selectedTr, setSelectedTr] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
   }, [selectedTr]);
@@ -20,7 +21,7 @@ const Person = ({ item }) => {
     >
       <td>{item.id}</td>
       <NavLink
-        to={`/table/${item.name.split(' ').join('-')}`}
+        to={`/table/${item.name.split(' ').join('-')}${location.search}`}
       >
         <td className={item.born < 1650
           ? 'Person Person--decoration' : 'Person'}
