@@ -40,6 +40,7 @@ const PeoplePage = ({ history, location, match }) => {
       />
       <Filter
         handleSearch={handleSearch}
+        query={query}
       />
     </div>
   );
