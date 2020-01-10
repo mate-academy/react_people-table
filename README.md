@@ -1,17 +1,17 @@
 # React - People table
 
 ## Demo link
-Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
+Add link here: `[DEMO LINK](https://boom40.github.io/react_people-table/)`
 
-## Task 
+## Task
 
 1. Load `people` from [API](https://mate-academy.github.io/react_people-table/api/people.json)
   and show the number of currently visible people in the `App` component
 
-2. Implement `PeopleTable` component accepting an array of people as a param. 
-  It should show these columns: 
+2. Implement `PeopleTable` component accepting an array of people as a param.
+  It should show these columns:
     - `id` (position in the original array starting from 1)
-    - `name` 
+    - `name`
     - `sex`
     - `born`
     - `died`
@@ -55,13 +55,13 @@ Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
 9. add sorting by `id`, `sex`, `born`, `died`, `age`, `century`
 
 10. (* OPTIONAL) Implement sorting in both directions
-    - sorting must work together with filtering 
+    - sorting must work together with filtering
 
 11. (* OPTIONAL) Add `children` column with a list of children names of names
 
 12. (* OPTIONAL) Implement `PersonName` component to display the name with some styling based on person data.
   Use if for all the names in the table (for example use blue color for men and red for women)
-     
+
 13. (* OPTIONAL) Create a `NewPerson` component with a form to add new people to the table
     - all the fields are required
     - `sex` should be chosen among 2 options (radio buttons)
@@ -69,7 +69,7 @@ Add link here: `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)`
 
 14. (* OPTIONAL) Add data validations:
     - `died - born` should be >= 0 and < 150
-    - `name` should allow to enter only letters and spaces 
+    - `name` should allow to enter only letters and spaces
     - implement `<select>` for `mother` and `father` it should display only people of appropriate sex
       who were alive in the year of birth (so the select should be empty before the born year was entered)
 
@@ -95,27 +95,27 @@ Add React Router into the `PeopleTable` working like described below:
 
 ## Workflow
 - Fork the repository with task
-- Clone forked repository 
+- Clone forked repository
     ```bash
     git clone git@github.com:<user_name>/<task_repository>.git
     ```
 - Run `npm install` to install dependencies.
 - Then develop
 
-## Development mode 
+## Development mode
 - Run `npm start` to start development server on `http://localhost:3000`
-    When you run server the command line window will no longer be available for 
-    writing commands until you stop server (`ctrl + c`). All other commands you 
+    When you run server the command line window will no longer be available for
+    writing commands until you stop server (`ctrl + c`). All other commands you
     need to run in new command line window.
 - Follow [HTML, CSS styleguide](https://mate-academy.github.io/style-guides/htmlcss.html)
 - Follow [the simplified JS styleguide](https://mate-academy.github.io/style-guides/javascript-standard-modified)
 - run `npm run lint` to check code style
-- When you finished add correct `homepage` to `package.json` and run `npm run deploy` 
+- When you finished add correct `homepage` to `package.json` and run `npm run deploy`
 - Add links to your demo in readme.md.
-  - `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)` - this will be a 
+  - `[DEMO LINK](https://<your_account>.github.io/<repo_name>/)` - this will be a
   link to your index.html
 - Commit and push all recent changes.
-- Create `Pull Request` from forked repo `(<branch_name>)` to original repo 
+- Create `Pull Request` from forked repo `(<branch_name>)` to original repo
 (`master`).
 - Add a link at `PR` to Google Spreadsheets.
 
