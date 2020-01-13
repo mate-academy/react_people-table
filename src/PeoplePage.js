@@ -27,8 +27,7 @@ const PeoplePage = (props) => {
 
   let visiblePeople = preparedPeople;
 
-  const makeSelected
-  = (selectedId) => {
+  const makeSelected = (selectedId) => {
     if (
       preparedPeople.find(person => person.id === selectedId)
     ) {
