@@ -1,18 +1,15 @@
 {
-  "homepage": "https://AlexHodovas.github.io/brocoders-task-1",
-  "name": "brocoders-task-1",
+  "homepage": "https://AlexHodovas.github.io/react-people-table",
+  "name": "react_people-table",
   "version": "0.1.0",
   "private": true,
   "keywords": [],
   "author": "Mate Academy",
   "license": "GPL-3.0",
   "dependencies": {
-    "classnames": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-debounce-input": "^3.2.2",
     "react-dom": "^16.8.6",
-    "react-router-dom": "^5.1.2",
     "react-scripts": "3.0.1"
   },
   "devDependencies": {
