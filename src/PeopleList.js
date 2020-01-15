@@ -53,6 +53,8 @@ const PeopleList = () => {
     return sortOrder === 'desc' ? sortedPeople.reverse() : sortedPeople;
   }
 
+  const query = searchParams.get('query') || '';
+
   const filterPeople = (event) => {
     const value = event.target.value.trim().toLowerCase();
 
@@ -82,6 +84,7 @@ const PeopleList = () => {
         placeholder="search"
         onChange={filterPeople}
         className="input"
+        value={query}
       />
       {filteredPeople.length === 0
         ? <p>Person  is not found</p>
