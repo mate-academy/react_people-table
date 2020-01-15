@@ -1,0 +1,95 @@
+.App {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+.sort-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.sort-buttons__btn {
+  width: 100px;
+  height: 50px;
+}
+
+.filter-input {
+  display: flex;
+  justify-content: space-around;
+}
+.filter-input__input {
+  width: 900px;
+  margin-left: 5px;
+  border: 4px solid #474242;
+}
+
+.toggle-btn {
+  width: 400px;
+  margin: 10px auto;
+}
+
+.add-person-form {
+  width: 400px;
+  height: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.add-person-form__field, .add-person-form__btn {
+  width: 100%;
+}
+.add-person-form__years-fields {
+  display: flex;
+  justify-content: space-between;
+}
+.add-person-form__sex-fields {
+  display: flex;
+  justify-content: space-around;
+}
+.add-person-form__sex-field {
+  width: 10px;
+}
+.add-person-form__years-field {
+  width: 50px;
+  margin-left: 5px;
+}
+.add-person-form__error {
+  color: red;
+}
+
+.people-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 4px solid #474242;
+}
+
+th,
+td {
+  border: 1px solid #000;
+}
+
+.person__lived-at-least-65 {
+  border: 3px solid green;
+}
+.person__female {
+  background: lightpink;
+}
+.person__born-before-1650 {
+  text-decoration: line-through;
+}
+.person__died-after-1800 {
+  font-weight: bold;
+}
+.person__father {
+  background: cornflowerblue;
+}
+.person--selected {
+  border: 3px solid blue;
+}
+
+/*# sourceMappingURL=App.css.map */
