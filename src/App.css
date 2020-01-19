@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap");
+body {
+  margin: 0;
+  background: -webkit-gradient(linear, left top, right top, from(#283048), to(#859398));
+  background: linear-gradient(to right, #283048, #859398);
+}
+
+* {
+  font-family: Roboto, sans-serif;
+  color: #283048;
+}
+
+.container {
+  width: 1300px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background: #fff;
+  margin: 15px auto;
+  padding: 1em;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+          box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+}
+
+.container-header {
+  margin: 0 0 15px;
+  text-align: center;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid rgba(34, 36, 38, 0.212);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.table__header th {
+  padding: 7px 5px;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.212);
+  text-align: left;
+  cursor: pointer;
+}
+
+.table__header th:hover {
+  background: rgba(40, 48, 72, 0.103);
+}
+
+.search-field {
+  width: 100%;
+  border: 1px solid rgba(34, 36, 38, 0.2);
+  height: 40px;
+  font-size: 18px;
+  padding-left: 5px;
+  margin-bottom: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  outline-color: #1b2546;
+}
+
+.person {
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+}
+
+.person td {
+  padding: 5px 3px 5px 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.person--female {
+  background: rgba(255, 182, 193, 0.61);
+}
+
+.person--born-before {
+  text-decoration: line-through;
+}
+
+.person--died-after {
+  font-weight: 500;
+}
+
+.person--age-more {
+  border-left: 1px solid rgba(0, 128, 0, 0.788);
+}
+
+.person--father {
+  background: rgba(99, 147, 236, 0.486);
+}
+
+.person--selected {
+  border: 2px solid rgba(27, 70, 112, 0.822);
+}
+/*# sourceMappingURL=App.css.map */

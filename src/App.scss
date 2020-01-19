@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+body {
+  margin: 0;
+  background: linear-gradient(to right, #283048, #859398);
+}
+
+* {
+  font-family: Roboto, sans-serif;
+  color: rgb(40, 48, 72);
+}
+
+.container {
+  width: 1300px;
+  box-sizing: border-box;
+  background: #fff;
+  margin: 15px auto;
+  padding: 1em;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  border-radius: 5px;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+
+  &-header {
+    margin: 0 0 15px;
+    text-align: center;
+  }
+}
+
+// PEOPLE TABLE STYLES
+@import './components/PeopleTable/PeopleTable.scss';
+
+// PERSON STYLES
+@import './components/Person/Person.scss';
