@@ -1,0 +1,179 @@
+.PeopleTable {
+  border-collapse: collapse;
+}
+
+.GoodAge {
+  background-color: rgb(12, 182, 12);
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.Person--selected {
+  background-color: honeydew;
+}
+
+.myThead {
+  cursor: pointer;
+}
+
+.myInput {
+  width: 600px;
+  margin: 40px auto;
+}
+
+.Person--name {
+  &__male {
+    background-color: rgb(45, 45, 182);
+    color: #fff;
+  }
+
+  &__female {
+    background-color: rgb(177, 79, 79);
+    color: #fff;
+  }
+}
+
+.add {
+
+  &__people {
+    width: 550px;
+    border: 1px solid rgb(204, 199, 199);
+    margin: 25px auto;
+    border-radius: 20px;
+    position: relative;
+  }
+
+  &__title {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 20px;
+  }
+
+  &__inp {
+    margin: 25px auto;
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  &__button {
+    display: flex;
+    margin: 30px auto 10px;
+    justify-content: center;
+    border: 0;
+    height: 35px;
+    width: 150px;
+    font-size: 20px;
+    background-color: rgb(243, 230, 172);
+    border-radius: 15px;
+    cursor: pointer;
+    color: rgb(37, 37, 37);
+
+    &:disabled {
+      cursor: no-drop;
+      background-color: rgb(241, 236, 211);
+    }
+  }
+
+  &__rad {
+    margin: 5px auto 20px;
+  }
+
+  &__father {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__mother {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+    margin-bottom: 35px;
+  }
+}
+
+.error {
+  &__year {
+    position: absolute;
+    font-size: 15px;
+    color: rgb(255, 0, 0);
+    top: 195px;
+    right: 85px;
+  }
+
+  &__born {
+    position: absolute;
+    font-size: 15px;
+    color: rgb(255, 0, 0);
+    top: 140px;
+    right: 81px;
+  }
+
+  &__name {
+    position: absolute;
+    font-size: 15px;
+    color: rgb(255, 0, 0);
+    top: 86px;
+    right: 103px;
+  }
+
+  &__difference {
+    position: absolute;
+    font-size: 15px;
+    color: rgb(255, 0, 0);
+    bottom: 48px;
+    right: 23px;
+
+    &--small {
+      position: absolute;
+      font-size: 15px;
+      color: rgb(255, 0, 0);
+      bottom: 45px;
+      left: 50%;
+      transform: translate(-50%);
+    }
+  }
+
+  &__father {
+    position: absolute;
+    font-size: 15px;
+    color: rgb(255, 0, 0);
+    top: 298px;
+    right: 125px;
+  }
+
+  &__gender {
+    position: absolute;
+    font-size: 15px;
+    color: rgb(255, 0, 0);
+    top: 240px;
+    right: 195px;
+  }
+
+  &__mother {
+    position: absolute;
+    font-size: 15px;
+    color: rgb(255, 0, 0);
+    top: 348px;
+    right: 105px;
+  }
+}
+
+.inp-err {
+  border: 1px solid red;
+}
+
+.radio__btn {
+  position: relative;
+  right: -5px;
+  top: 1px;
+}
+
+.gender__container {
+  width: 250px;
+  margin: -5px auto 10px;
+  display: flex;
+  justify-content: space-between;
+}
