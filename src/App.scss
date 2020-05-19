@@ -1,0 +1,33 @@
+th {
+  cursor: pointer;
+}
+
+.container {
+  width: 900px;
+}
+
+.people__table {
+  border-collapse: collapse;
+}
+
+.person {
+  &--male {
+    color: hotpink;
+  }
+
+  &--female {
+    color: cornflowerblue;
+  }
+
+  &--ancient {
+    text-decoration: line-through;
+  }
+
+  &--long-liver {
+    color: green;
+  }
+
+  &--selected {
+    background-color: rgba(242, 242, 242, 0.5);
+  }
+}
