@@ -43,6 +43,12 @@ export const PeopleTable: React.FC<Props> = ({ people, sortBy }) => {
     }
   }, [selectedPerson]);
 
+  useEffect(() => {
+    history.push({
+      pathname: '/people'
+    })
+  }, [])
+
   if (people.length) {
     keysForHeader = Object.keys(people[0]);
   }

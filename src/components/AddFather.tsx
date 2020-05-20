@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface Props {
+  bornValue: string;
   people: People[];
   fatherValue: string;
   chooseFather: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -12,9 +13,14 @@ export const AddFather: React.FC<Props> = ({
   fatherValue,
   chooseFather,
   errorFather,
+  bornValue
 }) => {
   const fathers = people
-    .map(person => (person.sex === 'm' ? person.name : ''))
+    .map(person => (person.sex === 'm'
+      && person.born as number < +bornValue
+      && person.died as number > +bornValue
+      ? person.name
+      : ''))
     .filter(person => person);
 
   return (
@@ -23,7 +29,7 @@ export const AddFather: React.FC<Props> = ({
         {' '}
 Choose father:
         <select value={fatherValue} onChange={e => chooseFather(e)}>
-          <option value="" hidden>Choose here</option>
+          <option value="" hidden>{bornValue ? 'Choose here' : 'Write birth year'}</option>
           {fathers.map(male => (
             <option
               value={male}

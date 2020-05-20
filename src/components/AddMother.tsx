@@ -5,6 +5,8 @@ interface Props {
   fatherValue: string;
   chooseMother: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   errorMother: boolean;
+  bornValue: string;
+
 }
 
 export const AddMother: React.FC<Props> = ({
@@ -12,9 +14,14 @@ export const AddMother: React.FC<Props> = ({
   fatherValue,
   chooseMother,
   errorMother,
+  bornValue,
 }) => {
   const mother = people
-    .map(person => (person.sex === 'f' ? person.name : ''))
+    .map(person => (person.sex === 'f'
+      && person.born as number < +bornValue
+      && person.died as number > +bornValue
+      ? person.name
+      : ''))
     .filter(person => person);
 
   return (
@@ -23,7 +30,8 @@ export const AddMother: React.FC<Props> = ({
         {' '}
 Choose mother:
         <select value={fatherValue} onChange={e => chooseMother(e)}>
-          <option value="" hidden>Choose here</option>
+          <option value="" hidden>{bornValue ? 'Choose here' : 'Write birth year'}</option>
+
           {mother.map(female => (
             <option
               value={female}

@@ -17,26 +17,26 @@ export const AddPersonButton: React.FC<Props> = ({
   validation,
   minusDifference,
 }) => (
-  <>
-    <button
-      type="button"
-      className="add__button"
-      disabled={
-        errorBorn || errorDied || errorName || bigDifference || minusDifference
-      }
-      onClick={() => validation('')}
-    >
+    <>
+      <button
+        type="button"
+        className="add__button"
+        disabled={
+          errorBorn || errorDied || errorName || bigDifference || minusDifference
+        }
+        onClick={() => validation('')}
+      >
         Add person
     </button>
-    {bigDifference && (
-      <span className="error__difference">
-        The difference between the year of birth and death should not exceed 150
-      </span>
-    )}
-    {minusDifference && !bigDifference && (
-      <span className="error__difference--small">
+      {bigDifference && (
+        <span className="error__difference">
+          The difference between the year of birth and death should not exceed 150
+        </span>
+      )}
+      {minusDifference && !bigDifference && (
+        <span className="error__difference--small">
           Year of birth should be more than death
-      </span>
-    )}
-  </>
-);
+        </span>
+      )}
+    </>
+  );

@@ -24,7 +24,6 @@ const App = () => {
   const sorting = searchParams.get('sortBy') || '';
   const sortOrder = searchParams.get('sortOrder') || '';
 
-
   const sortByLineParam = () => {
     if (!firstStart && sorting) {
       setFirstStart(true);
@@ -220,13 +219,22 @@ const App = () => {
               People Table
             </NavLink>
           </li>
+          <li className="item">
+            <NavLink
+              activeClassName="activeLink"
+              className="linka"
+              to="/new-person"
+            >
+              Add person
+            </NavLink>
+          </li>
         </ul>
       </nav>
       <Route
+        exact
         path="/people/:id?"
         render={() => (
           <>
-            <AddPerson people={people} addPerson={addPerson} />
             <SearchPeople startDebounce={startDebounce} />
             <PeopleTable people={filteredPeople} sortBy={sortBy} />
           </>
@@ -237,7 +245,16 @@ const App = () => {
         path="/"
         render={() => (
           <>
-            <h1 className="title">Demo heaeder</h1>
+            <h1 className="title">Demo Header</h1>
+          </>
+        )}
+      />
+      <Route
+        exact
+        path="/new-person"
+        render={() => (
+          <>
+            <AddPerson people={people} addPerson={addPerson} />
           </>
         )}
       />

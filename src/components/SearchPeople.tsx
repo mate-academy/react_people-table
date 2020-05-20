@@ -17,6 +17,10 @@ export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
   const sorting = searchParams.get('sortBy');
   const order = searchParams.get('sortOrder');
 
+  useEffect(() => {
+    startDebounce('')
+  }, [])
+
   if (sorting) {
     type = sorting;
   }
@@ -48,7 +52,6 @@ export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
     history.push({
       search: searchParams.toString(),
     });
-    console.log(history);
   };
 
   const debounceWrapper = useCallback(

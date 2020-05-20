@@ -4,6 +4,7 @@ import { AddPersonButton } from './AddPersonButton';
 import { SexSelect } from './SexParametrs';
 import { AddFather } from './AddFather';
 import { AddMother } from './AddMother';
+import { Redirect } from 'react-router-dom'
 
 const pattern = /[0-9]| {2}|\!|\.|\@|\#|\$|\%|\^|\&|\*|\(|\)|^\s+/g;
 const currentYear = new Date().getFullYear();
@@ -27,6 +28,7 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
   const [gender, setGender] = useState('');
   const [father, setFather] = useState('');
   const [mother, setMother] = useState('');
+  const [isAdd, setIsAdd] = useState(false);
   const [errorMother, setErrorMother] = useState(false);
   const [errorFather, setErrorFather] = useState(false);
   const [errorName, setErrorName] = useState(false);
@@ -35,6 +37,7 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
   const [minusDifference, setMinusDifference] = useState(false);
   const [bigDifference, setBigDifference] = useState(false);
   const [errorGender, setErrorGender] = useState(false);
+
 
   const handleInputName = (e: ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value.replace(pattern, ''));
@@ -100,56 +103,61 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
     }
   };
 
-  const validation = () => {
+  const validation = (): any => {
+    let isError = false;
+
     if (+bornValue > +diedValue) {
       console.log('more than');
       setMinusDifference(true);
       setErrorDied(true);
       setErrorBorn(true);
-
+      isError = true;
       return;
     }
 
     if (!nameValue) {
       setErrorName(true);
+      isError = true;
     }
 
     if (+bornValue > currentYear || !bornValue) {
       setErrorBorn(true);
+      isError = true;
     }
 
     if (+diedValue > currentYear || !diedValue) {
       setErrorDied(true);
+      isError = true;
     }
 
     if (+diedValue - +bornValue >= 150) {
       setBigDifference(true);
       setErrorDied(true);
       setErrorBorn(true);
-
+      isError = true;
       return;
     }
 
     if (!father) {
       setErrorFather(true);
+      isError = true;
     }
 
     if (!mother) {
       setErrorMother(true);
+      isError = true;
     }
 
     if (!gender) {
       setErrorGender(true);
+
+      isError = true;
+
     }
 
 
-    if (
-      !errorMother && !errorFather && !errorName
-      && !errorBorn && !errorDied && !minusDifference
-      && !bigDifference && !errorGender
-    ) {
-      console.log(minusDifference);
-      console.log('in');
+    if (!isError) {
+      setIsAdd(true);
       addPerson(nameValue, bornValue, diedValue, gender, father, mother);
       reset();
     }
@@ -206,6 +214,7 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
           errorGender={errorGender}
         />
         <AddFather
+          bornValue={bornValue}
           people={people}
           fatherValue={father}
           chooseFather={chooseFather}
@@ -213,6 +222,7 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
         />
         <AddMother
           people={people}
+          bornValue={bornValue}
           fatherValue={mother}
           chooseMother={chooseMother}
           errorMother={errorMother}
@@ -225,6 +235,8 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
           minusDifference={minusDifference}
           validation={validation}
         />
+
+        {isAdd && <Redirect to="/people" />}
       </form>
     </div>
   );
