@@ -14,6 +14,7 @@ export const PeopleTable: React.FC<Props> = ({ people, sortBy }) => {
   const match: Match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
   useEffect(() => {
     if (match.params.id && people.length) {
@@ -30,6 +31,7 @@ export const PeopleTable: React.FC<Props> = ({ people, sortBy }) => {
     setSelectedPerson(id);
   };
 
+
   useEffect(() => {
     const name = people.find(man => man.id === selectedPerson)?.name;
 
@@ -45,7 +47,7 @@ export const PeopleTable: React.FC<Props> = ({ people, sortBy }) => {
 
   useEffect(() => {
     history.push({
-      pathname: '/people'
+      pathname: `/people${searchParams.toString() ? '?' + searchParams.toString() : ''}`
     })
   }, [])
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { sortedMethods } from './sortedMethos'
 
 interface Props {
   keysForHeader: string[];
@@ -6,18 +7,6 @@ interface Props {
 }
 
 export const THead: React.FC<Props> = ({ keysForHeader, sortBy }) => {
-  const sortedMethods: SortMethods = {
-    id: 'number',
-    name: 'string',
-    sex: 'string',
-    born: 'number',
-    father: 'string',
-    mother: 'string',
-    died: 'number',
-    age: 'number',
-    century: 'number',
-    children: 'string',
-  };
 
   return (
     <thead className="thead-light myThead">

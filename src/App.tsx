@@ -11,31 +11,25 @@ import { PeopleTable } from './components/PeopleTable';
 import { debounce } from './helper/debounce';
 import { SearchPeople } from './components/SearchPeople';
 import { AddPerson } from './components/AddPerson';
-import { sortedMethods } from './components/sortedMethos';
+import { sortedMethods } from './components/sortedMethos'
 
 const App = () => {
   const [people, setPeople] = useState<People[]>([]);
   const [query, setQuery] = useState('');
-  const [firstStart, setFirstStart] = useState(false);
-
+  const [sortingParam, setSortingParam] = useState('id');
+  const [firstRender, setFirstRenedr] = useState(true);
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const sorting = searchParams.get('sortBy') || '';
   const sortOrder = searchParams.get('sortOrder') || '';
 
-  const sortByLineParam = () => {
-    if (!firstStart && sorting) {
-      setFirstStart(true);
+  const sortByReload = () => {
+    if (firstRender && people.length) {
+      setFirstRenedr(false);
       sortBy(sorting, sortedMethods[sorting]);
     }
-  };
-
-  useEffect(() => {
-    if (people.length) {
-      sortByLineParam();
-    }
-  }, [sorting, people]);
+  }
 
   useEffect(() => {
     getPeople()
@@ -44,32 +38,22 @@ const App = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (sorting) {
+      sortByReload();
+    } else {
+      setFirstRenedr(false);
+    }
+  }, [people, sorting, sortOrder])
+
+
   const sortBy = (sortParam: string, sortType: string) => {
     let orderParam = '';
 
-    if (sortOrder === 'asc') {
-      const sortedPeople = [...people].sort(
-        (a: People, b: People): number => {
-          const comperator1 = a[sortParam] || '';
-          const comperator2 = b[sortParam] || '';
+    if (sortOrder === 'asc' && sortParam === sortingParam) {
+      const sortedPeople = [...people].reverse();
 
-          if (sortType === 'number') {
-            return Number(comperator2) - Number(comperator1);
-          }
-
-          if (sortType === 'string') {
-            return (comperator2 as string).localeCompare(comperator1 as string);
-          }
-
-          return 0;
-        },
-      );
-
-      if (!firstStart) {
-        orderParam = 'asc';
-      } else {
-        orderParam = 'desc';
-      }
+      orderParam = 'desc';
 
       setPeople(sortedPeople);
 
@@ -79,9 +63,6 @@ const App = () => {
       history.push({
         search: searchParams.toString(),
       });
-
-      setFirstStart(true);
-
 
       return;
     }
@@ -105,13 +86,7 @@ const App = () => {
 
     setPeople(sortedPeople);
 
-    if (!firstStart) {
-      orderParam = 'desc';
-    } else {
-      orderParam = 'asc';
-    }
-
-    setFirstStart(true);
+    orderParam = 'asc';
 
     searchParams.set('sortBy', `${sortParam}`);
     searchParams.set('sortOrder', `${orderParam}`);
@@ -119,6 +94,7 @@ const App = () => {
     history.push({
       search: searchParams.toString(),
     });
+    setSortingParam(sortParam);
   };
 
 
