@@ -26,15 +26,17 @@ const App = () => {
 
   const sorting = useMemo(() => searchParams.get("sortBy"), [searchParams]);
   const order = useMemo(() => searchParams.get("sortOrder"), [searchParams]);
-
-  console.log(order);
-  console.log(isReverse);
+  const searchQuery = useMemo(() => searchParams.get("query"), [searchParams]);
 
   useEffect(() => {
     if (((sorting !== sortingParam) || (order !== isReverse)) && sorting) {
       sortBy(sorting, sortedMethods[sorting])
     }
 
+    if (searchQuery && searchQuery !== query) {
+      setQuery(searchQuery)
+      startDebounce(searchQuery);
+    }
 
   }, [searchParams])
 

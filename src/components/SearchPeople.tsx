@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { debounce } from '../helper/debounce';
 
@@ -6,28 +6,20 @@ interface Props {
   startDebounce: (str: string) => void;
 }
 
-let type = '';
-let sortOrder = '';
-
 export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const query = searchParams.get('query') || '';
-  const sorting = searchParams.get('sortBy');
-  const order = searchParams.get('sortOrder');
+  const query = useMemo(() => searchParams.get("query"), [searchParams]);
+  const [value, setValue] = useState('');
+
+  if (query && query !== value) {
+    setValue(query);
+  }
 
   useEffect(() => {
     startDebounce('')
   }, [])
-
-  if (sorting) {
-    type = sorting;
-  }
-
-  if (order) {
-    sortOrder = order;
-  }
 
   useEffect(() => {
     if (query) {
@@ -45,9 +37,6 @@ export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
     } else {
       searchParams.delete('query');
     }
-
-    type && searchParams.set('sortBy', type);
-    sortOrder && searchParams.set('sortOrder', sortOrder);
 
     history.push({
       search: searchParams.toString(),
@@ -67,10 +56,11 @@ export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
         aria-label="Sizing example input"
         aria-describedby="inputGroup-sizing-lg"
         placeholder="Write for search"
-        defaultValue={query}
+        value={value}
         onChange={e => {
           setDebounce(e.target.value);
           startDebounce(e.target.value);
+          setValue(e.target.value);
         }}
       />
     </div>
