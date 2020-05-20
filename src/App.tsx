@@ -26,8 +26,8 @@ const App = () => {
 
   const sortByReload = () => {
     if (firstRender && people.length) {
-      setFirstRenedr(false);
       sortBy(sorting, sortedMethods[sorting]);
+      setFirstRenedr(false);
     }
   }
 
@@ -44,11 +44,38 @@ const App = () => {
     } else {
       setFirstRenedr(false);
     }
-  }, [people, sorting, sortOrder])
+  }, [people, searchParams.toString()])
+
+  const firstDescRender = (sortParam: string, sortType: string) => {
+    const sortedPeople = [...people].sort(
+      (a: People, b: People): number => {
+        const comperator1 = a[sortParam] || '';
+        const comperator2 = b[sortParam] || '';
+
+        if (sortType === 'number') {
+          return Number(comperator2) - Number(comperator1);
+        }
+
+        if (sortType === 'string') {
+          return (comperator2 as string).localeCompare(comperator1 as string);
+        }
+
+        return 0;
+      },
+    );
+
+    setPeople(sortedPeople);
+  }
 
 
   const sortBy = (sortParam: string, sortType: string) => {
     let orderParam = '';
+
+    if (sortOrder === 'desc' && firstRender) {
+      firstDescRender(sortParam, sortType)
+
+      return;
+    }
 
     if (sortOrder === 'asc' && sortParam === sortingParam) {
       const sortedPeople = [...people].reverse();
@@ -59,6 +86,8 @@ const App = () => {
 
       searchParams.set('sortBy', `${sortParam}`);
       searchParams.set('sortOrder', `${orderParam}`);
+      console.log(searchParams.get('sortOrder'));
+
 
       history.push({
         search: searchParams.toString(),
@@ -90,13 +119,14 @@ const App = () => {
 
     searchParams.set('sortBy', `${sortParam}`);
     searchParams.set('sortOrder', `${orderParam}`);
+    console.log(searchParams.get('sortOrder'));
+
 
     history.push({
       search: searchParams.toString(),
     });
     setSortingParam(sortParam);
   };
-
 
   const filterPeople = () => {
     if (!query) {
