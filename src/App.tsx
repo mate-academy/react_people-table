@@ -11,25 +11,32 @@ import { PeopleTable } from './components/PeopleTable';
 import { debounce } from './helper/debounce';
 import { SearchPeople } from './components/SearchPeople';
 import { AddPerson } from './components/AddPerson';
+import { filterPeople } from './helper/filterPeople'
+import { sortPeople } from './helper/sortPeople';
 import { sortedMethods } from './components/sortedMethos'
 
 const App = () => {
   const [people, setPeople] = useState<People[]>([]);
   const [query, setQuery] = useState('');
   const [sortingParam, setSortingParam] = useState('id');
-  const [firstRender, setFirstRenedr] = useState(true);
+  const [isReverse, setIsReverse] = useState('asc');
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const sorting = searchParams.get('sortBy') || '';
-  const sortOrder = searchParams.get('sortOrder') || '';
 
-  const sortByReload = () => {
-    if (firstRender && people.length) {
-      sortBy(sorting, sortedMethods[sorting]);
-      setFirstRenedr(false);
+  const sorting = useMemo(() => searchParams.get("sortBy"), [searchParams]);
+  const order = useMemo(() => searchParams.get("sortOrder"), [searchParams]);
+
+  console.log(order);
+  console.log(isReverse);
+
+  useEffect(() => {
+    if (((sorting !== sortingParam) || (order !== isReverse)) && sorting) {
+      sortBy(sorting, sortedMethods[sorting])
     }
-  }
+
+
+  }, [searchParams])
 
   useEffect(() => {
     getPeople()
@@ -38,56 +45,15 @@ const App = () => {
       });
   }, []);
 
-  useEffect(() => {
-    if (sorting) {
-      sortByReload();
-    } else {
-      setFirstRenedr(false);
-    }
-  }, [people, searchParams.toString()])
-
-  const firstDescRender = (sortParam: string, sortType: string) => {
-    const sortedPeople = [...people].sort(
-      (a: People, b: People): number => {
-        const comperator1 = a[sortParam] || '';
-        const comperator2 = b[sortParam] || '';
-
-        if (sortType === 'number') {
-          return Number(comperator2) - Number(comperator1);
-        }
-
-        if (sortType === 'string') {
-          return (comperator2 as string).localeCompare(comperator1 as string);
-        }
-
-        return 0;
-      },
-    );
-
-    setPeople(sortedPeople);
-  }
-
-
   const sortBy = (sortParam: string, sortType: string) => {
-    let orderParam = '';
-
-    if (sortOrder === 'desc' && firstRender) {
-      firstDescRender(sortParam, sortType)
-
-      return;
-    }
-
-    if (sortOrder === 'asc' && sortParam === sortingParam) {
+    if (sortParam === sortingParam) {
       const sortedPeople = [...people].reverse();
 
-      orderParam = 'desc';
-
+      setIsReverse(isReverse === 'asc' ? 'desc' : 'asc');
       setPeople(sortedPeople);
-
+      console.log(isReverse);
       searchParams.set('sortBy', `${sortParam}`);
-      searchParams.set('sortOrder', `${orderParam}`);
-      console.log(searchParams.get('sortOrder'));
-
+      searchParams.set('sortOrder', `${isReverse === 'asc' ? 'desc' : 'asc'}`);
 
       history.push({
         search: searchParams.toString(),
@@ -96,64 +62,20 @@ const App = () => {
       return;
     }
 
-    const sortedPeople = [...people].sort(
-      (a: People, b: People): number => {
-        const comperator1 = a[sortParam] || '';
-        const comperator2 = b[sortParam] || '';
-
-        if (sortType === 'number') {
-          return Number(comperator1) - Number(comperator2);
-        }
-
-        if (sortType === 'string') {
-          return (comperator1 as string).localeCompare(comperator2 as string);
-        }
-
-        return 0;
-      },
-    );
+    const sortedPeople = sortPeople(people, sortParam, sortType)
 
     setPeople(sortedPeople);
 
-    orderParam = 'asc';
+    setIsReverse('asc');
 
     searchParams.set('sortBy', `${sortParam}`);
-    searchParams.set('sortOrder', `${orderParam}`);
-    console.log(searchParams.get('sortOrder'));
-
+    searchParams.set('sortOrder', 'asc');
 
     history.push({
       search: searchParams.toString(),
     });
+
     setSortingParam(sortParam);
-  };
-
-  const filterPeople = () => {
-    if (!query) {
-      return people;
-    }
-
-    const filter = people
-      .filter(person => {
-        const { name } = person;
-        const { mother } = person;
-        const { father } = person;
-        const searchQuery = query.toLowerCase();
-
-        if (!searchQuery) {
-          return false;
-        }
-
-        if (name.toLowerCase().includes(searchQuery)
-          || mother.toLowerCase().includes(searchQuery)
-          || father.toLowerCase().includes(searchQuery)) {
-          return true;
-        }
-
-        return false;
-      });
-
-    return filter;
   };
 
   const startDebounce = (value: string) => {
@@ -167,7 +89,7 @@ const App = () => {
 
 
   const filteredPeople = useMemo(
-    () => filterPeople(),
+    () => filterPeople(query, people),
     [query, people],
   );
 
