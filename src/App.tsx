@@ -231,7 +231,6 @@ const App = () => {
         )}
       />
       <Route
-        exact
         path="/"
         render={() => (
           <>
