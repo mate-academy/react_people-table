@@ -181,3 +181,35 @@
   display: flex;
   justify-content: space-between;
 }
+
+.list {
+  display: flex;
+  justify-content: space-around;
+  height: 45px;
+}
+
+.item {
+  list-style-type: none;
+  color: aqua;
+}
+
+.linka {
+  color: rgb(78, 69, 69);
+  line-height: 45px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.title {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.activeLink {
+  color: rgb(95, 169, 172);
+}
+
+.title {
+  text-align: center;
+  margin-top: 15px;
+}

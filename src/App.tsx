@@ -198,12 +198,25 @@ const App = () => {
   return (
     <div className="App">
       <nav>
-        <ul>
-          <li>
-            <NavLink to="/people">People table</NavLink>
+        <ul className="list">
+          <li className="item">
+            <NavLink
+              activeClassName="activeLink"
+              className="linka"
+              to="/"
+              exact
+            >
+              Home
+            </NavLink>
           </li>
-          <li>
-            <NavLink to="/">Home page</NavLink>
+          <li className="item">
+            <NavLink
+              activeClassName="activeLink"
+              className="linka"
+              to="/people"
+            >
+              People Table
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -214,6 +227,15 @@ const App = () => {
             <AddPerson people={people} addPerson={addPerson} />
             <SearchPeople startDebounce={startDebounce} />
             <PeopleTable people={filteredPeople} sortBy={sortBy} />
+          </>
+        )}
+      />
+      <Route
+        exact
+        path="/"
+        render={() => (
+          <>
+            <h1 className="title">Demo heaeder</h1>
           </>
         )}
       />
