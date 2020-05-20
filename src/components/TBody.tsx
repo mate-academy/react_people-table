@@ -7,7 +7,7 @@ interface Props {
   keysForHeader: string[];
   people: People[];
   selectPerson: (id: number) => void;
-  selectedPerson: People[];
+  selectedPerson: number;
 }
 
 export const TBody: React.FC<Props> = ({
@@ -24,10 +24,7 @@ export const TBody: React.FC<Props> = ({
             {
               'Person--male': person.sex === 'm',
               'Person--female': person.sex === 'f',
-              'Person--selected':
-                selectedPerson.length === 1
-                && selectedPerson[0].id === person.id
-              ,
+              'Person--selected': selectedPerson === person.id,
             },
           )}
           onClick={() => selectPerson(person.id as number)}

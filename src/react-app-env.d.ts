@@ -15,3 +15,12 @@ interface HeaderKeys {
 interface SortMethods {
   [key: string]: string;
 }
+
+interface Match {
+  isExact: boolean;
+  params: {
+    id: string;
+  };
+  path: string;
+  url: string;
+}
