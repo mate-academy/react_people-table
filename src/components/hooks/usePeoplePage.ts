@@ -3,14 +3,17 @@ import React, {
 } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { getPeople } from '../../api/data';
+
 import debounce from '../../helpers/debounce';
+import { isString, isNumber } from '../../helpers/isType';
+
 
 export const usePeoplePage = () => {
   const history = useHistory();
   const location = useLocation();
   const search = new URLSearchParams(location.search);
   const query = search.get('query') || '';
-  const sortedBy = search.get('sortBy');
+  const sortedBy: keyof Person | null = search.get('sortBy') as keyof Person;
   const sortOrder = search.get('sortOrder');
 
   const [people, setPeople] = useState([]);
@@ -23,8 +26,8 @@ export const usePeoplePage = () => {
       setPeople(peopleFromServer.map((person: Person, i: number) => ({
         ...person,
         id: i + 1,
-        age: person.died as number - (person.born as number),
-        century: Math.ceil(person.died as number / 100),
+        age: person.died - (person.born),
+        century: Math.ceil(person.died / 100),
         mother: person.mother ? person.mother : '----',
         father: person.father ? person.father : '----',
         children: peopleFromServer
@@ -58,29 +61,43 @@ export const usePeoplePage = () => {
 
   let searchedPeople: Person[] = useMemo(() => {
     return people.filter(({ name, mother, father }: Person) => (
-      name as string + mother as string + father
+      name + mother + father
     ).toLowerCase().includes(query));
   }, [people, query]);
 
-  const sortPeople = (arr: Person[], thead: string, order: string | null) => {
-    const sortedArr = [...arr].sort((a, b) => (
-      typeof a[thead] === 'string'
-        ? (a[thead] as string).localeCompare(b[thead] as string)
-        : (a[thead] as number) - (b[thead] as number)
-    ));
+  searchedPeople = useMemo(() => {
+    const sortedArr = [...searchedPeople].sort((a, b) => {
+      const valueA = a[sortedBy];
+      const valueB = b[sortedBy];
 
-    return order === 'desc' ? sortedArr.reverse() : sortedArr;
-  };
+      if (isString(valueA) && isString(valueB)) {
+        if (sortOrder === 'desc') {
+          return (valueB).localeCompare(valueA);
+        }
 
-  searchedPeople = useMemo(() => sortPeople([...searchedPeople], sortedBy as string, sortOrder),
-    [searchedPeople, sortOrder, sortedBy]);
+        return (valueA).localeCompare(valueB);
+      }
 
-  const handleSort = useCallback((event: React.MouseEvent<HTMLTableHeaderCellElement>) => {
-    const thead = (event.target as HTMLElement).textContent as keyof Person;
-    const theadLowerCased = (thead as string).toLowerCase();
+      if (isNumber(valueA) && isNumber(valueB)) {
+        if (sortOrder === 'desc') {
+          return valueB - valueA;
+        }
 
-    if (sortedBy !== theadLowerCased) {
-      search.set('sortBy', theadLowerCased);
+        return valueA - valueB;
+      }
+
+      return 0;
+    });
+
+    return sortedArr;
+  },
+  [searchedPeople, sortOrder, sortedBy]);
+
+  const handleSort = useCallback(th => {
+    const thead = th.toLowerCase();
+
+    if (sortedBy !== thead) {
+      search.set('sortBy', thead);
       search.set('sortOrder', 'asc');
     } else {
       search.set('sortOrder',

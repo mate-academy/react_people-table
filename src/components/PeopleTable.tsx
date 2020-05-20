@@ -3,7 +3,16 @@ import { Person } from './Person';
 
 export const PeopleTable = ({ people, handleSort }: PeopleProps) => {
   const theads = [
-    'ID', 'Name', 'Sex', 'Born', 'Died', 'Age', 'Century', 'Father', 'Mother', 'Children',
+    'ID',
+    'Name',
+    'Sex',
+    'Born',
+    'Died',
+    'Age',
+    'Century',
+    'Father',
+    'Mother',
+    'Children',
   ];
 
   return (
@@ -13,7 +22,7 @@ export const PeopleTable = ({ people, handleSort }: PeopleProps) => {
           {theads.map(th => (
             <th
               key={th}
-              onClick={handleSort}
+              onClick={() => handleSort(th)}
             >
               {th}
             </th>
@@ -22,9 +31,7 @@ export const PeopleTable = ({ people, handleSort }: PeopleProps) => {
       </thead>
       <tbody>
         {people.map(person => (
-          <React.Fragment key={person.id}>
-            <Person {...person} />
-          </React.Fragment>
+          <Person key={person.id} {...person} />
         ))}
       </tbody>
     </table>
