@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import { THead } from './THead';
 import { TBody } from './TBody';
-import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 
 interface Props {
   people: People[];
@@ -21,7 +21,7 @@ export const PeopleTable: React.FC<Props> = ({ people, sortBy }) => {
         .find(pers => pers.name.toLowerCase().replace(/ /g, '-') === match.params.id);
 
       if (findId) {
-        setSelectedPerson(findId.id as number)
+        setSelectedPerson(findId.id as number);
       }
     }
   }, [people]);
@@ -34,15 +34,14 @@ export const PeopleTable: React.FC<Props> = ({ people, sortBy }) => {
     const name = people.find(man => man.id === selectedPerson)?.name;
 
     if (name) {
-      const path = `/people/${name.toLowerCase().replace(/ /g, '-')}`
+      const path = `/people/${name.toLowerCase().replace(/ /g, '-')}`;
 
       history.push({
         pathname: path,
         search: location.search,
-      })
+      });
     }
-
-  }, [selectedPerson])
+  }, [selectedPerson]);
 
   if (people.length) {
     keysForHeader = Object.keys(people[0]);

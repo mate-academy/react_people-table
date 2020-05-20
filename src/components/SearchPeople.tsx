@@ -27,13 +27,13 @@ export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
 
   useEffect(() => {
     if (query) {
-      startDebounce(query)
+      startDebounce(query);
     }
-  }, [])
+  }, []);
 
   const setDebounce = (value: string) => {
-    debounceWrapper(value)
-  }
+    debounceWrapper(value);
+  };
 
   const planSetQuery = (value: string) => {
     if (value) {
@@ -42,18 +42,19 @@ export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
       searchParams.delete('query');
     }
 
-    type && searchParams.set('sortBy', type)
-    sortOrder && searchParams.set('sortOrder', sortOrder)
+    type && searchParams.set('sortBy', type);
+    sortOrder && searchParams.set('sortOrder', sortOrder);
 
     history.push({
       search: searchParams.toString(),
-    })
+    });
     console.log(history);
-  }
+  };
 
   const debounceWrapper = useCallback(
     debounce((value: string) => planSetQuery(value), 1000),
-    [])
+    [],
+  );
 
   return (
     <div className="input-group input-group-lg myInput">

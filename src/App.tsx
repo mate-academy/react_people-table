@@ -1,13 +1,17 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, {
+  useState, useMemo, useEffect, useCallback,
+} from 'react';
 import './App.scss';
-import { Route, useLocation, useHistory, Redirect } from 'react-router-dom';
+import {
+  Route, useLocation, useHistory, Redirect, NavLink
+} from 'react-router-dom';
 
 import { getPeople } from './helper/getPeople';
 import { PeopleTable } from './components/PeopleTable';
 import { debounce } from './helper/debounce';
 import { SearchPeople } from './components/SearchPeople';
 import { AddPerson } from './components/AddPerson';
-import { sortedMethods } from './components/sortedMethos'
+import { sortedMethods } from './components/sortedMethos';
 
 const App = () => {
   const [people, setPeople] = useState<People[]>([]);
@@ -21,31 +25,28 @@ const App = () => {
   const sortOrder = searchParams.get('sortOrder') || '';
 
 
-
   const sortByLineParam = () => {
     if (!firstStart && sorting) {
       setFirstStart(true);
       sortBy(sorting, sortedMethods[sorting]);
     }
-  }
+  };
 
   useEffect(() => {
     if (people.length) {
-      sortByLineParam()
+      sortByLineParam();
     }
-  }, [sorting, people])
+  }, [sorting, people]);
 
   useEffect(() => {
     getPeople()
       .then(people => {
         setPeople(people);
       });
-
-
   }, []);
 
   const sortBy = (sortParam: string, sortType: string) => {
-    let orderParam: string = '';
+    let orderParam = '';
 
     if (sortOrder === 'asc') {
       const sortedPeople = [...people].sort(
@@ -117,7 +118,6 @@ const App = () => {
     history.push({
       search: searchParams.toString(),
     });
-
   };
 
 
@@ -155,7 +155,8 @@ const App = () => {
 
   const debounceWrapper = useCallback(
     debounce((value: string) => setQuery(value), 1000),
-    []);
+    [],
+  );
 
 
   const filteredPeople = useMemo(
@@ -191,18 +192,31 @@ const App = () => {
 
     setPeople([...people, newPerson]);
 
-    return <Redirect to="/people/:id?" />
+    return <Redirect to="/people/:id?" />;
   };
 
   return (
     <div className="App">
-      <Route path="/people/:id?" render={() => (
-        <>
-          <AddPerson people={people} addPerson={addPerson} />
-          <SearchPeople startDebounce={startDebounce} />
-          <PeopleTable people={filteredPeople} sortBy={sortBy} />
-        </>
-      )} />
+      <nav>
+        <ul>
+          <li>
+            <NavLink to="/people">People table</NavLink>
+          </li>
+          <li>
+            <NavLink to="/">Home page</NavLink>
+          </li>
+        </ul>
+      </nav>
+      <Route
+        path="/people/:id?"
+        render={() => (
+          <>
+            <AddPerson people={people} addPerson={addPerson} />
+            <SearchPeople startDebounce={startDebounce} />
+            <PeopleTable people={filteredPeople} sortBy={sortBy} />
+          </>
+        )}
+      />
     </div>
   );
 };
