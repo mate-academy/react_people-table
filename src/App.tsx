@@ -112,6 +112,8 @@ const App = () => {
       orderParam = 'asc';
     }
 
+    setFirstStart(true);
+
     searchParams.set('sortBy', `${sortParam}`);
     searchParams.set('sortOrder', `${orderParam}`);
 
@@ -231,6 +233,7 @@ const App = () => {
         )}
       />
       <Route
+        exact
         path="/"
         render={() => (
           <>
