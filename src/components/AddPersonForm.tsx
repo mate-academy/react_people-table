@@ -12,16 +12,12 @@ const currentYear = new Date().getFullYear();
 interface Props {
   people: People[];
   addPerson: (
-    name: string,
-    born: string,
-    died: string,
-    sex: string,
-    father: string,
-    mother: string,
+    name: string, born: string, died: string,
+    sex: string, father: string, mother: string,
   ) => void;
 }
 
-export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
+export const AddPersonForm: React.FC<Props> = ({ people, addPerson }) => {
   const [nameValue, setNameValue] = useState('');
   const [bornValue, setBornValue] = useState('');
   const [diedValue, setDiedValue] = useState('');
@@ -60,6 +56,7 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
         setBigDifference(false);
       } else {
         setErrorBorn(false);
+        setErrorDied(false);
         setMinusDifference(false);
         setBigDifference(false);
       }
@@ -72,6 +69,7 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
         setErrorDied(true);
         setBigDifference(false);
       } else {
+        setErrorBorn(false);
         setErrorDied(false);
         setBigDifference(false);
         setMinusDifference(false);
@@ -103,15 +101,15 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
     }
   };
 
-  const validation = (): any => {
+  const validation = () => {
     let isError = false;
 
     if (+bornValue > +diedValue) {
-      console.log('more than');
       setMinusDifference(true);
       setErrorDied(true);
       setErrorBorn(true);
       isError = true;
+
       return;
     }
 
@@ -130,11 +128,12 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
       isError = true;
     }
 
-    if (+diedValue - +bornValue >= 150) {
+    if (+diedValue - +bornValue > 150) {
       setBigDifference(true);
       setErrorDied(true);
       setErrorBorn(true);
       isError = true;
+
       return;
     }
 
@@ -150,11 +149,8 @@ export const AddPerson: React.FC<Props> = ({ people, addPerson }) => {
 
     if (!gender) {
       setErrorGender(true);
-
       isError = true;
-
     }
-
 
     if (!isError) {
       setIsAdd(true);

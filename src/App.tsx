@@ -10,7 +10,7 @@ import { getPeople } from './helper/getPeople';
 import { PeopleTable } from './components/PeopleTable';
 import { debounce } from './helper/debounce';
 import { SearchPeople } from './components/SearchPeople';
-import { AddPerson } from './components/AddPerson';
+import { AddPersonForm } from './components/AddPersonForm';
 import { filterPeople } from './helper/filterPeople'
 import { sortPeople } from './helper/sortPeople';
 import { sortedMethods } from './components/sortedMethos'
@@ -69,18 +69,6 @@ const App = () => {
       startDebounce(searchQuery);
     }
   }, [searchQuery])
-
-  useEffect(() => {
-    if (people.length >= 40) {
-      searchParams.set('sortBy', sortingParam);
-      searchParams.set('sortOrder', isReverse);
-      query && searchParams.set('query', query);
-
-      history.push({
-        search: searchParams.toString(),
-      })
-    }
-  }, [people.length])
 
   const sortBy = (sortParam: string, sortType: string) => {
     if (sortParam === sortingParam) {
@@ -219,7 +207,7 @@ const App = () => {
         path="/new-person"
         render={() => (
           <>
-            <AddPerson people={people} addPerson={addPerson} />
+            <AddPersonForm people={people} addPerson={addPerson} />
           </>
         )}
       />

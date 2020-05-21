@@ -1,3 +1,11 @@
+p,
+h1,
+h2,
+h3 {
+  padding: 0;
+  margin: 0;
+}
+
 .PeopleTable {
   border-collapse: collapse;
 }
@@ -144,7 +152,7 @@
     position: absolute;
     font-size: 15px;
     color: rgb(255, 0, 0);
-    top: 298px;
+    top: 303px;
     right: 125px;
   }
 
@@ -152,7 +160,7 @@
     position: absolute;
     font-size: 15px;
     color: rgb(255, 0, 0);
-    top: 240px;
+    top: 247px;
     right: 195px;
   }
 
@@ -160,7 +168,7 @@
     position: absolute;
     font-size: 15px;
     color: rgb(255, 0, 0);
-    top: 348px;
+    top: 353px;
     right: 105px;
   }
 }

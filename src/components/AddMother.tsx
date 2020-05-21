@@ -16,7 +16,7 @@ export const AddMother: React.FC<Props> = ({
   errorMother,
   bornValue,
 }) => {
-  const mother = people
+  const mothers = people
     .map(person => (person.sex === 'f'
       && person.born as number < +bornValue
       && person.died as number > +bornValue
@@ -32,7 +32,7 @@ Choose mother:
         <select value={fatherValue} onChange={e => chooseMother(e)}>
           <option value="" hidden>{bornValue ? 'Choose here' : 'Write birth year'}</option>
 
-          {mother.map(female => (
+          {mothers.map(female => (
             <option
               value={female}
               key={female + new Date().getTime}

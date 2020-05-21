@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 interface Props {
   nameValue: string;
@@ -33,9 +32,6 @@ export const AddPersonInputs: React.FC<Props> = ({
         onChange={e => handleInputName(e)}
         placeholder=" Write the name"
         onBlur={() => blurValidation('name')}
-        className={cn({
-          'inp-err': errorName,
-        })}
       />
     </label>
     {errorName && (<span className="error__name">Please, write correctly name</span>)}
@@ -47,9 +43,6 @@ export const AddPersonInputs: React.FC<Props> = ({
         onChange={e => handleInputAgeInfo(e, 'born')}
         placeholder=" Year of born  'XXXX'"
         onBlur={() => blurValidation('born')}
-        className={cn({
-          'inp-err': errorBorn,
-        })}
       />
     </label>
     {errorBorn && (<span className="error__born">Please, write correctly born year</span>)}
@@ -61,9 +54,6 @@ export const AddPersonInputs: React.FC<Props> = ({
         onChange={e => handleInputAgeInfo(e, 'died')}
         placeholder=" Year of died  'XXXX'"
         onBlur={() => blurValidation('died')}
-        className={cn({
-          'inp-err': errorDied,
-        })}
       />
     </label>
     {errorDied && (<span className="error__year">Please, write correctly died year</span>)}
