@@ -6,6 +6,9 @@ interface Props {
   startDebounce: (str: string) => void;
 }
 
+let type = '';
+let sortOrder = '';
+
 export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
   const history = useHistory();
   const location = useLocation();
@@ -13,19 +16,24 @@ export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
   const query = useMemo(() => searchParams.get("query"), [searchParams]);
   const [value, setValue] = useState('');
 
+  const sorting = useMemo(() => searchParams.get("sortBy"), [searchParams]) || '';
+  const order = useMemo(() => searchParams.get("sortOrder"), [searchParams]) || '';
+
   if (query && query !== value) {
     setValue(query);
+  }
+
+  if (sorting) {
+    type = sorting;
+  }
+
+  if (order) {
+    sortOrder = order;
   }
 
   useEffect(() => {
     startDebounce('')
   }, [])
-
-  useEffect(() => {
-    if (query) {
-      startDebounce(query);
-    }
-  }, []);
 
   const setDebounce = (value: string) => {
     debounceWrapper(value);
@@ -37,6 +45,9 @@ export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
     } else {
       searchParams.delete('query');
     }
+
+    type && searchParams.set('sortBy', type);
+    sortOrder && searchParams.set('sortOrder', sortOrder);
 
     history.push({
       search: searchParams.toString(),
@@ -56,7 +67,7 @@ export const SearchPeople: React.FC<Props> = ({ startDebounce }) => {
         aria-label="Sizing example input"
         aria-describedby="inputGroup-sizing-lg"
         placeholder="Write for search"
-        value={value}
+        defaultValue={value}
         onChange={e => {
           setDebounce(e.target.value);
           startDebounce(e.target.value);
