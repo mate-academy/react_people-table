@@ -46,7 +46,7 @@ const App = () => {
   useEffect(() => {
     if (query !== searchQuery && query) {
       sorting && searchParams.set('sortBy', sorting);
-      order && searchParams.set('sortBy', order);
+      order && searchParams.set('sortOrder', order);
       query && searchParams.set('query', query);
 
       history.push({
@@ -54,7 +54,7 @@ const App = () => {
       })
     } else if (!query) {
       sorting && searchParams.set('sortBy', sorting);
-      order && searchParams.set('sortBy', order);
+      order && searchParams.set('sortOrder', order);
       searchParams.delete('query');
 
       history.push({
@@ -67,9 +67,18 @@ const App = () => {
     if (searchQuery !== query && searchQuery) {
       setQuery(searchQuery)
       startDebounce(searchQuery);
-      console.log(searchQuery);
     }
   }, [searchQuery])
+
+  useEffect(() => {
+    searchParams.set('sortBy', sortingParam);
+    searchParams.set('sortOrder', isReverse);
+    query && searchParams.set('query', query);
+
+    history.push({
+      search: searchParams.toString(),
+    })
+  }, [people.length])
 
   const sortBy = (sortParam: string, sortType: string) => {
     if (sortParam === sortingParam) {
