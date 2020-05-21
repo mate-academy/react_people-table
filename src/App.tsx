@@ -26,18 +26,13 @@ const App = () => {
 
   const sorting = useMemo(() => searchParams.get("sortBy"), [searchParams]);
   const order = useMemo(() => searchParams.get("sortOrder"), [searchParams]);
-  const searchQuery = useMemo(() => searchParams.get("query"), [searchParams]);
+  const searchQuery = useMemo(() => searchParams.get("query"), [searchParams]) || '';
+  const [inputValue, setInputValue] = useState(searchQuery);
 
   useEffect(() => {
     if (((sorting !== sortingParam) || (order !== isReverse)) && sorting) {
       sortBy(sorting, sortedMethods[sorting])
     }
-
-    if (searchQuery && searchQuery !== query) {
-      setQuery(searchQuery)
-      startDebounce(searchQuery);
-    }
-
   }, [searchParams])
 
   useEffect(() => {
@@ -47,13 +42,41 @@ const App = () => {
       });
   }, []);
 
+
+  useEffect(() => {
+    if (query !== searchQuery && query) {
+      sorting && searchParams.set('sortBy', sorting);
+      order && searchParams.set('sortBy', order);
+      query && searchParams.set('query', query);
+
+      history.push({
+        search: searchParams.toString(),
+      })
+    } else if (!query) {
+      sorting && searchParams.set('sortBy', sorting);
+      order && searchParams.set('sortBy', order);
+      searchParams.delete('query');
+
+      history.push({
+        search: searchParams.toString(),
+      })
+    }
+  }, [query])
+
+  useEffect(() => {
+    if (searchQuery !== query && searchQuery) {
+      setQuery(searchQuery)
+      startDebounce(searchQuery);
+      console.log(searchQuery);
+    }
+  }, [searchQuery])
+
   const sortBy = (sortParam: string, sortType: string) => {
     if (sortParam === sortingParam) {
       const sortedPeople = [...people].reverse();
 
       setIsReverse(isReverse === 'asc' ? 'desc' : 'asc');
       setPeople(sortedPeople);
-      console.log(isReverse);
       searchParams.set('sortBy', `${sortParam}`);
       searchParams.set('sortOrder', `${isReverse === 'asc' ? 'desc' : 'asc'}`);
 
@@ -81,6 +104,7 @@ const App = () => {
   };
 
   const startDebounce = (value: string) => {
+    setInputValue(value);
     debounceWrapper(value);
   };
 
@@ -165,7 +189,7 @@ const App = () => {
         path="/people/:id?"
         render={() => (
           <>
-            <SearchPeople startDebounce={startDebounce} />
+            <SearchPeople startDebounce={startDebounce} inputValue={inputValue} />
             <PeopleTable people={filteredPeople} sortBy={sortBy} />
           </>
         )}
