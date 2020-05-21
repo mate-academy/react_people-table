@@ -71,13 +71,15 @@ const App = () => {
   }, [searchQuery])
 
   useEffect(() => {
-    searchParams.set('sortBy', sortingParam);
-    searchParams.set('sortOrder', isReverse);
-    query && searchParams.set('query', query);
+    if (people.length >= 40) {
+      searchParams.set('sortBy', sortingParam);
+      searchParams.set('sortOrder', isReverse);
+      query && searchParams.set('query', query);
 
-    history.push({
-      search: searchParams.toString(),
-    })
+      history.push({
+        search: searchParams.toString(),
+      })
+    }
   }, [people.length])
 
   const sortBy = (sortParam: string, sortType: string) => {
