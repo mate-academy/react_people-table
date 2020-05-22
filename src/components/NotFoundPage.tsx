@@ -15,6 +15,6 @@ import React from 'react';
 //   );
 // };
 
-export const Home = () => (
-  <h2>Home page</h2>
+export const NotFoundPage = () => (
+  <h1>Page not found</h1>
 );
