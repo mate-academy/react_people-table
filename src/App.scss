@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.nav {
+  background-color: cadetblue;
+  height: 50px;
+
+  &__link {
+    text-decoration: none;
+    color: rgb(72, 82, 104);
+    font-size: 24px;
+    padding: 15px;
+
+    &--active {
+      color: white;
+      text-decoration: underline;
+    }
+  }
+
+  &__list {
+    display: flex;
+    list-style: none;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+}

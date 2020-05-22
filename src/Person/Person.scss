@@ -1,0 +1,15 @@
+.person {
+  cursor: pointer;
+
+  &__active {
+    background-color: rgb(231, 231, 96);
+  }
+
+  &_male {
+    color: blue;
+  }
+
+  &_female {
+    color: rgb(187, 8, 41);
+  }
+}
