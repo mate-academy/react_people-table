@@ -1,10 +1,18 @@
 import React from 'react';
-
-import './App.css';
+import Nav from './components/Nav';
+import Main from './components/Main';
+import './App.scss';
 
 const App = () => (
   <div className="App">
-    <h1>People table</h1>
+    <header>
+      <Nav />
+    </header>
+
+    <Main />
+    <footer className="App-Footer">
+      &copy;Andreas Just 2020
+    </footer>
   </div>
 );
 
