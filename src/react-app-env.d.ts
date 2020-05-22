@@ -1,2 +1,10 @@
-// eslint-disable-next-line
-/// <reference types="react-scripts" />
+
+type Match = {
+  isExact: boolean;
+  params: {
+    id: string;
+    home: string;
+  };
+  path: string;
+  url: string;
+};

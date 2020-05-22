@@ -14,8 +14,9 @@ interface Person {
   sex: string;
   born: number;
   died: number;
-  father: string;
-  mother: string;
+  fatherName: string;
+  motherName: string;
+  slug: string;
 }
 
 const App: React.FC = () => {
@@ -45,12 +46,19 @@ const App: React.FC = () => {
               className="nav__link"
               activeClassName="nav__link--active"
             >
-              People Table
+              People Page
             </NavLink>
           </li>
         </ul>
       </nav>
-      <Route path="/" exact component={Home} />
+      <Route
+        path="/:home?"
+        exact
+        component={Home}
+        // render={({ match }) => (
+        //   <Home match={match} />
+        // )}
+      />
       <Route
         path="/people/:id?"
         render={() => (
@@ -67,9 +75,11 @@ const App: React.FC = () => {
                   {' -- '}
                   {person.died}
                   {' -- '}
-                  {person.father}
+                  {person.fatherName}
                   {' -- '}
-                  {person.mother}
+                  {person.motherName}
+                  {' -- '}
+                  {person.slug}
                 </li>
               ))}
             </ul>
