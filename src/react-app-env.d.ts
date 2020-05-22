@@ -7,7 +7,6 @@ interface Person {
   fatherName: string;
   motherName: string;
   slug: string;
-  0: number;
 }
 
 type Match = {

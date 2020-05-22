@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getPeople } from './api';
+import { PersonRow } from './PersonRow';
 
 export const PeopleTable = () => {
   const [people, setPeople] = useState<Person[]>([]);
@@ -8,28 +9,31 @@ export const PeopleTable = () => {
     getPeople().then(setPeople);
   }, []);
 
+  const tableHeads = [
+    'Name',
+    'Sex',
+    'Born',
+    'Died',
+    'Mother',
+    'Father',
+  ];
+
   return (
     <>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Sex</th>
-          <th>Born</th>
-          <th>Died</th>
-          <th>Mother</th>
-          <th>Father</th>
-        </tr>
-        {people.map((person: Person) => (
-          <tr key={person.name}>
-            <td>{person.name}</td>
-            <td>{person.sex}</td>
-            <td>{person.born}</td>
-            <td>{person.died}</td>
-            <td>{person.motherName}</td>
-            <td>{person.fatherName}</td>
+      <table className="peopleTable">
+        <thead>
+          <tr>
+            {tableHeads.map(item => (
+              <th key={item}>
+                {item}
+              </th>
+            ))}
           </tr>
-        ))}
-      </thead>
+        </thead>
+        <tbody>
+          <PersonRow people={people} />
+        </tbody>
+      </table>
     </>
   );
 };
