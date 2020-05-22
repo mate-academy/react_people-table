@@ -1,3 +1,7 @@
 .peopleTable {
   border-collapse: collapse;
 }
+
+.peopleTable__tr {
+  cursor: pointer;
+}

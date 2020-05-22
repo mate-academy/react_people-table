@@ -1,5 +1,6 @@
 
 interface Person {
+  id: number;
   name: string;
   sex: string;
   born: number;
@@ -8,13 +9,3 @@ interface Person {
   motherName: string;
   slug: string;
 }
-
-type Match = {
-  isExact: boolean;
-  params: {
-    id: string;
-    home: string;
-  };
-  path: string;
-  url: string;
-};

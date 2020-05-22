@@ -6,8 +6,14 @@ export const PeopleTable = () => {
   const [people, setPeople] = useState<Person[]>([]);
 
   useEffect(() => {
-    getPeople().then(setPeople);
+    getPeople().then(res => setPeople(
+      res.map((person, i) => ({
+        ...person,
+        id: i + 1,
+      })),
+    ));
   }, []);
+
 
   const tableHeads = [
     'Name',

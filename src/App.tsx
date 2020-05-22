@@ -11,7 +11,6 @@ import { NotFoundPage } from './components/NotFoundPage';
 import { PeoplePage } from './components/PeoplePage';
 
 const App: React.FC = () => {
-
   return (
     <>
       <header>
@@ -45,9 +44,6 @@ const App: React.FC = () => {
             path="/"
             exact
             component={Home}
-            // render={({ match }) => (
-            //   <Home match={match} />
-            // )}
           />
           <Redirect from="/home" to="/" />
           <Route

@@ -12,6 +12,7 @@ export const PersonRow: React.FC<Props> = ({ people }) => {
     <>
       {people.map(person => (
         <tr
+          className="peopleTable__tr"
           key={person.name}
           onClick={() => {
             history.push({
