@@ -18,17 +18,15 @@ export const PeopleTable = () => {
     preparePeople();
   }, []);
 
+  const headers = ['ID', 'Name', 'Sex', 'Born', 'Died', 'Mother', 'Father'];
+
   return (
     <table className="PeopleTable table">
       <thead>
         <tr className="thead-light">
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Sex</th>
-          <th scope="col">Born</th>
-          <th scope="col">Died</th>
-          <th scope="col">Mother</th>
-          <th scope="col">Father</th>
+          {headers.map(header => (
+            <th scope="col" key={header}>{header}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
