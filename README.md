@@ -3,13 +3,17 @@
   [DEMO LINK](https://<your_account>.github.io/react_people-table/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
-## Description
-1. Load `people` from [API](https://mate-academy.github.io/react_people-table/api/people.json)
-  and show the number of currently visible people in the `App` component.
-
-2. Implement `PeopleTable` component accepting an array of people as a param.
+## React Router tasks
+1. Implement `HomePage` available at `/` with just a title `Home page`
+1. Implement `PeoplePage` available at `/people` with a title `Peope page`
+1. Redirect to `/` from `/home`
+1. Implement `NotFoundPage` with a title `Page not found` that is shown at all the other URLs
+1. Add a `Header` visible everywhere with navigation links to both pages
+1. Create `getPeople` method fetching `people` from [API](https://mate-academy.github.io/react_people-table/api/people.json)
+  when `PeoplePage` is opened.
+    - Find a `mother` and a `father` by `motherName` and `fatherName` and add them to the person for future use
+1. Implement `PeopleTable` component accepting an array of people as a param.
   It should show these columns:
-    - `id` (position in the original array starting from 1)
     - `name`
     - `sex`
     - `born`
@@ -26,8 +30,7 @@
       </table>
       ```
     - add `border-collapse: collapse` style to the table
-
-3. Implement `Person` component accepting a `person` and displaying all the data described above
+1. Implement `PersonRow` component accepting a `person` and displaying all the data described above
     ```html
     <tr class="Person">
       <td></td>
@@ -35,59 +38,50 @@
       <td></td>
     </tr>
     ```
-    - add class `Person--male`/`Person--female` based on `sex`
-    - add `text-decoration: line-through` for the names of people born before `1650`
+1. Implement `PersonName` component rendering the name as a link to a person using its `slug` property
+    ```
+    /people/carolus-haverbeke-1832
+    ```
+    - Use `blue` for men and `red` women
+    - Do the same for `father` and `mother` columns
+1. Highlight the `PersonRow` mentioned in the URL with the yellow background
+    - Highlight nobody if the `slug` in the URL is not found among the people
 
-4. Add `age` column (`person.died - person.born`)
-    - use `green` color for the `age` of people who lived for `>= 65` years
-
-5. add `century` column (`Math.ceil(person.died / 100)`)
-    - add class `Person--lived-in-${century}` to each `<tr>`
-
-6. Mark a person row as selected when the user clicks on it (`Person--selected`)
-    - there can be only one selected person at a time
-
-7. Add a single `<input>` to filter people by `name`, `mother` and `father`
-
-8. add sorting by `name`
-
-9. add sorting by `id`, `sex`, `born`, `died`, `age`, `century`
-
-10. (* OPTIONAL) Implement sorting in both directions
-    - sorting must work together with filtering
-
-11. (* OPTIONAL) Add `children` column with a list of children names of names
-
-12. (* OPTIONAL) Implement `PersonName` component to display the name with some styling based on person data.
-  Use if for all the names in the table (for example use blue color for men and red for women)
-
-13. (* OPTIONAL) Create a `NewPerson` component with a form to add new people to the table
-    - all the fields are required
-    - `sex` should be chosen among 2 options (radio buttons)
-    - all the above rules should be applied to added people
-
-14. (* OPTIONAL) Add data validations:
-    - `died - born` should be >= 0 and < 150
-    - `name` should allow to enter only letters and spaces
-    - implement `<select>` for `mother` and `father` it should display only people of appropriate sex
-      who were alive in the year of birth (so the select should be empty before the born year was entered)
-
-## React Router tasks
-```
-/people/carlos-haverbeck?query=carl&sorBy=born&sortOrder=desc
-```
-Add React Router into the `PeopleTable` working like described below:
-
-1. The component should appear only when the URL starts from `/people` so People table is not visible on `/` or `/not-people`
-1. When selecting a person navigate to `/people/carolus-haverbeke` where so the person name is added to the URL
-    - `Carolus Haverbeke` should be selected if the page is loaded at `/people/carolus-haverbeke`
-1. When filtering people please add `?query=asd` where `asd` is a string entered by the user
-    - The `query` should be preserved in the URL when selecting a user or changing selection
-    - Filter the people if the page is loaded with `?query=asd`
-    - (*) Use `debounce` so the entered value is updated only when the user stoped typing for at least `500ms`
-1. When sorting add `?sortBy=born` param to the URL
-    - It should work together with filter
+### Filtering and sorting
+1. Add an `<input>` to filter people by `name`, `motherName` and `fatherName`
+    - it should update the URL with `?query=car` where `car` is a string entered by the user
+    - Read the `query` from the URL and set its value to the input when the page is loaded
+1. `PeoplePage` should read the `query` from the URL and filter people accordingly
+    - check is the `query` matches the `name`, `motherName` or `fatherName`
+1. Implement the sorting by `born` and `died` by clicking on the column title
+    - Highlight the column with the *
+    - Sort the people by selected column
+    - Add `?sortBy=born` param to the URL
     - The people should be sorted by `born` if the page is loaded with `?sortBy=born`
-    - (*) add `?sortOrder=asc` or `desc` to add ability to sort in reversed order
-1. (*) Use `/people/new` address to show the `NewPerson` component
+1. Implement the sorting by `name` and `sex`
+
+## Advanced sorting and filtering
+1. Sort should work together with filtering
+1. The `query` and `sortBy` should stay in the URL when you select a user (keep `location.search` on navigation)
+1. Implement the ability to sort people in both directions `?sortOrder=asc` or `desc`
+    - add [Sort both icon](public/images/sort_both.png) to show that column allows sorting
+    - The first click sorts `ascending` (A-Z) the second sorts `descending` (Z-A)
+    - add `sort_ask` or `sort_desc` icons accordingly to the applied sorting
+1. Update the `query` in the URL with `debounce` of 500ms
+
+## (* OPTIONAL) Adding a person
+1. (* OPTIONAL) Create a `NewPerson` component with a form to add new people and show it above the table
+    - all the fields should be required for now
+    - `sex` should be chosen among 2 options (radio buttons)
+    - `mother` and `father` are selects with all the `women` and `men` from the table accordingly
+1. (* OPTIONAL) Create an `Add person` button navigating to `/people/new`
+    - the `NewPerson` should appear instead of a button
     - When the person is added you should navigate back to the `/people` page
+1. (* OPTIONAL) Add data validations:
+    - `name` should contain only letters and spaces
+    - `born` and `died` are valid years between `1400` and the current year
+    - `died` should be disabled if `born` is empty
+    - `died - born` should be >= 0 and < 150
+    - make `mother` and `father` field optional
+    - update the list of `mothers` and `fathers` according to the entered `born` year (they must be alive)
+    (selects should be empty and disabled before the born year was entered)
