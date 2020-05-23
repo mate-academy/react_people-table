@@ -26,6 +26,10 @@ export const PeopleTable = () => {
 
   return (
     <>
+      {/* <input
+        className="form-control"
+        type="text"
+      /> */}
       <table className="peopleTable">
         <thead className="table-success">
           <tr>

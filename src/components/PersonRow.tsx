@@ -8,14 +8,14 @@ type Props = {
 
 export const PersonRow: React.FC<Props> = ({ people }) => {
   const history = useHistory();
-  const { slugParam } = useParams();
+  const { personName } = useParams();
 
   return (
     <>
       {people.map(person => (
         <tr
           className={cn('personRow', {
-            personRow__active: person.slug === slugParam,
+            personRow__active: person.slug === personName,
           })}
           key={person.id}
           onClick={() => {
