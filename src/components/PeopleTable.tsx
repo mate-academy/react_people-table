@@ -27,7 +27,7 @@ export const PeopleTable = () => {
   return (
     <>
       <table className="peopleTable">
-        <thead>
+        <thead className="table-success">
           <tr>
             {tableHeads.map(item => (
               <th key={item}>

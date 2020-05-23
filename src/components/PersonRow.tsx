@@ -1,5 +1,6 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import cn from 'classnames';
 
 type Props = {
   people: Person[];
@@ -7,25 +8,43 @@ type Props = {
 
 export const PersonRow: React.FC<Props> = ({ people }) => {
   const history = useHistory();
+  const { slugParam } = useParams();
 
   return (
     <>
       {people.map(person => (
         <tr
-          className="peopleTable__tr"
-          key={person.name}
+          className={cn('personRow', {
+            personRow__active: person.slug === slugParam,
+          })}
+          key={person.id}
           onClick={() => {
             history.push({
               pathname: `/people/${person.slug}`,
             });
           }}
         >
-          <td>{person.name}</td>
+          <td
+            className={cn({
+              person__woman: person.sex === 'f',
+              person__man: person.sex === 'm',
+            })}
+          >
+            {person.name}
+          </td>
           <td>{person.sex}</td>
           <td>{person.born}</td>
           <td>{person.died}</td>
-          <td>{person.motherName}</td>
-          <td>{person.fatherName}</td>
+          <td
+            className="person__mother"
+          >
+            {person.motherName}
+          </td>
+          <td
+            className="person__father"
+          >
+            {person.fatherName}
+          </td>
         </tr>
 
       ))}

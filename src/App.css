@@ -1,7 +1,52 @@
-.peopleTable {
-  border-collapse: collapse;
+
+.nav__list {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style-type: none;
+  margin: 0 auto;
+  padding: 8px 0;
 }
 
-.peopleTable__tr {
+.nav__link {
+  padding: 6px;
+  font-weight: 800;
+}
+
+.nav__link--active {
+  color: rgb(44, 62, 80);
+}
+
+h2 {
+  text-align: center;
+}
+
+.peopleTable {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+th,
+td {
+  padding: 8px;
+  border: 1px solid lightgrey;
+}
+
+.personRow {
   cursor: pointer;
+}
+
+.personRow__active {
+  background-color: yellow;
+}
+
+.person__woman,
+.person__mother {
+  color: red;
+}
+
+.person__man,
+.person__father {
+  color: blue;
 }
