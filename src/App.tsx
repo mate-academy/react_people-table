@@ -29,10 +29,7 @@ const App = () => {
             <NavLink to="/people" className="header--link">PEOPLE</NavLink>
           </li>
         </ul>
-        <h1 className="header--head">
-People table
-          {people.length}
-        </h1>
+        <h1 className="header--head">People table</h1>
       </header>
 
       <Switch>
