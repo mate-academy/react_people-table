@@ -1,26 +1,28 @@
 import React from 'react';
+// import { Link } from 'react-router-dom';
 // import cn from 'classnames';
-import { Table, Menu, Icon, Label } from 'semantic-ui-react';
+import { Table, Menu, Icon } from 'semantic-ui-react';
 import './PeopleTable.scss';
 
 type Props = {
   people: Person[];
   tableHeaders: TableHeader[];
+  sortTable: (event: React.MouseEvent<HTMLTableHeaderCellElement>) => void;
 };
 
-const PeopleTable: React.FC<Props> = ({ people, tableHeaders }) => {
+const PeopleTable: React.FC<Props> = ({ people, tableHeaders, sortTable }) => {
   return (
     <Table celled>
       <Table.Header>
         <Table.Row>
           {tableHeaders.map(({ name, code }) => (
             <Table.HeaderCell
-              // as="button"
+              // as={Link}
               key={name}
-              value={code}
               content={name}
               className="sort-button"
-              // onClick={sortTable}
+              data-sort-name={code}
+              onClick={sortTable}
             />
           ))}
         </Table.Row>
@@ -28,14 +30,13 @@ const PeopleTable: React.FC<Props> = ({ people, tableHeaders }) => {
 
       <Table.Body>
         {people.map(person => (
-          <Table.Row>
+          <Table.Row key={person.id}>
             {tableHeaders.map(({ code }) => (
               <Table.Cell
                 key={code}
                 content={person[code]}
               />
             ))}
-            <Label ribbon>First</Label>
           </Table.Row>
         ))}
       </Table.Body>

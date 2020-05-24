@@ -7,11 +7,24 @@ interface Person {
   age: number;
   born: number;
   died: number;
-  father: string;
-  mother: string;
+  fatherName: string;
+  motherName: string;
   century: string;
   children: string;
   id: number;
+}
+
+interface HeadersConfig {
+  id: string;
+  name: string;
+  sex: string;
+  age: string;
+  born: string;
+  died: string;
+  century: string;
+  father: string;
+  mother: string;
+  children: string;
 }
 
 interface TableHeader {
