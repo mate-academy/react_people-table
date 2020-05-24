@@ -7,9 +7,9 @@ interface Person {
   age: number;
   born: number;
   died: number;
+  century: number;
   fatherName: string;
   motherName: string;
-  century: string;
   children: string;
   id: number;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import PeopleTable from '../PeopleTable';
 import { getTabs } from '../../api/getTabs';
@@ -17,8 +17,6 @@ const headersConfig: HeadersConfig = {
   children: 'Children',
 };
 
-declare type Callback = (myArgument: string) => (a: Person, b: Person) => number;
-
 const createTableHeaders = (people: Person[]): TableHeader[] => {
   if (people.length === 0) {
     return [{ name: 'There are no people', code: '' }];
@@ -31,33 +29,37 @@ const createTableHeaders = (people: Person[]): TableHeader[] => {
   );
 };
 
+declare type Callback = (myArgument: string) => (a: Person, b: Person) => number;
+
+const sortType: Callback = (field: string) => {
+  switch (field) {
+    case 'id':
+    case 'age':
+    case 'born':
+    case 'died':
+    case 'century':
+      return (a, b) => a[field] - b[field];
+    default:
+      return (a, b) => a[field].localeCompare(b[field]);
+  }
+};
+
 const PeoplePage = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const tableHeaders = createTableHeaders(people);
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const historyPush = (name: string, params: string) => {
-    searchParams.set(name, params);
-    history.push({ search: searchParams.toString() });
-  };
+  const sortedBy: keyof HeadersConfig | null = searchParams
+    .get('sortBy') as keyof HeadersConfig || 'id';
 
   useEffect(() => {
     getTabs().then(setPeople);
-    historyPush('sortBy', 'id');
   }, []);
 
-  const sortedBy: keyof HeadersConfig | null = searchParams
-    .get('sortBy') as keyof HeadersConfig;
-
-  const sortType: Callback = (field: string) => {
-    switch (typeof people[0][field]) {
-      case 'string':
-        return (a, b) => a[field].localeCompare(b[field]);
-      default:
-        return (a, b) => a[field] - b[field];
-    }
-  };
+  useMemo(() => {
+    setPeople([...people].sort(sortType(sortedBy)));
+  }, [sortedBy]);
 
   const sortTable = (event: React.MouseEvent<any>) => {
     const field = event.currentTarget.dataset.sortName;
@@ -65,7 +67,8 @@ const PeoplePage = () => {
 
     if (sortedBy !== field) {
       setPeople([...people].sort(callback));
-      historyPush('sortBy', field);
+      searchParams.set('sortBy', field);
+      history.push({ search: searchParams.toString() });
     } else {
       setPeople([...people].reverse());
     }

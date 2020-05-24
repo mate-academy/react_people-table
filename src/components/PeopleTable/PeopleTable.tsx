@@ -17,7 +17,6 @@ const PeopleTable: React.FC<Props> = ({ people, tableHeaders, sortTable }) => {
         <Table.Row>
           {tableHeaders.map(({ name, code }) => (
             <Table.HeaderCell
-              // as={Link}
               key={name}
               content={name}
               className="sort-button"
