@@ -1,9 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import { getPeople } from './api';
 import { PersonRow } from './PersonRow';
+import { InputFilter } from './InputFilter';
 
-export const PeopleTable = () => {
+
+type Props = RouteComponentProps<{
+  location: string;
+}>;
+
+export const PeopleTable: React.FC<Props> = ({ location }) => {
   const [people, setPeople] = useState<Person[]>([]);
+
+  const searchParams = new URLSearchParams(location.search);
+  const query: string = searchParams.get('query') || '';
+
+  const pattern = new RegExp(query, 'i');
+  const fillteredPeople = people
+    .filter(person => pattern.test(person.name + person.motherName + person.fatherName));
 
   useEffect(() => {
     getPeople().then(res => setPeople(
@@ -26,10 +40,8 @@ export const PeopleTable = () => {
 
   return (
     <>
-      {/* <input
-        className="form-control"
-        type="text"
-      /> */}
+      <h2>People Table</h2>
+      <InputFilter />
       <table className="peopleTable">
         <thead className="table-success">
           <tr>
@@ -41,7 +53,7 @@ export const PeopleTable = () => {
           </tr>
         </thead>
         <tbody>
-          <PersonRow people={people} />
+          <PersonRow people={fillteredPeople} />
         </tbody>
       </table>
     </>

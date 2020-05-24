@@ -14,8 +14,13 @@
   font-weight: 800;
 }
 
+.nav__link:hover {
+  color: lightsalmon;
+  text-decoration: none;
+}
+
 .nav__link--active {
-  color: rgb(44, 62, 80);
+  color: lightsalmon;
 }
 
 h2 {

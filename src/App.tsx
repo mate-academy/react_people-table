@@ -8,7 +8,7 @@ import {
 import './App.css';
 import { Home } from './components/Home';
 import { NotFoundPage } from './components/NotFoundPage';
-import { PeoplePage } from './components/PeoplePage';
+import { PeopleTable } from './components/PeopleTable';
 
 const App: React.FC = () => {
   return (
@@ -48,7 +48,7 @@ const App: React.FC = () => {
           <Redirect from="/home" to="/" />
           <Route
             path="/people/:personName?"
-            component={PeoplePage}
+            component={PeopleTable}
           />
           <Route component={NotFoundPage} />
         </Switch>
