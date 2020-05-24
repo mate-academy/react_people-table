@@ -15,7 +15,7 @@ input {
 
 table {
   width: 80vw;
-  margin: 20px auto auto;
+  margin: 20px auto 50px;
   border: 2px solid grey;
   border-collapse: collapse;
 }
@@ -29,6 +29,15 @@ table {
   background: #ccc;
   padding: 5px;
   border: 1px solid black;
+}
+
+.table__person {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.table__person:hover {
+  background-color: rgb(205, 252, 252);
 }
 
 .table__person-cell {

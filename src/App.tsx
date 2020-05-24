@@ -24,10 +24,6 @@ const App: React.FC = () => {
     'Century',
   ];
 
-  const history = useHistory();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-
   const [tableWithPeople, setTableWithPeople] = useState <Person[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -53,14 +49,14 @@ const App: React.FC = () => {
     setTableWithPeople(preparedData);
   }, []);
 
+  const history = useHistory();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const params = searchParams.get('query') || '';
+
   useEffect(() => {
     getData();
-  }, [getData]);
-
-
-  const getSearchQuery = ((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  });
+  }, [getData, params]);
 
   const getFilteredPersons = (query: string, peopleArray: Person[]) => {
     const normalizedQuery = query.toLowerCase();
@@ -74,7 +70,6 @@ const App: React.FC = () => {
   const filteredTable = useMemo(() => getFilteredPersons(debouncedVal, tableWithPeople),
     [debouncedVal, tableWithPeople]);
 
-
   return (
     <div className="App">
       <Header />
@@ -85,20 +80,19 @@ const App: React.FC = () => {
             <>
               <input
                 type="text"
+                value={params}
                 onChange={(e) => {
-                  getSearchQuery(e);
                   searchParams.set('query', e.target.value);
                   history.push({
                     search: searchParams.toString(),
                   });
+                  setSearchQuery(params);
                 }}
               />
               <table className="table">
                 <caption className="table__capture">People table</caption>
-
                 <TableHeader columnNames={tableCaptions} />
                 <People people={filteredTable} />
-
               </table>
             </>
           )}

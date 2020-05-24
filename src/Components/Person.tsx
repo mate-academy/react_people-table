@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import cn from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -24,15 +24,17 @@ export const Person: React.FC<Props> = ({
   const indexOfName = keys.indexOf('name');
   const indexOfAge = keys.indexOf('age');
   const { name } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
   return (
     <tr
       onClick={() => {
         history.push({
-          pathname: `/people/${info.name}`,
+          pathname: searchParams ? `/people/${info.name}/${searchParams}` : `/people/${info.name}`,
         });
       }}
-      className={cn(`table__person--lived-in-${info.century}`, {
+      className={cn('table__person', `table__person--lived-in-${info.century}`, {
         'tab-person--selected': info.name === name,
       })}
     >
