@@ -1,0 +1,107 @@
+#inTurnFadingTextG {
+  width: 234px;
+  margin: auto;
+}
+
+.inTurnFadingTextG {
+  color: rgba(255, 255, 255, 0.44);
+  font-size: 24px;
+  text-decoration: none;
+  font-weight: normal;
+  font-style: normal;
+  float: left;
+  animation-name: bounce_inTurnFadingTextG;
+  animation-duration: 2.09s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+}
+
+#inTurnFadingTextG_1 {
+  animation-delay: 0.75s;
+
+}
+
+#inTurnFadingTextG_2 {
+  animation-delay: 0.9s;
+
+}
+
+#inTurnFadingTextG_3 {
+  animation-delay: 1.05s;
+
+}
+
+#inTurnFadingTextG_4 {
+  animation-delay: 1.2s;
+
+}
+
+#inTurnFadingTextG_5 {
+  animation-delay: 1.35s;
+
+}
+
+#inTurnFadingTextG_6 {
+  animation-delay: 1.5s;
+
+}
+
+#inTurnFadingTextG_7 {
+  animation-delay: 1.64s;
+
+}
+
+#inTurnFadingTextG_8 {
+  animation-delay: 1.79s;
+
+}
+
+@keyframes bounce_inTurnFadingTextG {
+  0% {
+    color: rgb(0, 0, 0);
+  }
+
+  100% {
+    color: rgb(255, 255, 255);
+  }
+}
+
+@-o-keyframes bounce_inTurnFadingTextG {
+  0% {
+    color: rgb(0, 0, 0);
+  }
+
+  100% {
+    color: rgb(255, 255, 255);
+  }
+}
+
+@-ms-keyframes bounce_inTurnFadingTextG {
+  0% {
+    color: rgb(0, 0, 0);
+  }
+
+  100% {
+    color: rgb(255, 255, 255);
+  }
+}
+
+@-webkit-keyframes bounce_inTurnFadingTextG {
+  0% {
+    color: rgb(0, 0, 0);
+  }
+
+  100% {
+    color: rgb(255, 255, 255);
+  }
+}
+
+@-moz-keyframes bounce_inTurnFadingTextG {
+  0% {
+    color: rgb(0, 0, 0);
+  }
+
+  100% {
+    color: rgb(255, 255, 255);
+  }
+}
