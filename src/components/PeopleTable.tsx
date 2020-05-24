@@ -14,10 +14,32 @@ export const PeopleTable: React.FC<Props> = ({ location }) => {
 
   const searchParams = new URLSearchParams(location.search);
   const query: string = searchParams.get('query') || '';
+  // const sortBy: string = searchParams.get('sortBy') || '';
+  // const [selectedTitle, setSelectedTitle] = useState('');
 
   const pattern = new RegExp(query, 'i');
   const fillteredPeople = people
     .filter(person => pattern.test(person.name + person.motherName + person.fatherName));
+
+  // const SortPeople = (select: string) => {
+  //   const history = useHistory();
+
+  //   searchParams.set('sortBy', select);
+  //   history.push({ search: searchParams.toString() });
+
+  //   switch (select) {
+  //     case 'died':
+  //     case 'born':
+  //       if (select !== selectedTitle) {
+  //         setPeople([...people]
+  //           .sort((a, b) => a[select] - b[select]));
+  //         setSelectedTitle(select);
+  //       }
+
+  //       break;
+  //     default: setPeople([...people]);
+  //   }
+  // };
 
   useEffect(() => {
     getPeople().then(res => setPeople(
@@ -46,7 +68,10 @@ export const PeopleTable: React.FC<Props> = ({ location }) => {
         <thead className="table-success">
           <tr>
             {tableHeads.map(item => (
-              <th key={item}>
+              <th
+                key={item}
+                // onClick={() => SortPeople('select')}
+              >
                 {item}
               </th>
             ))}

@@ -33,6 +33,7 @@ h2 {
 }
 
 .peopleTable {
+  width: 800px;
   border-collapse: collapse;
   margin: 0 auto;
 }
