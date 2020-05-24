@@ -18,10 +18,10 @@ const App = () => {
     <HashRouter>
       <Navbar />
       <Switch>
+        <Redirect from="/home" to="/" />
         <Route path="/" exact component={HomePage} />
         <Route path="/people/:personSlug?" component={PeoplePage} />
         <Route component={PageNotFound} />
-        <Redirect path="/home" to="/" />
       </Switch>
     </HashRouter>
   );
