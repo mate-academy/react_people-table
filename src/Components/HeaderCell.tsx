@@ -5,5 +5,5 @@ type Props = {
 };
 
 export const HeaderCell: React.FC<Props> = ({ name }) => (
-  <th>{name}</th>
+  <th className="table__header-cell">{name}</th>
 );

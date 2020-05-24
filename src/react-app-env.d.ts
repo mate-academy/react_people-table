@@ -7,4 +7,6 @@ interface Person {
   fatherName: string;
   motherName: string;
   slug: string;
+  age: number;
+  century: number;
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { HeaderCell } from './HeaderCell';
 
 type Props = {
@@ -8,10 +7,9 @@ type Props = {
 
 export const TableHeader: React.FC<Props> = ({ columnNames }) => {
   return (
-    <thead>
-      <tr>
-        {' '}
-        {columnNames.map(name => <HeaderCell name={name} key={uuidv4()} />)}
+    <thead className="table__header">
+      <tr className="table__header-row">
+        {columnNames.map(name => <HeaderCell name={name} key={name} />)}
       </tr>
     </thead>
   );
