@@ -1,34 +1,34 @@
 import React from 'react';
 import {
-  Route, NavLink, Switch,
+  Route, Switch, Redirect
 } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
 import PeoplePage from './components/PeoplePage'
+import NotFoundPage from "./components/NotFoundPage";
+import Nav from "./components/Nav";
 
 
 const App: React.FC = () => {
 
   return (
     <>
-      <nav>
-        <ul className="navlist">
-          <li className="navlist__item">
-            <NavLink to="/" exact className="navlist__link">Home</NavLink>
-          </li>
-          <li className="navlist__item">
-            <NavLink to="/people" exact className="navlist__link">People Page</NavLink>
-          </li>
-        </ul>
-      </nav>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route
-          path="/people"
-          exact component={PeoplePage}
-        />
-      </Switch>
+      <header>
+        <Nav />
 
+      </header>
+      <main>
+        <Switch>
+        <Route path="/" exact component={Home} />
+        <Redirect from='/home' to='/' />
+        <Route
+          path="/people/:personSlug?"
+
+          component={PeoplePage}
+        />
+        <Route component={NotFoundPage} />
+      </Switch>
+      </main>
     </>
   );
 };

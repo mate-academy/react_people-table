@@ -13,14 +13,27 @@
 }
 
 .Person {
+  cursor: pointer;
   font-weight: bolder;
+  width: 600px;
+}
 
+.Person_active {
+  background: yellow;
+
+}
+
+.Person_link {
+  width: 600px;
+  display: inline-block;
+  text-decoration: none;
 }
 
 .Person td {
   padding: 5px;
   text-align: center;
   border: gray 1px solid;
+  width: 100px;
 }
 
 .PeopleTable thead td {
@@ -28,7 +41,7 @@
   border: 1px black solid;
   padding: 15px;
   text-align: center;
-  width: auto;
+  width: 100px;
 }
 
 .navlist {
@@ -56,4 +69,36 @@
   height: 45px;
   width: 150px;
   display: inline-block;
+}
+
+.NotFoundPage {
+  width: 600px;
+  font-size: 80px;
+  font-weight: bold;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.active {
+  color: black;
+  background: gray;
+  padding: 0 10px;
+}
+
+.search {
+  margin-left: 600px;
+  height: 35px;
+}
+
+.search_input {
+  height: 35px;
+  line-height: 35px;
+  border: gray 2px solid;
+  font-size: 18px;
+  color: slategray;
 }

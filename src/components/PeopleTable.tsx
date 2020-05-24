@@ -3,7 +3,7 @@ import { PersonRow } from './PersonRow';
 
 interface Props {
   people: Person[];
-
+  match:string;
 }
 export const PeopleTable: React.FC<Props> = ({people}) => (
 
@@ -25,7 +25,9 @@ export const PeopleTable: React.FC<Props> = ({people}) => (
     born={person.born}
     died={person.died}
     mother={person.motherName}
-    father={person.fatherName}/>)}
+    father={person.fatherName}
+    slug={person.slug}
+  />)}
   </tbody>
 </table>
 
