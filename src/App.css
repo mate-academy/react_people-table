@@ -1,3 +1,11 @@
 a {
   margin: 5px;
 }
+
+.active {
+  background-color: blanchedalmond;
+}
+
+.table {
+  border: 1px solid black;
+}
