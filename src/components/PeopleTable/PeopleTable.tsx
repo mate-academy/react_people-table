@@ -7,7 +7,7 @@ import './PeopleTable.scss';
 type Props = {
   people: Person[];
   tableHeaders: TableHeader[];
-  sortTable: (event: React.MouseEvent<HTMLTableHeaderCellElement>) => void;
+  sortTable: (arg: string) => void;
 };
 
 const PeopleTable: React.FC<Props> = ({ people, tableHeaders, sortTable }) => {
@@ -20,8 +20,7 @@ const PeopleTable: React.FC<Props> = ({ people, tableHeaders, sortTable }) => {
               key={name}
               content={name}
               className="sort-button"
-              data-sort-name={code}
-              onClick={sortTable}
+              onClick={() => sortTable(code)}
             />
           ))}
         </Table.Row>

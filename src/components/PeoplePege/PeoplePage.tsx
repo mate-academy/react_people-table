@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useLocation, useHistory, Redirect } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import PeopleTable from '../PeopleTable';
 import { getTabs } from '../../api/getTabs';
 import './PeoplePage.scss';
@@ -29,9 +29,9 @@ const createTableHeaders = (people: Person[]): TableHeader[] => {
   );
 };
 
-declare type Callback = (myArgument: string) => (a: Person, b: Person) => number;
+declare type Callback = (arg: string) => (a: Person, b: Person) => number;
 
-const sortType: Callback = (field: string) => {
+const sortType: Callback = (field) => {
   switch (field) {
     case 'id':
     case 'age':
@@ -39,8 +39,14 @@ const sortType: Callback = (field: string) => {
     case 'died':
     case 'century':
       return (a, b) => a[field] - b[field];
-    default:
+    case 'name':
+    case 'sex':
+    case 'father':
+    case 'mother':
+    case 'children':
       return (a, b) => a[field].localeCompare(b[field]);
+    default:
+      return () => 0;
   }
 };
 
@@ -50,8 +56,8 @@ const PeoplePage = () => {
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const sortedBy: keyof HeadersConfig = searchParams
-    .get('sortBy') as keyof HeadersConfig || 'id';
+  const sortedBy: keyof HeadersConfig | null = searchParams
+    .get('sortBy') as keyof HeadersConfig;
 
   useEffect(() => {
     getTabs().then(setPeople);
@@ -61,13 +67,7 @@ const PeoplePage = () => {
     setPeople([...people].sort(sortType(sortedBy)));
   }, [sortedBy]);
 
-  // eslint-disable-next-line no-prototype-builtins
-  if (!headersConfig.hasOwnProperty(sortedBy)) {
-    return <Redirect to="/error" />; // does not work
-  }
-
-  const sortTable = (event: React.MouseEvent<any>) => {
-    const field = event.currentTarget.dataset.sortName;
+  const sortTable = (field: string) => {
     const callback = sortType(field);
 
     if (sortedBy !== field) {
