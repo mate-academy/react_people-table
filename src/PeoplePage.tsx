@@ -1,6 +1,7 @@
 import React from 'react';
 import PeopleTable from './PeopleTable';
 
+
 const PeoplePage = () => {
   return (
     <>
