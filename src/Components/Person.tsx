@@ -1,58 +1,38 @@
 import React from 'react';
-import { useHistory, useParams, useLocation } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import cn from 'classnames';
-import { v4 as uuidv4 } from 'uuid';
 
 type Props = {
-  info: Person;
-  id: number;
-  bornedBefore1650: boolean;
-  isOlder65: boolean;
+  info: PreparedPerson;
 };
 
 export const Person: React.FC<Props> = ({
   info,
-  id,
-  bornedBefore1650,
-  isOlder65,
 }) => {
   const history = useHistory();
-
-  const values = Object.values(info);
-  const keys = Object.keys(info);
-
-  const indexOfName = keys.indexOf('name');
-  const indexOfAge = keys.indexOf('age');
-  const { name } = useParams();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+  const { slug } = useParams();
+  const motherName = info.motherName?.name;
+  const fatherName = info.fatherName?.name;
 
   return (
     <tr
       onClick={() => {
         history.push({
-          pathname: searchParams ? `/people/${info.name}/${searchParams}` : `/people/${info.name}`,
+          pathname: `/people/${info.slug}`,
         });
       }}
-      className={cn('table__person', `table__person--lived-in-${info.century}`, {
-        'tab-person--selected': info.name === name,
+      className={cn('table__person', {
+        'table__person-cell--male': info.sex === 'm',
+        'table__person-cell--female': info.sex === 'f',
+        'tab-person--selected': info.slug === slug,
       })}
     >
-      <td className="table__person-cell">{id}</td>
-      {values.map((value, index) => (
-        <td
-          key={uuidv4()}
-          className={cn({
-            underlined: bornedBefore1650 && index === indexOfName,
-            'more-than-65': isOlder65 && index === indexOfAge,
-            'table__person-cell': true,
-            'table__person-cell--male': info.sex === 'm',
-            'table__person-cell--female': info.sex === 'f',
-          })}
-        >
-          {value}
-        </td>
-      ))}
+      <td className="table__person-cell">{info.name}</td>
+      <td className="table__person-cell">{info.sex}</td>
+      <td className="table__person-cell">{info.born}</td>
+      <td className="table__person-cell">{info.died}</td>
+      <td className="table__person-cell">{fatherName || 'not found'}</td>
+      <td className="table__person-cell">{motherName || 'not found'}</td>
     </tr>
   );
 };

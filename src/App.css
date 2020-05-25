@@ -54,14 +54,6 @@ table {
   color: hotpink;
 }
 
-.underlined {
-  text-decoration: underline;
-}
-
-.more-than-65 {
-  color: blue;
-}
-
 .tab-person--selected {
   background-color: rgb(171, 221, 221);
 }
@@ -106,6 +98,11 @@ table {
 }
 
 .home-page {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.error-page {
   text-align: center;
   text-transform: uppercase;
 }

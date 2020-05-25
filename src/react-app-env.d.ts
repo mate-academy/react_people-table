@@ -1,5 +1,4 @@
 interface Person {
-  id: number;
   name: string;
   sex: string;
   born: number;
@@ -7,6 +6,14 @@ interface Person {
   fatherName: string;
   motherName: string;
   slug: string;
-  age: number;
-  century: number;
+}
+
+interface PreparedPerson {
+  name: string;
+  sex: string;
+  born: number;
+  died: number;
+  fatherName?: Person;
+  motherName?: Person;
+  slug: string;
 }
