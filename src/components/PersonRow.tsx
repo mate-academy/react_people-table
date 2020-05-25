@@ -24,7 +24,6 @@ const PersonRow: React.FC<Props> = ({ person }) => {
 
   return (
     <tr
-      style={{ cursor: 'pointer' }}
       key={name}
       className={classNames('has-text-white', {
         'has-background-info': sex === 'm' && personSlug !== slug,
@@ -32,7 +31,6 @@ const PersonRow: React.FC<Props> = ({ person }) => {
         'has-background-warning': personSlug === slug,
       })}
     >
-      {}
       <td>
         <Link to={`/people/${slug}`}>
           {name}
