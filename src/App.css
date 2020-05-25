@@ -1,3 +1,9 @@
 a {
   color: white;
 }
+
+.sort-arrow {
+  width: 10px;
+  margin-right: 15px;
+  margin-left: 5px;
+}

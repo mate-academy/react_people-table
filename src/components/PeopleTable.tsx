@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { getPeople } from '../helpers/api';
 import PersonRow from './PersonRow';
+import { debounce } from '../helpers/debounce';
 
 type SortBy = keyof Person | null;
 
@@ -12,6 +13,7 @@ const PeopleTable = () => {
   const searchParams = new URLSearchParams(location.search);
 
   const [sortBy, setSortBy] = useState<SortBy>(searchParams.get('sortBy') as keyof Person);
+  const [sortOrder, setSortOrder] = useState(searchParams.get('sortOrder'));
   const [searchQuery, setSearchQuery] = useState(searchParams.get('query') || '');
   const [people, setPeople] = useState<Person[]>([]);
   const headTitle = ['name', 'sex', 'born', 'died', 'motherName', 'fatherName'];
@@ -47,10 +49,18 @@ const PeopleTable = () => {
       const valueB = b[sortBy];
 
       if (typeof valueA === 'string' && typeof valueB === 'string') {
+        if (sortOrder === 'desc') {
+          return valueA.localeCompare(valueB);
+        }
+
         return valueB.localeCompare(valueA);
       }
 
       if (typeof valueA === 'number' && typeof valueB === 'number') {
+        if (sortOrder === 'desc') {
+          return valueA - valueB;
+        }
+
         return valueB - valueA;
       }
 
@@ -58,19 +68,31 @@ const PeopleTable = () => {
     });
   }
 
+  const updateQueryUrl = useCallback(debounce((value: string) => {
+    history.push({ search: value });
+  }, 500), []);
+
   const handleSearchInput = (e: React.FormEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
 
+    if (value === '') {
+      searchParams.delete('query');
+    } else {
+      searchParams.set('query', value);
+    }
+
+    updateQueryUrl(searchParams.toString());
     setSearchQuery(value);
-    searchParams.set('query', value);
-    history.push({
-      search: searchParams.toString(),
-    });
   };
 
   const handleSortBy = (sortByName: keyof Person) => {
+    const sortOrderToggle = sortOrder === 'asc' ? 'desc' : 'asc';
+
     setSortBy(sortByName);
+    setSortOrder(sortOrderToggle);
     searchParams.set('sortBy', sortByName);
+    searchParams.set('sortOrder', sortOrderToggle);
+
     history.push({
       search: searchParams.toString(),
     });
@@ -95,8 +117,18 @@ const PeopleTable = () => {
                   type="button"
                   onClick={() => handleSortBy(title as keyof Person)}
                 >
-                  {sortBy === title && (
-                    <>*</>
+                  {(sortBy === title && sortOrder) && (
+                    <span className="icon">
+                      <img
+                        className="sort-arrow"
+                        src={
+                          sortOrder === 'asc'
+                            ? '/images/sort-down.svg'
+                            : '/images/sort-up.svg'
+                        }
+                        alt="arrow"
+                      />
+                    </span>
                   )}
                   {title}
                 </button>

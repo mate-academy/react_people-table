@@ -2,7 +2,6 @@ import React from 'react';
 
 import './App.css';
 import {
-  HashRouter,
   Switch,
   Route,
   Redirect,
@@ -15,7 +14,7 @@ import PageNotFound from './components/PageNotFound';
 
 const App = () => {
   return (
-    <HashRouter>
+    <>
       <Navbar />
       <Switch>
         <Redirect from="/home" to="/" />
@@ -23,7 +22,7 @@ const App = () => {
         <Route path="/people/:personSlug?" component={PeoplePage} />
         <Route component={PageNotFound} />
       </Switch>
-    </HashRouter>
+    </>
   );
 };
 
