@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  height: 50px;
+  background-color: darksalmon;
+
+  &__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 25px;
+    color: gray;
+    padding: 0 15px;
+    cursor: pointer;
+    height: auto;
+    width: 70px;
+    transition: 0.3s;
+  }
+
+  & :hover {
+    background-color: salmon;
+  }
+}

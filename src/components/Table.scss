@@ -1,0 +1,10 @@
+.table {
+  border-collapse: collapse;
+  margin-left: 10px;
+
+  &__cell {
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px;
+  }
+}
