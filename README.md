@@ -1,6 +1,6 @@
 # React - People table
 - Replace `<your_account>` with your Github username in the
-  [DEMO LINK](https://<your_account>.github.io/react_people-table/)
+  [DEMO LINK](https://Ishchuk-R.github.io/react_people-table/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
 ## Description
@@ -9,13 +9,13 @@
 
 2. Implement `PeopleTable` component accepting an array of people as a param.
   It should show these columns:
-    - `id` (position in the original array starting from 1)
-    - `name`
-    - `sex`
-    - `born`
-    - `died`
-    - `mother`
-    - `father`
+    id (position in the original array starting from 1)
+    name
+    sex
+    born
+    died
+    mother
+    father
       ```jsx harmony
       <PeopleTable people={people} />
       ```
@@ -63,12 +63,12 @@
 
 13. (* OPTIONAL) Create a `NewPerson` component with a form to add new people to the table
     - all the fields are required
-    - `sex` should be chosen among 2 options (radio buttons)
+    sex should be chosen among 2 options (radio buttons)
     - all the above rules should be applied to added people
 
 14. (* OPTIONAL) Add data validations:
     - `died - born` should be >= 0 and < 150
-    - `name` should allow to enter only letters and spaces
+    name should allow to enter only letters and spaces
     - implement `<select>` for `mother` and `father` it should display only people of appropriate sex
       who were alive in the year of birth (so the select should be empty before the born year was entered)
 

@@ -1,0 +1,34 @@
+.navbar-nav {
+  flex-direction: row;
+  margin-left: -2rem;
+  margin-right: -2rem;
+}
+
+.nav-item {
+  padding: 1rem 2rem;
+}
+
+.content-container {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.nav-item a {
+  font-weight: 600;
+}
+
+.nav-item .active {
+  color: #1e2f36;
+}
+
+.male {
+  color: lightskyblue;
+}
+
+.female {
+  color: tomato;
+}
+
+.person.active {
+  border-left: 10px solid goldenrod;
+}
