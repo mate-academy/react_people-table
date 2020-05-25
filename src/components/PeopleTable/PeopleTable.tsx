@@ -1,18 +1,20 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-// import cn from 'classnames';
+import cn from 'classnames';
 import { Table, Menu, Icon } from 'semantic-ui-react';
+import TableCells from '../TableCells';
 import './PeopleTable.scss';
 
 type Props = {
+  path: string;
   people: Person[];
   tableHeaders: TableHeader[];
   sortTable: (arg: string) => void;
+  onSelect: (field: string, person: Person) => void;
 };
 
-const PeopleTable: React.FC<Props> = ({ people, tableHeaders, sortTable }) => {
+const PeopleTable: React.FC<Props> = ({ path, people, tableHeaders, sortTable, onSelect }) => {
   return (
-    <Table celled>
+    <Table celled className="PeopleTable">
       <Table.Header>
         <Table.Row>
           {tableHeaders.map(({ name, code }) => (
@@ -28,13 +30,19 @@ const PeopleTable: React.FC<Props> = ({ people, tableHeaders, sortTable }) => {
 
       <Table.Body>
         {people.map(person => (
-          <Table.Row key={person.id}>
-            {tableHeaders.map(({ code }) => (
-              <Table.Cell
-                key={code}
-                content={person[code]}
-              />
-            ))}
+          <Table.Row
+            key={person.id}
+            warning={person.slug === path}
+            className={cn('PeopleTable-TableRow', {
+              'PeopleTable-TableRow_male': person.sex === 'm',
+              'PeopleTable-TableRow_female': person.sex === 'f',
+            })}
+          >
+            <TableCells
+              person={person}
+              tableHeaders={tableHeaders}
+              onSelect={onSelect}
+            />
           </Table.Row>
         ))}
       </Table.Body>

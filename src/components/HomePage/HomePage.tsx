@@ -1,9 +1,10 @@
 import React from 'react';
+import { Header } from 'semantic-ui-react';
 import './HomePage.scss';
 
 const HomePage = () => (
   <div className="HomePage">
-    <h1>Home Page</h1>
+    <Header size="huge" content="Home Page" color="teal" />
   </div>
 );
 

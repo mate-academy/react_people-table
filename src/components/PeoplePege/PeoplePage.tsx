@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 import PeopleTable from '../PeopleTable';
 import { getTabs } from '../../api/getTabs';
 import './PeoplePage.scss';
+import { Header } from 'semantic-ui-react';
 
 const headersConfig: HeadersConfig = {
   id: 'Id',
@@ -55,6 +56,7 @@ const PeoplePage = () => {
   const tableHeaders = createTableHeaders(people);
   const history = useHistory();
   const location = useLocation();
+  const { personName } = useParams();
   const searchParams = new URLSearchParams(location.search);
   const sortedBy: keyof HeadersConfig | null = searchParams
     .get('sortBy') as keyof HeadersConfig;
@@ -64,7 +66,7 @@ const PeoplePage = () => {
   }, []);
 
   useMemo(() => {
-    setPeople([...people].sort(sortType(sortedBy)));
+    setPeople(ppl => ppl.sort(sortType(sortedBy)));
   }, [sortedBy]);
 
   const sortTable = (field: string) => {
@@ -79,14 +81,42 @@ const PeoplePage = () => {
     }
   };
 
+  const handleSelect = useCallback((field, person) => {
+    const path: string | undefined = people
+      .find(parent => parent.name === person[field])?.slug;
+
+    if (field === 'name') {
+      history.push({
+        pathname: `/people/${person.slug}`,
+        search: location.search,
+      });
+    }
+
+    if (path) {
+      if (field === 'mother') {
+        history.push({
+          pathname: `/people/${path}`,
+          search: location.search,
+        });
+      } else if (field === 'father') {
+        history.push({
+          pathname: `/people/${path}`,
+          search: location.search,
+        });
+      }
+    }
+  }, [history, location, people]);
+
   return (
     <div className="PeoplePage">
-      <h1>People table</h1>
+      <Header size="huge" content="People table" color="teal" />
 
       <PeopleTable
         people={people}
         tableHeaders={tableHeaders}
         sortTable={sortTable}
+        onSelect={handleSelect}
+        path={personName}
       />
     </div>
   );

@@ -1,6 +1,10 @@
-.Main {
-  display: flex;
-  flex-grow: 1;
-  flex-shrink: 1;
-  width: 100%;
+.PeopleTable {
+  &-TableRow_male {
+    color: royalblue;
+  }
+
+  &-TableRow_female {
+    color: deeppink;
+  }
+
 }
