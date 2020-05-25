@@ -15,10 +15,6 @@ const PersonRow: React.FC<Props> = ({ people }) => {
     history.push(`/people/${slug}`);
   };
 
-  // const onKeyPressHandler = () => {
-
-  // };
-
   return (
     <>
       {people.map((item) => (

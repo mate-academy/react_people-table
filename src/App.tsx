@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  HashRouter, Switch, Route, NavLink,
+  Switch, Route, NavLink,
 } from 'react-router-dom';
 import Home from './Home';
 import PeoplePage from './PeoplePage';
@@ -14,7 +14,6 @@ const App = () => {
       <div className="App">
         <h1>People table</h1>
       </div>
-      <HashRouter>
         <nav>
           <ul>
             <li><NavLink to="/" exact>Home</NavLink></li>
@@ -32,8 +31,6 @@ const App = () => {
           />
           <Route path="/" component={NotFoundPage} />
         </Switch>
-
-      </HashRouter>
     </>
   );
 };
