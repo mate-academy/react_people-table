@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+}
+
+.App__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgb(255, 255, 227);
+}
+input {
+  height: 30px;
+  margin-right: 30px;
+  outline: none;
+  border-radius: 5px;
+  box-shadow: none;
+  border: 1px solid rgb(219, 245, 248);
+}
+
+.Nav__list {
+  display: flex;
+  width: 300px;
+  margin: 0 auto;
+  list-style: none;
+  font-size: 25px;
+  color: rgb(104, 160, 245);
+}
+
+.Nav__item {
+  display: flex;
+}
+
+.Nav__link {
+  text-decoration: none;
+  padding: 20px;
+}
+
+.Nav__link--active {
+  font-weight: bold;
+  padding: 20px;
+  color: rgb(104, 160, 245);
+  background-color: rgb(241, 252, 150);
+}
+
+td {
+  border: 1px solid red;
+}
