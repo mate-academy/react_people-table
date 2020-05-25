@@ -3,16 +3,16 @@
   [DEMO LINK](https://<your_account>.github.io/react_people-table/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
-## React Router tasks
+## Basic tasks
 1. Implement `HomePage` available at `/` with just a title `Home page`
 1. Implement `PeoplePage` available at `/people` with a title `Peope page`
 1. Redirect to `/` from `/home`
-1. Implement `NotFoundPage` with a title `Page not found` that is shown at all the other URLs
+1. Implement `NotFoundPage` with a title `Page not found` that is shown for all the other URLs
 1. Add a `Header` visible everywhere with navigation links to both pages
 1. Create `getPeople` method fetching `people` from [API](https://mate-academy.github.io/react_people-table/api/people.json)
-  when `PeoplePage` is opened.
+  when `PeoplePage` is opened
     - Find a `mother` and a `father` by `motherName` and `fatherName` and add them to the person for future use
-1. Implement `PeopleTable` component accepting an array of people as a param.
+1. Implement `PeopleTable` component accepting an array of people as a param and rendering them in a table
   It should show these columns:
     - `name`
     - `sex`
@@ -42,9 +42,10 @@
     ```
     /people/carolus-haverbeke-1832
     ```
+    - It should be used for `name`, `mother` and `father` columns
     - Use `blue` for men and `red` women
-    - Do the same for `father` and `mother` columns
-1. Highlight the `PersonRow` mentioned in the URL with the yellow background
+    - If mother or father were not found in the array by their name show just a name (black, bold) instead of `PersonName` component
+1. Highlight the `PersonRow` mentioned in the URL with some background-color
     - Highlight nobody if the `slug` in the URL is not found among the people
 
 ### Filtering and sorting
@@ -53,12 +54,12 @@
     - Read the `query` from the URL and set its value to the input when the page is loaded
 1. `PeoplePage` should read the `query` from the URL and filter people accordingly
     - check is the `query` matches the `name`, `motherName` or `fatherName`
-1. Implement the sorting by `born` and `died` by clicking on the column title
+1. Implement the sorting by `name`, `sex`, `born` and `died` by clicking on the column title
     - Highlight the column with the *
-    - Sort the people by selected column
     - Add `?sortBy=born` param to the URL
-    - The people should be sorted by `born` if the page is loaded with `?sortBy=born`
-1. Implement the sorting by `name` and `sex`
+    - Sort the people by selected column
+    - If the page is loaded with `sortBy` it should be applied (column is highilghted and people are sorted)
+    - If the `sortBy` value is not valid don't highlight any column and don't sort people
 
 ## Advanced sorting and filtering
 1. Sort should work together with filtering
