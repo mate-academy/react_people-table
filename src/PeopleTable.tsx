@@ -28,6 +28,7 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
   }, [people]);
 
   useMemo(() => {
+    console.log('dsf')
     switch (sortBy) {
       case 'id':
       case 'died':
@@ -53,7 +54,7 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
         sortedPeople.reverse();
         break;
       default:
-      //   break;
+        break;
     }
   }, [sortedPeople, sortOrder]);
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import cn from 'classnames';
-import { Link } from 'react-router-dom';
 import { PersonName } from './PersonName';
 
 type Props = {
@@ -22,9 +21,7 @@ export const Person: React.FC<Props> = ({ person }) => {
         })
       }
       >
-        <Link to={`/people/${person.slug}`}>
           {person.father}
-        </Link>
       </td>
       <td className={
         cn({
@@ -32,9 +29,7 @@ export const Person: React.FC<Props> = ({ person }) => {
         })
       }
       >
-        <Link to={`/people/${person.slug}`}>
           {person.mother}
-        </Link>
       </td>
       <td>{person.century}</td>
     </>
