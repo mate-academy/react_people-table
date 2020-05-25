@@ -37,3 +37,11 @@ h2 {
 .person__female {
   color: rgb(248, 108, 108);
 }
+
+.header-active {
+  background-color: red;
+}
+
+.table {
+  margin-top: 10px;
+}
