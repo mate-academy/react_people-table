@@ -2,6 +2,7 @@
 /// <reference types="react-scripts" />
 
 interface PeopleTable {
+  sortBy?: number;
   id: number;
   name: string;
   fatherName: string;

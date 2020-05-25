@@ -18,7 +18,8 @@ h1 {
   border-collapse: collapse;
 }
 
-.PeopleTable td {
+.PeopleTable td,
+.PeopleTable th {
   border: 1px solid #ddd;
   padding: 8px;
 }
