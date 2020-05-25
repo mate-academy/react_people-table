@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import HomePage from '../HomePage';
 import PeoplePage from '../PeoplePege';
+import ErrorPage from '../ErrorPage';
 import './Main.scss';
 
 const Main = () => {
@@ -16,10 +17,13 @@ const Main = () => {
         <Route path="/" exact>
           <HomePage />
         </Route>
-
         <Redirect from="/home" to="/" />
 
-        <h1>Not found</h1>
+        <Route path="/error">
+          <ErrorPage message="Not found" />
+        </Route>
+        <Redirect from="/*" to="/error" />
+
       </Switch>
     </div>
   );

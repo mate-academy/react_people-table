@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Redirect } from 'react-router-dom';
 import PeopleTable from '../PeopleTable';
 import { getTabs } from '../../api/getTabs';
 import './PeoplePage.scss';
@@ -50,7 +50,7 @@ const PeoplePage = () => {
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const sortedBy: keyof HeadersConfig | null = searchParams
+  const sortedBy: keyof HeadersConfig = searchParams
     .get('sortBy') as keyof HeadersConfig || 'id';
 
   useEffect(() => {
@@ -60,6 +60,11 @@ const PeoplePage = () => {
   useMemo(() => {
     setPeople([...people].sort(sortType(sortedBy)));
   }, [sortedBy]);
+
+  // eslint-disable-next-line no-prototype-builtins
+  if (!headersConfig.hasOwnProperty(sortedBy)) {
+    return <Redirect to="/error" />; // does not work
+  }
 
   const sortTable = (event: React.MouseEvent<any>) => {
     const field = event.currentTarget.dataset.sortName;
