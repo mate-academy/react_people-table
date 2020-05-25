@@ -29,6 +29,7 @@ table {
   background: #ccc;
   padding: 5px;
   border: 1px solid black;
+  cursor: pointer;
 }
 
 .table__person {

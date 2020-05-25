@@ -10,53 +10,83 @@ export const PeoplePage: React.FC = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get('query') || '';
+  const sortType = searchParams.get('sortBy') || '';
+
+  const sortPeople = (sortParam: string) => {
+    switch (sortParam) {
+      case 'Name':
+        return (a: PreparedPerson, b: PreparedPerson) => {
+          return a.name.localeCompare(b.name);
+        };
+
+      case 'Sex':
+        return (a: PreparedPerson, b: PreparedPerson) => a.sex.localeCompare(b.sex);
+      case 'Born':
+        return (a: PreparedPerson, b: PreparedPerson) => a.born - b.born;
+      default:
+        return (a: PreparedPerson, b: PreparedPerson) => a.died - b.died;
+    }
+  };
 
   useEffect(() => {
     const getDataFromServer = async () => {
       const { data } = await getPeople();
 
-      setTableWithPeople(data.map((person: Person) => ({
-        ...person,
-        fatherName: data.find((father: Person) => person.fatherName === father.name),
-        motherName: data.find((mother: Person) => person.motherName === mother.name),
-      })));
+      setTableWithPeople(
+        data.map((person: Person) => ({
+          ...person,
+          fatherName: data.find(
+            (father: Person) => person.fatherName === father.name,
+          ),
+          motherName: data.find(
+            (mother: Person) => person.motherName === mother.name,
+          ),
+        })),
+      );
     };
 
     getDataFromServer();
   }, []);
 
-  const getFilteredPersons = (searchQuery: string, people: PreparedPerson[]) => {
+  const getFilteredPersons = (
+    searchQuery: string,
+    people: PreparedPerson[],
+  ) => {
     if (!searchQuery) {
       return people;
     }
 
     const normalizedQuery = searchQuery.toLowerCase();
 
-    return people.filter(person => {
+    return people.filter((person) => {
       if (!person.fatherName || !person.motherName) {
         return person.name.toLowerCase().includes(normalizedQuery);
       }
 
-      return (`${person.name} + ${person.fatherName.name} +${person.motherName.name}`).toLowerCase().includes(normalizedQuery);
+      return `${person.name}
+              + ${person.fatherName.name}
+              +${person.motherName.name}`
+        .toLowerCase()
+        .includes(normalizedQuery);
     });
   };
 
-  const filteredTable = useMemo(() => getFilteredPersons(search, tableWithPeople),
-    [search, tableWithPeople]);
+  const filteredTable = useMemo(
+    () => getFilteredPersons(search, tableWithPeople).sort(sortPeople(sortType)),
+    [search, tableWithPeople, sortType],
+  );
 
   return (
     <>
       <input
         type="text"
         value={search}
-        onChange={
-          (e) => {
-            searchParams.set('query', e.target.value);
-            history.push({
-              search: searchParams.toString(),
-            });
-          }
-        }
+        onChange={(e) => {
+          searchParams.set('query', e.target.value);
+          history.push({
+            search: searchParams.toString(),
+          });
+        }}
       />
       <PeopleTable people={filteredTable} />
     </>
