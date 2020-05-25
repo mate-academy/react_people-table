@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { Header } from 'semantic-ui-react';
 import PeopleTable from '../PeopleTable';
 import { getTabs } from '../../api/getTabs';
 import './PeoplePage.scss';
-import { Header } from 'semantic-ui-react';
 
 const headersConfig: HeadersConfig = {
   id: 'Id',
