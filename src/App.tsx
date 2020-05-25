@@ -40,11 +40,10 @@ const App = () => {
           path="/people/:personSlug?"
           component={PeoplePage}
         />
-        <h1>Sorry,page not found</h1>
+        <Route component={() => <h1>Sorry,page not found</h1>} />
       </Switch>
     </>
   );
 };
-
 
 export default App;
