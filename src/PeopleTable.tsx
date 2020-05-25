@@ -14,7 +14,6 @@ const PeopleTable = () => {
 
   return (
     <>
-      <h2>People Page</h2>
       <table className="Table">
         <thead>
           <tr>

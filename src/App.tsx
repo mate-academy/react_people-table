@@ -3,7 +3,7 @@ import {
   NavLink, Route, Switch, Redirect,
 } from 'react-router-dom';
 import HomePage from './HomePage';
-import PeopleTable from './PeopleTable';
+import PeoplePage from './PeoplePage';
 import './App.scss';
 
 const App = () => {
@@ -38,7 +38,7 @@ const App = () => {
         <Route
           exact
           path="/people/:personSlug?"
-          component={PeopleTable}
+          component={PeoplePage}
         />
         <h1>Sorry,page not found</h1>
       </Switch>
