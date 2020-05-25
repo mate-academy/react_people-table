@@ -4,3 +4,13 @@ export const getPeople = (): Promise<Person[]> => {
   return fetch(API_URL)
     .then(responce => responce.json());
 };
+
+export const TABLE_TITLES = [
+  'Id',
+  'Name',
+  'Sex',
+  'Born',
+  'Died',
+  'Mother',
+  'Father',
+];

@@ -10,4 +10,6 @@ interface Person {
   fatherName: string;
   motherName: string;
   slug: string;
+  motherSlug?: string;
+  fatherSlug?: string;
 }

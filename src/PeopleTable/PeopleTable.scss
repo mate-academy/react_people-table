@@ -4,15 +4,23 @@
 
   & td,
   & th {
+    position: relative;
     border: 1px solid #ddd;
     padding: 8px;
   }
 
   & th {
+    cursor: pointer;
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
     background-color: #4caf50;
     color: white;
   }
+}
+
+.sortFlag {
+  color: red;
+  top: 0;
+  position: absolute;
 }
