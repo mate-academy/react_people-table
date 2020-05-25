@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 type Props = {
   person: Person;
@@ -15,20 +15,17 @@ const PersonRow: React.FC<Props> = ({ person }) => {
     slug,
     fatherName,
     motherName,
+    father,
+    mother,
   } = person;
 
-  const history = useHistory();
   const { personSlug } = useParams();
 
-  const handleOnClick = () => {
-    history.push(`/people/${slug}`);
-  };
 
   return (
     <tr
       style={{ cursor: 'pointer' }}
       key={name}
-      onClick={handleOnClick}
       className={classNames('has-text-white', {
         'has-background-info': sex === 'm' && personSlug !== slug,
         'has-background-danger': sex === 'f' && personSlug !== slug,
@@ -37,7 +34,9 @@ const PersonRow: React.FC<Props> = ({ person }) => {
     >
       {}
       <td>
-        {name}
+        <Link to={`/people/${slug}`}>
+          {name}
+        </Link>
       </td>
       <td>
         {sex}
@@ -49,10 +48,29 @@ const PersonRow: React.FC<Props> = ({ person }) => {
         {died}
       </td>
       <td>
-        {fatherName}
+        {father ? (
+          <Link to={`/people/${father.slug}`}>
+            {fatherName}
+          </Link>
+        ) : (
+          <span className="has-text-black">
+            {fatherName}
+          </span>
+        )}
       </td>
       <td>
-        {motherName}
+        {mother ? (
+          <Link
+            to={`/people/${mother.slug}`}
+
+          >
+            {motherName}
+          </Link>
+        ) : (
+          <span className="has-text-black">
+            {motherName}
+          </span>
+        )}
       </td>
     </tr>
   );
