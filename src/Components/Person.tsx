@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import cn from 'classnames';
 
 type Props = {
@@ -11,6 +11,8 @@ export const Person: React.FC<Props> = ({
 }) => {
   const history = useHistory();
   const { slug } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const motherName = info.motherName?.name;
   const fatherName = info.fatherName?.name;
 
@@ -19,6 +21,7 @@ export const Person: React.FC<Props> = ({
       onClick={() => {
         history.push({
           pathname: `/people/${info.slug}`,
+          search: searchParams.toString(),
         });
       }}
       className={cn('table__person', {

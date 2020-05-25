@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { getPeople } from '../helpers/api';
 import { PeopleTable } from './PeopleTable';
 
 export const PeoplePage: React.FC = () => {
   const [tableWithPeople, setTableWithPeople] = useState<PreparedPerson[]>([]);
+
+  const history = useHistory();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const search = searchParams.get('query') || '';
 
   useEffect(() => {
     const getDataFromServer = async () => {
@@ -19,9 +25,40 @@ export const PeoplePage: React.FC = () => {
     getDataFromServer();
   }, []);
 
+  const getFilteredPersons = (searchQuery: string, people: PreparedPerson[]) => {
+    if (!searchQuery) {
+      return people;
+    }
+
+    const normalizedQuery = searchQuery.toLowerCase();
+
+    return people.filter(person => {
+      if (!person.fatherName || !person.motherName) {
+        return person.name.toLowerCase().includes(normalizedQuery);
+      }
+
+      return (`${person.name} + ${person.fatherName.name} +${person.motherName.name}`).toLowerCase().includes(normalizedQuery);
+    });
+  };
+
+  const filteredTable = useMemo(() => getFilteredPersons(search, tableWithPeople),
+    [search, tableWithPeople]);
+
   return (
     <>
-      <PeopleTable people={tableWithPeople} />
+      <input
+        type="text"
+        value={search}
+        onChange={
+          (e) => {
+            searchParams.set('query', e.target.value);
+            history.push({
+              search: searchParams.toString(),
+            });
+          }
+        }
+      />
+      <PeopleTable people={filteredTable} />
     </>
   );
 };
