@@ -23,9 +23,6 @@ const App = () => {
     ));
   }, []);
 
-
-  console.log(people)
-
   return (
     <div className="App">
       <Header />
