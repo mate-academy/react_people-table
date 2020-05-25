@@ -11,6 +11,7 @@ interface Person {
   fatherName: string;
   motherName: string;
   children: string;
+  slug: string;
   id: number;
 }
 

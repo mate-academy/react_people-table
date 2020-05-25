@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import PeopleTable from '../PeopleTable';
 import { getTabs } from '../../api/getTabs';
@@ -64,7 +64,7 @@ const PeoplePage = () => {
   }, []);
 
   useMemo(() => {
-    setPeople([...people].sort(sortType(sortedBy)));
+    setPeople(ppl => ppl.sort(sortType(sortedBy)));
   }, [sortedBy]);
 
   const sortTable = (field: string) => {
@@ -79,6 +79,28 @@ const PeoplePage = () => {
     }
   };
 
+  const handleSelect = useCallback((field, person) => {
+    const path: string | undefined = people
+      .find(parent => parent.name === person[field])?.slug;
+
+    if (field === 'name') {
+      history.push({
+        pathname: `/people/${person.slug}`,
+        search: location.search,
+      });
+    } else if (field === 'mother') {
+      history.push({
+        pathname: `/people/${path}`,
+        search: location.search,
+      });
+    } else if (field === 'father') {
+      history.push({
+        pathname: `/people/${path}`,
+        search: location.search,
+      });
+    }
+  }, [history, location, people]);
+
   return (
     <div className="PeoplePage">
       <h1>People table</h1>
@@ -87,6 +109,7 @@ const PeoplePage = () => {
         people={people}
         tableHeaders={tableHeaders}
         sortTable={sortTable}
+        onSelect={handleSelect}
       />
     </div>
   );
