@@ -6,8 +6,9 @@ import {
   NavLink,
   Redirect,
 } from 'react-router-dom';
+import classnames from 'classnames';
 import { getPeople } from './helpers/api';
-import './App.css';
+import './App.scss';
 
 // type TableHeader = {
 //   id: number;
@@ -20,7 +21,7 @@ import './App.css';
 // };
 
 
-const tableHeader = ['id', 'name', 'sex', 'born', 'died', 'mother', 'father'];
+const tableHeader = ['id', 'name', 'sex', 'born', ' - ', 'died', 'mother', 'father'];
 
 const HomePage = () => {
   return (
@@ -34,26 +35,27 @@ type PropsPersonRow = {
 
 const PersonRow: React.FC<PropsPersonRow> = ({ person }) => {
   return (
-    <tr key={person.name}>
-      <td>
+    <tr className="table__body-row" key={person.name}>
+      <td className="table__body">
         {person.id}
       </td>
-      <td>
+      <td className={classnames({ table__body: true, male: person.sex === 'm', female: person.sex === 'f' })}>
         {person.name}
       </td>
-      <td>
+      <td className={classnames({ table__body: true, male: person.sex === 'm', female: person.sex === 'f' })}>
         {person.sex}
       </td>
-      <td>
+      <td className="table__body">
         {person.born}
       </td>
-      <td>
+      <td className="table__body">-</td>
+      <td className="table__body">
         {person.died}
       </td>
-      <td>
+      <td className="table__body">
         {person.mother ? person.motherName : '- - -'}
       </td>
-      <td>
+      <td className="table__body">
         {person.father ? person.fatherName : '- - -'}
       </td>
     </tr>
@@ -80,10 +82,10 @@ const PeoplePage = () => {
     <>
       <h2>People Page perhaps</h2>
       <table className="table">
-        <thead className="table__header">
+        <thead>
           <tr>
             {tableHeader.map(item => {
-              return <th key={item}>{item}</th>;
+              return <th className="table__header" key={item}>{item.toUpperCase()}</th>;
             })}
           </tr>
         </thead>
