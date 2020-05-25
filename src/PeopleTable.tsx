@@ -34,7 +34,7 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
       case 'born':
       case 'age':
       case 'century':
-        sortedPeople.sort((a: any, b: any) => (b[sortBy] - a[sortBy]));
+        sortedPeople.sort((a: any, b: any) => (a[sortBy] - b[sortBy]));
         break;
       case 'name':
       case 'sex':
