@@ -5,6 +5,7 @@ import { PersonRow } from './PersonRow';
 import { InputFilter } from './InputFilter';
 
 
+
 type Props = RouteComponentProps<{
   location: string;
 }>;
@@ -30,20 +31,21 @@ export const PeopleTable: React.FC<Props> = ({ location }) => {
       res.map((person, i) => ({
         ...person,
         id: i + 1,
+        father: person.fatherName ? person.fatherName : 'NOT FOUND',
+        mother: person.motherName ? person.motherName : 'NOT FOUND',
       })),
     ));
   }, []);
 
-  const filterPeople = (peopleArr: Person[], pattern: string) => (
-    peopleArr.filter((person: Person) => (
-      (person.name + person.fatherName + person.motherName)
-        .toLocaleLowerCase()
-        .includes(pattern.toLocaleLowerCase().trim())
-    ))
-  );
+  const filterPeople = (peopleArr: Person[]) => {
+    const pattern = new RegExp(query, 'i');
+
+    return peopleArr
+      .filter(person => pattern.test(person.name + person.motherName + person.fatherName));
+  };
 
 
-  const preparedPeople = useMemo(() => filterPeople(people, query), [people, query]);
+  const preparedPeople = useMemo(() => filterPeople(people), [people, query]);
 
   useMemo(() => {
     switch (sortBy) {
@@ -53,6 +55,8 @@ export const PeopleTable: React.FC<Props> = ({ location }) => {
         break;
       case 'name':
       case 'sex':
+      case 'mother':
+      case 'father':
         preparedPeople.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
         break;
       default:
@@ -62,12 +66,10 @@ export const PeopleTable: React.FC<Props> = ({ location }) => {
 
 
   const handlePeopleSort = (column: string) => {
-    if (column !== 'mother' && column !== 'father') {
-      if (sortBy === column && sortOrder === 'asc') {
-        searchParams.set('sortOrder', 'desc');
-      } else {
-        searchParams.set('sortOrder', 'asc');
-      }
+    if (sortBy === column && sortOrder === 'asc') {
+      searchParams.set('sortOrder', 'desc');
+    } else {
+      searchParams.set('sortOrder', 'asc');
     }
 
     searchParams.set('sortBy', column);

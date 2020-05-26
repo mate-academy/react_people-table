@@ -36,17 +36,24 @@ export const PersonRow: React.FC<Props> = ({ people }) => {
           <td>{person.born}</td>
           <td>{person.died}</td>
           <td
-            className="person__mother"
+            className={cn(
+              'person__mother', {
+                notFount: person.mother === 'NOT FOUND',
+              },
+            )}
           >
-            {person.motherName}
+            {person.mother}
           </td>
           <td
-            className="person__father"
+            className={cn(
+              'person__father', {
+                notFount: person.father === 'NOT FOUND',
+              },
+            )}
           >
-            {person.fatherName}
+            {person.father}
           </td>
         </tr>
-
       ))}
     </>
   );

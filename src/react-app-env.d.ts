@@ -7,5 +7,7 @@ interface Person {
   died: number;
   fatherName: string;
   motherName: string;
+  father: string;
+  mother: string;
   slug: string;
 }
