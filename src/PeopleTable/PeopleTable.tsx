@@ -113,6 +113,10 @@ export const PeopleTable = () => {
     });
   };
 
+  useEffect(() => {
+    setCurrentQuery(query);
+  }, [query]);
+
   return (
     <>
       <input
