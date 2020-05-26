@@ -1,0 +1,22 @@
+.PeopleTable {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid grey;
+}
+
+.table__head {
+  border: 1px solid gray;
+  color: red;
+}
+
+.table__data {
+  border: 1px dashed gray;
+}
+
+.table__data.blue {
+  color: blue;
+}
+
+.table__data.red {
+  color: red;
+}
