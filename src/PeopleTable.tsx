@@ -6,22 +6,21 @@ type Props = {
 };
 
 export const PeopleTable: React.FC<Props> = ({ people }) => {
+  const columns = ['Name', 'Sex', 'Born', 'Died', 'Mother', 'Father'];
+
   return (
-    <table className="PeopleTable">
-      <thead className="table__head">
+    <table className="table">
+      <thead className="">
         <tr>
-          <th>Name</th>
-          <th>Sex</th>
-          <th>Born</th>
-          <th>Died</th>
-          <th>Mother</th>
-          <th>Father</th>
+          {columns.map(item => (
+            <th>{item}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        {people !== undefined
-        && (people.map((person, id) => (
-          <PersonRow person={person} id={id} />
+        {people
+        && (people.map((person) => (
+          <PersonRow person={person} />
         )))}
       </tbody>
     </table>

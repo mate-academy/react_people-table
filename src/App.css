@@ -1,16 +1,9 @@
-.PeopleTable {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid grey;
+.header {
+  margin-left: 40%;
 }
 
-.table__head {
-  border: 1px solid gray;
-  color: red;
-}
-
-.table__data {
-  border: 1px dashed gray;
+.table {
+  margin: auto;
 }
 
 .table__data.blue {

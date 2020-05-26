@@ -24,7 +24,7 @@ export const PeoplePage = () => {
 
   return (
     <>
-      <h3>People page</h3>
+      <h3 className="title is-2 is-spaced header">People page</h3>
       {data && (<PeopleTable people={data} />)}
     </>
   );

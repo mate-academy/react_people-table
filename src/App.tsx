@@ -8,13 +8,13 @@ import './App.css';
 import { PeoplePage } from './PeoplePage';
 
 const HomePage = () => (
-  <h3 className="header">Home</h3>
+  <h3 className="title is-2 is-spaced header">Home</h3>
 );
 
 const App = () => (
   <>
-    <nav>
-      <ul className="nav">
+    <nav className="menu">
+      <ul className="menu-list">
         <li>
           <NavLink to="/" exact className="nav__link">
             Home
@@ -31,11 +31,10 @@ const App = () => (
       <Route path="/" exact component={HomePage} />
       <Redirect from="/home" to="/" />
       <Route
-        exact
-        path="/people/:personSlug?"
+        path="/people/:slug?"
         component={PeoplePage}
       />
-      <Route component={() => <h3>Page not found</h3>} />
+      <Route component={() => <h3 className="title is-2 is-spaced header">Page not found</h3>} />
     </Switch>
   </>
 );
