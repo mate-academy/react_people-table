@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { Header } from 'semantic-ui-react';
 import PeopleTable from '../PeopleTable';
@@ -51,68 +51,93 @@ const sortType: Callback = (field) => {
   }
 };
 
+type Param = {
+  [key: string]: string;
+};
+
 const PeoplePage = () => {
   const [people, setPeople] = useState<Person[]>([]);
-  const tableHeaders = createTableHeaders(people);
   const history = useHistory();
   const location = useLocation();
   const { personName } = useParams();
   const searchParams = new URLSearchParams(location.search);
+  const query: string = searchParams.get('query') || '';
   const sortedBy: keyof HeadersConfig | null = searchParams
-    .get('sortBy') as keyof HeadersConfig;
+    .get('sortBy') as keyof HeadersConfig || 'id';
+
+  const tableHeaders = createTableHeaders(people);
+  const visiblePeople = people
+    .filter(person => (new RegExp(query, 'i')).test(person.name));
 
   useEffect(() => {
-    getTabs().then(setPeople);
+    getTabs().then(res => {
+      setPeople(res.sort(sortType(sortedBy)));
+    });
   }, []);
 
   useMemo(() => {
     setPeople(ppl => ppl.sort(sortType(sortedBy)));
   }, [sortedBy]);
 
-  const sortTable = (field: string) => {
-    const callback = sortType(field);
+  const historyPush = useCallback((param: Param, path: string): void => {
+    const params = {
+      ...Object.fromEntries((searchParams.entries())),
+      ...param,
+    };
+    const pathName = path || '';
 
-    if (sortedBy !== field) {
-      setPeople([...people].sort(callback));
-      searchParams.set('sortBy', field);
-      history.push({ search: searchParams.toString() });
-    } else {
-      setPeople([...people].reverse());
+    for (const key in params) {
+      searchParams.set(key, params[key]);
     }
-  };
+
+    history.push({
+      pathname: `/people/${pathName}`,
+      search: searchParams.toString(),
+    });
+  }, [history, searchParams]);
 
   const handleSelect = useCallback((field, person) => {
     const path: string | undefined = people
       .find(parent => parent.name === person[field])?.slug;
 
     if (field === 'name') {
-      history.push({
-        pathname: `/people/${person.slug}`,
-        search: location.search,
-      });
+      historyPush({}, person.slug);
     }
 
     if (path) {
       if (field === 'mother') {
-        history.push({
-          pathname: `/people/${path}`,
-          search: location.search,
-        });
+        historyPush({}, path);
       } else if (field === 'father') {
-        history.push({
-          pathname: `/people/${path}`,
-          search: location.search,
-        });
+        historyPush({}, path);
       }
     }
-  }, [history, location, people]);
+  }, [people, historyPush]);
+
+  if (!people.length) {
+    return <p>Loading...</p>;
+  }
+
+  if (personName && !people.some(person => person.slug === personName)) {
+    historyPush({}, '');
+  }
+
+  const sortTable = (field: string) => {
+    const callback = sortType(field);
+
+    if (sortedBy !== field) {
+      setPeople([...people].sort(callback));
+      historyPush({ sortBy: field }, personName);
+    } else {
+      setPeople([...people].reverse());
+    }
+  };
 
   return (
     <div className="PeoplePage">
       <Header size="huge" content="People table" color="teal" />
 
       <PeopleTable
-        people={people}
+        people={visiblePeople}
         tableHeaders={tableHeaders}
         sortTable={sortTable}
         onSelect={handleSelect}
