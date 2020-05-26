@@ -1,35 +1,26 @@
 import React from 'react';
-import { PersonRow } from './PersonRow';
+import {PersonRow} from './PersonRow';
 
 interface Props {
   people: Person[];
-  match:string;
+  match: string;
 }
+const columnsName = ['NAME', 'SEX', 'BORN', 'DIED', 'FATHER', 'MOTHER'];
+
 export const PeopleTable: React.FC<Props> = ({people}) => (
 
-<table className="PeopleTable">
-  <thead className="PeopleTable-header">
-  <tr>
-    <td> NAME </td>
-    <td> SEX </td>
-    <td> BORN </td>
-    <td> DIE </td>
-    <td> MOTHER </td>
-    <td> FATHER </td>
-  </tr>
-  </thead>
-  <tbody>
-  {people.map(person => <PersonRow
-    name={person.name}
-    sex={person.sex}
-    born={person.born}
-    died={person.died}
-    mother={person.motherName}
-    father={person.fatherName}
-    slug={person.slug}
-  />)}
-  </tbody>
-</table>
+  <table className="PeopleTable">
+    <thead className="PeopleTable-header">
+    <tr>
+      {columnsName.map( columns => <th>{columns}</th>)}
+    </tr>
+    </thead>
+    <tbody>
+    {people.map(person => <PersonRow
+      person={person}
+    />)}
+    </tbody>
+  </table>
 
 );
 

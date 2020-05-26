@@ -23,11 +23,11 @@ const Nav: React.FC = () => (
 
       <li className="navlist__item search">
         <Route path='/people'>
-        <input
-          type="text"
-          className='search_input'
-        />
-      </Route>
+          <input
+            type="text"
+            className='search_input'
+          />
+        </Route>
       </li>
     </ul>
 

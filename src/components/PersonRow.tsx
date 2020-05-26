@@ -1,57 +1,52 @@
 import React from 'react';
-import { useParams, useHistory } from "react-router-dom";
+import {useParams, useHistory} from "react-router-dom";
 import classnames from 'classnames';
 
 
 type PersonRowProps = {
-  name: string;
-  sex: string;
-  born: number;
-  died: number;
-  mother: string;
-  father: string;
-  slug: string;
+  person:Person;
 
 };
 
-export const PersonRow: React.FC<PersonRowProps> = ({slug,name, sex,born,died,mother,father,}) => {
-const { personSlug } = useParams();
-const history = useHistory();
+export const PersonRow: React.FC<PersonRowProps> = ({person}) => {
+  const {personSlug} = useParams();
+  const history = useHistory();
+  const{ name, sex, born, died, motherName, fatherName, slug} = person;
 
 
-const handleSelectPerson = (personUrl: string) => {
-  history.push({
-    pathname: `/people/${personUrl}`,
-  });
-};
+  const handleSelectPerson = (personUrl: string) => {
+    history.push({
+      pathname: `/people/${personUrl}`,
+    });
+  };
 
-return(
-<tr className={classnames('Person', {
-  'Person_active': slug === personSlug,
-})}
-    key={slug}
-    onClick={() => handleSelectPerson(slug)}
->
+  return (
+    <tr className={classnames('Person', {
+      'Person_active': slug === personSlug,
+    })}
+        key={slug}
+        onClick={() => handleSelectPerson(slug)}
+    >
 
 
-      <td className={sex==='m'
+      <td className={sex === 'm'
         ? 'man'
         : 'woman'}>{name}</td>
 
-      <td className={sex==='m'
+      <td className={sex === 'm'
         ? 'man'
         : 'woman'}>
-        {sex==='m'
+        {sex === 'm'
           ? '  male'
           : ' female'}
       </td>
       <td>{born}</td>
       <td>{died}</td>
-      <td className='woman'>{mother}</td>
-      <td className='man'>{father}</td>
-</tr>
+      <td className='woman'>{motherName}</td>
+      <td className='man'>{fatherName}</td>
+    </tr>
 
-);
+  );
 
 
 }

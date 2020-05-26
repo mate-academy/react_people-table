@@ -14,20 +14,20 @@ const App: React.FC = () => {
   return (
     <>
       <header>
-        <Nav />
+        <Nav/>
 
       </header>
       <main>
         <Switch>
-        <Route path="/" exact component={Home} />
-        <Redirect from='/home' to='/' />
-        <Route
-          path="/people/:personSlug?"
+          <Route path="/" exact component={Home}/>
+          <Redirect from='/home' to='/'/>
+          <Route
+            path="/people/:personSlug?"
 
-          component={PeoplePage}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
+            component={PeoplePage}
+          />
+          <Route component={NotFoundPage}/>
+        </Switch>
       </main>
     </>
   );
