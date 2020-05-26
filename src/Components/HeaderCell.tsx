@@ -11,12 +11,25 @@ export const HeaderCell: React.FC<Props> = ({ name }) => {
 
   const searchParams = new URLSearchParams(location.search);
   const sortedBy = searchParams.get('sortBy');
+  const sortOrder = searchParams.get('sortOrder') || '';
+  const getSortOrder = (order: string) => {
+    switch (order) {
+      case 'asc':
+        return 'desc';
+      case 'desc':
+        return 'asc';
+      default:
+        return 'asc';
+    }
+  };
+
   const setSortParam = () => {
     if (name === 'Mother' || name === 'Father') {
       return;
     }
 
     searchParams.set('sortBy', `${name}`);
+    searchParams.set('sortOrder', `${getSortOrder(sortOrder)}`);
     history.push({
       search: searchParams.toString(),
     });
