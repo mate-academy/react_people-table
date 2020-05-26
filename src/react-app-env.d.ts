@@ -10,8 +10,14 @@ interface Person {
 interface PersonCompleted extends Person{
   father?: Person;
   mother?: Person;
+  id: number;
 }
 
 interface MatchParams {
   personName: string;
+}
+
+interface Title {
+  name: string;
+  sort?: string;
 }

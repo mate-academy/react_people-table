@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
-type PersonNameType = {
+type PersonNameType ={
   name: string;
   slug: string;
   sex: string;

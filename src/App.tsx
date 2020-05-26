@@ -12,6 +12,7 @@ import { PeopleTable } from './components/PeopleTable';
 
 const App = () => {
   const [people, setPeople] = useState<PersonCompleted[]>([]);
+  let startId = 1;
 
   useEffect(() => {
     getPeople()
@@ -19,6 +20,7 @@ const App = () => {
         setPeople(result.map((person: PersonCompleted) => (
           {
             ...person,
+            id: startId++,
             father: result.find((f: PersonCompleted) => f.name === person.fatherName),
             mother: result.find((m: PersonCompleted) => m.name === person.motherName),
           }

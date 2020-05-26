@@ -4,20 +4,19 @@ import { PersonName } from './PersonName';
 
 type PersonRowProps = {
   person: PersonCompleted;
-  index: number;
   personName: string;
 };
 
-export const PersonRow = ({ person, index, personName }: PersonRowProps) => {
+export const PersonRow = ({ person, personName }: PersonRowProps) => {
   const {
-    name, sex, born, died, motherName, mother, father, fatherName, slug,
+    name, id, sex, born, died, motherName, mother, father, fatherName, slug,
   } = person;
 
   return (
     <tr className={cn('person',
       { active: personName === slug })}
     >
-      <th>{index + 1}</th>
+      <th>{id}</th>
       <th>
         <PersonName sex={sex} name={name} slug={slug} />
       </th>
