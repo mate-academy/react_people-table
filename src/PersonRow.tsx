@@ -2,12 +2,14 @@ import React, { } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { People } from './interface';
+import PersonName from './PersonName';
 
 type Props = {
   people: People[];
 };
 
 const PersonRow: React.FC<Props> = ({ people }) => {
+  // console.log(people);
   const match: any = useRouteMatch();
   const history = useHistory();
 
@@ -19,13 +21,7 @@ const PersonRow: React.FC<Props> = ({ people }) => {
     <>
       {people.map((item) => (
         <tr className={classNames({ personActive: item.slug === match.params.id })}>
-          <th
-            key={item.slug}
-            onClick={() => handlChangeUrl(item.slug)}
-            className={classNames({ women: item.sex === 'f' }, { men: item.sex === 'm' })}
-          >
-            {item.name}
-          </th>
+          <PersonName item={item} handlChangeUrl={handlChangeUrl} />
           <td>{item.sex}</td>
           <td>{item.born}</td>
           <td>{item.died}</td>
@@ -34,11 +30,11 @@ const PersonRow: React.FC<Props> = ({ people }) => {
           >
             {item.motherName}
           </td>
-          <th
+          <td
             className="men"
           >
             {item.fatherName}
-          </th>
+          </td>
         </tr>
       ))}
     </>

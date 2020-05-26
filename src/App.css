@@ -3,9 +3,17 @@
 }
 
 .women {
-  color: red;
+  color: #dc3545;
 }
 
 .men {
-  color: blue;
+  color: #007bff;
+}
+
+.nav {
+  justify-content: center;
+}
+
+.isActive {
+  background-color: #3194fd;
 }
