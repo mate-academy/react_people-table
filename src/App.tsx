@@ -53,7 +53,6 @@ const App = () => {
     if (!(searchParams.get('query') || '').trim()) {
       searchParams.delete('query');
     }
-    console.log('111')
 
     updateQuery(searchParams.toString());
   }
@@ -61,7 +60,6 @@ const App = () => {
   useEffect(() => {
     setCurrentQuery(search);
   }, [search]);
-
 
   return (
     <div className="App">

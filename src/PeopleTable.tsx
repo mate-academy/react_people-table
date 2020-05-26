@@ -19,16 +19,12 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
   const tableHead = ['id', 'name', 'sex', 'born', 'died', 'age', 'father', 'mother', 'century'];
   const history = useHistory();
   const { name } = useParams();
-  const sortBy = searchParams.get('sortBy');
-  // const sortOrder = searchParams.get('sortOrder');
+  const sortBy: string = searchParams.get('sortBy');
   const [sortedPeople, setSortedPeople] = useState<PeopleTable[]>([...people]);
 
   useEffect(() => {
     setSortedPeople([...people]);
   }, [people]);
-
-
-  console.log('dsf')
 
   useMemo(() => {
     switch (sortBy) {
@@ -37,19 +33,18 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
       case 'born':
       case 'age':
       case 'century':
-       sortedPeople.sort((a: any, b: any) => (a[sortBy] - b[sortBy]));
+       sortedPeople.sort((a, b) => (a[sortBy] - b[sortBy]));
         break;
       case 'name':
       case 'sex':
       case 'father':
       case 'mother':
-        sortedPeople.sort((a: any, b: any) => (a[sortBy].localeCompare(b[sortBy])));
+        sortedPeople.sort((a, b) => (a[sortBy].localeCompare(b[sortBy])));
         break;
       default:
         break;
     }
   }, [sortedPeople, sortBy]);
-
 
   const clickHandler = (table: string) => {
     if (searchParams.get('sortBy') === table
