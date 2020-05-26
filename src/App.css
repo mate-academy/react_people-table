@@ -1,0 +1,90 @@
+body,
+ul,
+h1 {
+  margin: 0;
+}
+
+.PeopleTable {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.PeopleTable--tabs {
+  width: 50px;
+}
+
+.PeopleTable .PeopleTable--tabs {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+}
+
+.PeopleTable td,
+.PeopleTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.PeopleTable tr:hover {
+  background-color: #ddd;
+}
+
+.PeopleTable-head {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: pink;
+  color: white;
+}
+
+.Person--male {
+  color: darkblue;
+}
+
+.Person--female {
+  color: darkred;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  background: gray;
+  padding: 0 20px 0 0;
+}
+
+.header--head {
+  display: inline;
+  color: white;
+}
+
+.header--item {
+  display: inline;
+  margin: 10px;
+  list-style: none;
+}
+
+.header--link {
+  text-decoration: none;
+  color: white;
+  font-size: 25px;
+  padding: 28px 0;
+}
+
+.header--link:hover {
+  background: lightgrey;
+}
+
+.active {
+  color: pink;
+}
+
+.head--home-page {
+  opacity: 0.7;
+  text-align: center;
+}
+
+.Person--active {
+  background: #02b2c3;
+  color: white;
+}
