@@ -1,0 +1,37 @@
+.people {
+  border-collapse: collapse;
+  width: 100%;
+
+  & td,
+  & th {
+    position: relative;
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  & th {
+    user-select: none;
+    cursor: pointer;
+    padding: 12px 0 12px 23px;
+    text-align: left;
+    background-color: #4caf50;
+    color: black;
+  }
+}
+
+.sortFlag {
+  color: red;
+  left: 0;
+  top: 12px;
+  position: absolute;
+}
+
+input[type=text] {
+  outline: none;
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid black;
+}
