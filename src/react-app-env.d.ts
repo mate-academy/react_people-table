@@ -5,5 +5,6 @@ interface Person {
   died: number;
   father: string;
   mother: string;
+  slug: string;
 }
 
