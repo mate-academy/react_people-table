@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { getPeople } from '../helpers/api';
-// import { } from '../helpers/debounce';
+import { useDebounce } from '../helpers/debounce';
 import { PeopleTable } from './PeopleTable';
 
 export const PeoplePage: React.FC = () => {
@@ -13,6 +13,8 @@ export const PeoplePage: React.FC = () => {
   const search = searchParams.get('query') || '';
   const sortType = searchParams.get('sortBy') || '';
   const sortOrder = searchParams.get('sortOrder') || '';
+
+  const debouncedVal = useDebounce(search, 500);
 
   const sortPeople = (sortParam: string) => {
     switch (sortParam) {
@@ -75,11 +77,11 @@ export const PeoplePage: React.FC = () => {
 
   const filteredTable = useMemo(() => {
     if (sortOrder === 'asc' || sortOrder === '') {
-      return getFilteredPersons(search, tableWithPeople).sort(sortPeople(sortType));
+      return getFilteredPersons(debouncedVal, tableWithPeople).sort(sortPeople(sortType));
     }
 
-    return getFilteredPersons(search, tableWithPeople).sort(sortPeople(sortType)).reverse();
-  }, [search, tableWithPeople, sortType, sortOrder]);
+    return getFilteredPersons(debouncedVal, tableWithPeople).sort(sortPeople(sortType)).reverse();
+  }, [debouncedVal, tableWithPeople, sortType, sortOrder]);
 
   return (
     <>
