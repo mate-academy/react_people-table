@@ -1,0 +1,9 @@
+a {
+  display: inline-block;
+  padding: 5px;
+  color: black;
+}
+
+.active {
+  background-color: yellow;
+}
