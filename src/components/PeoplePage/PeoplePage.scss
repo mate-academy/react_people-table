@@ -1,0 +1,14 @@
+.peoplePage {
+  display: inline-block;
+  padding-left: 10px;
+  margin: 0 auto;
+
+  &__head {
+    text-align: center;
+  }
+
+  &__wrapper {
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+}

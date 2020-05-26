@@ -1,0 +1,19 @@
+.nav {
+  background-color: deepskyblue;
+}
+
+.nav__list {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+}
+
+.nav__link {
+  text-decoration: none;
+  font-size: 200%;
+  color: purple;
+}
+
+.pageNotFound {
+  text-align: center;
+}
