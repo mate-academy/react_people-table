@@ -1,27 +1,44 @@
 import React, {useEffect, useState} from "react";
 import getPeople from "../helpers/api";
 import {PeopleTable} from './PeopleTable';
-import {RouteComponentProps} from 'react-router-dom';
+import {useLocation} from "react-router-dom";
 
-type Props = RouteComponentProps<{
-  personSlug: string;
-}>
 
-const PeoplePage: React.FC<Props> = () => {
+const PeoplePage: React.FC = () => {
   const [people, setPeople] = useState<Person[]>([]);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const query = searchParams.get('query') || '';
 
 
   useEffect(() => {
-      getPeople().then(setPeople)},
+      getPeople().then(setPeople)
+    },
     []);
-return(  <>
+
+
+    const visiblePeople = people.filter( person =>
+    person.name.toLowerCase().includes(query.toLowerCase())
+      || (person.fatherName!==null
+      ?person.fatherName.toLowerCase().includes(query.toLowerCase())
+      :'')
+      || (person.motherName!==null
+      ?person.motherName.toLowerCase().includes(query.toLowerCase())
+      :'')
+
+    )
+
+
+  return <>
     <h1>People Page</h1>
-  {people.length===0
-    ? 'Loading....'
-    : <PeopleTable people={people} />
-  }
-    </>
-  );
+    <div className="search ">
+
+    </div>
+    {people.length === 0
+      ? 'Loading....'
+      : <PeopleTable people={visiblePeople}/>
+    }
+  </>;
 
 }
 

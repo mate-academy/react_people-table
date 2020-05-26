@@ -23,7 +23,7 @@ const App: React.FC = () => {
           <Redirect from='/home' to='/'/>
           <Route
             path="/people/:personSlug?"
-
+            exact
             component={PeoplePage}
           />
           <Route component={NotFoundPage}/>
