@@ -48,8 +48,14 @@ body {
 .table__header {
   background-color: rgba(9, 158, 158, 0.7);
   padding: 10px 20px;
-  color: white;
   border-bottom: 1px solid white;
+}
+
+.table__button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .table__row {
@@ -76,4 +82,15 @@ body {
   &--active {
     background-color: rgba(9, 158, 158, 0.4);
   }
+}
+
+.search-field {
+  margin-bottom: 20px;
+  border: 1px solid rgb(9, 158, 158);
+  height: 20px;
+  width: 400px;
+  font-size: 16px;
+  padding: 5px 10px;
+  color: black;
+  box-shadow: 2px 2px 4px gray;
 }

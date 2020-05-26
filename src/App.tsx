@@ -1,4 +1,4 @@
-import React/*, { useState, useEffect }*/ from 'react';
+import React/* , { useState, useEffect } */ from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import './App.scss';
@@ -22,7 +22,7 @@ const App = () => {
         </Switch>
       </main>
     </div>
-  )
-}
+  );
+};
 
 export default App;

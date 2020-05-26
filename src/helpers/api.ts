@@ -14,4 +14,4 @@ export interface Person {
 export const getPeople = (): Promise<Person[]> => {
   return fetch(API_PEOPLE)
     .then(res => res.json());
-}
+};
