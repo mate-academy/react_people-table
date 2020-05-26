@@ -1,15 +1,12 @@
 import React from 'react';
-import {
-  NavLink, Route, useHistory, useLocation,
-} from 'react-router-dom';
+import { NavLink, Route, useHistory, useLocation } from 'react-router-dom';
 
 export const Header = () => {
   const history = useHistory();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
+  const searchParams = new URLSearchParams(location.search)
 
   const querySearch = searchParams.get('query') || '';
-
   return (
     <header className="navbar bg-secondary">
       <div className="container">
@@ -24,19 +21,18 @@ export const Header = () => {
           </ul>
         </nav>
         <Route path="/people">
-          <input
-            placeholder="Search"
-            value={querySearch}
-            onChange={(e) => {
-              searchParams.set('query', e.target.value);
-              history.push({
-                search: searchParams.toString(),
-              });
-            }}
-            type="text"
-          />
+          <input placeholder="Search"
+          value = {querySearch}
+          onChange = {(e) => {
+            searchParams.set('query', e.target.value)
+            history.push({
+              search: searchParams.toString()
+            })
+          }}
+          type="text"/>
         </Route>
       </div>
+
 
 
     </header>

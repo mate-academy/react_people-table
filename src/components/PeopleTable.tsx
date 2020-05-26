@@ -29,8 +29,12 @@ export const PeopleTable = ({ people }: PeopleList) => {
 
   const getVisiblePeople = (peopleGeneral: PersonCompleted[], query: string) => {
     const patternSearch = new RegExp(query, 'i');
-
-    return peopleGeneral.filter(p => patternSearch.test(p.name || p.motherName || p.fatherName));
+    console.log()
+    return peopleGeneral.filter(p => {
+      console.log(p.motherName)
+      console.log(patternSearch.test(p.motherName))
+      return patternSearch.test(p.name + p.motherName + p.fatherName)
+    });
   };
 
 
