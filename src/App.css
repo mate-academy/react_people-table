@@ -2,16 +2,28 @@ body {
   margin: 0;
 }
 
-.App__header {
+h1 {
+  text-align: center;
+  color: rgb(112, 111, 111);
+}
+.header__wrapper {
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
   background: rgb(255, 255, 227);
 }
+
+.App__header {
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
 input {
   height: 30px;
-  width: 300px;
-  margin-right: 100px;
+  width: 200px;
   outline: none;
   border-radius: 5px;
   box-shadow: none;
@@ -25,6 +37,7 @@ input {
   list-style: none;
   font-size: 25px;
   color: rgb(104, 160, 245);
+  padding: 0;
 }
 
 .Nav__item {
@@ -75,4 +88,21 @@ td {
 }
 .person__man {
   color: rgb(104, 160, 245);
+}
+
+.wrapper__reversed {
+  display: flex;
+  width: 800px;
+  margin: 0 auto;
+}
+
+.title__reversed {
+  color: rgb(86, 150, 247);
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.btn__reversed {
+  width: 25px;
+  height: 25px;
 }
