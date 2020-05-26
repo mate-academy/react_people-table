@@ -45,3 +45,25 @@ h2 {
 .table {
   margin-top: 10px;
 }
+
+th {
+  position: relative;
+}
+
+.bi {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+button {
+  border: none;
+  background-color: transparent;
+}
+
+button,
+button:active,
+button:focus {
+  outline: none;
+}

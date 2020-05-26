@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
 import cn from 'classnames';
 
 type Props = {
@@ -7,14 +7,9 @@ type Props = {
 };
 
 export const PersonRow: React.FC<Props> = ({ people }) => {
-  const history = useHistory();
   const { personSlug } = useParams();
-
-  const handleSelectPerson = (personUrl: string) => {
-    history.push({
-      pathname: `/people/${personUrl}`,
-    });
-  };
+  const location = useLocation();
+  const history = useHistory();
 
   return (
     <>
@@ -24,10 +19,21 @@ export const PersonRow: React.FC<Props> = ({ people }) => {
             'table-active': person.slug === personSlug,
           })}
           key={person.id}
-          onClick={() => handleSelectPerson(person.slug)}
         >
           <th scope="row">{person.id}</th>
-          <td>{person.name}</td>
+          <td>
+            <button
+              type="button"
+              onClick={() => {
+                history.push({
+                  pathname: `/people/${person.slug}`,
+                  search: location.search,
+                });
+              }}
+            >
+              {person.name}
+            </button>
+          </td>
           <td className={cn({
             person__male: person.sex === 'm',
             person__female: person.sex === 'f',
@@ -37,8 +43,48 @@ export const PersonRow: React.FC<Props> = ({ people }) => {
           </td>
           <td>{person.born}</td>
           <td>{person.died}</td>
-          <td className="person__female">{person.motherName}</td>
-          <td className="person__male">{person.fatherName}</td>
+          <td>
+            {person.mother
+              ? (
+                <button
+                  type="button"
+                  className="person__female"
+                  onClick={() => {
+                    history.push({
+                      pathname: `/people/${person.mother?.slug}`,
+                      search: location.search,
+                    });
+                  }}
+                >
+                  {person.motherName}
+                </button>
+              ) : (
+                <span>
+                  {person.motherName}
+                </span>
+              )}
+          </td>
+          <td>
+            {person.mother
+              ? (
+                <button
+                  type="button"
+                  className="person__male"
+                  onClick={() => {
+                    history.push({
+                      pathname: `/people/${person.father?.slug}`,
+                      search: location.search,
+                    });
+                  }}
+                >
+                  {person.fatherName}
+                </button>
+              ) : (
+                <span>
+                  {person.fatherName}
+                </span>
+              )}
+          </td>
         </tr>
       ))}
     </>
