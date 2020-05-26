@@ -32,10 +32,6 @@ a {
   font-weight: 500;
 }
 
-.active {
-  background-color: #f2811d;
-}
-
 .table {
   border: 3px solid #323232;
   border-collapse: collapse;
@@ -49,8 +45,8 @@ a {
   &__header {
     font-weight: 500;
   }
+}
 
-  // &__body-row {
-  //   // border-collapse: collapse;
-  // }
+.active {
+  background-color: #f2811d;
 }
