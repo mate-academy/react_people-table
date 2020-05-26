@@ -10,17 +10,28 @@
   }
 
   & th {
+    user-select: none; 
     cursor: pointer;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding: 12px 0 12px 23px;
     text-align: left;
     background-color: #4caf50;
-    color: white;
+    color: black;
   }
 }
 
 .sortFlag {
   color: red;
-  top: 0;
+  left: 0;
+  top: 12px;
   position: absolute;
+}
+
+input[type=text] {
+  outline: none;
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid black;
 }

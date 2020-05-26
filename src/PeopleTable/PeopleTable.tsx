@@ -1,10 +1,13 @@
 import React, {
-  useState, useEffect, useMemo,
+  useState, useEffect, useMemo, useCallback,
 } from 'react';
+import debounce from 'lodash/debounce';
 import { useHistory, useLocation } from 'react-router-dom';
 import { getPeople, TABLE_TITLES } from '../api/api';
 import { PersonRow } from '../Person/PersonRow';
+
 import './PeopleTable.scss';
+
 
 const filterPeople = (people: Person[], query: string) => {
   return (
@@ -15,7 +18,6 @@ const filterPeople = (people: Person[], query: string) => {
 };
 
 export const PeopleTable = () => {
-  const [people, setPeople] = useState<Person[]>([]);
   const history = useHistory();
   const location = useLocation();
 
@@ -23,6 +25,10 @@ export const PeopleTable = () => {
   const query = useMemo(() => searchParams.get('query') || '', [searchParams]);
   const sortBy = useMemo(() => searchParams.get('sortBy') || '', [searchParams]);
   const sortOrder = useMemo(() => searchParams.get('sortOrder') || '', [searchParams]);
+
+  const [people, setPeople] = useState<Person[]>([]);
+  const [currentQuery, setCurrentQuery] = useState<string>(query);
+
 
   useEffect(() => {
     getPeople()
@@ -41,10 +47,12 @@ export const PeopleTable = () => {
       ));
   }, []);
 
+  const historyPushWithDebounce = useCallback(debounce(history.push, 500), []);
 
-  const handlerChange = (event: { target: { value: string } }) => {
+  const handlerQueryChange = (event: { target: { value: string } }) => {
+    setCurrentQuery(event.target.value);
     searchParams.set('query', event.target.value);
-    history.push({
+    historyPushWithDebounce({
       search: searchParams.toString(),
     });
   };
@@ -52,32 +60,41 @@ export const PeopleTable = () => {
   const preparedPeople = useMemo(() => filterPeople(people, query), [people, query]);
 
   useMemo(() => {
-    switch (sortBy) {
-      case 'id':
-      case 'born':
-      case 'died':
-        preparedPeople.sort((a, b) => a[sortBy] - b[sortBy]);
-        break;
-      case 'name':
-      case 'sex':
-
-        preparedPeople.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
-        break;
-      default:
-    }
-  },
-  [preparedPeople, sortBy]);
-
-  useMemo(() => {
     switch (sortOrder) {
       case 'desc':
-        preparedPeople.reverse();
+        switch (sortBy) {
+          case 'id':
+          case 'born':
+          case 'died':
+            preparedPeople.sort((a, b) => b[sortBy] - a[sortBy]);
+            break;
+          case 'name':
+          case 'sex':
+            preparedPeople.sort((a, b) => b[sortBy].localeCompare(a[sortBy]));
+            break;
+          default:
+        }
+
+        break;
+      case 'asc':
+        switch (sortBy) {
+          case 'id':
+          case 'born':
+          case 'died':
+            preparedPeople.sort((a, b) => a[sortBy] - b[sortBy]);
+            break;
+          case 'name':
+          case 'sex':
+            preparedPeople.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+            break;
+          default:
+        }
+
         break;
       default:
     }
   },
-  [preparedPeople, sortOrder]);
-
+  [preparedPeople, sortOrder, sortBy]);
 
   const handleTitleClick = (title: string) => {
     if (title === 'mother' || title === 'father') {
@@ -99,9 +116,10 @@ export const PeopleTable = () => {
   return (
     <>
       <input
+        placeholder=" Filtering people by name"
         type="text"
-        value={query}
-        onChange={handlerChange}
+        value={currentQuery}
+        onChange={handlerQueryChange}
       />
       <table className="people" role="grid">
         <thead>
@@ -112,7 +130,14 @@ export const PeopleTable = () => {
                 onClick={() => handleTitleClick(title.toLowerCase())}
               >
                 {title}
-                {title.toLowerCase() === sortBy && <span className="sortFlag">*</span>}
+                {sortOrder === 'asc' && title.toLowerCase() === sortBy
+                && (
+                  <img className="sortFlag" src="../api/sort-down.svg" alt="sort_icon" />
+                )}
+                {sortOrder === 'desc' && title.toLowerCase() === sortBy
+                && (
+                  <img className="sortFlag" src="../api/sort-up.svg" alt="sort_icon" />
+                )}
               </th>
             ))}
           </tr>
