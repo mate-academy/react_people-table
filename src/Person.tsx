@@ -7,6 +7,7 @@ type Props = {
 };
 
 export const Person: React.FC<Props> = ({ person }) => {
+
   return (
     <>
       <td>{person.id}</td>

@@ -20,22 +20,24 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
   const history = useHistory();
   const { name } = useParams();
   const sortBy = searchParams.get('sortBy');
-  const sortOrder = searchParams.get('sortOrder');
+  // const sortOrder = searchParams.get('sortOrder');
   const [sortedPeople, setSortedPeople] = useState<PeopleTable[]>([...people]);
 
   useEffect(() => {
     setSortedPeople([...people]);
   }, [people]);
 
+
+  console.log('dsf')
+
   useMemo(() => {
-    console.log('dsf')
     switch (sortBy) {
       case 'id':
       case 'died':
       case 'born':
       case 'age':
       case 'century':
-        sortedPeople.sort((a: any, b: any) => (a[sortBy] - b[sortBy]));
+       sortedPeople.sort((a: any, b: any) => (a[sortBy] - b[sortBy]));
         break;
       case 'name':
       case 'sex':
@@ -48,23 +50,15 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
     }
   }, [sortedPeople, sortBy]);
 
-  useMemo(() => {
-    switch (sortOrder) {
-      case 'desc':
-        sortedPeople.reverse();
-        break;
-      default:
-        break;
-    }
-  }, [sortedPeople, sortOrder]);
 
   const clickHandler = (table: string) => {
     if (searchParams.get('sortBy') === table
       && searchParams.get('sortOrder') === 'asc') {
       searchParams.set('sortOrder', 'desc');
-
+      sortedPeople.reverse();
     } else {
       searchParams.set('sortOrder', 'asc');
+      sortedPeople.reverse();
     }
 
     searchParams.set('sortBy', table.toLowerCase());
@@ -77,6 +71,7 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
   const handleChangePath = (e: string) => {
     history.push({
       pathname: `/people/${e}`,
+      search: searchParams.toString(),
     });
   };
 

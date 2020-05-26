@@ -1,4 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 import {
   NavLink,
   Switch,
@@ -10,6 +15,7 @@ import {
 import { getData } from './api';
 import './App.css';
 import { PeopleTable } from './PeopleTable';
+import debounce from 'lodash/debounce';
 
 const App = () => {
   const [people, setPeople] = useState<PeopleTable[]>([]);
@@ -18,32 +24,44 @@ const App = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get('query') || '';
+  const [currentQuery, setCurrentQuery] = useState(search)
 
   useEffect(() => {
     getData().then((data) => {
       setPeople(data);
     });
-  }, [people]);
+  }, []);
 
-  const visiblePeople = useMemo(() => {
+ const updateQuery = useCallback(
+   debounce((value: string) => {
+     history.push({ search: value });
+   }, 500),
+   [],
+ );
+
+    const visiblePeople = useMemo(() => {
     return people.filter(person => (
       (person.name + person.father + person.mother).toLowerCase().includes(search.toLowerCase())
     ));
   }, [people, search]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    searchParams.set('query', value.toLowerCase());
+    const {value} = e.target;
+    setCurrentQuery(value)
+    searchParams.set('query', value);
 
     if (!(searchParams.get('query') || '').trim()) {
       searchParams.delete('query');
     }
+    console.log('111')
 
-    history.push({
-      search: searchParams.toString(),
-    });
-  };
+    updateQuery(searchParams.toString());
+  }
+
+  useEffect(() => {
+    setCurrentQuery(search);
+  }, [search]);
+
 
   return (
     <div className="App">
@@ -58,7 +76,7 @@ const App = () => {
         </ul>
         <input
           type="text"
-          value={search}
+          value={currentQuery}
           placeholder="Type to search people"
           onChange={handleChange}
         />
