@@ -15,7 +15,10 @@ const Nav: React.FC = () => (
       </li>
       <li className="navlist__item">
         <NavLink
-          to="/people"
+          to={{
+            pathname:'/people',
+            search:'?query=',
+          }}
           className="navlist__link">
           People Page
         </NavLink>

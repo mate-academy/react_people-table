@@ -36,7 +36,7 @@
   width: 100px;
 }
 
-.PeopleTable thead td {
+.PeopleTable thead th {
   background: gray;
   border: 1px black solid;
   padding: 15px;

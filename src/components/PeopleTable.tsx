@@ -3,7 +3,6 @@ import {PersonRow} from './PersonRow';
 
 interface Props {
   people: Person[];
-  match: string;
 }
 const columnsName = ['NAME', 'SEX', 'BORN', 'DIED', 'FATHER', 'MOTHER'];
 

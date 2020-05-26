@@ -7,9 +7,9 @@ type Props = RouteComponentProps<{
   personSlug: string;
 }>
 
-const PeoplePage: React.FC<Props> = ({match}) => {
+const PeoplePage: React.FC<Props> = () => {
   const [people, setPeople] = useState<Person[]>([]);
-  const personSlug = match.params.personSlug;
+
 
   useEffect(() => {
       getPeople().then(setPeople)},
@@ -18,7 +18,7 @@ return(  <>
     <h1>People Page</h1>
   {people.length===0
     ? 'Loading....'
-    : <PeopleTable people={people} match={personSlug} />
+    : <PeopleTable people={people} />
   }
     </>
   );
