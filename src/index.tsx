@@ -5,7 +5,7 @@ import App from './App';
 
 ReactDOM.render(
   <HashRouter
-    basename={'/react_people-table'}
+   // basename={'/react_people-table'}
   >
     <App />
   </HashRouter>
