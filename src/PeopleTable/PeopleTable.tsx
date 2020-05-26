@@ -132,11 +132,11 @@ export const PeopleTable = () => {
                 {title}
                 {sortOrder === 'asc' && title.toLowerCase() === sortBy
                 && (
-                  <img className="sortFlag" src="../api/sort-down.svg" alt="sort_icon" />
+                  <img className="sortFlag" src="./api/sort-down.svg" alt="sort_icon" />
                 )}
                 {sortOrder === 'desc' && title.toLowerCase() === sortBy
                 && (
-                  <img className="sortFlag" src="../api/sort-up.svg" alt="sort_icon" />
+                  <img className="sortFlag" src="./api/sort-up.svg" alt="sort_icon" />
                 )}
               </th>
             ))}
