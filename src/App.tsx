@@ -4,10 +4,11 @@ import {
   Route,
   Switch,
   NavLink,
+  Redirect,
 } from 'react-router-dom';
 
 import './App.css';
-import People from './components/People';
+import PeopleTable from './components/PeopleTable';
 
 const App = () => (
   <div className="App">
@@ -16,12 +17,21 @@ const App = () => (
       <nav className="nav">
         <ul className="nav__list">
           <li className="nav__item">
-            <NavLink className="nav__link" to="/" exact>
+            <NavLink
+              className="nav__link"
+              to="/"
+              exact
+              activeClassName="nav__link--active"
+            >
               HomePage
             </NavLink>
           </li>
           <li className="nav__item">
-            <NavLink className="nav__link" to="/people">
+            <NavLink
+              className="nav__link"
+              to="/people"
+              activeClassName="nav__link--active"
+            >
               PeoplePage
             </NavLink>
           </li>
@@ -39,9 +49,10 @@ const App = () => (
       <Route
         path="/people/:personName?"
         render={({ match }) => (
-          <People currentPerson={match.params.id} />
+          <PeopleTable currentPerson={match.params.personName} />
         )}
       />
+      <Redirect from="/home" to="/" />
       <Route>
         <h1>Page not found</h1>
       </Route>

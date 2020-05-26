@@ -37,6 +37,17 @@ body {
   background-color: #d0bc81;
   border-radius: 25px;
   text-decoration: none;
+  color: black;
+}
+
+.nav__link:hover {
+  font-weight: bold;
+}
+
+.nav__link--active {
+  color: white;
+  font-weight: bold;
+  border: 2px solid #2b323a;
 }
 
 .page {
@@ -67,8 +78,16 @@ body {
   color: black;
 }
 
+.person:hover {
+  text-decoration: none;
+  color: white;
+}
+
 .person__active {
-  border: 2px solid white;
+  border: 2px solid #d0bc81;
+  padding: inherit;
+  border-radius: 10px;
+  background-color: #a1bca4;
 }
 
 .person__woman {
@@ -83,4 +102,8 @@ body {
   border-radius: 10px;
   padding: 5px;
   color: blue;
+}
+
+.active {
+  background-color: white;
 }

@@ -7,7 +7,7 @@ type Props = {
   currentPerson: string;
 };
 
-const People: React.FC<Props> = ({ currentPerson }) => {
+const PeopleTable: React.FC<Props> = ({ currentPerson }) => {
   const [people, setPeople] = useState<Person[]>([]);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const People: React.FC<Props> = ({ currentPerson }) => {
                     person: true,
                     person__active: currentPerson === person.name,
                   })}
-                  to={`people/:${person.name}`}
+                  to={`/people/${person.name}`}
                 >
                   {person.name}
                 </Link>
@@ -79,7 +79,7 @@ const People: React.FC<Props> = ({ currentPerson }) => {
               </td>
               <td className="people-table__prop">
                 <Link
-                  to={`people/:${person.motherName}`}
+                  to={`/people/:${person.motherName}`}
                   className={cn({
                     person: true,
                     person__active: currentPerson === person.motherName,
@@ -90,7 +90,7 @@ const People: React.FC<Props> = ({ currentPerson }) => {
               </td>
               <td className="people-table__prop">
                 <Link
-                  to={`people/:${person.fatherName}`}
+                  to={`/people/:${person.fatherName}`}
                   className={cn({
                     person: true,
                     person__active: currentPerson === person.fatherName,
@@ -108,4 +108,4 @@ const People: React.FC<Props> = ({ currentPerson }) => {
   );
 };
 
-export default People;
+export default PeopleTable;
