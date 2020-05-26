@@ -1,0 +1,24 @@
+.search__container {
+  margin: 0 auto;
+  display: flex;
+  margin-bottom: 20px;
+
+  input {
+    margin: 0 auto;
+    width: 70%;
+    height: 38px;
+    border: none;
+    border-bottom: 2px solid black;
+
+    &::placeholder {
+      font-size: 14px;
+      font-family: "Roboto", sans-serif;
+    }
+
+    &[type="text"] {
+      font-family: "Roboto", sans-serif;
+      padding-left: 30px;
+      font-size: 14px;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.people__container {
+  margin: 0 auto;
+}
+
+.people__table {
+  margin: 0 auto;
+  font-weight: 300;
+  margin-bottom: 50px;
+
+  table,
+  th,
+  td {
+    margin: 0 auto;
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  th {
+    background-color: rgb(32, 139, 104);
+    color: white;
+  }
+
+  tr,
+  td {
+    &:hover {
+      background-color: yellow;
+    }
+  }
+}
