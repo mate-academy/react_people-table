@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
 
@@ -10,10 +10,12 @@ type PersonRowProps = {
 const PersonRow: React.FC<PersonRowProps> = ({ people }) => {
   const history = useHistory();
   const { personSlug } = useParams();
+  const location = useLocation();
 
   const selectPerson = (personUrl: string) => {
     history.push({
       pathname: `/people/${personUrl}`,
+      search: location.search,
     });
   };
 
@@ -50,7 +52,7 @@ const PersonRow: React.FC<PersonRowProps> = ({ people }) => {
           <td>
             {person.age}
           </td>
-          <td className="person__male">
+          <td className="person__male" >
             {person.father}
           </td>
           <td className="person__female">

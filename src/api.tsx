@@ -11,8 +11,8 @@ export const getPreparedPeople = async () => {
   return peopleFromServer.map((person: Person, index: number) => ({
     ...person,
     id: index + 1,
-    father: person.fatherName ? person.fatherName : '',
-    mother: person.motherName ? person.motherName : '',
+    father: person.fatherName ? person.fatherName : '---',
+    mother: person.motherName ? person.motherName : '---',
     age: person.died - person.born,
     century: Math.ceil(person.died / 100),
   }));
