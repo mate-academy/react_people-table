@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+}
+
+.PeopleTable {
+  border-collapse: collapse;
+}
+
+.male {
+  color: blue;
+}
+
+.female {
+  color: red;
+}
+
+.none {
+  color: black;
+  font-weight: bold;
+}
+
+.purpleHorizon {
+  border: 4px solid #792396;
+  background-color: wheat;
+  width: 80%;
+  text-align: center;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.purpleHorizon td,
+table.purpleHorizon th {
+  border: 1px solid black;
+  padding: 5px 2px;
+}
+
+.purpleHorizon tbody td {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.purpleHorizon thead {
+  background: #792396;
+  border-bottom: 4px solid #792396;
+}
+
+.purpleHorizon thead th {
+  font-size: 19px;
+  font-weight: bold;
+  text-align: left;
+  border-left: 2px solid #792396;
+}
+
+.Person.Person-active {
+  background-color: cornflowerblue;
+}
