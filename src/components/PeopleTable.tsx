@@ -55,8 +55,6 @@ export const PeopleTable: React.FC<Props> = ({ location }) => {
         break;
       case 'name':
       case 'sex':
-      case 'mother':
-      case 'father':
         preparedPeople.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
         break;
       default:
@@ -66,16 +64,18 @@ export const PeopleTable: React.FC<Props> = ({ location }) => {
 
 
   const handlePeopleSort = (column: string) => {
-    if (sortBy === column && sortOrder === 'asc') {
-      searchParams.set('sortOrder', 'desc');
-    } else {
-      searchParams.set('sortOrder', 'asc');
-    }
+    if (column !== 'mother' && column !== 'father') {
+      if (sortBy === column && sortOrder === 'asc') {
+        searchParams.set('sortOrder', 'desc');
+      } else {
+        searchParams.set('sortOrder', 'asc');
+      }
 
-    searchParams.set('sortBy', column);
-    history.push({
-      search: searchParams.toString(),
-    });
+      searchParams.set('sortBy', column);
+      history.push({
+        search: searchParams.toString(),
+      });
+    }
   };
 
   useMemo(() => {
@@ -96,9 +96,7 @@ export const PeopleTable: React.FC<Props> = ({ location }) => {
                 onClick={() => handlePeopleSort(item)}
               >
                 {item}
-                {sortBy === item && (
-                  <>*</>
-                )}
+                {item === sortBy && '*'}
               </th>
             ))}
           </tr>
