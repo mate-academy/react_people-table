@@ -59,8 +59,10 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
   }, [sortedPeople, sortOrder]);
 
   const clickHandler = (table: string) => {
-    if (searchParams.get('sortBy') === table && searchParams.get('sortOrder') === 'asc') {
+    if (searchParams.get('sortBy') === table
+      && searchParams.get('sortOrder') === 'asc') {
       searchParams.set('sortOrder', 'desc');
+
     } else {
       searchParams.set('sortOrder', 'asc');
     }
@@ -72,7 +74,7 @@ export const PeopleTable: React.FC<Props> = ({ people, searchParams }) => {
     });
   };
 
-  const handleChangePath = (e: any) => {
+  const handleChangePath = (e: string) => {
     history.push({
       pathname: `/people/${e}`,
     });

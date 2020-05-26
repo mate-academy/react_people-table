@@ -34,7 +34,7 @@ const App = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    searchParams.set('query', value.toLowerCase().replace(' ', '-'));
+    searchParams.set('query', value.toLowerCase());
 
     if (!(searchParams.get('query') || '').trim()) {
       searchParams.delete('query');
@@ -48,7 +48,6 @@ const App = () => {
   return (
     <div className="App">
       <header>
-        {/* <p>{queryFromUrl}</p> */}
         <ul>
           <li className="header--item">
             <NavLink to="/" exact className="header--link">HOME</NavLink>
