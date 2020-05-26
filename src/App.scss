@@ -1,0 +1,79 @@
+body {
+  margin: 0;
+  text-align: center;
+}
+
+.header {
+  background-color: rgb(12, 219, 219);
+  position: sticky;
+  top: 0;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+
+  &__list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__link {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 25px;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: rgba(9, 158, 158, 0.5);
+    }
+
+    &--active {
+      background-color: rgb(9, 158, 158);
+    }
+  }
+}
+
+.people__table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+.table__header {
+  background-color: rgba(9, 158, 158, 0.7);
+  padding: 10px 20px;
+  color: white;
+  border-bottom: 1px solid white;
+}
+
+.table__row {
+  padding: 10px 20px;
+  background-color: rgba(9, 158, 158, 0.3);
+  border-bottom: 1px solid white;
+}
+
+.table__row-id {
+  font-weight: bold;
+}
+
+.table__row-woman {
+  color: red;
+}
+
+.table__row-man {
+  color: blue;
+}
+
+.table__person {
+  cursor: pointer;
+
+  &--active {
+    background-color: rgba(9, 158, 158, 0.4);
+  }
+}
