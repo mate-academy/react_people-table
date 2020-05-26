@@ -123,8 +123,8 @@ const PeopleTable = () => {
                         className="sort-arrow"
                         src={
                           sortOrder === 'asc'
-                            ? '/images/sort-down.svg'
-                            : '/images/sort-up.svg'
+                            ? 'images/sort-down.svg'
+                            : 'images/sort-up.svg'
                         }
                         alt="arrow"
                       />

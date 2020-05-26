@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 
 type Props = {
   person: Person;
@@ -19,8 +19,9 @@ const PersonRow: React.FC<Props> = ({ person }) => {
     mother,
   } = person;
 
+  const location = useLocation();
   const { personSlug } = useParams();
-
+  const searchParams = new URLSearchParams(location.search);
 
   return (
     <tr
@@ -32,7 +33,11 @@ const PersonRow: React.FC<Props> = ({ person }) => {
       })}
     >
       <td>
-        <Link to={`/people/${slug}`}>
+        <Link to={{
+          pathname: `/people/${slug}`,
+          search: searchParams.toString(),
+        }}
+        >
           {name}
         </Link>
       </td>
@@ -47,7 +52,11 @@ const PersonRow: React.FC<Props> = ({ person }) => {
       </td>
       <td>
         {father ? (
-          <Link to={`/people/${father.slug}`}>
+          <Link to={{
+            pathname: `/people/${father.slug}`,
+            search: searchParams.toString(),
+          }}
+          >
             {fatherName}
           </Link>
         ) : (
@@ -59,8 +68,10 @@ const PersonRow: React.FC<Props> = ({ person }) => {
       <td>
         {mother ? (
           <Link
-            to={`/people/${mother.slug}`}
-
+            to={{
+              pathname: `/people/${mother.slug}`,
+              search: searchParams.toString(),
+            }}
           >
             {motherName}
           </Link>
