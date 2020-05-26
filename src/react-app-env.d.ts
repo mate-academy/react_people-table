@@ -8,6 +8,18 @@ interface Person {
   slug: string;
 }
 
+interface SortQuery {
+  id: string;
+  name: string;
+  sex: string;
+  born: string;
+  died: string;
+  age: string;
+  century: string;
+  mother: string;
+  father: string;
+}
+
 interface PersonWithId extends Person {
   id: number;
   father?: Person;
