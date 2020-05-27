@@ -1,5 +1,5 @@
 import React from 'react';
-import {useParams, useHistory} from "react-router-dom";
+import {useParams, useHistory, useLocation} from "react-router-dom";
 import classnames from 'classnames';
 
 
@@ -11,11 +11,13 @@ type PersonRowProps = {
 export const PersonRow: React.FC<PersonRowProps> = ({person}) => {
   const {personSlug} = useParams();
   const history = useHistory();
+  const location = useLocation();
   const{ name, sex, born, died, motherName, fatherName, slug} = person;
 
 
   const handleSelectPerson = (personUrl: string) => {
     history.push({
+      search:location.search,
       pathname: `/people/${personUrl}`,
     });
   };

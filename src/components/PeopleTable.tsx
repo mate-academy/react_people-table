@@ -18,16 +18,13 @@ export const PeopleTable: React.FC<Props> = ({people}) => {
   const getPeople = (people: Person[], sortBy: string) => {
     switch (sortBy) {
       case 'name':
-        return [...people].sort((a, b) => a.name.localeCompare(b.name));
+      case 'sex':
+        return [...people].sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
 
       case 'died':
-        return [...people].sort((a, b) => a.died - b.died);
-
       case 'born':
-        return [...people].sort((a, b) => a.born - b.born);
+        return [...people].sort((a, b) => a[sortBy] - b[sortBy]);
 
-      case 'sex':
-        return [...people].sort((a, b) => a.sex.localeCompare(b.sex));
       default:
         return people;
     }
