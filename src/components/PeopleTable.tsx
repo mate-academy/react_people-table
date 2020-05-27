@@ -132,7 +132,14 @@ export const PeopleTable: React.FC<Props> = () => {
                 onClick={() => handlePeopleSort(title)}
               >
                 {title}
-                {sortBy === title ? '*' : ''}
+                {sortOrder === 'asc' && title === sortBy
+                && (
+                  <img className="sortFlag" src="../../images/sort-down.svg" alt="sort_icon" />
+                )}
+                {sortOrder === 'desc' && title.toLowerCase() === sortBy
+                && (
+                  <img className="sortFlag" src="../../images/sort-up.svg" alt="sort_icon" />
+                )}
               </th>
             ))}
           </tr>
