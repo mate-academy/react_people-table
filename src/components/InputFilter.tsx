@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import debounce from 'lodash/debounce';
 
 export const InputFilter = () => {
   const history = useHistory();
@@ -7,6 +8,21 @@ export const InputFilter = () => {
 
   const searchParams = new URLSearchParams(location.search);
   const query: string = searchParams.get('query') || '';
+  const [currentQuery, setCurrentQuery] = useState<string>(query);
+
+  const searchQueryWithDebounce = useCallback(debounce(history.push, 500), []);
+
+  const handleSearchChange = (event: { target: { value: string }}) => {
+    setCurrentQuery(event.target.value);
+    searchParams.set('query', event.target.value);
+    searchQueryWithDebounce({
+      search: searchParams.toString(),
+    });
+  };
+
+  useEffect(() => {
+    setCurrentQuery(query);
+  }, [query]);
 
   return (
     <>
@@ -14,12 +30,8 @@ export const InputFilter = () => {
         className="form-control"
         type="text"
         placeholder="Type Person Name, Father Name or Mother Name"
-        value={query}
-        onChange={(event) => {
-          history.push({
-            search: `?query=${event.target.value}`,
-          });
-        }}
+        value={currentQuery}
+        onChange={handleSearchChange}
       />
     </>
   );

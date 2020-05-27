@@ -5,13 +5,14 @@ import { PersonRow } from './PersonRow';
 import { InputFilter } from './InputFilter';
 
 
-
 type Props = RouteComponentProps<{
   location: string;
 }>;
 
 export const PeopleTable: React.FC<Props> = ({ location }) => {
   const [people, setPeople] = useState<Person[]>([]);
+
+
   const history = useHistory();
   const searchParams = new URLSearchParams(location.search);
   const query = useMemo(() => searchParams.get('query'), [searchParams]) || '';
