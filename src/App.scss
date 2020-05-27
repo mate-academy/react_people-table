@@ -25,3 +25,40 @@ html, body, ul {
     color: white;
   }
 }
+
+.people {
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background-color: skyblue;
+
+  a {
+    text-decoration: none;
+  }
+
+  th {
+    padding: 10px;
+    border: 1px solid #fff;
+  }
+
+  &__header {
+    background-color: #72a6da;
+  }
+
+  .person {
+    cursor: pointer;
+
+    &__male {
+      color: #8b0000;;
+    }
+
+    &__female {
+      color: #00008b;
+    }
+  }
+
+  .person--active {
+    background-color: #72a6da;
+  }
+}

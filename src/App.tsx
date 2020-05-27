@@ -13,7 +13,7 @@ const App = () => {
       <Header />
       <Switch>
         <Route path="/" exact render={() => <h1>Home</h1>} />
-        <Route path="/people" component={PeopleTable} />
+        <Route path="/people/:personSlug?" component={PeopleTable} />
         <Redirect from="/home" to="/" />
         <Route>
           <h1>Page not found</h1>

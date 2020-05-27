@@ -13,8 +13,8 @@ export const PersonName: React.FC<PersonNameType> = ({ name, slug, sex }) => {
     <Link
       className={cn(
         `${slug}`,
-        { male: sex === 'm' },
-        { female: sex === 'f' },
+        { person__male: sex === 'm' },
+        { person__female: sex === 'f' },
       )}
       to={`/people/${slug}`}
     >

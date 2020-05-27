@@ -37,9 +37,9 @@ export const PeopleTable: React.FC<Props> = () => {
   }, []);
 
   return (
-    <table className="people__table people">
+    <table className="PeopleTable people">
       <thead>
-        <tr>
+        <tr className="people__header">
           {theads.map((title: string) => (
             <th key={title}>
               {title}
