@@ -1,18 +1,31 @@
 import React from 'react';
 import cn from 'classnames';
-import { Table, Menu, Icon } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import TableCells from '../TableCells';
+import Paginator from '../Paginator';
 import './PeopleTable.scss';
 
 type Props = {
   path: string;
+  page: number;
+  totalPages: number;
   people: Person[];
   tableHeaders: TableHeader[];
   sortTable: (arg: string) => void;
-  onSelect: (field: string, person: Person) => void;
+  onSelectPerson: (field: string, person: Person) => void;
+  onSelectPage: (_: React.SyntheticEvent, { activePage }: any) => void;
 };
 
-const PeopleTable: React.FC<Props> = ({ path, people, tableHeaders, sortTable, onSelect }) => {
+const PeopleTable: React.FC<Props> = ({
+  path,
+  page,
+  totalPages,
+  people,
+  tableHeaders,
+  sortTable,
+  onSelectPerson,
+  onSelectPage,
+}) => {
   return (
     <Table celled className="PeopleTable">
       <Table.Header>
@@ -41,7 +54,7 @@ const PeopleTable: React.FC<Props> = ({ path, people, tableHeaders, sortTable, o
             <TableCells
               person={person}
               tableHeaders={tableHeaders}
-              onSelect={onSelect}
+              onSelect={onSelectPerson}
             />
           </Table.Row>
         ))}
@@ -49,20 +62,11 @@ const PeopleTable: React.FC<Props> = ({ path, people, tableHeaders, sortTable, o
 
       <Table.Footer>
         <Table.Row>
-          <Table.HeaderCell colSpan="3">
-            <Menu floated="right" pagination>
-              <Menu.Item as="a" icon>
-                <Icon name="chevron left" />
-              </Menu.Item>
-              <Menu.Item as="a">1</Menu.Item>
-              <Menu.Item as="a">2</Menu.Item>
-              <Menu.Item as="a">3</Menu.Item>
-              <Menu.Item as="a">4</Menu.Item>
-              <Menu.Item as="a" icon>
-                <Icon name="chevron right" />
-              </Menu.Item>
-            </Menu>
-          </Table.HeaderCell>
+          <Paginator
+            page={page}
+            totalPages={totalPages}
+            onSelectPage={onSelectPage}
+          />
         </Table.Row>
       </Table.Footer>
     </Table>

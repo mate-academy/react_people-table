@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { Header } from 'semantic-ui-react';
 import PeopleTable from '../PeopleTable';
@@ -62,12 +62,17 @@ const PeoplePage = () => {
   const { personName } = useParams();
   const searchParams = new URLSearchParams(location.search);
   const query: string = searchParams.get('query') || '';
-  const sortedBy: keyof HeadersConfig | null = searchParams
+  const page: number = Number(searchParams.get('page')) || 1;
+  const perPage: number = Number(searchParams.get('perPage')) || 40;
+  const sortedBy: keyof HeadersConfig = searchParams
     .get('sortBy') as keyof HeadersConfig || 'id';
 
   const tableHeaders = createTableHeaders(people);
+  const start = (page - 1) * perPage;
+  const totalPages = Math.round(people.length / perPage);
   const visiblePeople = people
-    .filter(person => (new RegExp(query, 'i')).test(person.name));
+    .filter(person => (new RegExp(query, 'i')).test(person.name))
+    .slice(start, start + perPage);
 
   useEffect(() => {
     getTabs().then(res => {
@@ -75,7 +80,7 @@ const PeoplePage = () => {
     });
   }, []);
 
-  useMemo(() => {
+  useEffect(() => {
     setPeople(ppl => ppl.sort(sortType(sortedBy)));
   }, [sortedBy]);
 
@@ -96,7 +101,7 @@ const PeoplePage = () => {
     });
   }, [history, searchParams]);
 
-  const handleSelect = useCallback((field, person) => {
+  const handleSelectPerson = useCallback((field, person) => {
     const path: string | undefined = people
       .find(parent => parent.name === person[field])?.slug;
 
@@ -112,6 +117,10 @@ const PeoplePage = () => {
       }
     }
   }, [people, historyPush]);
+
+  const handleSelectPage = (_: React.SyntheticEvent, { activePage }: any) => {
+    historyPush({ page: String(activePage) }, personName);
+  };
 
   if (!people.length) {
     return <p>Loading...</p>;
@@ -140,8 +149,11 @@ const PeoplePage = () => {
         people={visiblePeople}
         tableHeaders={tableHeaders}
         sortTable={sortTable}
-        onSelect={handleSelect}
+        onSelectPerson={handleSelectPerson}
+        onSelectPage={handleSelectPage}
         path={personName}
+        page={page}
+        totalPages={totalPages}
       />
     </div>
   );

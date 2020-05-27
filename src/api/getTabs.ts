@@ -9,7 +9,6 @@ export const getData = async (url: string) => {
 
 export const getTabs = async (): Promise<Person[]> => {
   const people = await getData(`${BASE_URL}${API_URL}`);
-  console.log('people');
 
   return people.map((person: Person, idx: number) => ({
     ...person,
