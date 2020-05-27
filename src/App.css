@@ -61,6 +61,21 @@ body {
   padding: 10px;
 }
 
+.searh-input {
+  height: 30px;
+  width: 300px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  outline: none;
+  border: 3px solid #2b323a;
+  padding-left: 10px;
+  background-color: #a1bca4;
+}
+
+.searh-input:focus {
+  background-color: white;
+}
+
 .people-table {
   margin: 0 auto;
   border: 3px solid #2b323a;
@@ -102,8 +117,4 @@ body {
   border-radius: 10px;
   padding: 5px;
   color: blue;
-}
-
-.active {
-  background-color: white;
 }
