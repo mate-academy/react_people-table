@@ -25,6 +25,7 @@ export const PersonRow: React.FC<PropsPersonRow> = ({ person }) => {
   } = person;
 
   const { personSlug } = useParams();
+  const classes = { table__body: true, male: sex === 'm', female: sex === 'f' };
 
   return (
     <tr
@@ -34,19 +35,19 @@ export const PersonRow: React.FC<PropsPersonRow> = ({ person }) => {
       <td className="table__body">
         {id}
       </td>
-      <td className={classnames({ table__body: true, male: sex === 'm', female: sex === 'f' })}>
+      <td className={classnames(classes)}>
         <Link to={`/people/${slug}`}>
           {name}
         </Link>
       </td>
-      <td className={classnames({ table__body: true, male: sex === 'm', female: sex === 'f' })}>
+      <td className={classnames(classes)}>
         {person.sex}
       </td>
-      <td className={classnames({ table__body: true, male: sex === 'm', female: sex === 'f' })}>
+      <td className={classnames(classes)}>
         {born}
       </td>
-      <td className={classnames({ table__body: true, male: sex === 'm', female: sex === 'f' })}>-</td>
-      <td className={classnames({ table__body: true, male: sex === 'm', female: sex === 'f' })}>
+      <td className={classnames(classes)}>-</td>
+      <td className={classnames(classes)}>
         {died}
       </td>
       <td className="table__body female">
@@ -55,7 +56,7 @@ export const PersonRow: React.FC<PropsPersonRow> = ({ person }) => {
             {motherName}
           </Link>
         ) : (
-          <span>{ motherName || ' - - -' }</span>
+          <span>{ motherName || ' - - - ' }</span>
         )}
       </td>
       <td className="table__body male">
@@ -65,7 +66,7 @@ export const PersonRow: React.FC<PropsPersonRow> = ({ person }) => {
             {fatherName}
           </Link>
         ) : (
-          <span>{ fatherName || ' - - -' }</span>
+          <span>{ fatherName || ' - - - ' }</span>
         )}
       </td>
     </tr>
