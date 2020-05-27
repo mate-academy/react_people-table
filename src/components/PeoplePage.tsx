@@ -1,4 +1,8 @@
-import React, { useState, useEffect, ChangeEventHandler } from 'react';
+import React, {
+  useState, useEffect, ChangeEventHandler, useCallback,
+} from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import debounce from 'lodash/debounce';
 import { getPeople } from '../helpers/api';
 import { PersonRow } from './PersonRow';
 
@@ -8,9 +12,30 @@ export const PeoplePage = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const [query, setQuery] = useState('');
 
+  const location = useLocation();
+  const history = useHistory();
+  const searchParams = new URLSearchParams(location.search);
+
+  const applyQueryWithDebaunce = useCallback(
+    debounce((queryValue: string) => {
+      if (!queryValue) {
+        searchParams.delete('query');
+      } else {
+        searchParams.set('query', queryValue);
+      }
+
+      history.push({ search: searchParams.toString() });
+    }, 1000), [],
+  );
+
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     setQuery(target.value);
+    applyQueryWithDebaunce(target.value);
   };
+
+  const queryFromUrl = searchParams.get('query') || '';
+
+  useEffect(() => setQuery(queryFromUrl), [queryFromUrl]);
 
   useEffect(() => {
     getPeople().then(peopleFromServer => {
@@ -24,8 +49,9 @@ export const PeoplePage = () => {
       return setPeople(preparedPeople);
     });
   }, []);
+
   const visiblePeople = people.filter(({ name, fatherName, motherName }) => {
-    return (name + motherName + fatherName).toLowerCase().includes(query.toLowerCase());
+    return (name + motherName + fatherName).toLowerCase().includes((queryFromUrl).toLowerCase());
   });
 
   return (
@@ -40,7 +66,7 @@ export const PeoplePage = () => {
         />
       </div>
       {visiblePeople.length === 0
-        ? <div>No requested data, dude</div>
+        ? <h3>No requested data, dude</h3>
         : (
           <table className="table">
             <thead>
