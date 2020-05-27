@@ -1,0 +1,120 @@
+body {
+  background-color: #fdefd5;
+}
+
+.header {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #a1bca4;
+  height: 100px;
+  border-radius: 20px;
+}
+
+.header__title {
+  margin: 0;
+  line-height: 100px;
+}
+
+.nav {
+  text-align: center;
+}
+
+.nav__list {
+  display: flex;
+  list-style: none;
+}
+
+.nav__item {
+  text-align: center;
+  line-height: 50px;
+}
+
+.nav__link {
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  margin: 10px;
+  background-color: #d0bc81;
+  border-radius: 25px;
+  text-decoration: none;
+  color: black;
+}
+
+.nav__link:hover {
+  font-weight: bold;
+}
+
+.nav__link--active {
+  color: white;
+  font-weight: bold;
+  border: 2px solid #2b323a;
+}
+
+.page {
+  border-radius: 20px;
+  background-color: #546c66;
+  text-align: center;
+}
+
+.page__title {
+  margin: 0;
+  padding: 10px;
+}
+
+.searh-input {
+  height: 30px;
+  width: 300px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  outline: none;
+  border: 3px solid #2b323a;
+  padding-left: 10px;
+  background-color: #a1bca4;
+}
+
+.searh-input:focus {
+  background-color: white;
+}
+
+.people-table {
+  margin: 0 auto;
+  border: 3px solid #2b323a;
+  border-radius: 10px;
+}
+
+.people-table__prop {
+  border: 1px solid #2b323a;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.person {
+  text-decoration: none;
+  color: black;
+}
+
+.person:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.person__active {
+  border: 2px solid #d0bc81;
+  padding: inherit;
+  border-radius: 10px;
+  background-color: #a1bca4;
+}
+
+.person__woman {
+  border: 1px solid #2b323a;
+  border-radius: 10px;
+  padding: 5px;
+  color: red;
+}
+
+.person__man {
+  border: 1px solid #2b323a;
+  border-radius: 10px;
+  padding: 5px;
+  color: blue;
+}
