@@ -24,4 +24,6 @@ interface PersonWithId extends Person {
   id: number;
   father?: Person;
   mother?: Person;
+  century: number;
+  age: number;
 }

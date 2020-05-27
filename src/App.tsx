@@ -17,84 +17,92 @@ const App = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
 
+  enum enumNumbers {
+    id = 'id',
+    born = 'born',
+    died = 'died',
+    century = 'century',
+    age = 'age',
+  }
+  enum enumString {
+    name = 'name',
+    sex = 'sex',
+    motherName = 'motherName',
+    fatherName = 'fatherName',
+  }
+
   useEffect(() => {
-    peopleFromServer.then(result => (
+    peopleFromServer.then(result => {
       setPeople(result.map((person, index) => (
         {
           ...person,
           id: index + 1,
           father: result.find(personFather => personFather.name === person.fatherName),
           mother: result.find(personMother => personMother.name === person.motherName),
+          century: Math.ceil(person.died / 100),
+          age: person.died - person.born,
         }
-      )))
-    ));
+      )));
+    });
   }, []);
 
-  // const sortByNumber = (query: string) => (
-  //   (searchParams.get('sortOrder') === 'asc')
-  //     ? setPeople([...people].sort((a, b) => a[checkQuery(query)] - b[query]))
-  //     : setPeople([...people].sort((a, b) => b[query] - a[query]))
-  // );
+  const sortByNumber = (query: enumNumbers) => {
+    if (searchParams.get('sortOrder') === 'asc') {
+      return (a: PersonWithId, b: PersonWithId) => a[query] - b[query];
+    }
+
+    return (a: PersonWithId, b: PersonWithId) => b[query] - a[query];
+  };
+
+  const sortByString = (query: enumString) => {
+    if (searchParams.get('sortOrder') === 'asc') {
+      return (a: PersonWithId, b: PersonWithId) => (
+        (a[query] || 'z').localeCompare((b[query] || 'z'))
+      );
+    }
+
+    return (a: PersonWithId, b: PersonWithId) => (
+      (b[query] || 'z').localeCompare((a[query] || 'z'))
+    );
+  };
+
+  let comparator: (a: PersonWithId, b: PersonWithId) => number = () => 0;
 
   useMemo(() => {
     switch (searchParams.get('sortBy')) {
       case 'id':
-        (searchParams.get('sortOrder') === 'asc')
-          ? setPeople([...people].sort((a, b) => a.id - b.id))
-          : setPeople([...people].sort((a, b) => b.id - a.id));
+        comparator = sortByNumber(enumNumbers.id);
         break;
       case 'name':
-        (searchParams.get('sortOrder') === 'asc')
-          ? setPeople([...people].sort((a, b) => a.name.localeCompare(b.name)))
-          : setPeople([...people].sort((a, b) => b.name.localeCompare(a.name)));
+        comparator = sortByString(enumString.name);
         break;
       case 'sex':
-        (searchParams.get('sortOrder') === 'asc')
-          ? setPeople([...people].sort((a, b) => a.sex.localeCompare(b.sex)))
-          : setPeople([...people].sort((a, b) => b.sex.localeCompare(a.sex)));
+        comparator = sortByString(enumString.sex);
         break;
       case 'born':
-        (searchParams.get('sortOrder') === 'asc')
-          ? setPeople([...people].sort((a, b) => a.born - b.born))
-          : setPeople([...people].sort((a, b) => b.born - a.born));
+        comparator = sortByNumber(enumNumbers.born);
         break;
       case 'died':
-        (searchParams.get('sortOrder') === 'asc')
-          ? setPeople([...people].sort((a, b) => a.died - b.died))
-          : setPeople([...people].sort((a, b) => b.died - a.died));
+        comparator = sortByNumber(enumNumbers.died);
         break;
       case 'age':
-        (searchParams.get('sortOrder') === 'asc')
-          ? setPeople([...people].sort((a, b) => (
-            (a.died - a.born) - (b.died - b.born)
-          )))
-          : setPeople([...people].sort((a, b) => (
-            (b.died - b.born) - (a.died - a.born)
-          )));
+        comparator = sortByNumber(enumNumbers.age);
         break;
       case 'century':
-        (searchParams.get('sortOrder') === 'asc')
-          ? setPeople([...people].sort((a, b) => (
-            Math.ceil(a.died / 100) - Math.ceil(b.died / 100)
-          )))
-          : setPeople([...people].sort((a, b) => (
-            Math.ceil(b.died / 100) - Math.ceil(a.died / 100)
-          )));
+        comparator = sortByNumber(enumNumbers.century);
         break;
       case 'mother':
-        (searchParams.get('sortOrder') === 'asc')
-          ? setPeople([...people].sort((a, b) => (a.motherName || 'z').localeCompare((b.motherName || 'z'))))
-          : setPeople([...people].sort((a, b) => (b.motherName || 'z').localeCompare((a.motherName || 'z'))));
+        comparator = sortByString(enumString.motherName);
         break;
       case 'father':
-        (searchParams.get('sortOrder') === 'asc')
-          ? setPeople([...people].sort((a, b) => (a.fatherName || 'z').localeCompare((b.fatherName || 'z'))))
-          : setPeople([...people].sort((a, b) => (b.fatherName || 'z').localeCompare((a.fatherName || 'z'))));
+        comparator = sortByString(enumString.fatherName);
         break;
       default:
         setPeople(people);
         break;
     }
+
+    setPeople([...people.sort(comparator)]);
   }, [location.search]);
 
   return (

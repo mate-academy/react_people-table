@@ -35,12 +35,12 @@ const THead = () => {
               onClick={() => {
                 searchParams.set('sortBy', param);
 
-                (
-                  searchParams.get('sortOrder') === 'asc'
-                  && searchParams.get('sortBy') === currentSortParam
-                )
-                  ? searchParams.set('sortOrder', 'desc')
-                  : searchParams.set('sortOrder', 'asc');
+                if (searchParams.get('sortOrder') === 'asc'
+                  && searchParams.get('sortBy') === currentSortParam) {
+                  searchParams.set('sortOrder', 'desc');
+                } else {
+                  searchParams.set('sortOrder', 'asc');
+                }
 
                 history.push(
                   {
