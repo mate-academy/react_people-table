@@ -4,7 +4,7 @@ html, body, ul {
 
 .nav {
   height: 50px;
-  background-color: slategrey;
+  background-color: rgba(0, 144, 204, 1);
 
   &__list {
     display: flex;
@@ -45,7 +45,7 @@ html, body, ul {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  background-color: skyblue;
+  background-color: rgba(135, 206, 235, 0.2);;
 
   a {
     text-decoration: none;
@@ -53,19 +53,18 @@ html, body, ul {
 
   th {
     padding: 10px;
-    padding-right: 20px;
-    border: 1px solid #fff;
+    border: 1px solid skyblue;
   }
 
   &__header {
-    background-color: #72a6da;
+    background-color: #19BBFF;
   }
 
   .person {
     cursor: pointer;
 
     &__female {
-      color: #8b0000;;
+      color: #be0000;
     }
 
     &__male {
@@ -74,6 +73,6 @@ html, body, ul {
   }
 
   .person--active {
-    background-color: #72a6da;
+    background-color: rgba(135, 206, 235, 0.8);
   }
 }

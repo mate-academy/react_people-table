@@ -73,12 +73,10 @@ export const PeopleTable: React.FC<Props> = () => {
 
       case 'name':
       case 'sex':
-      case 'father':
-      case 'mother':
         return visiblePeople.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
 
       default:
-        return people;
+        return visiblePeople;
     }
   },
   [visiblePeople, sortBy, sortOrder]);
