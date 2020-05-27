@@ -16,7 +16,8 @@ export const InputFilter = () => {
     setCurrentQuery(event.target.value);
     searchParams.set('query', event.target.value);
     searchQueryWithDebounce({
-      search: searchParams.toString(),
+      // search: searchParams.toString(),
+      search: `?query=${event.target.value}`,
     });
   };
 

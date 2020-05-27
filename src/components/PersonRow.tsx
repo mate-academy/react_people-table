@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import cn from 'classnames';
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
 
 export const PersonRow: React.FC<Props> = ({ people }) => {
   const history = useHistory();
+  const location = useLocation();
   const { personName } = useParams();
 
   return (
@@ -21,6 +22,7 @@ export const PersonRow: React.FC<Props> = ({ people }) => {
           onClick={() => {
             history.push({
               pathname: `/people/${person.slug}`,
+              search: location.search,
             });
           }}
         >
