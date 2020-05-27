@@ -1,12 +1,34 @@
-import React from 'react';
-import { NavLink, Route, useHistory, useLocation } from 'react-router-dom';
+import React, { ChangeEventHandler, useCallback, useState } from 'react';
+import {
+  NavLink, Route, useHistory, useLocation,
+} from 'react-router-dom';
+import debounce from 'lodash.debounce';
 
 export const Header = () => {
   const history = useHistory();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search)
+  const searchParams = new URLSearchParams(location.search);
 
-  const querySearch = searchParams.get('query') || '';
+  const [queryWord, setQueryWord] = useState(searchParams.get('query') || '');
+
+  const applyQuery = useCallback(
+    debounce((query: string) => {
+      if (query) {
+        searchParams.set('query', query);
+      } else {
+        searchParams.delete('query');
+      }
+
+      history.push({ search: searchParams.toString() });
+    }, 1000), [],
+  );
+
+
+  const hadleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+    setQueryWord(target.value);
+    applyQuery(target.value);
+  };
+
   return (
     <header className="navbar bg-secondary">
       <div className="container">
@@ -21,18 +43,14 @@ export const Header = () => {
           </ul>
         </nav>
         <Route path="/people">
-          <input placeholder="Search"
-          value = {querySearch}
-          onChange = {(e) => {
-            searchParams.set('query', e.target.value)
-            history.push({
-              search: searchParams.toString()
-            })
-          }}
-          type="text"/>
+          <input
+            placeholder="Search"
+            value={queryWord}
+            onChange={hadleChange}
+            type="text"
+          />
         </Route>
       </div>
-
 
 
     </header>

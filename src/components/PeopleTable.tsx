@@ -26,13 +26,12 @@ export const PeopleTable = ({ people }: PeopleList) => {
 
   const querySearch = searchParams.get('query') || '';
   const sortBy = searchParams.get('sortBy') || '';
-
+  const isSortedAsk = searchParams.get('sortOrder') !== 'desc';
   const getVisiblePeople = (peopleGeneral: PersonCompleted[], query: string) => {
     const patternSearch = new RegExp(query, 'i');
+
     return peopleGeneral.filter(p => {
-      console.log(p.motherName)
-      console.log(patternSearch.test(p.motherName))
-      return patternSearch.test(p.name + p.motherName + p.fatherName)
+      return patternSearch.test(p.name + p.motherName + p.fatherName);
     });
   };
 
@@ -56,11 +55,18 @@ export const PeopleTable = ({ people }: PeopleList) => {
   };
 
   const visiblePeople = useMemo(() => {
-    return [...getVisiblePeople(people, querySearch)].sort(sortPeople(sortBy));
-  }, [querySearch, sortBy, people]);
+    const result = [...getVisiblePeople(people, querySearch)].sort(sortPeople(sortBy));
+
+    if (isSortedAsk) {
+      return result;
+    }
+
+    return result.reverse();
+  }, [querySearch, sortBy, isSortedAsk, people]);
 
 
   const Sort = (sort: string) => {
+    searchParams.set('sortOrder', isSortedAsk ? 'desc' : 'ask');
     if (sort) {
       searchParams.set('sortBy', sort);
       history.push({
@@ -82,7 +88,7 @@ export const PeopleTable = ({ people }: PeopleList) => {
               }}
             >
               {title.name}
-              {sortBy === title.sort && '*' }
+              {sortBy === title.sort && (isSortedAsk ? ' ⇑' : ' ⇓') }
             </th>
           ))}
         </tr>
