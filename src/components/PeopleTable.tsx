@@ -29,7 +29,6 @@ export const PeopleTable = ({ people }: PeopleList) => {
 
   const getVisiblePeople = (peopleGeneral: PersonCompleted[], query: string) => {
     const patternSearch = new RegExp(query, 'i');
-    console.log()
     return peopleGeneral.filter(p => {
       console.log(p.motherName)
       console.log(patternSearch.test(p.motherName))
