@@ -11,8 +11,8 @@ interface Person {
   id: number;
   name: string;
   sex: string;
-  fatherName: string | null;
-  motherName: string | null;
+  fatherName: string;
+  motherName: string;
   father: object | string;
   mother: object | string;
   born: number;
