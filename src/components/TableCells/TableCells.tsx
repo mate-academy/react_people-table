@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
-import './TableCells.scss';
 import { Table } from 'semantic-ui-react';
+import './TableCells.scss';
 
 type Props = {
   person: Person;
