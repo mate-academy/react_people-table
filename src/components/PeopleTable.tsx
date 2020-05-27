@@ -53,7 +53,7 @@ export const PeopleTable: React.FC<Props> = () => {
       ));
   }, []);
 
-  const getVisiblePeople = (peopleCompleted: PersonType[], querySearch: string) => {
+  const getVisiblePeople = (peopleCompleted: PersonWithParents[], querySearch: string) => {
     const pattern = new RegExp(querySearch, 'i');
 
     return peopleCompleted
@@ -73,6 +73,8 @@ export const PeopleTable: React.FC<Props> = () => {
 
       case 'name':
       case 'sex':
+      case 'father':
+      case 'mother':
         return visiblePeople.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
 
       default:
