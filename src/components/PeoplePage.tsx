@@ -1,58 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import {
-  RouteComponentProps,
-
-} from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom';
 import classnames from 'classnames';
+//import debounce from 'lodash.debounce';
 
 const getPeople = (): Promise<Person[]> => {
   return fetch('./api/people.json')
     .then(res => res.json());
 }
 
-
 type Props = RouteComponentProps<{
   personName: string;
 }>;
 
-//const pattern = new RegExp(query, 'i');
-
-// const visiblePeople = people
-//   .filter(p => pattern.test(p.name))
-
-// useEffect(() => {
-//   getPeople().then(getPeople)
-// }, []);
-
-// if (people.length === 0) {
-//   return <p>Loading...</p>;
-// }
-// if (personName && !people.some(p => p.name === personName)) {
-//   history.push({
-//     pathname: '/people',
-//     //search: '&page=1&perPages=5'
-//   });
-// }
-
 const PeoplePage: React.FC<Props> = ({ match, location, history }) => {
   const [people, setPeople] = useState<Person[]>([]);
+
+
   const { personName } = match.params;
   const searchParams = new URLSearchParams(location.search)
-  const query: string = searchParams.get('query') || '';
 
-  //   const pattern = new RegExp(query, 'i');
+  const [query, setQuery] = useState('');
 
-  // const visiblePeople = people
-  //   .filter(p => pattern.test(p.name))
-
-  useEffect(() => {
+   useEffect(() => {
     getPeople().then(setPeople)
   }, []);
+  const queryFromUrl: string = searchParams.get('query') || '';
 
-  const pattern = new RegExp(query, 'i');
+  useEffect(() => {
+    setQuery(query);
+  }, [queryFromUrl]);
+
+
+
+  const pattern = new RegExp(queryFromUrl, 'i');
   const visiblePeople = people
     .filter(p => pattern.test(p.name))
-  // .slice(start, start + perPage);
 
   const visiblePeopleSorted = [...visiblePeople];
   const [sortField, setSortField] = useState('born');
@@ -85,17 +67,7 @@ const PeoplePage: React.FC<Props> = ({ match, location, history }) => {
     visiblePeopleSorted.reverse();
   }
 
-  if (people.length === 0) {
-    return <p>Loading...</p>;
-  }
-  if (personName && !people.some(p => p.name === personName)) {
-    history.push({
-      pathname: '/people',
-    });
-  }
-
   let columns = ['name', 'sex', 'born', 'died', 'motherName', 'fatherName', 'slug'];
-
 
   return (
     <div className="PeoplePage">
