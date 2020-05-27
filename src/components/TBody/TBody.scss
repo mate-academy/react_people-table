@@ -1,0 +1,34 @@
+.body {
+
+  &:hover {
+    background-color: rgba(153,153,51,0.2);
+  }
+
+  &__sex_male {
+    background-color: rgba(153,204,255,0.3);
+  }
+
+  &__sex_female {
+    background-color: rgba(255,204,255,0.3);
+  }
+
+  &__cell {
+    text-align: center;
+    padding: 5px;
+    border-bottom: 1px solid black;
+  }
+
+  &__name {
+    text-decoration: line-through;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: black;
+    cursor: text;
+  }
+
+  &__age {
+    background-color: rgba(0,153,51,0.4);
+  }
+}
