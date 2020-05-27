@@ -15,4 +15,8 @@
     font-size: 16px;
     cursor: pointer;
   }
+
+  &__button__active {
+    background-color: orange;
+  }
 }

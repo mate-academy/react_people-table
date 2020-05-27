@@ -7,6 +7,14 @@
     text-align: center;
   }
 
+  &__input {
+    width: 500px;
+    height: 50px;
+    font-size: 200%;
+    font-style: italic;
+    outline: none;
+  }
+
   &__wrapper {
     border-collapse: collapse;
     margin-top: 20px;

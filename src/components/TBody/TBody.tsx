@@ -1,6 +1,6 @@
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import ClassNames from 'classnames';
-import { NavLink } from 'react-router-dom';
 import './TBody.scss';
 
 type Props = {
@@ -8,6 +8,11 @@ type Props = {
 };
 
 const TBody: React.FC<Props> = ({ person }) => {
+  const history = useHistory();
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+
   return (
     <tr className="body">
       <td
@@ -24,13 +29,18 @@ const TBody: React.FC<Props> = ({ person }) => {
           },
         )}
       >
-        <NavLink
-          to={`/people/${person.slug}`}
-          className="body__link"
-          activeClassName="body__link--active"
+        <button
+          type="button"
+          className="body__button"
+          onClick={() => {
+            searchParams.set('person', person.slug);
+            history.push({
+              search: searchParams.toString(),
+            });
+          }}
         >
           {person.name}
-        </NavLink>
+        </button>
       </td>
       <td className={ClassNames(
         'body__cell',

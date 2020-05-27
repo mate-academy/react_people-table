@@ -13,8 +13,8 @@ interface Person {
 
 interface PersonWithParents extends Person{
   id: numbe;
-  age?: number;
-  century?: number;
-  mother?: Person;
-  father?: Person;
+  age: number;
+  century: number;
+  mother?: Person | object;
+  father?: Person | object;
 }
