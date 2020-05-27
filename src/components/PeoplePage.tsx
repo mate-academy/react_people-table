@@ -39,20 +39,24 @@ export const PeoplePage = () => {
           onChange={(event) => handleInputChange(event)}
         />
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            {tableHeader.map(item => {
-              return <th className="table__header" key={item}>{item.toUpperCase()}</th>;
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {visiblePeople.map(person => (
-            <PersonRow key={person.slug} person={person} />
-          ))}
-        </tbody>
-      </table>
+      {visiblePeople.length === 0
+        ? <div>No requested data, dude</div>
+        : (
+          <table className="table">
+            <thead>
+              <tr>
+                {tableHeader.map(item => {
+                  return <th className="table__header" key={item}>{item.toUpperCase()}</th>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {visiblePeople.map(person => (
+                <PersonRow key={person.slug} person={person} />
+              ))}
+            </tbody>
+          </table>
+        )}
     </>
   );
 };
