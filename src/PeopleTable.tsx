@@ -1,17 +1,23 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, {
+  useEffect, useState, useMemo, useCallback, ChangeEventHandler,
+} from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import debounce from 'lodash/debounce';
 import { getPreparedPeople } from './api';
 import PersonRow from './PersonRow';
-
 
 const PeopleTable = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
+  const [currentQuery, setCurrentQuery] = useState('');
 
   const sortBy = useMemo(() => searchParams.get('sortBy') || '', [searchParams]);
   const sortOrder = useMemo(() => searchParams.get('sortOrder') || '', [searchParams]);
+  const queryFromURL = useMemo(() => searchParams.get('query') || '', [searchParams]);
+
+
   const headOfTable = ['id', 'name', 'sex', 'born', 'died', 'age', 'father', 'mother', 'century'];
 
   useEffect(() => {
@@ -20,12 +26,13 @@ const PeopleTable = () => {
     });
   }, []);
 
-
-  const query: string = searchParams.get('query') || '';
-  const pattern = new RegExp(query, 'i');
-  const visiblePeople = people
-    .filter(person => pattern.test(person.name + person.fatherName + person.motherName));
-
+  const visiblePeople = useMemo(() => {
+    return people
+      .filter(person => (
+        (person.name + person.father + person.mother)
+          .toLowerCase().includes(queryFromURL.toLowerCase())
+      ));
+  }, [people, queryFromURL]);
 
   const sortingBy = (headItem: string) => {
     if (sortBy === headItem && sortOrder === 'asc') {
@@ -41,48 +48,80 @@ const PeopleTable = () => {
   };
 
   useMemo(() => {
-    switch (sortBy) {
-      case 'id':
-      case 'born':
-      case 'died':
-      case 'age':
-      case 'century':
-        visiblePeople.sort((a, b) => a[sortBy] - b[sortBy]);
-        break;
-      case 'name':
-      case 'sex':
-      case 'father':
-      case 'mother':
-        visiblePeople.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
-        break;
-      default:
-    }
-  },
-  [visiblePeople, sortBy]);
-
-  useMemo(() => {
     switch (sortOrder) {
+      case 'asc':
+        switch (sortBy) {
+          case 'id':
+          case 'born':
+          case 'died':
+          case 'age':
+          case 'century':
+            visiblePeople.sort((a, b) => a[sortBy] - b[sortBy]);
+            break;
+          case 'name':
+          case 'sex':
+          case 'father':
+          case 'mother':
+            visiblePeople.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+            break;
+          default:
+        }
+
+        break;
+
       case 'desc':
-        visiblePeople.reverse();
+        switch (sortBy) {
+          case 'id':
+          case 'born':
+          case 'died':
+          case 'age':
+          case 'century':
+            visiblePeople.sort((a, b) => b[sortBy] - a[sortBy]);
+            break;
+          case 'name':
+          case 'sex':
+          case 'father':
+          case 'mother':
+            visiblePeople.sort((a, b) => b[sortBy].localeCompare(a[sortBy]));
+            break;
+          default:
+        }
+
         break;
       default:
     }
   },
-  [visiblePeople, sortOrder]);
+  [visiblePeople, sortOrder, sortBy]);
+
+  useEffect(() => {
+    setCurrentQuery(queryFromURL);
+  }, [queryFromURL]);
+
+  const updateQueryInURL = (query: string) => {
+    if (query) {
+      searchParams.set('query', query);
+    } else {
+      searchParams.delete('query');
+    }
+
+    history.push({ search: searchParams.toString() });
+  };
+
+  const queryWithDebounce = useCallback(debounce(updateQueryInURL, 500), []);
+
+  const changeQuery: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+    setCurrentQuery(target.value);
+    queryWithDebounce(target.value);
+  };
 
   return (
     <>
       <input
         type="text"
         className="input"
-        value={query}
+        value={currentQuery}
         placeholder="whom you search"
-        onChange={(event) => {
-          history.push({
-            search: `?query=${event.target.value}`,
-          });
-        }}
-
+        onChange={changeQuery}
       />
       <table className="Table">
         <thead>

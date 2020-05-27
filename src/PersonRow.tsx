@@ -52,7 +52,7 @@ const PersonRow: React.FC<PersonRowProps> = ({ people }) => {
           <td>
             {person.age}
           </td>
-          <td className="person__male" >
+          <td className="person__male">
             {person.father}
           </td>
           <td className="person__female">
