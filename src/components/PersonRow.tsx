@@ -53,13 +53,13 @@ export const PersonRow: React.FC<PersonRowProps> = (({ person }) => {
       </th>
       <th>{born}</th>
       <th>{died}</th>
-      <th className="person__male">
+      <th className="person__female">
         {mother ? (
           <PersonName sex="f" name={motherName} slug={mother.slug} />
         ) : (<span>{motherName}</span>)}
 
       </th>
-      <th className="person__female">
+      <th className="person__male">
         {father ? (
           <PersonName sex="m" name={fatherName} slug={father.slug} />
         ) : (<span>{fatherName}</span>)}

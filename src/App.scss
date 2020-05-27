@@ -26,6 +26,20 @@ html, body, ul {
   }
 }
 
+.container {
+  text-align: center;
+}
+
+.table__search {
+  margin-top: 20px;
+  border: 2px solid #72a6da;
+  height: 25px;
+  width: 400px;
+  font-size: 16px;
+  padding: 5px 10px;
+  box-shadow: 2px 2px 4px #72a6da;
+}
+
 .people {
   margin-top: 20px;
   width: 100%;
@@ -39,6 +53,7 @@ html, body, ul {
 
   th {
     padding: 10px;
+    padding-right: 20px;
     border: 1px solid #fff;
   }
 
@@ -49,11 +64,11 @@ html, body, ul {
   .person {
     cursor: pointer;
 
-    &__male {
+    &__female {
       color: #8b0000;;
     }
 
-    &__female {
+    &__male {
       color: #00008b;
     }
   }
