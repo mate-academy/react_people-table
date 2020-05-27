@@ -1,0 +1,59 @@
+.nav {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(222, 208, 195);
+
+  &__list {
+    display: flex;
+    list-style: none;
+  }
+
+  &__link {
+    margin-right: 20px;
+    text-decoration: none;
+    color: black;
+  }
+
+  &__link--active {
+    color: rgb(173, 57, 57);
+    text-decoration: underline;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+th {
+  background-color: rgb(221, 208, 195);
+}
+
+.person__male {
+  color: rgb(36, 36, 189);
+
+}
+
+.person__female {
+  color: rgb(204, 55, 54);
+
+}
+
+.person__active {
+  background-color: rgb(250, 230, 212);
+}
+
+.input {
+  margin-bottom: 20px;
+  height: 30px;
+  font-size: 20px;
+  padding-left: 10px;
+  padding-right: 20px;
+}
