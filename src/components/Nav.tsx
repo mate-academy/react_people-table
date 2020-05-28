@@ -1,13 +1,28 @@
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import {NavLink, Route, useLocation, useHistory} from "react-router-dom";
-
+import debounce from 'lodash/debounce';
 
 const Nav: React.FC = () => {
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const query = searchParams.get('query') || '';
+  const [input, setInput] = useState(query);
 
+  const updateQuery = useCallback(debounce(
+    (query: string) => {
+      if(query){searchParams.set('query', query);}
+      else{searchParams.delete('query');}
+
+      history.push({
+        search: searchParams.toString()
+      })
+    }, 500),[])
+
+  const handleQueryUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value)
+      updateQuery(event.target.value)
+  }
   return (
     <nav>
       <ul className="navlist">
@@ -23,7 +38,6 @@ const Nav: React.FC = () => {
           <NavLink
             to={{
               pathname: '/people',
-              search: '?query=',
             }}
             className="navlist__link">
             People Page
@@ -35,13 +49,8 @@ const Nav: React.FC = () => {
             <input
               type="text"
               className='search_input'
-              value={query}
-              onChange={(event) => {
-                searchParams.set('query', event.target.value);
-                history.push({
-                  search: searchParams.toString()
-                })
-              }}
+              value={input}
+              onChange={handleQueryUpdate}
             />
           </Route>
         </li>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import getPeople from "../helpers/api";
 import {PeopleTable} from './PeopleTable';
 import {useLocation} from "react-router-dom";
@@ -15,18 +15,18 @@ const PeoplePage: React.FC = () => {
       getPeople().then(setPeople)
     },
     []);
+  const toLowerQuery = query.toLowerCase();
 
-
-    const visiblePeople = people.filter( person =>
-    person.name.toLowerCase().includes(query.toLowerCase())
-      || (person.fatherName!==null
-      ?person.fatherName.toLowerCase().includes(query.toLowerCase())
-      :'')
-      || (person.motherName!==null
-      ?person.motherName.toLowerCase().includes(query.toLowerCase())
-      :'')
-
-    )
+  const visiblePeople = useMemo( () =>
+    people.filter(person =>
+    person.name.toLowerCase().includes(toLowerQuery)
+    || (person.fatherName !== null
+    ? person.fatherName.toLowerCase().includes(toLowerQuery)
+    : '')
+    || (person.motherName !== null
+    ? person.motherName.toLowerCase().includes(toLowerQuery)
+    : '')
+  ), [toLowerQuery, people]);
 
 
   return <>

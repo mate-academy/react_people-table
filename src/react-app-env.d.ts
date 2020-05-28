@@ -9,3 +9,4 @@ interface Person {
   motherName: string;
   slug: string;
 }
+

@@ -8,26 +8,32 @@ interface Props {
 
 const columnsName = ['NAME', 'SEX', 'BORN', 'DIED', 'MOTHER', 'FATHER'];
 
-export const PeopleTable: React.FC<Props> = ({people}) => {
+export const PeopleTable: React.FC<Props> = React.memo(({people}) => {
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const sortBy = searchParams.get('sortBy') || '';
+  const isSortedAsc = searchParams.get('sortOrder') !== 'desc';
 
 
-  const getPeople = (people: Person[], sortBy: string) => {
+  const getPeople = (people: Person[], sortBy: string, sortedAsc: boolean ) => {
     switch (sortBy) {
       case 'name':
       case 'sex':
-        return [...people].sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+        return  (sortedAsc)
+        ?[...people].sort((a, b) => a[sortBy].localeCompare(b[sortBy]))
+          :[...people].sort((a, b) => a[sortBy].localeCompare(b[sortBy])).reverse();
 
       case 'died':
       case 'born':
-        return [...people].sort((a, b) => a[sortBy] - b[sortBy]);
+        return  (sortedAsc)
+          ?[...people].sort((a, b) => a[sortBy] - b[sortBy])
+          :[...people].sort((a, b) => a[sortBy] - b[sortBy]).reverse();
 
       default:
         return people;
     }
+
   };
 
   return (
@@ -43,21 +49,45 @@ export const PeopleTable: React.FC<Props> = ({people}) => {
               <th
                 key={columns}
                 onClick={() => {
+                  searchParams.set('sortOrder', isSortedAsc ? 'desc' : 'asc');
                   searchParams.set('sortBy', columns.toLowerCase());
-                  history.push({
-                    search: searchParams.toString(),
-                  });
-                }}
-              >
+                  history.push({search: searchParams.toString()});
+                }}>
+
                 {columns}
-                {sortBy === columns.toLowerCase() && '*'}
+                {'    '}
+
+
+                    {sortBy === columns.toLowerCase() && (
+                      isSortedAsc
+                        ? (
+                          <img
+                            src='https://image.flaticon.com/icons/svg/25/25330.svg'
+                            width="16"
+                            height="16"
+                            alt='sort'
+                            className="sort-img"
+                          />
+                        )
+                        :(
+                          <img
+                            src='https://image.flaticon.com/icons/svg/25/25224.svg'
+                            width="16"
+                            height="16"
+                            alt='sort'
+                            className="sort-img"
+                          />
+                        )
+                    )}
+
+
+
               </th>)
 
           } else {
             return (
               <th
                 key={columns}
-
               >
                 {columns}
 
@@ -67,13 +97,14 @@ export const PeopleTable: React.FC<Props> = ({people}) => {
       </tr>
       </thead>
       <tbody>
-      {getPeople(people, sortBy).map(person => <PersonRow
+      {getPeople(people, sortBy, isSortedAsc).map(person => <PersonRow
         person={person}
       />)}
       </tbody>
     </table>
 
+
   )
-}
+})
 
 

@@ -102,3 +102,8 @@
   font-size: 18px;
   color: slategray;
 }
+
+.sort-img {
+
+  cursor: pointer;
+}
