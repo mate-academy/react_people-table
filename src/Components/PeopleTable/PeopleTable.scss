@@ -1,0 +1,75 @@
+.people__container {
+  margin: 0 auto;
+}
+
+.search__container {
+  margin: 0 auto;
+  display: flex;
+  margin-bottom: 20px;
+
+  input {
+    margin: 0 auto;
+    width: 70%;
+    height: 38px;
+    border: none;
+    border-bottom: 2px solid black;
+
+    &::placeholder {
+      font-size: 14px;
+      font-family: "Roboto", sans-serif;
+    }
+
+    &[type="text"] {
+      font-family: "Roboto", sans-serif;
+      padding-left: 30px;
+      font-size: 14px;
+    }
+  }
+}
+
+.people__table {
+  margin: 0 auto;
+  font-weight: 300;
+  margin-bottom: 50px;
+
+  table,
+  th,
+  td {
+    margin: 0 auto;
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  button {
+    width: 90%;
+    height: 80%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    span {
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+    }
+  }
+
+  tbody {
+    font-size: 18px;
+  }
+
+  th {
+    background-color: rgb(32, 139, 104);
+    color: white;
+  }
+
+  tr,
+  td {
+    &:hover {
+      background-color: yellow;
+    }
+  }
+}
