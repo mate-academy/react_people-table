@@ -58,7 +58,7 @@ const App = () => {
         people.sort((a, b) => (a.fatherName || '').localeCompare((b.fatherName || '')));
         break;
       default:
-        people.sort();
+        setPeople(people);
         break;
     }
 

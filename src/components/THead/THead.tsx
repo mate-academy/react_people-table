@@ -27,7 +27,7 @@ const THead = () => {
     <thead>
       <tr>
         {tHead.map(param => (
-          <td
+          <th
             key={param}
             className="head__cell"
           >
@@ -54,7 +54,7 @@ const THead = () => {
             >
               {searchParams.get('sortBy') === param ? `${param}*` : param}
             </button>
-          </td>
+          </th>
         ))}
       </tr>
     </thead>
