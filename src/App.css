@@ -13,3 +13,11 @@
 .table__data.red {
   color: red;
 }
+
+.input {
+  width: 835px;
+}
+
+.control {
+  margin-left: 17%;
+}
