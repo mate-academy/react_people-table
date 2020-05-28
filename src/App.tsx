@@ -1,10 +1,25 @@
 import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import './App.css';
 
+import HomePage from './components/HomePage/HomePage';
+import PeoplePage from './components/PeoplePage/PeoplePage';
+import NavigationList from './components/NavigationList/NavigationList';
+
 const App = () => (
   <div className="App">
-    <h1>People table</h1>
+    <NavigationList />
+    <Switch>
+      <Route path="/" exact component={HomePage} />
+      <Route path="/people/:tabId?" exact component={PeoplePage} />
+      <Redirect from="/home" to="/" />
+      <Route>
+        <h1>
+          Page not found!
+        </h1>
+      </Route>
+    </Switch>
   </div>
 );
 
