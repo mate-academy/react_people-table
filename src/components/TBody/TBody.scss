@@ -1,0 +1,37 @@
+.body {
+
+  &:hover {
+    background-color: rgba(153,153,51,0.2);
+  }
+
+  &__male {
+    background-color: dodgerblue;
+  }
+
+  &__female {
+    background-color: plum;
+  }
+
+  &__cell {
+    text-align: center;
+    padding: 5px;
+    border: 1px solid black;
+  }
+
+  &__name {
+    text-decoration: line-through;
+  }
+
+  &__button {
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: black;
+    cursor: text;
+    outline: none;
+  }
+
+  &__button:focus {
+    background-color: orange;
+  }
+}

@@ -1,0 +1,22 @@
+.peoplePage {
+  display: inline-block;
+  padding-left: 10px;
+  margin: 0 auto;
+
+  &__head {
+    text-align: center;
+  }
+
+  &__input {
+    width: 500px;
+    height: 50px;
+    font-size: 200%;
+    font-style: italic;
+    outline: none;
+  }
+
+  &__wrapper {
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+}

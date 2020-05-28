@@ -1,0 +1,22 @@
+.head {
+
+  &__cell {
+    border: 3px solid black;
+    padding: 5px;
+  }
+
+  &__button {
+    display: block;
+    outline: none;
+    border: none;
+    background-color: white;
+    margin: 0 auto;
+    font-family: "Times New Roman", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  &__button__active {
+    background-color: orange;
+  }
+}
