@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Navigation } from './Components/Navigation/Navigation';
 import { PeopleTable } from './Components/PeopleTable/PeopleTable';
 
@@ -24,6 +24,7 @@ const App: React.FC = () => {
           path="/people/:personSlug?"
           render={() => <PeopleTable people={people} />}
         />
+        <Redirect from="home" to="/" />
         <Route component={() => <h1>Not found</h1>} />
       </Switch>
     </div>
