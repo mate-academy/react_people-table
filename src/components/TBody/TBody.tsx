@@ -11,8 +11,6 @@ const TBody: React.FC<Props> = ({ person }) => {
   const history = useHistory();
   const location = useLocation();
 
-  const searchParams = new URLSearchParams(location.search);
-
   return (
     <tr className="body">
       <td
@@ -33,9 +31,9 @@ const TBody: React.FC<Props> = ({ person }) => {
           type="button"
           className="body__button"
           onClick={() => {
-            searchParams.set('person', person.slug);
             history.push({
-              search: searchParams.toString(),
+              pathname: `/people/${person.slug}`,
+              search: location.search,
             });
           }}
         >
