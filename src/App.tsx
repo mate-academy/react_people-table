@@ -23,18 +23,7 @@ const App = () => {
   const searchParams = new URLSearchParams(location.search)
   const query: string = searchParams.get('query') || '';
 
-
-  // const applyQuery = useCallback(
-  //   debounce((query: string) => {
-  //     if (query) {
-  //       searchParams.set('query', query);
-  //     } else {
-  //       searchParams.delete('query');
-  //     }
-  //     history.push({ search: searchParams.toString() })
-  //   }, 5000),
-  //   []
-  // )
+  //const searchQueryWithDebounce = useCallback(debounce(history.push, 1000), []);
 
   return (
     <div className="App">
@@ -46,6 +35,9 @@ const App = () => {
               type="text"
               value={query}
               onChange={(event) => {
+                // searchQueryWithDebounce({
+                //   search: `?query=${event.target.value}`
+                // })
                 history.push({
                   search: `?query=${event.target.value}`
                 })
