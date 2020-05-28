@@ -69,6 +69,7 @@ const PeoplePage: React.FC<Props> = ({ people }) => {
   const isSortedAsc = searchParams.get('sortOrder') !== 'desc';
   const sortedBy: keyof HeadersConfig = searchParams
     .get('sortBy') as keyof HeadersConfig || 'id';
+  console.log('PeoplePage');
 
   const tableHeaders = createTableHeaders(people);
   const historyPush = useCallback((param: Param, path: string): void => {

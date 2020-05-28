@@ -27,6 +27,7 @@ const PeopleTable: React.FC<Props> = React.memo(
     onSelectPerson,
     onSelectPage,
   }) => {
+    console.log('PeopleTable');
     return (
       <Table celled className="PeopleTable">
         <Table.Header>
