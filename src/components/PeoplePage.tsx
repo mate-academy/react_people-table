@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
 import { getPeople } from '../helpers/api';
 import { PersonRow } from './PersonRow';
 
-const tableHeader = ['id', 'name', 'sex', 'born', ' - ', 'died', 'mother', 'father'];
+const TABLE_HEADERS = ['id', 'name', 'sex', 'born', ' - ', 'died', 'mother', 'father'];
 
 export const PeoplePage = () => {
   const [people, setPeople] = useState<Person[]>([]);
@@ -53,6 +53,12 @@ export const PeoplePage = () => {
     });
   }, []);
 
+  const haddleSortClick = useCallback((item) => {
+    searchParams.set('sortOrder', isSortedAsc ? 'desc' : 'asc');
+    searchParams.set('sortBy', item);
+    history.push({ search: searchParams.toString() });
+  }, [sortBy]);
+
   const visiblePeople = useMemo(() => {
     const result = people.filter(({ name, fatherName, motherName }) => {
       return (name + motherName + fatherName).toLowerCase().includes((queryFromUrl).toLowerCase());
@@ -95,7 +101,7 @@ export const PeoplePage = () => {
           type="text"
           className="search-field__input"
           value={query}
-          onChange={(event) => handleInputChange(event)}
+          onChange={handleInputChange}
         />
       </div>
       {visiblePeople.length === 0
@@ -104,20 +110,16 @@ export const PeoplePage = () => {
           <table className="table">
             <thead>
               <tr>
-                {tableHeader.map(item => {
+                {TABLE_HEADERS.map(headerTitle => {
                   return (
                     <th
                       className="table__header"
-                      key={item}
-                      onClick={() => {
-                        searchParams.set('sortOrder', isSortedAsc ? 'desc' : 'asc');
-                        searchParams.set('sortBy', item);
-                        history.push({ search: searchParams.toString() });
-                      }}
+                      key={headerTitle}
+                      onClick={() => haddleSortClick(headerTitle)}
                     >
-                      {item.toUpperCase()}
+                      {headerTitle.toUpperCase()}
                       {' '}
-                      {item === sortBy && (isSortedAsc ? <span className="arrow">⬆️</span> : <span className="arrow">⬇️</span>)}
+                      {headerTitle === sortBy && (isSortedAsc ? <span className="arrow">⬆️</span> : <span className="arrow">⬇️</span>)}
                     </th>
                   );
                 })}
