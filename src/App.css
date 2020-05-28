@@ -54,3 +54,9 @@ table.purpleHorizon th {
 .Person.Person-active {
   background-color: cornflowerblue;
 }
+
+.search__input {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 1em;
+}

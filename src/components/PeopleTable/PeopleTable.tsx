@@ -53,9 +53,6 @@ const PeopleTable: React.FC<Props> = ({ people }) => {
   }, [sortedPeople, query]);
 
   useMemo(() => {
-    const father = 'fatherName';
-    const mother = 'motherName';
-
     switch (searchTarget) {
       case 'died':
       case 'born':
@@ -65,13 +62,9 @@ const PeopleTable: React.FC<Props> = ({ people }) => {
         break;
       case 'name':
       case 'sex':
+      case 'fatherName':
+      case 'motherName':
         visiblePeople.sort((a, b) => (a[searchTarget].localeCompare(b[searchTarget])));
-        break;
-      case 'father':
-        visiblePeople.sort((a, b) => (a[father].localeCompare(b[father])));
-        break;
-      case 'mother':
-        visiblePeople.sort((a, b) => (a[mother].localeCompare(b[mother])));
         break;
       default:
         break;
@@ -122,6 +115,7 @@ const PeopleTable: React.FC<Props> = ({ people }) => {
         value={query}
         placeholder="Type something to search"
         onChange={({ target }) => handleChange(target.value)}
+        className="search__input"
       />
       <table className="PeopleTable purpleHorizon">
         <thead>
