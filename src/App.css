@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+  color: rgb(112, 111, 111);
+}
+.header__wrapper {
+  display: flex;
+
+  align-items: center;
+  background: rgb(255, 255, 227);
+}
+
+.App__header {
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+input {
+  height: 30px;
+  width: 200px;
+  outline: none;
+  border-radius: 5px;
+  box-shadow: none;
+  border: 1px solid rgb(219, 245, 248);
+}
+
+.Nav__list {
+  display: flex;
+  width: 300px;
+  margin: 0 auto;
+  list-style: none;
+  font-size: 25px;
+  color: rgb(104, 160, 245);
+  padding: 0;
+}
+
+.Nav__item {
+  display: flex;
+}
+
+.Nav__link {
+  text-decoration: none;
+  padding: 20px;
+}
+
+.Nav__link--active {
+  font-weight: bold;
+  padding: 20px;
+  color: rgb(104, 160, 245);
+  background-color: rgb(241, 252, 150);
+}
+
+table {
+  margin: 0 auto;
+  width: 800px;
+  color: rgb(112, 111, 111);
+  font-size: 20px;
+}
+
+.table__head {
+  border: 1px solid rgb(194, 189, 189);
+  padding: 10px;
+}
+
+td {
+  border: 1px solid rgb(194, 189, 189);
+  padding: 10px;
+  margin: 0 auto;
+}
+.Person--active {
+  cursor: pointer;
+  background-color: rgb(231, 247, 15);
+}
+
+.row__table {
+  background-color: rgb(243, 248, 222);
+  padding: 10px;
+}
+
+.person__woman {
+  color: rgb(252, 182, 223);
+}
+.person__man {
+  color: rgb(104, 160, 245);
+}
+
+.wrapper__reversed {
+  display: flex;
+  width: 800px;
+  margin: 0 auto;
+}
+
+.title__reversed {
+  color: rgb(86, 150, 247);
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.btn__reversed {
+  width: 25px;
+  height: 25px;
+}
