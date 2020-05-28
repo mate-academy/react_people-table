@@ -9,6 +9,11 @@ type Props = {
 }
 
 const PersonName:React.FC<Props> = ({ person }) => {
+  const handleClickOnName = (id: string) => {
+    const element = document.getElementById(id);
+    element?.scrollIntoView({behavior: "smooth", block: "center"});
+  }
+
   return (
     <Link
       className={ClassNames('person__name',
@@ -16,6 +21,7 @@ const PersonName:React.FC<Props> = ({ person }) => {
         {'person__name--male': person.sex === 'm'}
       )}
       to={`/people/${person.slug}`}
+      onClick={() => handleClickOnName(person.slug)}
     >
       {person.name}
     </Link>

@@ -14,10 +14,13 @@ const PersonRow:React.FC<Props> = ({ person }) => {
   const { slug } = useParams();
 
   return (
-    <tr className={ClassNames('people-table__person',
-      {'people-table__person--active': slug === person.slug},
-      {'people-table__person--male': person.sex === 'm'},
-      {'people-table__person--female': person.sex === 'f'})}>
+    <tr
+      className={ClassNames('people-table__person',
+        {'people-table__person--active': slug === person.slug},
+        {'people-table__person--male': person.sex === 'm'},
+        {'people-table__person--female': person.sex === 'f'})}
+      id={person.slug}
+    >
       <td className="people-table__person-info">
         <PersonName person={person} />
       </td>
