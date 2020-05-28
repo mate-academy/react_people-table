@@ -1,23 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Person, getPeople } from '../../helpers/api';
+import { Person, ModifiedPerson, getPeople } from '../../helpers/api';
+import PeopleTable from '../PeopleTable/PeopleTable';
+import './PeoplePage.css';
 
 
 const PeoplePage = () => {
-  const [people, setPeople] = useState<Person[]>([]);
+  const [people, setPeople] = useState<ModifiedPerson[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const getPeopleFromServer = async () => {
-      const peopleFromServer = await getPeople<Person>();
+      setIsLoading(true);
 
-      const modifiedPeople = peopleFromServer.map((person: Person) => ({
-        ...person,
-        father: peopleFromServer.find((father: Person) =>
-          father.name === person.fatherName) || person.fatherName,
-        mother: peopleFromServer.find((mother: Person) =>
-          mother.name === person.motherName) || person.motherName,
-      }));
+      try {
+        const peopleFromServer = await getPeople<Person>();
 
-      setPeople(modifiedPeople);
+        const modifiedPeople = peopleFromServer.map((person: Person) => ({
+          ...person,
+          father: peopleFromServer.find((father: Person) =>
+            father.name === person.fatherName),
+          mother: peopleFromServer.find((mother: Person) =>
+            mother.name === person.motherName),
+        }));
+
+        setPeople(modifiedPeople);
+      } catch {
+        setErrorMessage('Error');
+        setIsLoading(false);
+      }
+
+      setIsLoading(false);
     }
 
     getPeopleFromServer();
@@ -25,9 +38,18 @@ const PeoplePage = () => {
 
   return (
     <>
-      {people.map(person => (
-        <p>{person.name}</p>
-      ))}
+      {isLoading && (
+        <p className="people-table__loading-mess">Loading...</p>
+      )}
+      {!isLoading && (
+        <>
+          {errorMessage ? (
+            <p className="people-table__error-mess">{errorMessage}</p>
+          ) : (
+            <PeopleTable people={people} />
+          )}
+        </>
+      )}
     </>
   )
 }

@@ -1,0 +1,16 @@
+.people-table__loading-mess {
+  background-color: rgb(240,201,91);
+}
+
+.people-table__error-mess {
+  background-color: rgb(225,56,76);
+}
+
+.people-table__loading-mess,
+.people-table__error-mess {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  height: 64px;
+}

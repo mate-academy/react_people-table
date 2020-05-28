@@ -1,0 +1,10 @@
+.people-table__header {
+  background-color: rgb(69,69,69);
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.people-table__header-name {
+  padding: 8px 24px;
+  border-right: 1px solid #fff;
+}

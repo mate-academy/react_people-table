@@ -10,6 +10,11 @@ export interface Person {
   slug: string;
 }
 
+export interface ModifiedPerson extends Person {
+  father?: Person;
+  mother?: Person;
+}
+
 export const getPeople = <Person>(): Promise<Person[]> => {
   return fetch(API_URL).then(response => response.json())
 }
