@@ -1,0 +1,109 @@
+.man {
+  color: navy;
+}
+
+.woman {
+  color: red;
+}
+
+.PeopleTable {
+  border-collapse: collapse;
+  width: 1200px;
+  margin: 20px auto;
+}
+
+.Person {
+  cursor: pointer;
+  font-weight: bolder;
+  width: 600px;
+}
+
+.Person_active {
+  background: yellow;
+
+}
+
+.Person_link {
+  width: 600px;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.Person td {
+  padding: 5px;
+  text-align: center;
+  border: gray 1px solid;
+  width: 100px;
+}
+
+.PeopleTable thead th {
+  background: gray;
+  border: 1px black solid;
+  padding: 15px;
+  text-align: center;
+  width: 100px;
+}
+
+.navlist {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  background: lightsteelblue;
+}
+
+.navlist__item {
+  list-style: none;
+  height: 45px;
+  width: 150px;
+  margin-left: 10px;
+  padding: 0 10px;
+  line-height: 45px;
+  text-align: center;
+}
+
+.navlist__link {
+  text-decoration: none;
+  font-size: 20px;
+  color: midnightblue;
+  font-weight: bolder;
+  height: 45px;
+  width: 150px;
+  display: inline-block;
+}
+
+.NotFoundPage {
+  width: 600px;
+  font-size: 80px;
+  font-weight: bold;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.active {
+  color: black;
+  background: gray;
+  padding: 0 10px;
+}
+
+.search {
+  margin-left: 600px;
+  height: 35px;
+}
+
+.search_input {
+  height: 35px;
+  line-height: 35px;
+  border: gray 2px solid;
+  font-size: 18px;
+  color: slategray;
+}
+
+.sort-img {
+
+  cursor: pointer;
+}
