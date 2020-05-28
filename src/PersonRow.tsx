@@ -9,11 +9,10 @@ type Props = {
 };
 
 const PersonRow: React.FC<Props> = ({ people }) => {
-  // console.log(people);
   const match: any = useRouteMatch();
   const history = useHistory();
 
-  const handlChangeUrl = (slug: any) => {
+  const handleChangeUrl = (slug: any) => {
     history.push(`/people/${slug}`);
   };
 
@@ -21,7 +20,7 @@ const PersonRow: React.FC<Props> = ({ people }) => {
     <>
       {people.map((item) => (
         <tr className={classNames({ personActive: item.slug === match.params.id })}>
-          <PersonName item={item} handlChangeUrl={handlChangeUrl} />
+          <PersonName item={item} handleChangeUrl={handleChangeUrl} />
           <td>{item.sex}</td>
           <td>{item.born}</td>
           <td>{item.died}</td>

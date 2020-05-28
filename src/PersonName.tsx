@@ -4,14 +4,14 @@ import { People } from './interface';
 
 type Props = {
   item: People;
-  handlChangeUrl: Function;
+  handleChangeUrl: Function;
 };
 
-const PersonName: React.FC<Props> = ({ item, handlChangeUrl }) => {
+const PersonName: React.FC<Props> = ({ item, handleChangeUrl }) => {
   return (
     <th
       key={item.slug}
-      onClick={() => handlChangeUrl(item.slug)}
+      onClick={() => handleChangeUrl(item.slug)}
       className={classNames({ women: item.sex === 'f' }, { men: item.sex === 'm' })}
     >
       {item.name}
