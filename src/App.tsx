@@ -15,9 +15,10 @@ const App = () => (
 
     <Switch>
       <Route path="/" exact component={HomePage} />
-      <Route path="/people" component={PeoplePage} />
-      <Route path="/home" render={() => (<Redirect to="/" />)} />
+      <Route path="/people/:slug?" component={PeoplePage} />
       <Route component={NotFondPage} />
+
+      <Redirect from="/home" to="/"/>
     </Switch>
   </div>
 

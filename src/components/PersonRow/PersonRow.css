@@ -6,6 +6,11 @@
   background-color: rgb(243,195,243);
 }
 
+.people-table__person--active {
+  color: #fff;
+  background-color: rgb(36,36,36);
+}
+
 .people-table__person-info {
   padding: 4px 24px;
   border: 1px solid #fff;
