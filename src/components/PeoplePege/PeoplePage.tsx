@@ -1,8 +1,7 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import { Header } from 'semantic-ui-react';
 import PeopleTable from '../PeopleTable';
-import { getTabs } from '../../api/getTabs';
 import './PeoplePage.scss';
 
 const headersConfig: HeadersConfig = {
@@ -55,20 +54,18 @@ type Param = {
   [key: string]: string;
 };
 
-const PeoplePage = () => {
-  const [people, setPeople] = useState<Person[]>([]);
+type Props = {
+  people: Person[];
+};
+
+const PeoplePage: React.FC<Props> = ({ people }) => {
   const history = useHistory();
   const location = useLocation();
   const { personName } = useParams();
 
-  useEffect(() => {
-    getTabs().then(setPeople);
-  }, []);
-
   const searchParams = new URLSearchParams(location.search);
-  const query: string = searchParams.get('query') || '';
   const page: number = Number(searchParams.get('page')) || 1;
-  const perPage: number = Number(searchParams.get('perPage')) || 10;
+  const perPage: number = Number(searchParams.get('perPage')) || 5;
   const isSortedAsc = searchParams.get('sortOrder') !== 'desc';
   const sortedBy: keyof HeadersConfig = searchParams
     .get('sortBy') as keyof HeadersConfig || 'id';
@@ -91,37 +88,42 @@ const PeoplePage = () => {
     });
   }, [history, searchParams]);
 
-  const filteredPeople = useMemo(() => {
+  const sortedPeople = useMemo(() => {
     const callback = sortType(sortedBy);
-    const result = people
-      .filter(({ name }) => name.toLowerCase().includes(query))
-      .sort(callback);
+    const result = [...people].sort(callback);
 
     if (!isSortedAsc) {
       result.reverse();
     }
 
     return result;
-  }, [people, query, sortedBy, isSortedAsc]);
+  }, [people, sortedBy, isSortedAsc]);
 
-  const totalPages = useMemo(() => (
-    (Math.ceil(filteredPeople.length / perPage))
-  ), [perPage, filteredPeople.length]);
+  const totalPages = useMemo(() => {
+    const reckon = Math.ceil(sortedPeople.length / perPage);
 
-  const currentPages = useMemo(() => {
-    if (page > totalPages) {
-      historyPush({ page: String(totalPages) }, personName);
-
-      return totalPages;
+    if (people.length && page > reckon) {
+      historyPush({ page: String(reckon) }, personName);
     }
+    console.log(reckon);
 
-    return page;
-  }, [page, totalPages, query]);
+    return reckon;
+  }, [page, perPage, sortedPeople, personName, people]);
+
+  // const currentPages = useMemo(() => {
+  //   if (page > totalPages) {
+  //     historyPush({ page: String(totalPages) }, personName);
+  //
+  //     return totalPages;
+  //   }
+  //
+  //   return page;
+  // }, [page, totalPages, query]);
 
   const start = (page - 1) * perPage;
   const visiblePeople = useMemo(() => (
-    filteredPeople.slice(start, start + perPage)
-  ), [filteredPeople, start, perPage]);
+    sortedPeople.slice(start, start + perPage)
+  ), [sortedPeople, start, perPage]);
 
   if (!people.length) {
     return <p>Loading...</p>;
@@ -173,7 +175,7 @@ const PeoplePage = () => {
         tableHeaders={tableHeaders}
         people={visiblePeople}
         totalPages={totalPages}
-        page={currentPages}
+        page={page}
         path={personName}
         onSortTable={handleSortTable}
         onSelectPerson={handleSelectPerson}

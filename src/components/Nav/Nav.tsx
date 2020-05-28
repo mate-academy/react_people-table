@@ -1,25 +1,15 @@
 import React from 'react';
-import {
-  NavLink, Route, useHistory, useLocation,
-} from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import { Input, Menu } from 'semantic-ui-react';
 import './Nav.scss';
 
-const Nav = () => {
-  const history = useHistory();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const query: string = searchParams.get('query') || '';
-  const historyPush = (name: string, param: string) => {
-    if (param) {
-      searchParams.set(name, param);
-    } else {
-      searchParams.delete(name);
-    }
+type Props = {
+  query: string;
+  setQuery: (val: string) => void;
+  applyQuery: (val: string) => void;
+};
 
-    history.push({ search: searchParams.toString() });
-  };
-
+const Nav: React.FC<Props> = ({ query, setQuery, applyQuery }) => {
   return (
     <>
       <Menu inverted color="teal" className="Nav">
@@ -43,8 +33,9 @@ const Nav = () => {
               icon="search"
               size="mini"
               value={query}
-              onChange={(event) => {
-                historyPush('query', event.target.value);
+              onChange={({ target }) => {
+                setQuery(target.value);
+                applyQuery(target.value);
               }}
             />
           </Menu.Item>

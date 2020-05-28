@@ -5,13 +5,19 @@ import PeoplePage from '../PeoplePege';
 import ErrorPage from '../ErrorPage';
 import './Main.scss';
 
-const Main = () => {
+type Props = {
+  people: Person[];
+};
+
+const Main: React.FC<Props> = ({ people }) => {
   return (
     <div className="Main">
       <Switch>
         <Route
           path="/people/:personName?"
-          component={PeoplePage}
+          render={() => (
+            <PeoplePage people={people} />
+          )}
         />
 
         <Route path="/" exact>

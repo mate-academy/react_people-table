@@ -24,10 +24,26 @@ const Paginator: React.FC<Props> = ({
         defaultActivePage={currentPage()}
         onPageChange={onSelectPage}
         ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
-        prevItem={{ content: <Icon name="angle left" />, icon: true }}
-        firstItem={{ content: <Icon name="angle double left" />, icon: true }}
-        nextItem={{ content: <Icon name="angle right" />, icon: true }}
-        lastItem={{ content: <Icon name="angle double right" />, icon: true }}
+        prevItem={{
+          content: <Icon name="angle left" />,
+          disabled: page === 1,
+          icon: true,
+        }}
+        firstItem={{
+          content: <Icon name="angle double left" />,
+          disabled: page === 1,
+          icon: true,
+        }}
+        nextItem={{
+          content: <Icon name="angle right" />,
+          disabled: page === totalPages,
+          icon: true,
+        }}
+        lastItem={{
+          content: <Icon name="angle double right" />,
+          disabled: page === totalPages,
+          icon: true,
+        }}
         totalPages={totalPages}
       />
     </Table.HeaderCell>
