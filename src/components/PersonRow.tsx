@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
-import { Person } from '../helpers/api';
 import classnames from 'classnames';
+import { Person } from '../helpers/api';
 
 
 type Props = {
@@ -17,11 +17,12 @@ const PersonRow: React.FC<Props> = ({ people }) => {
   const query: string = searchParams.get('query') || '';
 
   const pattern = new RegExp(query, 'i');
-  const visiblePeople = people.filter(p => pattern.test(p.name + p.motherName + p.fatherName))
+  const visiblePeople = useMemo(() => people.filter(p => pattern.test(p.name + p.motherName + p.fatherName)), [people, pattern]);
 
   const handleSelectPerson = (slug: string) => {
     history.push({
       pathname: `/people/${slug}`,
+      search: searchParams.toString(),
     });
   };
 
@@ -31,7 +32,7 @@ const PersonRow: React.FC<Props> = ({ people }) => {
         <tr
           key={person.id}
           className={classnames({
-            'table__person': true,
+            table__person: true,
             'table__person--active': personSlug === person.slug,
           })}
           onClick={() => handleSelectPerson(person.slug)}
@@ -43,11 +44,11 @@ const PersonRow: React.FC<Props> = ({ people }) => {
             {person.name}
           </td>
           <td
-            className={classnames({
-              'table__row': true,
-              'table__row-woman': person.sex === 'f',
-              'table__row-man': person.sex === 'm',
-            })}
+            className={classnames(
+              'table__row', person.sex === 'f'
+                ? 'table__row-woman'
+                : 'table__row-man',
+            )}
           >
             {person.sex}
           </td>
