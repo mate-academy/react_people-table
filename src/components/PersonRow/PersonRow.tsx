@@ -5,6 +5,7 @@ import cn from 'classnames';
 
 type Props = {
   person: Person;
+  searchTarget: string;
 };
 
 interface Person {
@@ -22,13 +23,14 @@ interface Person {
   century: number;
 }
 
-const PersonRow = ({ person }: Props) => {
+const PersonRow = ({ person, searchTarget }: Props) => {
   const history = useHistory();
   const { tabId } = useParams();
 
   const handleChangePathParam = (slug: string) => {
     history.push({
       pathname: `/people/${slug}`,
+      search: searchTarget,
     });
   };
 

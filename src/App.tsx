@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import './App.css';
 
@@ -13,6 +13,7 @@ const App = () => (
     <Switch>
       <Route path="/" exact component={HomePage} />
       <Route path="/people/:tabId?" exact component={PeoplePage} />
+      <Redirect from="/home" to="/" />
       <Route>
         <h1>
           Page not found!
