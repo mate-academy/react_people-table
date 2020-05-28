@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
-import { useLocation, useHistory, useParams } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { Header } from 'semantic-ui-react';
 import PeopleTable from '../PeopleTable';
 import './PeoplePage.scss';
@@ -50,140 +50,115 @@ const sortType: Callback = (field) => {
   }
 };
 
-type Param = {
-  [key: string]: string;
-};
-
 type Props = {
   people: Person[];
+  historyPush: (param: Param, path: string) => void;
 };
 
-const PeoplePage: React.FC<Props> = ({ people }) => {
-  const history = useHistory();
-  const location = useLocation();
-  const { personName } = useParams();
+const PeoplePage: React.FC<Props> = React.memo(
+  ({ people, historyPush }) => {
+    const location = useLocation();
+    const { personName } = useParams();
 
-  const searchParams = new URLSearchParams(location.search);
-  const page: number = Number(searchParams.get('page')) || 1;
-  const perPage: number = Number(searchParams.get('perPage')) || 5;
-  const isSortedAsc = searchParams.get('sortOrder') !== 'desc';
-  const sortedBy: keyof HeadersConfig = searchParams
-    .get('sortBy') as keyof HeadersConfig || 'id';
-  console.log('PeoplePage');
+    const searchParams = new URLSearchParams(location.search);
+    const page: number = Number(searchParams.get('page')) || 1;
+    const perPage: number = Number(searchParams.get('perPage')) || 5;
+    const isSortedAsc = searchParams.get('sortOrder') !== 'desc';
+    const sortedBy: keyof HeadersConfig = searchParams
+      .get('sortBy') as keyof HeadersConfig || 'id';
 
-  const tableHeaders = createTableHeaders(people);
-  const historyPush = useCallback((param: Param, path: string): void => {
-    const params = {
-      ...Object.fromEntries((searchParams.entries())),
-      ...param,
-    };
-    const pathName = path || '';
+    const tableHeaders = createTableHeaders(people);
 
-    for (const key in params) {
-      searchParams.set(key, params[key]);
-    }
+    const sortedPeople = useMemo(() => {
+      const callback = sortType(sortedBy);
+      const result = [...people].sort(callback);
 
-    history.push({
-      pathname: `/people/${pathName}`,
-      search: searchParams.toString(),
-    });
-  }, [history, searchParams]);
-
-  const sortedPeople = useMemo(() => {
-    const callback = sortType(sortedBy);
-    const result = [...people].sort(callback);
-
-    if (!isSortedAsc) {
-      result.reverse();
-    }
-
-    return result;
-  }, [people, sortedBy, isSortedAsc]);
-
-  const totalPages = useMemo(() => {
-    const reckon = Math.ceil(sortedPeople.length / perPage);
-
-    if (people.length && page > reckon) {
-      historyPush({ page: String(reckon) }, personName);
-    }
-    console.log(reckon);
-
-    return reckon;
-  }, [page, perPage, sortedPeople, personName, people]);
-
-  // const currentPages = useMemo(() => {
-  //   if (page > totalPages) {
-  //     historyPush({ page: String(totalPages) }, personName);
-  //
-  //     return totalPages;
-  //   }
-  //
-  //   return page;
-  // }, [page, totalPages, query]);
-
-  const start = (page - 1) * perPage;
-  const visiblePeople = useMemo(() => (
-    sortedPeople.slice(start, start + perPage)
-  ), [sortedPeople, start, perPage]);
-
-  if (!people.length) {
-    return <p>Loading...</p>;
-  }
-
-  if (personName && !people.some(person => person.slug === personName)) {
-    historyPush({}, '');
-  }
-
-  const handleSelectPage = (_: React.SyntheticEvent, { activePage }: any) => {
-    historyPush({ page: String(activePage) }, personName);
-  };
-
-  const handleSelectPerson = (field: string, person: Person) => {
-    const path: string | undefined = people
-      .find(parent => parent.name === person[field])?.slug;
-
-    if (field === 'name') {
-      historyPush({}, person.slug);
-    }
-
-    if (path) {
-      if (field === 'mother') {
-        historyPush({}, path);
-      } else if (field === 'father') {
-        historyPush({}, path);
+      if (!isSortedAsc) {
+        result.reverse();
       }
+
+      return result;
+    }, [people, sortedBy, isSortedAsc]);
+
+    const totalPages = useMemo(() => {
+      const reckon = Math.ceil(sortedPeople.length / perPage);
+
+      if (people.length && page > reckon) {
+        historyPush({ page: String(reckon), perPage: '5' }, personName);
+      }
+
+      return reckon;
+    }, [page, perPage, sortedPeople, personName, people, historyPush]);
+
+    const start = (page - 1) * perPage;
+    const visiblePeople = useMemo(() => (
+      sortedPeople.slice(start, start + perPage)
+    ), [sortedPeople, start, perPage]);
+
+    if (personName && !people.some(person => person.slug === personName)) {
+      historyPush({}, '');
     }
-  };
 
-  const handleSortTable = (field: string) => {
-    if (sortedBy !== field) {
-      historyPush({
-        sortBy: field,
-        sortOrder: 'asc',
-      }, personName);
-    } else {
-      historyPush({
-        sortOrder: isSortedAsc ? 'desc' : 'asc',
-      }, personName);
-    }
-  };
+    const handleSelectPage = (_: React.SyntheticEvent, { activePage }: any) => {
+      historyPush({ page: String(activePage) }, personName);
+    };
 
-  return (
-    <div className="PeoplePage">
-      <Header size="huge" content="People table" color="teal" />
+    const handleSelectPerPage = (_: React.SyntheticEvent, { name, value }: any) => {
+      const param = { [name]: String(value) };
 
-      <PeopleTable
-        tableHeaders={tableHeaders}
-        people={visiblePeople}
-        totalPages={totalPages}
-        page={page}
-        path={personName}
-        onSortTable={handleSortTable}
-        onSelectPerson={handleSelectPerson}
-        onSelectPage={handleSelectPage}
-      />
-    </div>
-  );
-};
+      historyPush(param, personName);
+    };
+
+    const handleSelectPerson = (field: string, person: Person) => {
+      const path: string | undefined = people
+        .find(parent => parent.name === person[field])?.slug;
+
+      if (field === 'name') {
+        historyPush({}, person.slug);
+      }
+
+      if (path) {
+        if (field === 'mother') {
+          historyPush({}, path);
+        } else if (field === 'father') {
+          historyPush({}, path);
+        }
+      }
+    };
+
+    const handleSortTable = (field: string) => {
+      if (sortedBy !== field) {
+        historyPush({
+          sortBy: field,
+          sortOrder: 'asc',
+        }, personName);
+      } else {
+        historyPush({
+          sortOrder: isSortedAsc ? 'desc' : 'asc',
+        }, personName);
+      }
+    };
+
+    return (
+      <div className="PeoplePage">
+        <Header size="huge" content="People table" color="teal" />
+
+        <PeopleTable
+          tableHeaders={tableHeaders}
+          people={visiblePeople}
+          totalPages={totalPages}
+          page={page}
+          perPage={perPage}
+          path={personName}
+          onSortTable={handleSortTable}
+          onSelectPerson={handleSelectPerson}
+          onSelectPage={handleSelectPage}
+          onSelectPerPage={handleSelectPerPage}
+        />
+      </div>
+    );
+  },
+);
+
 
 export default PeoplePage;

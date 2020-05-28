@@ -7,16 +7,20 @@ import './Main.scss';
 
 type Props = {
   people: Person[];
+  historyPush: (param: Param, path: string) => void;
 };
 
-const Main: React.FC<Props> = ({ people }) => {
+const Main: React.FC<Props> = ({ people, historyPush }) => {
   return (
     <div className="Main">
       <Switch>
         <Route
           path="/people/:personName?"
           render={() => (
-            <PeoplePage people={people} />
+            <PeoplePage
+              people={people}
+              historyPush={historyPush}
+            />
           )}
         />
 

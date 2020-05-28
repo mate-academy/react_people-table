@@ -8,35 +8,38 @@ import './PeopleTable.scss';
 type Props = {
   path: string;
   page: number;
+  perPage: number;
   totalPages: number;
   people: Person[];
   tableHeaders: TableHeader[];
   onSortTable: (field: string) => void;
   onSelectPerson: (field: string, person: Person) => void;
   onSelectPage: (_: React.SyntheticEvent, data: object) => void;
+  onSelectPerPage: (_: React.SyntheticEvent, data: object) => void;
 };
 
 const PeopleTable: React.FC<Props> = React.memo(
   ({
     path,
     page,
+    perPage,
     totalPages,
     people,
     tableHeaders,
     onSortTable,
     onSelectPerson,
     onSelectPage,
+    onSelectPerPage,
   }) => {
-    console.log('PeopleTable');
     return (
       <Table celled className="PeopleTable">
         <Table.Header>
-          <Table.Row>
+          <Table.Row className="PeopleTable-TableRow">
             {tableHeaders.map(({ name, code }) => (
               <Table.HeaderCell
                 key={code}
                 content={name}
-                className="sort-button"
+                className="PeopleTable-HeaderCell"
                 onClick={() => onSortTable(code)}
               />
             ))}
@@ -48,7 +51,8 @@ const PeopleTable: React.FC<Props> = React.memo(
             <Table.Row
               key={person.id}
               warning={person.slug === path}
-              className={cn('PeopleTable-TableRow', {
+              className={cn({
+                'PeopleTable-TableRow': true,
                 'PeopleTable-TableRow_male': person.sex === 'm',
                 'PeopleTable-TableRow_female': person.sex === 'f',
               })}
@@ -63,11 +67,13 @@ const PeopleTable: React.FC<Props> = React.memo(
         </Table.Body>
 
         <Table.Footer>
-          <Table.Row>
+          <Table.Row className="PeopleTable-TableRow">
             <Paginator
               page={page}
+              perPage={perPage}
               totalPages={totalPages}
               onSelectPage={onSelectPage}
+              onSelectPerPage={onSelectPerPage}
             />
           </Table.Row>
         </Table.Footer>

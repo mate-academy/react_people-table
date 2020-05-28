@@ -1,26 +1,46 @@
 import React from 'react';
 import memoize from 'memoize-one';
 // import cn from 'classnames';
-import { Icon, Pagination, Table } from 'semantic-ui-react';
+import { Icon, Pagination, Table, Dropdown } from 'semantic-ui-react';
 import './Paginator.scss';
+
+const options = [
+  { key: 1, text: '5 people', value: 5 },
+  { key: 2, text: '10 people', value: 10 },
+  { key: 3, text: '20 people', value: 20 },
+  { key: 4, text: '50 people', value: 50 },
+];
 
 type Props = {
   page: number;
-  // perPage: number;
+  perPage: number;
   totalPages: number;
   onSelectPage: (_: React.SyntheticEvent, data: object) => void;
+  onSelectPerPage: (_: React.SyntheticEvent, data: object) => void;
 };
 
 const Paginator: React.FC<Props> = ({
   page,
+  perPage,
   totalPages,
   onSelectPage,
+  onSelectPerPage,
 }) => {
   const currentPage = memoize(() => page);
 
   return (
     <Table.HeaderCell colSpan="10" className="Pagination">
+      <Dropdown
+        placeholder="Select people per page"
+        direction="left"
+        selection
+        name="perPage"
+        value={perPage}
+        onChange={onSelectPerPage}
+        options={options}
+      />
       <Pagination
+        floated="right"
         defaultActivePage={currentPage()}
         onPageChange={onSelectPage}
         ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}

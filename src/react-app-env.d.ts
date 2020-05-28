@@ -32,3 +32,7 @@ interface TableHeader {
   code: string;
   name: string;
 }
+
+type Param = {
+  [key: string]: string;
+};

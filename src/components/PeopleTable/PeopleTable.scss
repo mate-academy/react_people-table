@@ -1,10 +1,18 @@
 .PeopleTable {
-  &-TableRow_male {
-    color: royalblue;
-  }
 
-  &-TableRow_female {
-    color: deeppink;
-  }
+  &-TableRow {
+    .PeopleTable-HeaderCell:first-child:only-child {
+      text-align: center;
+      font-size: 16px;
+      color: maroon;
+    }
 
+    &_male {
+      color: royalblue;
+    }
+
+    &_female {
+      color: deeppink;
+    }
+  }
 }
