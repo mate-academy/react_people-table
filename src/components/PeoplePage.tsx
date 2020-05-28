@@ -17,16 +17,16 @@ const PeoplePage: React.FC = () => {
     []);
   const toLowerQuery = query.toLowerCase();
 
-  const visiblePeople = useMemo( () =>
+  const visiblePeople = useMemo(() =>
     people.filter(person =>
-    person.name.toLowerCase().includes(toLowerQuery)
-    || (person.fatherName !== null
-    ? person.fatherName.toLowerCase().includes(toLowerQuery)
-    : '')
-    || (person.motherName !== null
-    ? person.motherName.toLowerCase().includes(toLowerQuery)
-    : '')
-  ), [toLowerQuery, people]);
+      person.name.toLowerCase().includes(toLowerQuery)
+      || (person.fatherName !== null
+      ? person.fatherName.toLowerCase().includes(toLowerQuery)
+      : '')
+      || (person.motherName !== null
+      ? person.motherName.toLowerCase().includes(toLowerQuery)
+      : '')
+    ), [toLowerQuery, people]);
 
 
   return <>
