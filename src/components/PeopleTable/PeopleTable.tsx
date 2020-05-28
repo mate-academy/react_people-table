@@ -45,22 +45,6 @@ const PeopleTable: React.FC<Props> = ({ people }) => {
     setSortedPeople([...peopleWithParents]);
   }, [people]);
 
-  const updateQuery = useCallback(
-    debounce((value: string) => {
-      searchURLParameters.set('query', value);
-      history.push({
-        search: searchURLParameters.toString(),
-      });
-    }, 500),
-    [],
-  );
-
-  const handleChange = (target: string) => {
-    setQuery(target);
-
-    updateQuery(target.trim());
-  };
-
   const visiblePeople = useMemo(() => {
     return sortedPeople.filter(person => (
       (person.name + person.father + person.mother)
@@ -97,6 +81,15 @@ const PeopleTable: React.FC<Props> = ({ people }) => {
   const handleClickForSorting = ((target: string) => {
     const lowerCaseTarget = target.toLowerCase();
 
+    if (searchURLParameters.get('sortBy') === lowerCaseTarget
+      && searchURLParameters.get('sortOrder') === 'asc') {
+      searchURLParameters.set('sortOrder', 'desc');
+      visiblePeople.reverse();
+    } else {
+      searchURLParameters.set('sortOrder', 'asc');
+      visiblePeople.reverse();
+    }
+
     searchURLParameters.set('sortBy', lowerCaseTarget);
     setSearchTarget(lowerCaseTarget);
 
@@ -104,6 +97,23 @@ const PeopleTable: React.FC<Props> = ({ people }) => {
       search: searchURLParameters.toString(),
     });
   });
+
+  const updateQuery = useCallback(
+    debounce((value: string) => {
+      history.push({
+        search: value,
+      });
+    }, 500),
+    [],
+  );
+
+  const handleChange = (target: string) => {
+    const trimedTarget = target.trim();
+
+    setQuery(trimedTarget);
+    searchURLParameters.set('query', trimedTarget);
+    updateQuery(searchURLParameters.toString());
+  };
 
   return (
     <>
