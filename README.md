@@ -1,8 +1,8 @@
 # React - People table
 - Replace `<your_account>` with your Github username in the links
 
-    - [DEMO LINK](https://andreas-just.github.io/react_tabs-with-router/)
-    - [PULL REQUEST](https://github.com/Andreas-Just/react_tabs-with-router/pull/1)
+    - [DEMO LINK](https://andreas-just.github.io/react_people-table/)
+    - [PULL REQUEST](https://github.com/mate-academy/react_people-table/pull/88)
 
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 

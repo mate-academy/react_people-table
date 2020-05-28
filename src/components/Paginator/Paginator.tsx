@@ -26,7 +26,6 @@ const Paginator: React.FC<Props> = ({
   onSelectPage,
   onSelectPerPage,
 }) => {
-  console.log('render');
   return (
     <Table.HeaderCell colSpan="10" className="Pagination">
       <Dropdown
