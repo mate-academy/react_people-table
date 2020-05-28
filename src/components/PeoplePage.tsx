@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React, {
-  useState, useEffect, ChangeEventHandler, useCallback,
+  useState, useEffect, ChangeEventHandler, useCallback, useMemo,
 } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import debounce from 'lodash/debounce';
@@ -34,6 +35,8 @@ export const PeoplePage = () => {
   };
 
   const queryFromUrl = searchParams.get('query') || '';
+  const isSortedAsc = searchParams.get('sortOrder') !== 'desc';
+  const sortBy = searchParams.get('sortBy') || '';
 
   useEffect(() => setQuery(queryFromUrl), [queryFromUrl]);
 
@@ -50,9 +53,39 @@ export const PeoplePage = () => {
     });
   }, []);
 
-  const visiblePeople = people.filter(({ name, fatherName, motherName }) => {
-    return (name + motherName + fatherName).toLowerCase().includes((queryFromUrl).toLowerCase());
-  });
+  const visiblePeople = useMemo(() => {
+    const result = people.filter(({ name, fatherName, motherName }) => {
+      return (name + motherName + fatherName).toLowerCase().includes((queryFromUrl).toLowerCase());
+    });
+
+    switch (sortBy) {
+      case 'name':
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'born':
+        result.sort((a, b) => a.born - b.born);
+        break;
+      case 'died':
+        result.sort((a, b) => a.died - b.died);
+        break;
+      case 'sex':
+        result.sort((a, b) => a.sex.localeCompare(b.sex));
+        break;
+      case 'motherName':
+        result.sort((a, b) => a.motherName.localeCompare(b.motherName));
+        break;
+      case 'fatherName':
+        result.sort((a, b) => a.fatherName.localeCompare(b.fatherName));
+        break;
+      default:
+    }
+
+    if (!isSortedAsc) {
+      result.reverse();
+    }
+
+    return result;
+  }, [queryFromUrl, isSortedAsc, people]);
 
   return (
     <>
@@ -72,7 +105,21 @@ export const PeoplePage = () => {
             <thead>
               <tr>
                 {tableHeader.map(item => {
-                  return <th className="table__header" key={item}>{item.toUpperCase()}</th>;
+                  return (
+                    <th
+                      className="table__header"
+                      key={item}
+                      onClick={() => {
+                        searchParams.set('sortOrder', isSortedAsc ? 'desc' : 'asc');
+                        searchParams.set('sortBy', item);
+                        history.push({ search: searchParams.toString() });
+                      }}
+                    >
+                      {item.toUpperCase()}
+                      {' '}
+                      {item === sortBy && (isSortedAsc ? <span className="arrow">⬆️</span> : <span className="arrow">⬇️</span>)}
+                    </th>
+                  );
                 })}
               </tr>
             </thead>
