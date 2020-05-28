@@ -49,9 +49,12 @@ export const PeopleTable: React.FC<Props> = React.memo(({people}) => {
               <th
                 key={columns}
                 onClick={() => {
+                  
                   searchParams.set('sortBy', columns.toLowerCase());
                   history.push({search: searchParams.toString()});
-                }}>
+
+                }
+                }>
 
                 {columns}
                 {'    '}
@@ -62,15 +65,17 @@ export const PeopleTable: React.FC<Props> = React.memo(({people}) => {
                     ? (
                       <img
                         onClick={() => {
-                          if (searchParams.get('sortBy') === columns.toLowerCase()) {
-                            searchParams.set('sortOrder', isSortedAsc ? 'desc' : 'asc');
-                            history.push({search: searchParams.toString()});
-                          } else {
+                          if (searchParams.get('sortBy')!== columns.toLowerCase()) {
                             searchParams.set('sortOrder', 'asc');
                             searchParams.set('sortBy', columns.toLowerCase());
                             history.push({search: searchParams.toString()});
                           }
-                        }}
+                          searchParams.set('sortOrder', isSortedAsc ? 'desc' : 'asc');
+                          searchParams.set('sortBy', columns.toLowerCase());
+                          history.push({search: searchParams.toString()});
+
+                        }
+                        }
                         src='https://image.flaticon.com/icons/svg/25/25330.svg'
                         width="16"
                         height="16"
@@ -81,10 +86,17 @@ export const PeopleTable: React.FC<Props> = React.memo(({people}) => {
                     : (
                       <img
                         onClick={() => {
+                          if (searchParams.get('sortBy')!== columns.toLowerCase()) {
+                            searchParams.set('sortOrder', 'asc');
+                            searchParams.set('sortBy', columns.toLowerCase());
+                            history.push({search: searchParams.toString()});
+                          }
                           searchParams.set('sortOrder', isSortedAsc ? 'desc' : 'asc');
                           searchParams.set('sortBy', columns.toLowerCase());
                           history.push({search: searchParams.toString()});
-                        }}
+
+                        }
+                        }
                         src='https://image.flaticon.com/icons/svg/25/25224.svg'
                         width="16"
                         height="16"
