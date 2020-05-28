@@ -21,7 +21,7 @@ const PeoplePage: React.FC<Props> = ({ match, location, history }) => {
 
   const [query, setQuery] = useState('');
 
-   useEffect(() => {
+  useEffect(() => {
     getPeople().then(setPeople)
   }, []);
   const queryFromUrl: string = searchParams.get('query') || '';
@@ -36,7 +36,7 @@ const PeoplePage: React.FC<Props> = ({ match, location, history }) => {
   const visiblePeople = people
     .filter(p => pattern.test(p.name))
 
-  const visiblePeopleSorted = [...visiblePeople];
+  //const visiblePeopleSorted = [...visiblePeople];
   const [sortField, setSortField] = useState('born');
   const [isReversed, setIsReversed] = useState(false);
 
@@ -49,7 +49,7 @@ const PeoplePage: React.FC<Props> = ({ match, location, history }) => {
     });
   }
 
-  visiblePeopleSorted.sort(
+  let visiblePeopleSorted = visiblePeople.sort(
     (a, b) => {
       let _type = typeof a[sortField as keyof Person];
       switch (_type) {
@@ -61,11 +61,12 @@ const PeoplePage: React.FC<Props> = ({ match, location, history }) => {
           return 0;
       }
     }
-  );
+      );
 
-  if (isReversed) {
-    visiblePeopleSorted.reverse();
-  }
+  let res = () => {if(isReversed) {
+    return setIsReversed(!isReversed)
+  }}
+
 
   let columns = ['name', 'sex', 'born', 'died', 'motherName', 'fatherName', 'slug'];
 
@@ -73,18 +74,17 @@ const PeoplePage: React.FC<Props> = ({ match, location, history }) => {
     <div className="PeoplePage">
       <h1> People table
       </h1>
-      <div className="wrapper__reversed">
+      {/* <div className="wrapper__reversed">
         <label className="title__reversed">
           Is Reversed
           </label>
-      <input
-      className="btn__reversed"
-            type="checkbox"
-            checked={isReversed}
-            onChange={() => setIsReversed(!isReversed)}
-          />
-
-      </div>
+        <input
+          className="btn__reversed"
+          type="checkbox"
+          checked={isReversed}
+          onChange={() => setIsReversed(!isReversed)}
+        />
+      </div> */}
       <table>
         <thead>
           <tr>
@@ -93,7 +93,11 @@ const PeoplePage: React.FC<Props> = ({ match, location, history }) => {
               <th
                 className="table__head"
                 onClick={() => {
-                  setSortField(columnName)
+                  setSortField(columnName);
+                  res();
+                  history.push({
+                   search: `${columnName}`
+                  })
                 }}
               >
                 {columnName}
@@ -104,11 +108,10 @@ const PeoplePage: React.FC<Props> = ({ match, location, history }) => {
         <tbody>
           {visiblePeopleSorted.map((person: Person, index) => {
             return (
-              <tr
+              <tr key = {index}
                 className={classnames({
                   person__woman: person.sex === 'f',
                   person__man: person.sex === 'm',
-
                 })}
                 onClick={() => {
                   history.push({
