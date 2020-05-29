@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { debounce } from '../../helpers/debounce';
 import './PeopleFilter.css';
@@ -10,6 +10,10 @@ const PeopleFilter = () => {
   const query = searchParams.get('query') || '';
   const [currentQuery, setCurrentQuery] = useState(query);
 
+  useEffect(() => {
+    setCurrentQuery(query);
+  }, [query]);
+
   const updateQuery = useCallback(
     debounce(
       (query: string) => {
@@ -19,7 +23,6 @@ const PeopleFilter = () => {
           searchParams.delete('query');
         }
 
-        history.replace('/people');
         history.push({
           search: searchParams.toString(),
         });

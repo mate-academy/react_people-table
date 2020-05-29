@@ -1,10 +1,31 @@
-.people-table__header {
+.people-table__headers {
   background-color: rgb(69,69,69);
   border: 1px solid #fff;
   color: #fff;
 }
 
+.people-table__headers-column {
+  height: 48px;
+  min-width: 110px;
+  padding: 0;
+  border-right: 1px solid #fff;
+}
+
 .people-table__header-name {
   padding: 8px 24px;
-  border-right: 1px solid #fff;
+}
+
+.people-table__sort-btn {
+  padding: 8px 24px;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.people-table__sort-btn:focus {
+  outline: none;
 }

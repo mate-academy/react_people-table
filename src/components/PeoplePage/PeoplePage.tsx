@@ -12,6 +12,7 @@ const PeoplePage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const filterQuery = searchParams.get('query') || '';
+  const sortQuery = searchParams.get('sortBy') || '';
 
   useEffect(() => {
     const getPeopleFromServer = async () => {
@@ -46,8 +47,42 @@ const PeoplePage = () => {
     )
   );
 
-  const visiblePeople = useMemo(() => filterPeople(filterQuery, people),
-    [filterQuery, people]);
+  const sortPeople = (sortQuery: string, people: ModifiedPerson[]) => {
+    switch (sortQuery) {
+      case 'name':
+        return [...people].sort((currPerson, nextPerson) => (
+          currPerson.name.localeCompare(nextPerson.name)
+        ));
+
+      case 'sex':
+        return [...people].sort((currPerson, nextPerson) => (
+          currPerson.sex.localeCompare(nextPerson.sex)
+        ));
+
+      case 'born':
+        return [...people].sort((currPerson, nextPerson) => (
+          currPerson.born - nextPerson.born
+        ));
+
+      case 'died':
+        return [...people].sort((currPerson, nextPerson) => (
+          currPerson.died - nextPerson.died
+        ));
+
+      default:
+        return people;
+    }
+  };
+
+  const visiblePeople = useMemo(() => {
+    let peopleCopy = [...people];
+
+    peopleCopy = filterPeople(filterQuery, peopleCopy);
+    peopleCopy = sortPeople(sortQuery, peopleCopy);
+
+    return peopleCopy;
+  },
+    [sortQuery, filterQuery, people]);
 
   return (
     <>
@@ -59,8 +94,8 @@ const PeoplePage = () => {
           {errorMessage ? (
             <p className="people-table__error-mess">{errorMessage}</p>
           ) : (
-            <PeopleTable people={visiblePeople} />
-          )}
+              <PeopleTable people={visiblePeople} />
+            )}
         </>
       )}
     </>
