@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Person, ModifiedPerson, getPeople } from '../../helpers/api';
 import PeopleTable from '../PeopleTable/PeopleTable';
 import './PeoplePage.css';
@@ -8,6 +9,9 @@ const PeoplePage = () => {
   const [people, setPeople] = useState<ModifiedPerson[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const filterQuery = searchParams.get('query') || '';
 
   useEffect(() => {
     const getPeopleFromServer = async () => {
@@ -36,6 +40,15 @@ const PeoplePage = () => {
     getPeopleFromServer();
   }, []);
 
+  const filterPeople = (filterQuery: string, people: ModifiedPerson[]) => (
+    people.filter(({ name, motherName, fatherName }) =>
+      (name + motherName + fatherName).toLowerCase().includes(filterQuery.toLowerCase())
+    )
+  );
+
+  const visiblePeople = useMemo(() => filterPeople(filterQuery, people),
+    [filterQuery, people]);
+
   return (
     <>
       {isLoading && (
@@ -46,7 +59,7 @@ const PeoplePage = () => {
           {errorMessage ? (
             <p className="people-table__error-mess">{errorMessage}</p>
           ) : (
-            <PeopleTable people={people} />
+            <PeopleTable people={visiblePeople} />
           )}
         </>
       )}

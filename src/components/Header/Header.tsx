@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
+import PeopleFilter from '../PeopleFilter/PeopleFilter';
 import './Header.css'
 
 const Header = () => (
@@ -9,6 +10,9 @@ const Header = () => (
     </li>
     <li className="nav__item">
       <NavLink to="/people" className="nav__link">People</NavLink>
+    </li>
+    <li className="nav__item nav__search-pannel">
+      <Route path="/people/:slug?" component={PeopleFilter} />
     </li>
   </ul>
 )

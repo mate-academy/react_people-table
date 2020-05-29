@@ -1,0 +1,18 @@
+.people-table__search-pannel {
+  padding: 0 20px;
+  width: 240px;
+  height: 32px;
+  border-radius: 20px;
+  border: 1px solid rgb(36,36,36);
+  outline: 0;
+  transition: all 0.25s ease-out;
+}
+
+.people-table__search-pannel::placeholder {
+  text-transform: uppercase;
+}
+
+.people-table__search-pannel:focus {
+  border: 1px solid rgb(178,105,200);
+  box-shadow: 0 0 8px 2px rgb(178,105,200);
+}

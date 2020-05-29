@@ -11,6 +11,11 @@
   display: flex;
 }
 
+.nav__search-pannel {
+  align-items: center;
+  margin-left: 28px;
+}
+
 .nav__link {
   display: flex;
   align-items: center;
