@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import ClassNames from 'classnames';
 import './TableHeaderRow.css';
 
 type Props = {
@@ -45,14 +46,22 @@ const TableHeaderRow: React.FC<Props> = ({ headers }) => {
           {['Name', 'Sex', 'Born', 'Died'].includes(header)
             ? <button
               onClick={handleClickOnHeader}
-              className="people-table__sort-btn"
+              className={ClassNames('people-table__sort-btn',
+                {
+                  'people-table__sort-btn--asc':
+                    currentSortQuery === header.toLowerCase()
+                    && searchParams.get('sortOrder') === 'asc'
+                },
+                {
+                  'people-table__sort-btn--desc':
+                    currentSortQuery === header.toLowerCase()
+                    && searchParams.get('sortOrder') === 'desc'
+                },
+              )}
               id={header}
-              >
-                {currentSortQuery === header.toLowerCase()
-                ? header + ' *'
-                : header
-                }
-              </button>
+            >
+              {header}
+            </button>
             : <span className="people-table__header-name">{header}</span>
           }
         </td>

@@ -1,5 +1,4 @@
 .people-table__headers {
-  background-color: rgb(69,69,69);
   border: 1px solid #fff;
   color: #fff;
 }
@@ -11,19 +10,54 @@
   border-right: 1px solid #fff;
 }
 
-.people-table__header-name {
+.people-table__header-name,
+.people-table__sort-btn {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
   padding: 8px 24px;
+  background-color: rgb(69,69,69);
+  box-sizing: border-box;
 }
 
 .people-table__sort-btn {
-  padding: 8px 24px;
-  width: 100%;
-  background-color: transparent;
+  position: relative;
   border: none;
   color: #fff;
   font-size: inherit;
   cursor: pointer;
   text-align: left;
+}
+
+.people-table__sort-btn::after {
+  display: block;
+  width: 10px;
+  height: 19px;
+  margin-left: 8px;
+  content: "";
+  background-image: url(../../images/sort_both.png);
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.people-table__sort-btn--asc::after,
+.people-table__sort-btn--desc::after {
+  display: block;
+  width: 10px;
+  height: 19px;
+  margin-left: 8px;
+  content: "";
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.people-table__sort-btn--asc::after {
+  background-image: url(../../images/sort_asc.png);
+}
+
+.people-table__sort-btn--desc::after {
+  background-image: url(../../images/sort_desc.png);
 }
 
 .people-table__sort-btn:focus {
