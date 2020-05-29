@@ -31,16 +31,10 @@
 }
 
 .people-table__sort-btn::after {
-  display: block;
-  width: 10px;
-  height: 19px;
-  margin-left: 8px;
-  content: "";
   background-image: url(../../images/sort_both.png);
-  background-position: center top;
-  background-repeat: no-repeat;
 }
 
+.people-table__sort-btn::after,
 .people-table__sort-btn--asc::after,
 .people-table__sort-btn--desc::after {
   display: block;
