@@ -13,6 +13,8 @@ const PeoplePage = () => {
   const searchParams = new URLSearchParams(location.search);
   const filterQuery = searchParams.get('query') || '';
   const sortQuery = searchParams.get('sortBy') || '';
+  const sortOrder = searchParams.get('sortOrder') || '';
+
 
   useEffect(() => {
     const getPeopleFromServer = async () => {
@@ -80,9 +82,9 @@ const PeoplePage = () => {
     peopleCopy = filterPeople(filterQuery, peopleCopy);
     peopleCopy = sortPeople(sortQuery, peopleCopy);
 
-    return peopleCopy;
+    return sortOrder === 'desc' ? peopleCopy.reverse() : peopleCopy;
   },
-    [sortQuery, filterQuery, people]);
+    [sortOrder, sortQuery, filterQuery, people]);
 
   return (
     <>

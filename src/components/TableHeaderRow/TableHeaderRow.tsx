@@ -11,7 +11,9 @@ const TableHeaderRow: React.FC<Props> = ({ headers }) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const sortBy = searchParams.get('sortBy') || '';
+  const sortOrder = searchParams.get('sortOrder') || '';
   const [currentSortQuery, setCurrentSortQuery] = useState(sortBy);
+  const [currentColumn, setCurrentColumn] = useState<EventTarget>();
 
   useEffect(() => {
     setCurrentSortQuery(sortBy);
@@ -19,13 +21,17 @@ const TableHeaderRow: React.FC<Props> = ({ headers }) => {
 
   const handleClickOnHeader = (event: React.MouseEvent<HTMLButtonElement>) => {
     const sortQuery = event.currentTarget.getAttribute('id')?.toLowerCase() || '';
+    const trigger = currentColumn !== event.target;
+    setCurrentColumn(event.target);
 
-    if (currentSortQuery) {
-      searchParams.delete('sortBy');
-      searchParams.set('sortBy', sortQuery);
+    if (sortOrder === 'desc' || !sortOrder
+      || trigger) {
+      searchParams.set('sortOrder', 'asc');
     } else {
-      searchParams.set('sortBy', sortQuery);
+      searchParams.set('sortOrder', 'desc');
     }
+
+    searchParams.set('sortBy', sortQuery);
 
     history.push({
       search: searchParams.toString(),
