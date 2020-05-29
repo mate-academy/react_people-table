@@ -1,18 +1,24 @@
 .PeopleTable {
 
-  &-TableRow {
-    .PeopleTable-HeaderCell.Th {
-      position: relative;
-      padding-left: 20px;
-      padding-right: 20px;
-      text-align: center;
-      cursor: pointer;
-    }
+  &-TableHeader {
+    .PeopleTable-TableRow {
+      .PeopleTable-HeaderCell {
+        position: relative;
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+        cursor: pointer;
+      }
 
-    .PeopleTable-HeaderCell:first-child:only-child {
-      text-align: center;
-      font-size: 16px;
-      color: maroon;
+      .PeopleTable-HeaderCell:hover {
+        background-color: lighten(#009a93, 5);
+      }
+
+      .PeopleTable-HeaderCell:first-child:only-child {
+        text-align: center;
+        font-size: 16px;
+        color: maroon;
+      }
     }
 
     .PeopleTable-Icon {
@@ -20,13 +26,19 @@
       margin-left: 2px;
       left: 0;
     }
+  }
 
-    &_male {
-      color: royalblue;
-    }
+  &-TableBody {
+    .PeopleTable-TableRow {
+      background-color: #fff;
 
-    &_female {
-      color: deeppink;
+      &_male {
+        color: royalblue;
+      }
+
+      &_female {
+        color: deeppink;
+      }
     }
   }
 }

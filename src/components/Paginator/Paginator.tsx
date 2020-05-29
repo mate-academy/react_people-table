@@ -36,36 +36,41 @@ const Paginator: React.FC<Props> = ({
         value={perPage}
         onChange={onSelectPerPage}
         options={options}
-        wrapSelection={false}
-        simple
+        direction="right"
       />
-      <Pagination
-        floated="right"
-        activePage={page}
-        onPageChange={onSelectPage}
-        ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
-        prevItem={{
-          content: <Icon name="angle left" />,
-          disabled: page === 1,
-          icon: true,
-        }}
-        firstItem={{
-          content: <Icon name="angle double left" />,
-          disabled: page === 1,
-          icon: true,
-        }}
-        nextItem={{
-          content: <Icon name="angle right" />,
-          disabled: page === totalPages,
-          icon: true,
-        }}
-        lastItem={{
-          content: <Icon name="angle double right" />,
-          disabled: page === totalPages,
-          icon: true,
-        }}
-        totalPages={totalPages}
-      />
+      { totalPages !== 1
+        && (
+          <Pagination
+            floated="right"
+            activePage={page}
+            onPageChange={onSelectPage}
+            ellipsisItem={{
+              content: <Icon name="ellipsis horizontal" />,
+              icon: true,
+            }}
+            prevItem={{
+              content: <Icon name="angle left" />,
+              disabled: page === 1,
+              icon: true,
+            }}
+            firstItem={{
+              content: <Icon name="angle double left" />,
+              disabled: page === 1,
+              icon: true,
+            }}
+            nextItem={{
+              content: <Icon name="angle right" />,
+              disabled: page === totalPages,
+              icon: true,
+            }}
+            lastItem={{
+              content: <Icon name="angle double right" />,
+              disabled: page === totalPages,
+              icon: true,
+            }}
+            totalPages={totalPages}
+          />
+        )}
     </Table.HeaderCell>
   );
 };

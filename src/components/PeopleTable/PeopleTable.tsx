@@ -36,13 +36,13 @@ const PeopleTable: React.FC<Props> = React.memo(
     onSelectPerPage,
   }) => {
     return (
-      <Table celled className="PeopleTable">
-        <Table.Header>
+      <Table celled className="PeopleTable" color="teal" inverted>
+        <Table.Header className="PeopleTable-TableHeader">
           <Table.Row className="PeopleTable-TableRow">
             {tableHeaders.map(({ name, code }) => (
               <Table.HeaderCell
                 key={code}
-                className="PeopleTable-HeaderCell Th"
+                className="PeopleTable-HeaderCell"
                 onClick={() => onSortTable(code)}
               >
                 {sortedBy === code && (
@@ -51,7 +51,6 @@ const PeopleTable: React.FC<Props> = React.memo(
                       isSortedAsc ? 'arrow circle down' : 'arrow circle up'
                     }
                     className="PeopleTable-Icon"
-                    color="teal"
                   />
                 )}
                 {name}
@@ -60,11 +59,11 @@ const PeopleTable: React.FC<Props> = React.memo(
           </Table.Row>
         </Table.Header>
 
-        <Table.Body>
+        <Table.Body className="PeopleTable-TableBody">
           {people.map(person => (
             <Table.Row
               key={person.id}
-              warning={person.slug === path}
+              active={person.slug === path}
               className={cn({
                 'PeopleTable-TableRow': true,
                 'PeopleTable-TableRow_male': person.sex === 'm',
