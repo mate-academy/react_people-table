@@ -1,7 +1,7 @@
 import React from 'react';
 
 const NotFoundPage = () => (
-  <h1>
+  <h1 className="people-table__title">
     Page not found
   </h1>
 )

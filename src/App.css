@@ -5,3 +5,7 @@ body {
 .App {
   font-family: sans-serif;
 }
+
+.people-table__title {
+  text-align: center;
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import ClassNames from 'classnames';
 import './TableHeaderRow.css';
@@ -13,12 +13,7 @@ const TableHeaderRow: React.FC<Props> = ({ headers }) => {
   const searchParams = new URLSearchParams(location.search);
   const sortBy = searchParams.get('sortBy') || '';
   const sortOrder = searchParams.get('sortOrder') || '';
-  const [currentSortQuery, setCurrentSortQuery] = useState(sortBy);
   const [currentColumn, setCurrentColumn] = useState<EventTarget>();
-
-  useEffect(() => {
-    setCurrentSortQuery(sortBy);
-  }, [sortBy]);
 
   const handleClickOnHeader = (event: React.MouseEvent<HTMLButtonElement>) => {
     const sortQuery = event.currentTarget.getAttribute('id')?.toLowerCase() || '';
@@ -49,12 +44,12 @@ const TableHeaderRow: React.FC<Props> = ({ headers }) => {
               className={ClassNames('people-table__sort-btn',
                 {
                   'people-table__sort-btn--asc':
-                    currentSortQuery === header.toLowerCase()
+                    sortBy === header.toLowerCase()
                     && searchParams.get('sortOrder') === 'asc'
                 },
                 {
                   'people-table__sort-btn--desc':
-                    currentSortQuery === header.toLowerCase()
+                    sortBy === header.toLowerCase()
                     && searchParams.get('sortOrder') === 'desc'
                 },
               )}

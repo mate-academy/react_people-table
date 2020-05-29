@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HomePage = () => (
-  <h1>
+  <h1 className="people-table__title">
     Home page
   </h1>
 )
