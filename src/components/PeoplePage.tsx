@@ -57,7 +57,7 @@ export const PeoplePage = () => {
     searchParams.set('sortOrder', isSortedAsc ? 'desc' : 'asc');
     searchParams.set('sortBy', item);
     history.push({ search: searchParams.toString() });
-  }, [isSortedAsc, history, searchParams]);
+  }, [isSortedAsc, sortBy]);
 
   const filterPeople = () => {
     return [...people].filter(({ name, fatherName, motherName }) => {
@@ -65,44 +65,44 @@ export const PeoplePage = () => {
     });
   };
 
-  const sortPeople = () => {
-    const result = [...people];
+  const sortPeople = (result: Person[]) => {
+    const sortedResult = [...result];
 
     switch (sortBy) {
       case 'name':
-        result.sort((a, b) => a.name.localeCompare(b.name));
+        sortedResult.sort((a, b) => a.name.localeCompare(b.name));
         break;
       case 'born':
-        result.sort((a, b) => a.born - b.born);
+        sortedResult.sort((a, b) => a.born - b.born);
         break;
       case 'died':
-        result.sort((a, b) => a.died - b.died);
+        sortedResult.sort((a, b) => a.died - b.died);
         break;
       case 'sex':
-        result.sort((a, b) => a.sex.localeCompare(b.sex));
+        sortedResult.sort((a, b) => a.sex.localeCompare(b.sex));
         break;
       case 'motherName':
-        result.sort((a, b) => a.motherName.localeCompare(b.motherName));
+        sortedResult.sort((a, b) => a.motherName.localeCompare(b.motherName));
         break;
       case 'fatherName':
-        result.sort((a, b) => a.fatherName.localeCompare(b.fatherName));
+        sortedResult.sort((a, b) => a.fatherName.localeCompare(b.fatherName));
         break;
       default:
     }
 
-    return result;
+    return sortedResult;
   };
 
   const visiblePeople = useMemo(() => {
-    let result = filterPeople();
+    const filteredResult = filterPeople();
 
-    result = sortPeople();
+    const sortedResult = sortPeople(filteredResult);
 
     if (!isSortedAsc) {
-      result.reverse();
+      sortedResult.reverse();
     }
 
-    return result;
+    return sortedResult;
   }, [queryFromUrl, isSortedAsc, people]);
 
   return (
