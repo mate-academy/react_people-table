@@ -57,12 +57,16 @@ export const PeoplePage = () => {
     searchParams.set('sortOrder', isSortedAsc ? 'desc' : 'asc');
     searchParams.set('sortBy', item);
     history.push({ search: searchParams.toString() });
-  }, [sortBy]);
+  }, [isSortedAsc, history, searchParams]);
 
-  const visiblePeople = useMemo(() => {
-    const result = people.filter(({ name, fatherName, motherName }) => {
+  const filterPeople = () => {
+    return [...people].filter(({ name, fatherName, motherName }) => {
       return (name + motherName + fatherName).toLowerCase().includes((queryFromUrl).toLowerCase());
     });
+  };
+
+  const sortPeople = () => {
+    const result = [...people];
 
     switch (sortBy) {
       case 'name':
@@ -85,6 +89,14 @@ export const PeoplePage = () => {
         break;
       default:
     }
+
+    return result;
+  };
+
+  const visiblePeople = useMemo(() => {
+    let result = filterPeople();
+
+    result = sortPeople();
 
     if (!isSortedAsc) {
       result.reverse();
