@@ -5,7 +5,7 @@ type Props = {
   name: string;
 };
 
-export const HeaderCell: React.FC<Props> = ({ name }) => {
+export const HeaderCell: React.FC<Props> = ({ header }) => {
   const history = useHistory();
   const location = useLocation();
 
