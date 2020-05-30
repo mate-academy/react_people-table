@@ -27,7 +27,7 @@ const PeopleFilter = () => {
           search: searchParams.toString(),
         });
       }, 1000
-    ), [searchParams]
+    ), [location]
   );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
