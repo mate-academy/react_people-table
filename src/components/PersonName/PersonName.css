@@ -1,0 +1,12 @@
+.person__name {
+  color: #000;
+  text-decoration: none;
+}
+
+.person__name--female {
+  color: rgb(178,81,178);
+}
+
+.person__name--male {
+  color: rgb(43,120,184);
+}

@@ -1,0 +1,31 @@
+.header__nav {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  height: 64px;
+  background-color: rgb(36,36,36);
+  list-style: none;
+}
+
+.nav__item {
+  display: flex;
+}
+
+.nav__search-pannel {
+  align-items: center;
+  margin-left: 28px;
+}
+
+.nav__link {
+  display: flex;
+  align-items: center;
+  padding: 0 36px;
+  color: #fff;
+  background-color: rgb(36,36,36);
+  text-decoration: none;
+  transition: all 0.25s ease-in;
+}
+
+.nav__link.active {
+  background-color: rgb(69,69,69);
+}
