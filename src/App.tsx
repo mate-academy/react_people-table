@@ -1,19 +1,18 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, NavLink } from 'react-router-dom';
+import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import { peopleUrl, fetchData } from './Api';
 import { Person } from './interfaces';
 import { Table } from './Table';
+import { HomePage, NotFoundPage } from './HomePage';
+
 
 import './App.css';
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(false);
-
   const [people, setPeople] = useState<Person[]>([]);
 
   useEffect(() => {
-    setIsLoading(true);
     const getUsers = async () => {
       const users = await fetchData<Person>(peopleUrl);
 
@@ -21,10 +20,12 @@ const App = () => {
     };
 
     getUsers();
-    console.log(people, isLoading);
-
-    setIsLoading(false);
+    console.log(people);
   }, []);
+
+  const handleSorting = (sorted: Person[]) => {
+    setPeople(sorted)
+  };
 
   return (
     <div className="App">
@@ -32,16 +33,26 @@ const App = () => {
       <nav className="navbar navbar-light bg-light">
         <form className="form-inline">
           <NavLink className="btn btn-outline-success" to="/" exact>Home</NavLink>
-          <NavLink className="btn btn-outline-success" to="/users/">People</NavLink>
+          <NavLink className="btn btn-outline-success" to="/users/:id?">People</NavLink>
         </form>
       </nav>
       <Switch>
+        <Route path="/" exact component={HomePage} />
+        <Route path="/home"><Redirect to="/" /></Route>
         <Route
-          path="/users/"
+          path="/users/:id?"
           render={
-            ({ match }) => <Table list={people} id={match.params.id} path={match.url} />
+            ({ match }) => (
+              <Table
+                list={people}
+                id={match.params.id}
+                path={match.url}
+                handleSorting={handleSorting}
+              />
+            )
           }
         />
+        <Route component={NotFoundPage} />
       </Switch>
     </div>
   );
