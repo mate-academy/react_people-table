@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Person } from './interfaces';
 import { PersonRow } from './PersonRow';
 import { useHistory, useLocation } from 'react-router-dom';
+import { TableHead } from './TableHead';
 
 interface Props {
   list: Person[];
@@ -17,14 +18,19 @@ export const Table: React.FC<Props> = ({ list, handleSorting, id }) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const [direction, setDirection] = useState(false);
-  const sortBy = (header: keyof Person) => {
+  const setParams = (header: keyof Person) => {
+    const order =  direction ? 'forward' : 'reverse';
     searchParams.set('sortBy', `${header}`);
-    searchParams.set('sortOrder', `${direction}`);
+    searchParams.set('sortOrder', `${order}`);
 
     history.push({
       search: searchParams.toString(),
     });
-    const sorted: Person[] = [...list].sort((a, b) => {
+    sortBy(header)
+  };
+
+  const sortBy = (header: keyof Person) => {
+        const sorted: Person[] = [...list].sort((a, b) => {
       const aHeader = a[header];
       const bHeader = b[header];
 
@@ -39,10 +45,10 @@ export const Table: React.FC<Props> = ({ list, handleSorting, id }) => {
       return 1;
     });
 
-    handleSorting(sorted);
+    handleSorting([...sorted]);
 
     setDirection(!direction);
-  };
+  }
 
   const findParent = (name: string) => {
     const parent = list.find(human => human.name === name);
@@ -53,21 +59,10 @@ export const Table: React.FC<Props> = ({ list, handleSorting, id }) => {
   return (
     <>
       <table className="table table-sm">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col" onClick={() => sortBy('name')}>name</th>
-            <th scope="col" onClick={() => sortBy('sex')}>sex</th>
-            <th scope="col" onClick={() => sortBy('born')}>born</th>
-            <th scope="col" onClick={() => sortBy('died')}>died</th>
-            <th scope="col" onClick={() => sortBy('motherName')}>mother</th>
-            <th scope="col" onClick={() => sortBy('fatherName')}>father</th>
-          </tr>
-        </thead>
+        <TableHead setParams={setParams} />
         <tbody>
           {
             list.map((person, index) => {
-              console.log(person.slug, 'slug', id, 'di');
               const active = person.slug === id ? 'active-person' : 'non-active';
               const sex = person.sex === 'f' ? 'woman' : 'man';
 

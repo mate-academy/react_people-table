@@ -20,7 +20,6 @@ const App = () => {
     };
 
     getUsers();
-    console.log(people);
   }, []);
 
   const handleSorting = (sorted: Person[]) => {
