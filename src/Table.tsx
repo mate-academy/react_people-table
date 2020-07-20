@@ -36,7 +36,6 @@ export const Table: React.FC<Props> = ({ list, id }) => {
 
   useMemo(() => {
      let sorted: Person[];
-     console.log(query, sortOrder)
      if(sortOrder==='forward') {
       switch (sortByOption) {
         case 'born':
@@ -64,14 +63,13 @@ export const Table: React.FC<Props> = ({ list, id }) => {
         case 'name':
         case 'sex':
           sorted = persons.sort((a, b) => b[sortByOption].localeCompare(a[sortByOption]));
-          // const filtered
           setPersons(sorted)
           break;
 
         default:
         }
      }
-   }, [sortByOption, sortOrder, persons])
+   }, [sortByOption, sortOrder, persons]);
 
   const findParent = (name: string) => {
     const parent = persons.find(human => human.name === name);
@@ -80,8 +78,6 @@ export const Table: React.FC<Props> = ({ list, id }) => {
   };
 
   const setFiltered = (value: string) => {
-    // const filtered = list.filter(person => person.name.includes(value));
-    // setPersons(filtered);
     searchParams.set('query', `${value}`);
     history.push({
       search: searchParams.toString(),
@@ -95,7 +91,7 @@ export const Table: React.FC<Props> = ({ list, id }) => {
         <TableHead setParams={setParams} />
         <tbody>
           {
-            persons.map((person, index) => {
+            persons.filter(person=>person.name.includes(query)).map((person, index) => {
               const active = person.slug === id ? 'active-person' : 'non-active';
               const sex = person.sex === 'f' ? 'woman' : 'man';
 
