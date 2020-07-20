@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import { peopleUrl, fetchData } from './Api';
@@ -15,16 +14,11 @@ const App = () => {
   useEffect(() => {
     const getUsers = async () => {
       const users = await fetchData<Person>(peopleUrl);
-
       setPeople(users);
     };
 
     getUsers();
   }, []);
-
-  const handleSorting = (sorted: Person[]) => {
-    setPeople(sorted)
-  };
 
   return (
     <div className="App">
@@ -32,7 +26,7 @@ const App = () => {
       <nav className="navbar navbar-light bg-light">
         <form className="form-inline">
           <NavLink className="btn btn-outline-success" to="/" exact>Home</NavLink>
-          <NavLink className="btn btn-outline-success" to="/users/:id?">People</NavLink>
+          <NavLink className="btn btn-outline-success" to="/users/">People</NavLink>
         </form>
       </nav>
       <Switch>
@@ -45,8 +39,6 @@ const App = () => {
               <Table
                 list={people}
                 id={match.params.id}
-                path={match.url}
-                handleSorting={handleSorting}
               />
             )
           }

@@ -1,68 +1,101 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Person } from './interfaces';
 import { PersonRow } from './PersonRow';
 import { useHistory, useLocation } from 'react-router-dom';
 import { TableHead } from './TableHead';
+import { Search } from './Search';
 
 interface Props {
   list: Person[];
   id: string;
-  path: string;
-  handleSorting: (sorted: Person[]) => (void);
 }
 
-// const headers = ['#', 'name', 'sex', 'born', 'died', 'motherName', 'fatherName'];
 
-export const Table: React.FC<Props> = ({ list, handleSorting, id }) => {
+export const Table: React.FC<Props> = ({ list, id }) => {
   const history = useHistory();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const [direction, setDirection] = useState(false);
+  const query: string = searchParams.get('query') || '';
+  const [persons, setPersons] = useState(list);
+  const sortByOption: string = searchParams.get('sortBy') || '';
+  const sortOrder: string = searchParams.get('sortOrder') || '';
+
   const setParams = (header: keyof Person) => {
-    const order =  direction ? 'forward' : 'reverse';
+    const order =  sortOrder==='forward' ? 'reverse' :'forward' ;
     searchParams.set('sortBy', `${header}`);
     searchParams.set('sortOrder', `${order}`);
 
     history.push({
       search: searchParams.toString(),
     });
-    sortBy(header)
   };
 
-  const sortBy = (header: keyof Person) => {
-        const sorted: Person[] = [...list].sort((a, b) => {
-      const aHeader = a[header];
-      const bHeader = b[header];
+  useMemo(() => {
+    setPersons(list);
+  }, [list]);
 
-      if (aHeader !== undefined && bHeader !== undefined && typeof aHeader === typeof bHeader) {
-        if (direction) {
-          return (aHeader <= bHeader) ? 1 : -1;
+  useMemo(() => {
+     let sorted: Person[];
+     console.log(query, sortOrder)
+     if(sortOrder==='forward') {
+      switch (sortByOption) {
+        case 'born':
+        case 'died':
+          sorted = persons.sort((a, b) => a[sortByOption] - b[sortByOption]);
+          setPersons(sorted)
+          break;
+
+        case 'name':
+        case 'sex':
+          sorted = persons.sort((a, b) => a[sortByOption].localeCompare(b[sortByOption]));
+          setPersons(sorted)
+          break;
+
+        default:
         }
+     } else {
+      switch (sortByOption) {
+        case 'born':
+        case 'died':
+          sorted = persons.sort((a, b) => b[sortByOption] - a[sortByOption]);
+          setPersons(sorted)
+          break;
 
-        return (aHeader >= bHeader) ? 1 : -1;
-      }
+        case 'name':
+        case 'sex':
+          sorted = persons.sort((a, b) => b[sortByOption].localeCompare(a[sortByOption]));
+          // const filtered
+          setPersons(sorted)
+          break;
 
-      return 1;
-    });
-
-    handleSorting([...sorted]);
-
-    setDirection(!direction);
-  }
+        default:
+        }
+     }
+   }, [sortByOption, sortOrder, persons])
 
   const findParent = (name: string) => {
-    const parent = list.find(human => human.name === name);
+    const parent = persons.find(human => human.name === name);
 
     return parent;
   };
 
+  const setFiltered = (value: string) => {
+    // const filtered = list.filter(person => person.name.includes(value));
+    // setPersons(filtered);
+    searchParams.set('query', `${value}`);
+    history.push({
+      search: searchParams.toString(),
+    });
+  }
+
   return (
     <>
+      <Search setFiltered={setFiltered} value={query} />
       <table className="table table-sm">
         <TableHead setParams={setParams} />
         <tbody>
           {
-            list.map((person, index) => {
+            persons.map((person, index) => {
               const active = person.slug === id ? 'active-person' : 'non-active';
               const sex = person.sex === 'f' ? 'woman' : 'man';
 
