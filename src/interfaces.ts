@@ -1,4 +1,4 @@
-export interface PeopleListInterface {
+export interface Person {
   name: string;
   sex: string;
   born: string;
@@ -6,4 +6,9 @@ export interface PeopleListInterface {
   fatherName: string;
   motherName: string;
   slug: string;
+}
+
+export interface PeopleListInterface extends Person {
+  mother: Person;
+  father: Person;
 }

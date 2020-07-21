@@ -23,8 +23,8 @@ const App: FC = () => (
         <Redirect to="/" />
       </Route>
       <Route
-        path="/people"
-        render={({ match }) => <PeopleList path={match.path} />}
+        path="/people/:slug?"
+        component={PeopleList}
       />
       <Route path="*" component={NotFoundPage} />
     </Switch>

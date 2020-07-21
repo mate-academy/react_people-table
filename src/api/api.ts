@@ -1,15 +1,11 @@
-import { PeopleListInterface } from '../interfaces';
-
-// const URL_API = 'https://mate-academy.github.io/react_people-table/api/people.json';
+import { PeopleListInterface, Person } from '../interfaces';
 
 export const getData = async (): Promise<PeopleListInterface[]> => {
-  const data = await fetch('https://mate-academy.github.io/react_people-table/api/people.json').then(respond => respond.json());
+  const data: Person[] = await fetch('https://mate-academy.github.io/react_people-table/api/people.json').then(respond => respond.json());
 
-  return data;
+  return data.map(person => ({
+    ...person,
+    mother: data.find(individual => individual.name === person.motherName) as Person,
+    father: data.find(individual => individual.name === person.fatherName) as Person,
+  }));
 };
-
-// export const getPrepearedList = async () => {
-//   const people = await getData(URL_API);
-
-//   return people;
-// };

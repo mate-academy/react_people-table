@@ -1,29 +1,24 @@
 import React, { FC, useState, useEffect } from 'react';
 import { getData } from '../../api/api';
 import { PeopleListInterface } from '../../interfaces';
+import { PeopleTable } from '../PeopleTable/PeopleTable';
 
-interface PeopleListProps {
-  path: string;
-}
-
-export const PeopleList: FC<PeopleListProps> = ({ path }) => {
+export const PeopleList: FC = () => {
   const [people, getPeople] = useState<PeopleListInterface[]>([]);
 
+  async function fetchData() {
+    const peopleFromServer = await getData();
+
+    getPeople(peopleFromServer);
+  }
+
   useEffect(() => {
-    async function fetchData() {
-      const peopleFromServer = await getData();
-
-      getPeople(peopleFromServer);
-    }
-
     fetchData();
   }, []);
 
-  console.log(people);
-
   return (
     <div>
-      <h1>{path}</h1>
+      <h1>1</h1>
       <PeopleTable people={people} />
     </div>
   );

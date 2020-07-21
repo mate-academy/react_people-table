@@ -1,12 +1,5 @@
 import React, { FC } from 'react';
-import {
-  NavLink,
-  // Switch,
-  // Route,
-  // Redirect,
-} from 'react-router-dom';
-// import { Home } from '../Home/Home';
-// import { NotFoundPage } from '../NotFoundPage/NotFoundPage';
+import { NavLink } from 'react-router-dom';
 
 export const Header: FC = () => (
   <>
