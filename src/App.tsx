@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { FC } from 'react';
+import {
+  HashRouter,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
+import { Header } from './components/Header/Header';
+import { Home } from './components/Home/Home';
+import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
+import { PeopleList } from './components/PeopleList/PeopleList';
 
 import './App.css';
 
-const App = () => (
-  <div className="App">
-    <h1>People table</h1>
-  </div>
+const App: FC = () => (
+  <HashRouter>
+    <div className="App">
+      <Header />
+    </div>
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route exact path="/home">
+        <Redirect to="/" />
+      </Route>
+      <Route
+        path="/people"
+        render={({ match }) => <PeopleList path={match.path} />}
+      />
+      <Route path="*" component={NotFoundPage} />
+    </Switch>
+
+  </HashRouter>
 );
 
 export default App;
