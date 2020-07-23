@@ -17,7 +17,7 @@ export const SearchBar: FC = () => {
     return (...args: string []) => {
       clearTimeout(timerId);
 
-      timerId = setInterval(func, delay, ...args);
+      timerId = setTimeout(func, delay, ...args);
     };
   };
 
