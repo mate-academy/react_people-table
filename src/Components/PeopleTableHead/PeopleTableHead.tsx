@@ -14,7 +14,14 @@ export const PeopleTableHead: FC = () => {
     <thead>
       <tr>
         {tableHead.map(head => {
-          return <th key={head} scope="col">{head}</th>;
+          return (
+            <th
+              key={head}
+              scope="col"
+            >
+              {head}
+            </th>
+          );
         })}
       </tr>
     </thead>
