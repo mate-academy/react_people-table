@@ -3,7 +3,7 @@ import { uuid } from 'uuidv4';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import className from 'classnames';
 import { PeopleListInterface } from '../../interfaces';
-import { filterList, sortList } from './listToShow';
+import { filterList, sortList, makeReverse } from './listToShow';
 
 import './PersonRow.css';
 
@@ -24,12 +24,12 @@ export const PersonRow: FC<PersonRowProps> = ({ people }) => {
   const querySortOrder = searchParams.get('sortOrder') || '';
 
   const filteredList = filterList(people, queryFilter);
-
-  const sortedList = sortList(filteredList, querySort, querySortOrder);
+  const sortedList = sortList(filteredList, querySort);
+  const reversedList = makeReverse(sortedList, querySortOrder);
 
   return (
     <tbody>
-      {sortedList.map((person, index) => {
+      {reversedList.map((person, index) => {
         const mother = person.mother
           ? (
             <td>

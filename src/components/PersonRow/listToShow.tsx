@@ -9,27 +9,32 @@ export function filterList(people: PeopleListInterface[], query: string) {
     : people;
 }
 
-export function sortList(list: PeopleListInterface[], querySort: string, querySortOrder: string) {
+export function sortList(list: PeopleListInterface[], querySort: string) {
   const querySortAdopted = querySort.toLowerCase();
 
   switch (querySortAdopted) {
     case 'name':
     case 'sex':
       return list
-        .sort((personA, personB) => {
-          return querySortOrder === 'asc'
-            ? personA[querySortAdopted].localeCompare(personB[querySortAdopted])
-            : personB[querySortAdopted].localeCompare(personA[querySortAdopted]);
-        });
+        .sort(
+          (personA, personB) => personA[querySortAdopted].localeCompare(personB[querySortAdopted]),
+        );
     case 'born':
     case 'died':
       return list
-        .sort((personA, personB) => {
-          return querySortOrder === 'asc'
-            ? Number(personA[querySortAdopted]) - Number(personB[querySortAdopted])
-            : Number(personB[querySortAdopted]) - Number(personA[querySortAdopted]);
-        });
+        .sort(
+          (personA, personB) => Number(personA[querySortAdopted])
+            - Number(personB[querySortAdopted]),
+        );
     default:
       return list;
   }
+}
+
+export function makeReverse(sortedList: PeopleListInterface[], querySortOrder: string) {
+  if (querySortOrder === 'asc') {
+    return sortedList.reverse();
+  }
+
+  return sortedList;
 }

@@ -36,7 +36,7 @@ export const PeopleTable: FC<PeopleTableProps> = ({ people }) => {
               });
             };
 
-            const sortCellClassName = className('Head__Cell ', { 'table-dark': (selectedType === cell.title) });
+            const sortCellClassName = className('head-cell ', { 'table-dark': (selectedType === cell.title) });
 
             return (
               <th
