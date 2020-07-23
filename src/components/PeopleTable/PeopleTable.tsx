@@ -36,7 +36,7 @@ export const PeopleTable: FC<PeopleTableProps> = ({ people }) => {
               });
             };
 
-            const sortCellClassName = className('headCell', { 'table-dark': (selectedType === cell.title) });
+            const sortCellClassName = className('Head__Cell ', { 'table-dark': (selectedType === cell.title) });
 
             return (
               <th
@@ -45,7 +45,7 @@ export const PeopleTable: FC<PeopleTableProps> = ({ people }) => {
                 onClick={handleSort}
               >
                 {selectedType === cell.title && (
-                  <img src="../../images/sort_both.png" alt="sort arrow" className="arrow" />
+                  <img src="images/sort_both.png" alt="sort arrow" className="arrow" />
                 )}
                 {cell.title}
               </th>
