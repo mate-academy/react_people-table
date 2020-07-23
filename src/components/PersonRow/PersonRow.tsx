@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 import { uuid } from 'uuidv4';
-import { NavLink, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import className from 'classnames';
 import { PeopleListInterface } from '../../interfaces';
+import { filterList, sortList } from './listToShow';
 
 import './PersonRow.css';
 
@@ -16,16 +17,31 @@ interface MatchParams {
 
 export const PersonRow: FC<PersonRowProps> = ({ people }) => {
   const currentPath = useParams<MatchParams>().slug;
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const queryFilter = searchParams.get('query') || '';
+  const querySort = searchParams.get('sortBy') || '';
+  const querySortOrder = searchParams.get('sortOrder') || '';
+
+  const filteredList = filterList(people, queryFilter);
+
+  const sortedList = sortList(filteredList, querySort, querySortOrder);
 
   return (
     <tbody>
-      {people.map((person, index) => {
+      {sortedList.map((person, index) => {
         const mother = person.mother
           ? (
             <td>
-              <NavLink to={`/people/${person.mother.slug}`} exact>
+              <Link
+                className="red"
+                to={{
+                  pathname: `/people/${person.mother.slug}`,
+                  search: searchParams.toString(),
+                }}
+              >
                 {person.mother.name}
-              </NavLink>
+              </Link>
             </td>
 
           )
@@ -35,9 +51,15 @@ export const PersonRow: FC<PersonRowProps> = ({ people }) => {
         const father = person.father
           ? (
             <td>
-              <NavLink to={`/people/${person.father.slug}`} exact>
+              <Link
+                className="blue"
+                to={{
+                  pathname: `/people/${person.father.slug}`,
+                  search: searchParams.toString(),
+                }}
+              >
                 {person.father.name}
-              </NavLink>
+              </Link>
             </td>
 
           )
@@ -45,7 +67,7 @@ export const PersonRow: FC<PersonRowProps> = ({ people }) => {
             <td>{person.fatherName}</td>
           );
 
-        const rowClassName = className({ selected: currentPath === person.slug });
+        const rowClassName = className({ 'table-active': currentPath === person.slug });
         const sexClassName = className({
           blue: person.sex === 'm',
           red: person.sex === 'f',
@@ -58,9 +80,13 @@ export const PersonRow: FC<PersonRowProps> = ({ people }) => {
           >
             <td>{index + 1}</td>
             <td>
-              <NavLink to={`/people/${person.slug}`} exact>
+              <Link to={{
+                pathname: `/people/${person.slug}`,
+                search: searchParams.toString(),
+              }}
+              >
                 {person.name}
-              </NavLink>
+              </Link>
             </td>
             <td className={sexClassName}>{person.sex}</td>
             <td>{person.born}</td>

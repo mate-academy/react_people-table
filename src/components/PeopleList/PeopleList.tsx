@@ -2,6 +2,9 @@ import React, { FC, useState, useEffect } from 'react';
 import { getData } from '../../api/api';
 import { PeopleListInterface } from '../../interfaces';
 import { PeopleTable } from '../PeopleTable/PeopleTable';
+import { Input } from '../Input/Input';
+
+import './PeopleList.css';
 
 export const PeopleList: FC = () => {
   const [people, getPeople] = useState<PeopleListInterface[]>([]);
@@ -18,8 +21,11 @@ export const PeopleList: FC = () => {
 
   return (
     <div>
-      <h1>1</h1>
-      <PeopleTable people={people} />
+      <h1 className="heading">People list</h1>
+      <Input />
+      <PeopleTable
+        people={people}
+      />
     </div>
   );
 };

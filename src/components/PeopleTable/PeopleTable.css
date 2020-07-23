@@ -1,3 +1,9 @@
-.PeopleTable {
-  border-collapse: collapse;
+.head_cell {
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  top: calc(50% - 10px);
+  right: 10%;
 }
