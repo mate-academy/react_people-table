@@ -12,6 +12,8 @@ export const getPeople = async (): Promise<PersonType[]> => {
   const modifiedPeopleList = loadedPeople.map(person => {
     return {
       ...person,
+      motherName: person.motherName || '',
+      fatherName: person.fatherName || '',
       mother: findParent('f', person.motherName),
       father: findParent('m', person.fatherName),
     };

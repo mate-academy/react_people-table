@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import classnames from 'classnames';
 
 import { PersonType } from '../interfaces/interfaces';
@@ -10,20 +9,32 @@ interface Props {
   people: PersonType[];
 }
 
-interface TableBodyParams {
-  slug?: string;
-}
+export const PeopleTableBody: FC<Props> = (props) => {
+  const { people } = props;
 
-type PeopleTableBodyProps = RouteComponentProps<TableBodyParams> & Props;
+  const { slug } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search).get('query');
 
-const PeopleTableBody: FC<PeopleTableBodyProps> = (props) => {
-  const { people, match } = props;
+  let renderedList = people;
 
-  const { slug } = match.params;
+  function includedQuery(name: string, query: string): boolean {
+    return name.toLowerCase().includes(query.toLowerCase());
+  }
+
+  if (searchParams) {
+    renderedList = people.filter(person => {
+      const { name, motherName, fatherName } = person;
+
+      return includedQuery(name, searchParams)
+      || includedQuery(motherName, searchParams)
+      || includedQuery(fatherName, searchParams);
+    });
+  }
 
   return (
     <tbody>
-      {people.map(person => {
+      {renderedList.map(person => {
         const colorBySex = person.sex === 'm';
 
         return (
@@ -72,5 +83,3 @@ const PeopleTableBody: FC<PeopleTableBodyProps> = (props) => {
     </tbody>
   );
 };
-
-export default withRouter(PeopleTableBody);

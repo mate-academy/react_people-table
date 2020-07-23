@@ -11,10 +11,7 @@ export const PersonLink: FC<PersonLinkProps> = (props) => {
 
   return (
     <NavLink
-      to={{
-        pathname: `/people/${slug}`,
-        hash: slug,
-      }}
+      to={`/people/${slug}`}
     >
       {name}
     </NavLink>
