@@ -10,34 +10,24 @@ export function filterList(people: PeopleListInterface[], query: string) {
 }
 
 export function sortList(list: PeopleListInterface[], querySort: string, querySortOrder: string) {
-  switch (querySort) {
-    case 'Name':
+  const querySortAdopted = querySort.toLowerCase();
+
+  switch (querySortAdopted) {
+    case 'name':
+    case 'sex':
       return list
         .sort((personA, personB) => {
           return querySortOrder === 'asc'
-            ? personA.name.localeCompare(personB.name)
-            : personB.name.localeCompare(personA.name);
+            ? personA[querySortAdopted].localeCompare(personB[querySortAdopted])
+            : personB[querySortAdopted].localeCompare(personA[querySortAdopted]);
         });
-    case 'Sex':
+    case 'born':
+    case 'died':
       return list
         .sort((personA, personB) => {
           return querySortOrder === 'asc'
-            ? personA.sex.localeCompare(personB.sex)
-            : personB.sex.localeCompare(personA.sex);
-        });
-    case 'Born':
-      return list
-        .sort((personA, personB) => {
-          return querySortOrder === 'asc'
-            ? Number(personA.born) - Number(personB.born)
-            : Number(personB.born) - Number(personA.born);
-        });
-    case 'Died':
-      return list
-        .sort((personA, personB) => {
-          return querySortOrder === 'asc'
-            ? Number(personA.born) - Number(personB.died)
-            : Number(personB.born) - Number(personA.died);
+            ? Number(personA[querySortAdopted]) - Number(personB[querySortAdopted])
+            : Number(personB[querySortAdopted]) - Number(personA[querySortAdopted]);
         });
     default:
       return list;
