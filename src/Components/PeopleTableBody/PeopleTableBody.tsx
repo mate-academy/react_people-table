@@ -52,6 +52,19 @@ export const PeopleTableBody: FC<Props> = (props) => {
       {renderedList.map(person => {
         const colorBySex = person.sex === 'm';
 
+        const showParent = (
+          parentSlug: string | undefined, parentName: string,
+        ): React.ReactNode => {
+          return parentSlug
+            ? (
+              <PersonLink
+                slug={parentSlug}
+                name={parentName}
+              />
+            )
+            : parentName;
+        };
+
         return (
           <tr
             key={person.slug}
@@ -73,24 +86,10 @@ export const PeopleTableBody: FC<Props> = (props) => {
             <td>{person.born}</td>
             <td>{person.died}</td>
             <td>
-              {person.mother?.slug
-                ? (
-                  <PersonLink
-                    slug={person.mother?.slug}
-                    name={person.motherName}
-                  />
-                )
-                : person.motherName}
+              {showParent(person.mother?.slug, person.motherName)}
             </td>
             <td>
-              {person.father?.slug
-                ? (
-                  <PersonLink
-                    slug={person.father?.slug}
-                    name={person.fatherName}
-                  />
-                )
-                : person.fatherName}
+              {showParent(person.father?.slug, person.fatherName)}
             </td>
           </tr>
         );
