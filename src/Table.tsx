@@ -77,7 +77,7 @@ export const Table: React.FC<Props> = ({ list, id }) => {
     return parent;
   };
 
-  const setFiltered = (value: string) => {
+  const setQuery = (value: string) => {
     searchParams.set('query', `${value}`);
     history.push({
       search: searchParams.toString(),
@@ -86,12 +86,15 @@ export const Table: React.FC<Props> = ({ list, id }) => {
 
   return (
     <>
-      <Search setFiltered={setFiltered} value={query} />
+      <Search setQuery={setQuery} value={query} />
       <table className="table table-sm">
         <TableHead setParams={setParams} />
         <tbody>
-          {
-            persons.filter(person=>person.name.includes(query)).map((person, index) => {
+          {  persons.filter(person => (person.name + person.motherName + person.fatherName)
+            .includes(query)).length === 0
+            ? <p>No user, includes {query}</p>
+            : (persons.filter(person => (person.name + person.motherName + person.fatherName)
+            .includes(query)).map((person, index) => {
               const active = person.slug === id ? 'active-person' : 'non-active';
               const sex = person.sex === 'f' ? 'woman' : 'man';
 
@@ -106,6 +109,7 @@ export const Table: React.FC<Props> = ({ list, id }) => {
                 />
               );
             })
+            )
           }
         </tbody>
       </table>

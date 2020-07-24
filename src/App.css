@@ -23,3 +23,13 @@ a {
   font-weight: bold;
   text-decoration: none;
 }
+
+.add_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add_form-input {
+  margin: 10px 0;
+  width: 30%;
+}

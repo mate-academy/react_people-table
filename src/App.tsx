@@ -4,6 +4,7 @@ import { peopleUrl, fetchData } from './Api';
 import { Person } from './interfaces';
 import { Table } from './Table';
 import { HomePage, NotFoundPage } from './HomePage';
+import { AddForm } from './AddForm';
 
 
 import './App.css';
@@ -27,10 +28,12 @@ const App = () => {
         <form className="form-inline">
           <NavLink className="btn btn-outline-success" to="/" exact>Home</NavLink>
           <NavLink className="btn btn-outline-success" to="/users/">People</NavLink>
+          <NavLink className="btn btn-outline-success" to="/form/">Add new user</NavLink>
         </form>
       </nav>
       <Switch>
         <Route path="/" exact component={HomePage} />
+        <Route path="/form/" exact component={AddForm} />
         <Route path="/home"><Redirect to="/" /></Route>
         <Route
           path="/users/:id?"
