@@ -35,7 +35,7 @@ export const PeopleTableHead: FC = () => {
     <thead>
       <tr>
         {tableHead.map(head => {
-          const styleActiveTitle = currentParam === head ? style : {};
+          const styleActiveTitle = (currentParam === head ? style : {});
 
           return (
             <th
@@ -45,7 +45,10 @@ export const PeopleTableHead: FC = () => {
               scope="col"
             >
               {head}
-              <img src="/images/sort_both.png" alt="sorting arrows" />
+              <img
+                src="/images/sort_both.png"
+                alt="sorting arrows"
+              />
             </th>
           );
         })}
