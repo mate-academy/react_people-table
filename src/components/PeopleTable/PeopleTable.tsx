@@ -45,7 +45,11 @@ export const PeopleTable: FC<PeopleTableProps> = ({ people }) => {
                 onClick={handleSort}
               >
                 {selectedType === cell.title && (
-                  <img src="images/sort_both.png" alt="sort arrow" className="arrow" />
+                  <img
+                    src="images/sort_both.png"
+                    alt="sort arrow"
+                    className="arrow"
+                  />
                 )}
                 {cell.title}
               </th>

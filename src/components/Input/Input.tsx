@@ -13,9 +13,9 @@ export const Input: FC = () => {
   const [visibleQuery, setVisibleQuery] = useState<string>(query);
 
   const prepareQueryToUpdate = useCallback(
-    debounce((NewQuery: string) => {
-      if (NewQuery) {
-        searchParams.set('query', NewQuery);
+    debounce((newQuery: string) => {
+      if (newQuery) {
+        searchParams.set('query', newQuery);
       } else {
         searchParams.delete('query');
       }
