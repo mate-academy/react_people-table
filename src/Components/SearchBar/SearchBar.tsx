@@ -1,6 +1,5 @@
 import React, { FC, useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-// import { NavLink } from 'react-router-dom';
 
 type handleQueryUpdateType = (event: React.ChangeEvent<HTMLInputElement>) => void;
 

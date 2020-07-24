@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import { PersonType } from '../interfaces/interfaces';
 import { PersonLink } from '../PersonLink/PersonLink';
+import { sortPatterns } from '../SortPatterns/SortPatterns';
 
 interface Props {
   people: PersonType[];
@@ -14,7 +15,11 @@ export const PeopleTableBody: FC<Props> = (props) => {
 
   const { slug } = useParams();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search).get('query');
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get('query');
+  const sortBy = searchParams.get('sortBy')?.toLowerCase();
+  const sortOrder = searchParams.get('sortOrder')?.toLowerCase();
+  const sortByPatterns = sortPatterns;
 
   let renderedList = people;
 
@@ -22,14 +27,24 @@ export const PeopleTableBody: FC<Props> = (props) => {
     return name.toLowerCase().includes(query.toLowerCase());
   }
 
-  if (searchParams) {
+  if (searchQuery) {
     renderedList = people.filter(person => {
       const { name, motherName, fatherName } = person;
 
-      return includedQuery(name, searchParams)
-      || includedQuery(motherName, searchParams)
-      || includedQuery(fatherName, searchParams);
+      return includedQuery(name, searchQuery)
+      || includedQuery(motherName, searchQuery)
+      || includedQuery(fatherName, searchQuery);
     });
+  }
+
+  const sortPattern = sortByPatterns.find(pattern => pattern.sortBy === sortBy);
+
+  if (sortPattern) {
+    renderedList.sort(sortPattern.pattern);
+  }
+
+  if (sortOrder === 'desc') {
+    renderedList.reverse();
   }
 
   return (
