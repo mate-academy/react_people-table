@@ -1,0 +1,9 @@
+.head-cell {
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  top: calc(50% - 10px);
+  right: 10%;
+}
