@@ -46,7 +46,7 @@ export const PeopleTableHead: FC = () => {
             >
               {head}
               <img
-                src="/images/sort_both.png"
+                src="images/sort_both.png"
                 alt="sorting arrows"
               />
             </th>
