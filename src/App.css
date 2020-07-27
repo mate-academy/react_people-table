@@ -1,0 +1,35 @@
+th:hover {
+  cursor: pointer;
+}
+
+.man {
+  background-color: rgb(191, 231, 231);
+}
+
+.woman {
+  background-color: rgb(224, 186, 170);
+}
+
+.active-person {
+  background-color: crimson;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.add_form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add_form-input {
+  margin: 10px 0;
+  width: 30%;
+}
