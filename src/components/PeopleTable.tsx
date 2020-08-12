@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React, { MouseEventHandler } from 'react';
 import { useLocation } from 'react-router';
 import { PersonRow } from './PersonRow';
 import { PersonWithParents } from './types';
@@ -6,7 +6,7 @@ import { PersonWithParents } from './types';
 interface PeopleTableProps {
   peoples: PersonWithParents[];
   url: string;
-  handleSorting(e: SyntheticEvent): void;
+  handleSorting: MouseEventHandler<{innerHTML: string}>;
 }
 
 export const PeopleTable: React.FC<PeopleTableProps> = ({ peoples, url, handleSorting }) => {
@@ -30,7 +30,7 @@ export const PeopleTable: React.FC<PeopleTableProps> = ({ peoples, url, handleSo
 
         case 'born':
           people
-            .sort((a, b) => a.born - (b.born));
+            .sort((a, b) => a.born - b.born);
           break;
 
         case 'died':

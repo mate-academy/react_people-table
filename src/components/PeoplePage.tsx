@@ -1,4 +1,10 @@
-import React, { useEffect, useState, ChangeEventHandler } from 'react';
+import React,
+{
+  useEffect,
+  useState,
+  ChangeEventHandler,
+  MouseEventHandler,
+} from 'react';
 import { useHistory, useLocation } from 'react-router';
 import { RouteComponentProps } from 'react-router-dom';
 import { DebounceInput } from 'react-debounce-input';
@@ -34,8 +40,10 @@ export const PeoplePage = (props: RouteComponentProps) => {
         || person.motherName?.toLowerCase().includes(query.toLowerCase())));
   }, [query, people]);
 
-  const handleSorting = (event: any) => {
-    searchParams.set('sortBy', event.currentTarget.innerText);
+  const handleSorting: MouseEventHandler<{innerHTML: string}> = (event) => {
+    const sortParam = event.currentTarget === null ? '' : event.currentTarget.innerHTML;
+
+    searchParams.set('sortBy', sortParam);
     if (searchParams.get('sortOrder') === 'asc') {
       searchParams.set('sortOrder', 'desc');
     } else {
@@ -51,10 +59,12 @@ export const PeoplePage = (props: RouteComponentProps) => {
     <>
       <h2>People page</h2>
       <DebounceInput
+        className="form-control shadow-lg p-3 mb-5 bg-white rounded"
         debounceTimeout={500}
         type="text"
         value={query}
         onChange={onChange}
+        placeholder="search"
       />
       <PeopleTable peoples={visiblePeople} url={props.match.url} handleSorting={handleSorting} />
     </>
