@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  background-color: lightsalmon;
+  height: 50px;
+  align-items: center;
+}
+
+.highlight {
+  background-color:grey;
+}
+
+.red {
+  color: rgb(231, 96, 96);
+}
+
+.blue {
+  color: rgb(12, 156, 240);
+}
+
+.title {
+  background-color: lightgrey;
+}
