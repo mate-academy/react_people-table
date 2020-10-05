@@ -11,6 +11,9 @@ body {
 input {
   display: block;
   margin: 0 auto;
+  padding: 10px;
+  border-radius: 15px;
+  outline: none;
 }
 
 table {
