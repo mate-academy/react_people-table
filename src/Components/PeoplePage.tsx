@@ -86,6 +86,7 @@ export const PeoplePage: React.FC = () => {
   return (
     <>
       <input
+        placeholder="Person to find"
         type="text"
         value={search}
         onChange={(e) => {
