@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, {useState } from 'react';
 import { PersonName } from '../PersonName/PersonName';
-import { Route, NavLink, Link, useRouteMatch, useLocation } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import './PersonRow.scss';
-import { PeoplePage } from '../PeoplePage/PeoplePage';
 import classNames from 'classnames';
 
-export const PersonRow = ({ people }) => {
-  const match = useRouteMatch();
-  const location = useLocation();
+export const PersonRow = ({ people, idSelected, setIdSelected }) => {
   const [url, setUrl] = useState('');
+
   const isPersonFound = (parent) => {
     return people.find(person => person.name === parent);
   };
@@ -18,13 +16,15 @@ export const PersonRow = ({ people }) => {
       {people.map(person => {
         const { slug, name, sex, born, died, motherName, fatherName } = person;
         return (
-          <Route key={slug} path={"/people/:id?"} render={({ match, location }) => (
+          <Route key={slug} path={`/people/:id?`} render={({ match, location }) => (
             <>
               <tr 
               className={classNames({
                 "is-selected": slug === url
               })}>
-                <td>
+                <td  className={classNames({
+                  cell_active: idSelected === 'name'
+                 })}>
                   <PersonName
                     sex={sex}
                     name={name}
@@ -35,10 +35,21 @@ export const PersonRow = ({ people }) => {
                   >
                   </PersonName>
                 </td>
-                <td>{sex}</td>
-
-                <td>{born}</td>
-                <td>{died}</td>
+                <td 
+                className={classNames({
+                  cell_active: idSelected === 'sex'
+                 })}
+                >{sex}</td>
+                <td
+                 className={classNames({
+                  cell_active: idSelected === 'born'
+                 })}
+                 >{born}</td>
+                <td
+                 className={classNames({
+                  cell_active: idSelected === 'died'
+                 })}
+                 >{died}</td>
                 <td>
                   {isPersonFound(motherName) ?
                   <PersonName

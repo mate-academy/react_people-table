@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { NavLink, useHistory} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './PersonName.scss';
 import classNames from 'classnames';
 
 export const PersonName = ({ name, match, slug, sex, location, setUrl }) => {
   useEffect(() => {
    setUrl(match.params.id)
-  }, [match.params.id])
+  }, [match.params.id, setUrl])
 
   return (
     <NavLink
@@ -14,7 +14,11 @@ export const PersonName = ({ name, match, slug, sex, location, setUrl }) => {
         link_m: sex === 'm',
         link_f: sex === 'f'
       })}
-      to={`/people/${slug}`}
+      to={{
+       pathname: `/people/${slug}/`,
+       search: location.search
+      }}
+      exact
       >
         {name}
     </NavLink>

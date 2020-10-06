@@ -1,9 +1,10 @@
 import React from 'react';
-import {Switch, Route, Link, NavLink, useRouteMatch, useLocation, Redirect} from 'react-router-dom';
+import {Switch, Route, NavLink, useLocation, Redirect} from 'react-router-dom';
 import {HomePage} from './components/HomePage/HomePage';
 import {PeoplePage} from './components/PeoplePage/PeoplePage';
 import './App.scss';
 import 'bulma/css/bulma.css';
+import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 
 const App = () => {
   if (useLocation().pathname === '/home') {
@@ -21,6 +22,7 @@ const App = () => {
     <Switch>
       <Route path="/" exact component={HomePage}></Route>
       <Route path="/people"  component={PeoplePage}></Route>
+      <Route path="*" component={NotFoundPage}></Route>
     </Switch>
   </div>
 )
