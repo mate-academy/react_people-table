@@ -1,1 +1,15 @@
-// styles go here
+.navbar > ul {
+  width: 100%;
+  background-color: #00d1b2;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+
+  & > .title {
+    padding: 30px;
+    margin: auto;
+  }
+}
+

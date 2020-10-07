@@ -1,0 +1,16 @@
+.table {
+  margin: 50px auto;
+
+  &__title {
+    text-transform: capitalize;
+    &_active {
+      background-color: #00d1b2;
+    }
+  }
+
+  &__cell {
+    &_active {
+      background-color: #00d1b2;
+    }
+  }
+}
