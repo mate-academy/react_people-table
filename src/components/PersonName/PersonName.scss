@@ -1,3 +1,7 @@
-.link_f {
-  color: red;
+.table {
+  &__link {
+    &_f {
+      color: #f00;
+    }
+  }
 }

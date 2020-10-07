@@ -1,7 +1,16 @@
-table {
-  border-collapse: collapse;
-}
+.table {
+  margin: 50px auto;
 
-.cell_active {
-  background-color: #00d1b2;
+  &__title {
+    text-transform: capitalize;
+    &_active {
+      background-color: #00d1b2;
+    }
+  }
+
+  &__cell {
+    &_active {
+      background-color: #00d1b2;
+    }
+  }
 }

@@ -4,6 +4,8 @@ import { PersonRow } from '../PersonRow/PersonRow';
 import { useHistory, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
+const tableTitles = ['name', 'sex', 'born', 'died'];
+
 export const PeoplePage = ({ match }) => {
   const [peopleFromServer, setPeopleFromServer] = useState([])
   const [people, setPeople] = useState([]);
@@ -17,11 +19,10 @@ export const PeoplePage = ({ match }) => {
   const query = searchParams.get('query');
 
   useEffect(() => {
-    const ids = ['name', 'sex', 'died', 'born'];
     let search = location.search.split('?');
-    for (let i = 0; i < ids.length; i++) {
-      if (search.includes(`sortBy=${ids[i]}`)) {
-        setIdSelected(ids[i]);
+    for (let i = 0; i < tableTitles.length; i++) {
+      if (search.includes(`sortBy=${tableTitles[i]}`)) {
+        setIdSelected(tableTitles[i]);
       }
     }
   }, [location.search]);
@@ -36,10 +37,11 @@ export const PeoplePage = ({ match }) => {
 
   const filter = (param) => {
     if (param) {
+      const insertedInput = param.toLowerCase().trim();
       setPeople(peopleFromServer.filter(person =>
-        person.name.toLowerCase().startsWith(param)
-        || (person.motherName && person.motherName.toLowerCase().startsWith(param))
-        || (person.fatherName && person.fatherName.toLowerCase().startsWith(param))));
+        person.name.toLowerCase().startsWith(insertedInput)
+        || (person.motherName && person.motherName.toLowerCase().startsWith(insertedInput))
+        || (person.fatherName && person.fatherName.toLowerCase().startsWith(insertedInput))));
     } else {
       setPeople(peopleFromServer);
     }
@@ -74,18 +76,16 @@ export const PeoplePage = ({ match }) => {
   const sortPeople = (id) => {
     let order;
     if (!sort[id] || sort[id] === 'desc') {
-      if (id === 'died' || id === 'born') {
-        setPeople(people.sort((a, b) => (a[id] - b[id])));
-      } else {
-        setPeople(people.sort((a, b) => (a[id] && b[id] && a[id].localeCompare(b[id]))));
-      }
+      setPeople(people
+        .sort((a, b) => ((typeof b[id] === "number") - (typeof a[id] === "number"))
+          || (a[id] > b[id] ? 1 : -1)
+        ));
       order = 'asc';
     } else {
-      if (id === 'died' || id === 'born') {
-        setPeople(people.sort((a, b) => (b[id] - a[id])));
-      } else {
-        setPeople(people.sort((a, b) => (a[id] && b[id] && b[id].localeCompare(a[id]))));
-      }
+      setPeople(people
+        .sort((a, b) => ((typeof a[id] === "number") - (typeof b[id] === "number"))
+          || (b[id] > a[id] ? 1 : -1)
+        ));
       order = 'desc';
     }
 
@@ -110,42 +110,19 @@ export const PeoplePage = ({ match }) => {
       <table className="table">
         <thead>
           <tr>
-            <th
-              id="name"
+            {tableTitles.map(title => (
+              <th
+              key={title}
+              id={title}
               onClick={(event) => { sortPeople(event.target.id) }}
               className={classNames({
-                cell_active: idSelected === 'name'
+                table__title: true,
+                table__title_active: idSelected === title
               })}
             >
-              Name
+              {title}
               </th>
-            <th
-              id="sex"
-              onClick={(event) => { sortPeople(event.target.id) }}
-              className={classNames({
-                cell_active: idSelected === 'sex'
-              })}
-            >
-              Sex
-            </th>
-            <th
-              id="born"
-              onClick={(event) => { sortPeople(event.target.id) }}
-              className={classNames({
-                cell_active: idSelected === 'born'
-              })}
-            >
-              Born
-            </th>
-            <th
-              id="died"
-              onClick={(event) => { sortPeople(event.target.id) }}
-              className={classNames({
-                cell_active: idSelected === 'died'
-              })}
-            >
-              Died
-            </th>
+            ))}
             <th>Mother</th>
             <th>Father</th>
           </tr>

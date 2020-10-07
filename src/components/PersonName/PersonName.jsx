@@ -11,8 +11,9 @@ export const PersonName = ({ name, match, slug, sex, location, setUrl }) => {
   return (
     <NavLink
       className={classNames({
-        link_m: sex === 'm',
-        link_f: sex === 'f'
+        table__link: true,
+        table__link_m: sex === 'm',
+        table__link_f: sex === 'f'
       })}
       to={{
        pathname: `/people/${slug}/`,

@@ -18,12 +18,12 @@ export const PersonRow = ({ people, idSelected, setIdSelected }) => {
         return (
           <Route key={slug} path={`/people/:id?`} render={({ match, location }) => (
             <>
-              <tr 
+              <tr
               className={classNames({
                 "is-selected": slug === url
               })}>
-                <td  className={classNames({
-                  cell_active: idSelected === 'name'
+                <td className={classNames({
+                  table__cell_active: idSelected === 'name'
                  })}>
                   <PersonName
                     sex={sex}
@@ -35,19 +35,19 @@ export const PersonRow = ({ people, idSelected, setIdSelected }) => {
                   >
                   </PersonName>
                 </td>
-                <td 
+                <td
                 className={classNames({
-                  cell_active: idSelected === 'sex'
+                  table__cell_active: idSelected === 'sex'
                  })}
                 >{sex}</td>
                 <td
                  className={classNames({
-                  cell_active: idSelected === 'born'
+                  table__cell_active: idSelected === 'born'
                  })}
                  >{born}</td>
                 <td
                  className={classNames({
-                  cell_active: idSelected === 'died'
+                  table__cell_active: idSelected === 'died'
                  })}
                  >{died}</td>
                 <td>
