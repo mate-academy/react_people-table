@@ -1,3 +1,4 @@
 import React from 'react';
+import './PageNotFound.scss';
 
-export const PageNotFound = () => (<h1> PAGE NOT FOUND </h1>);
+export const PageNotFound = () => (<h1 className="title"> PAGE NOT FOUND </h1>);

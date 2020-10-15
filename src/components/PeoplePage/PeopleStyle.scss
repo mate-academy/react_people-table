@@ -1,0 +1,23 @@
+.active {
+  background-color: #2a9d8f;
+}
+
+.title {
+  text-align: center;
+}
+
+.selected {
+  background-color: #06d6a0;
+}
+
+.table {
+  margin: 0 auto;
+  border-spacing: 0;
+
+  &__title-item {
+    padding: 10px;
+    background-color: #0077b6;
+    font-size: 18px;
+  }
+
+}

@@ -1,1 +1,47 @@
 // styles go here
+ul {
+  list-style: none;
+}
+
+html {
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #7FDBFF;
+}
+
+#root {
+  margin: 0;
+}
+
+
+.App {
+  margin: 0;
+  padding: 0;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+
+  &__block {
+    display: flex;
+    column-gap: 100px;
+  }
+
+  &__link {
+    color: #023e8a;
+    font-size: 30px;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 10px;
+    border:2px solid transparent;
+
+    &:hover {
+      border:2px solid black;
+    }
+  }
+}
