@@ -20,4 +20,15 @@
     font-size: 18px;
   }
 
+  &__list-item {
+    padding: 15px 0;
+  }
+
+  &__name-male {
+    color: #0077b6;
+  }
+
+  &__name-female {
+    color: #dc2f02;
+  }
 }
