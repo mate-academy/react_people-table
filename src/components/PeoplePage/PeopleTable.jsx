@@ -48,7 +48,10 @@ export const Peoples = () => {
           </tr>
         </thead>
         <tbody>
-          <PeoplesList people={[...people]} />
+          {people
+            ? <PeoplesList people={[...people]} />
+            : 'Loading...'
+          }
         </tbody>
       </table>
     </>
