@@ -6,19 +6,13 @@
   "author": "Mate Academy",
   "license": "GPL-3.0",
   "dependencies": {
-    "@types/node": "^12.12.62",
-    "@types/react": "^16.9.49",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-router-dom": "^5.1.5",
     "node-sass": "^4.14.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3",
-    "typescript": "^3.7.5"
+    "react-scripts": "3.4.1"
   },
   "devDependencies": {
-    "@mate-academy/eslint-config-react-typescript": "*",
     "@mate-academy/eslint-config-react": "*",
     "@mate-academy/stylelint-config": "*",
     "eslint": "^6.8.0",
@@ -32,7 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint-js": "eslint --ext .ts,.tsx,.js,.jsx ./src/ --fix",
+    "lint-js": "eslint --ext .jsx,.js ./src/ --fix",
     "lint-css": "stylelint src/**/*.css src/**/*.scss --fix",
     "lint": "npm run lint-js && npm run lint-css",
     "predeploy": "npm run build",
