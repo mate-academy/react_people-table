@@ -9,13 +9,12 @@ class App extends React.Component {
     people: [],
   };
 
-  componentDidMount() {
-    get10People()
-      .then((peopleFromServer) => {
-        this.setState({
-          people: peopleFromServer,
-        });
-      });
+  async componentDidMount() {
+    const peopleFromServer = await get10People();
+
+    this.setState({
+      people: peopleFromServer,
+    });
   }
 
   render() {
