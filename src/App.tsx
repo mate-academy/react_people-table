@@ -16,6 +16,8 @@ interface Person {
 type State = {
   selectedPeople: Person[];
   people: Person[];
+  query: string;
+  sortBy: string;
 };
 
 function getPeople(): Promise<Person[]> {
@@ -24,10 +26,33 @@ function getPeople(): Promise<Person[]> {
   return fetch(`${API_URL}/people.json`).then((response) => response.json());
 }
 
+function getVisiblePeople(people: Person[], query: string, sortBy: string): Person[] {
+  const lowerQuery = query.toLowerCase();
+  const visiblePeople = people.filter(
+    (person) => person.name.toLowerCase().includes(lowerQuery),
+  );
+
+  switch (sortBy) {
+    case 'name':
+      visiblePeople.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+
+    case 'born':
+      visiblePeople.sort((a, b) => a.born - b.born);
+      break;
+
+    default:
+  }
+
+  return visiblePeople;
+}
+
 class App extends React.Component<{}, State> {
   state: State = {
     selectedPeople: [],
     people: [],
+    query: '',
+    sortBy: 'name',
   };
 
   componentDidMount() {
@@ -41,11 +66,41 @@ class App extends React.Component<{}, State> {
   }
 
   render() {
-    const { people, selectedPeople } = this.state;
+    const {
+      people, selectedPeople, query, sortBy,
+    } = this.state;
+
+    const visiblePeople = getVisiblePeople(people, query, sortBy);
 
     return (
       <div className="App">
         <h1>People table</h1>
+
+        <input
+          type="text"
+          value={query}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            this.setState({
+              query: event.currentTarget.value,
+            });
+          }}
+        />
+
+        <button
+          type="button"
+          onClick={() => {
+            this.setState({ sortBy: 'born' });
+          }}
+        >
+          Sort by born
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {}}
+        >
+          Sort by name
+        </button>
 
         <table>
           <thead>
@@ -57,7 +112,7 @@ class App extends React.Component<{}, State> {
             </tr>
           </thead>
           <tbody>
-            {people.map((person) => (
+            {visiblePeople.map((person) => (
               <tr key={person.slug}>
                 <td>
                   {selectedPeople.some((selectedPerson) => selectedPerson.slug === person.slug) ? (
@@ -77,7 +132,7 @@ class App extends React.Component<{}, State> {
                     <button
                       type="button"
                       onClick={() => {
-                        this.setState(state => ({
+                        this.setState((state) => ({
                           selectedPeople: [...state.selectedPeople, person],
                         }));
                       }}
