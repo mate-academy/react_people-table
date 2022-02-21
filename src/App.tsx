@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './App.scss';
 
@@ -13,20 +13,17 @@ interface Person {
   slug: string;
 }
 
-type State = {
-  selectedPeople: Person[];
-  people: Person[];
-  query: string;
-  sortBy: string;
-};
-
 function getPeople(): Promise<Person[]> {
   const API_URL = 'https://mate-academy.github.io/react_people-table/api';
 
   return fetch(`${API_URL}/people.json`).then((response) => response.json());
 }
 
-function getVisiblePeople(people: Person[], query: string, sortBy: string): Person[] {
+function getVisiblePeople(
+  people: Person[],
+  query: string,
+  sortBy: string,
+): Person[] {
   const lowerQuery = query.toLowerCase();
   const visiblePeople = people.filter(
     (person) => person.name.toLowerCase().includes(lowerQuery),
@@ -47,110 +44,99 @@ function getVisiblePeople(people: Person[], query: string, sortBy: string): Pers
   return visiblePeople;
 }
 
-class App extends React.Component<{}, State> {
-  state: State = {
-    selectedPeople: [],
-    people: [],
-    query: '',
-    sortBy: 'name',
-  };
+function App() {
+  const [query, setQuery] = useState('');
+  const [sortBy, setSortBy] = useState('name');
+  const [people, setPeople] = useState<Person[]>([]);
+  const [selectedPeople, setSelectedPeople] = useState<Person[]>([]);
 
-  componentDidMount() {
-    const promise = getPeople();
+  useEffect(() => {
 
-    promise.then((peopleFromServer) => {
-      this.setState({
-        people: peopleFromServer,
+    getPeople()
+      .then((peopleFromServer) => {
+        setPeople(peopleFromServer);
       });
-    });
-  }
 
-  render() {
-    const {
-      people, selectedPeople, query, sortBy,
-    } = this.state;
+  }, [query, sortBy]);
 
-    const visiblePeople = getVisiblePeople(people, query, sortBy);
+  const visiblePeople = getVisiblePeople(people, query, sortBy);
 
-    return (
-      <div className="App">
-        <h1>People table</h1>
+  return (
+    <div className="App">
+      <h1>People table</h1>
 
-        <input
-          type="text"
-          value={query}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            this.setState({
-              query: event.currentTarget.value,
-            });
-          }}
-        />
+      <input
+        type="text"
+        value={query}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setQuery(event.currentTarget.value);
+        }}
+      />
 
-        <button
-          type="button"
-          onClick={() => {
-            this.setState({ sortBy: 'born' });
-          }}
-        >
-          Sort by born
-        </button>
+      <button
+        type="button"
+        onClick={() => {
+          setSortBy('born');
+        }}
+      >
+        Sort by born
+      </button>
 
-        <button
-          type="button"
-          onClick={() => {}}
-        >
-          Sort by name
-        </button>
+      <button
+        type="button"
+        onClick={() => {
+          setSortBy('name');
+        }}
+      >
+        Sort by name
+      </button>
 
-        <table>
-          <thead>
-            <tr>
-              <th>.</th>
-              <th>Sex</th>
-              <th>Name</th>
-              <th>Born</th>
+      <table>
+        <thead>
+          <tr>
+            <th>.</th>
+            <th>Sex</th>
+            <th>Name</th>
+            <th>Born</th>
+          </tr>
+        </thead>
+        <tbody>
+          {visiblePeople.map((person) => (
+            <tr key={person.slug}>
+              <td>
+                {selectedPeople.some((selectedPerson) => selectedPerson.slug === person.slug) ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const filteredPeople = selectedPeople.filter(
+                        (selectedPerson) => selectedPerson.slug !== person.slug,
+                      );
+
+                      setSelectedPeople(filteredPeople);
+                    }}
+                  >
+                    Remove
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedPeople([...selectedPeople, person]);
+                    }}
+                  >
+                    Add
+                  </button>
+                )}
+              </td>
+              <td>{person.sex}</td>
+              <td>{person.name}</td>
+              <td>{person.born}</td>
             </tr>
-          </thead>
-          <tbody>
-            {visiblePeople.map((person) => (
-              <tr key={person.slug}>
-                <td>
-                  {selectedPeople.some((selectedPerson) => selectedPerson.slug === person.slug) ? (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        this.setState({
-                          selectedPeople: selectedPeople.filter(
-                            (selectedPerson) => selectedPerson.slug !== person.slug,
-                          ),
-                        });
-                      }}
-                    >
-                      Remove
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        this.setState((state) => ({
-                          selectedPeople: [...state.selectedPeople, person],
-                        }));
-                      }}
-                    >
-                      Add
-                    </button>
-                  )}
-                </td>
-                <td>{person.sex}</td>
-                <td>{person.name}</td>
-                <td>{person.born}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 export default App;
