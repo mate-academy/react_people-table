@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './App.scss';
+import { PeopleTable } from './PeopleTable';
 
-const App = () => (
-  <div className="App">
-    <h1>People table</h1>
-  </div>
-);
+export const App: React.FC = () => {
+  const [isLoaded, setLoaded] = useState(false);
 
-export default App;
+  useEffect(() => {
+    setTimeout(() => {
+      setLoaded(true);
+    }, 1000);
+  }, []);
+
+  return (
+    <div className="App">
+      <h1>People table</h1>
+
+      {!isLoaded && (
+        <p>Loading...</p>
+      )}
+
+      {isLoaded && (
+        <PeopleTable />
+      )}
+    </div>
+  );
+};
