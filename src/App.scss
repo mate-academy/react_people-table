@@ -1,1 +1,4 @@
-// styles go here
+// linter will not block the page
+iframe {
+  display: none;
+}
