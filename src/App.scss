@@ -2,3 +2,12 @@
 iframe {
   display: none;
 }
+
+button {
+  cursor: pointer; // to that it is clickable
+  transition: 0.3s background-color;
+}
+
+tr {
+  transition: 0.3s background-color;
+}

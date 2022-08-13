@@ -1,38 +1,76 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import peopleFromServer from './people.json';
+import { Loader } from './components/Loader';
+import { PeopleTable } from './components/PeopleTable';
+import { PeopleTableHooks } from './components/PeopleTableHooks';
 
-export class App extends React.Component {
-  state = {};
+type State = {
+  loaded: boolean;
+};
+
+export const App = () => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoaded(true);
+    }, 500);
+  }, []);
+
+  return (
+    <div className="box">
+      <h1 className="title">People table</h1>
+
+      {loaded ? (
+        <PeopleTableHooks />
+      ) : (
+        <Loader />
+      )}
+    </div>
+  );
+};
+
+export class App2 extends React.Component<{}, State> {
+  state: Readonly<State> = {
+    loaded: false,
+  };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ loaded: true });
+    }, 500);
+  }
 
   render() {
+    const { loaded } = this.state;
+
+    /*
+    const useState2 = (initialValue: boolean) => {
+      const { loaded = initialValue } = this.state;
+
+      const setValue = (value: boolean) => {
+        this.setState({ loaded: value });
+      };
+
+      return [loaded, setValue];
+    };
+
+    const [isLoaded, setLoaded] = useState2(false);
+    */
+
     return (
       <div className="box">
         <h1 className="title">People table</h1>
 
-        <table className="table is-striped is-narrow">
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>sex</th>
-              <th>born</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {peopleFromServer.map(person => (
-              <tr key={person.slug}>
-                <td>{person.name}</td>
-                <td>{person.sex}</td>
-                <td>{person.born}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {loaded ? (
+          <PeopleTable />
+        ) : (
+          <Loader />
+        )}
       </div>
     );
   }
