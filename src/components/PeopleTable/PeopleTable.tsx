@@ -2,29 +2,124 @@ import React from 'react';
 import classNames from 'classnames';
 import { Person } from '../../types/Person';
 import { Button } from '../Button';
+import peopleFromServer from '../../people.json';
 
-type Props = {
-  people: Person[];
-};
+enum SortField {
+  Name = 'name',
+  Slug = 'slug',
+  Born = 'born',
+  Died = 'died',
+  Null = 'null',
+}
 
 type State = {
-  selectedPerson: Person | null;
+  selectedPeople: Person[];
+  people: Person[];
+  sortField: SortField;
 };
 
-export class PeopleTable extends React.Component<Props, State> {
+function sortByField(items: Person[], field: SortField) {
+  return [...items].sort((personA, personB) => {
+    switch (field) {
+      case SortField.Born:
+      case SortField.Died:
+        return personA[field] - personB[field];
+
+      case SortField.Name:
+      case SortField.Slug:
+        return personA[field].localeCompare(personB[field]);
+
+      default:
+        return 0;
+    }
+  });
+}
+
+export class PeopleTable extends React.Component<{}, State> {
   state: Readonly<State> = {
-    selectedPerson: null,
+    selectedPeople: [],
+    people: peopleFromServer,
+    sortField: SortField.Null,
   };
 
-  selectPerson = (person: Person | null) => {
-    this.setState({
-      selectedPerson: person,
+  moveDown = (person: Person) => {
+    this.setState((state: State) => {
+      const peopleCopy = [...state.people];
+
+      const personIndex = peopleCopy.findIndex(
+        personA => personA.slug === person.slug,
+      );
+
+      if (personIndex === peopleCopy.length - 1) {
+        return null;
+      }
+
+      peopleCopy[personIndex + 1] = person;
+      peopleCopy[personIndex] = state.people[personIndex + 1];
+
+      return ({
+        people: peopleCopy,
+      });
     });
   };
 
+  moveUp = (person: Person) => {
+    this.setState((state: State) => {
+      const peopleCopy = [...state.people];
+
+      const personIndex = peopleCopy.findIndex(
+        personA => personA.slug === person.slug,
+      );
+
+      if (personIndex === 0) {
+        return null;
+      }
+
+      peopleCopy[personIndex - 1] = person;
+      peopleCopy[personIndex] = state.people[personIndex - 1];
+
+      return ({
+        people: peopleCopy,
+      });
+    });
+  };
+
+  selectPerson = (person: Person) => {
+    this.setState(({ selectedPeople }) => {
+      const newSelectedPeople = [...selectedPeople, person];
+
+      return ({
+        selectedPeople: newSelectedPeople,
+      });
+    });
+  };
+
+  unselectPerson = (person: Person) => {
+    this.setState(({ selectedPeople }) => ({
+      selectedPeople: selectedPeople.filter(
+        selectedPerson => selectedPerson.slug !== person.slug,
+      ),
+    }));
+  };
+
+  clearSelectedPeople = () => {
+    this.setState({
+      selectedPeople: [],
+    });
+  };
+
+  setSortField = (sortField: SortField) => {
+    this.setState({
+      sortField,
+    });
+  }
+
   render() {
-    const { people } = this.props;
-    const { selectedPerson } = this.state;
+    const {
+      selectedPeople,
+      people,
+      sortField,
+    } = this.state;
 
     if (people.length === 0) {
       return (
@@ -33,26 +128,50 @@ export class PeopleTable extends React.Component<Props, State> {
     }
 
     function isPersonSelected(person: Person) {
-      return person.slug === selectedPerson?.slug;
+      return selectedPeople.some(
+        selectedPerson => selectedPerson.slug === person.slug,
+      );
     }
+
+    const visiblePeople = sortByField(people, sortField);
 
     return (
       <table className="table is-striped is-narrow">
         <caption className="title is-5 has-text-info">
-          {selectedPerson?.name || '-'}
+          {selectedPeople.length > 0 && (
+            <button
+              aria-label="Remove"
+              type="button"
+              className="delete"
+              onClick={this.clearSelectedPeople}
+            />
+          )}
+
+          {selectedPeople.map(person => person.name).join(', ') || '-'}
         </caption>
 
         <thead>
           <tr>
             <th>select</th>
-            <th>name</th>
+            <th>
+              name
+
+              <a
+                href="#sort"
+                onClick={() => this.setSortField(SortField.Name)}
+              >
+                <span className="icon">
+                  <i className="fas fa-sort" />
+                </span>
+              </a>
+            </th>
             <th>sex</th>
             <th>born</th>
           </tr>
         </thead>
 
         <tbody>
-          {people.map(person => (
+          {visiblePeople.map(person => (
             <tr
               key={person.slug}
               className={classNames({
@@ -64,7 +183,7 @@ export class PeopleTable extends React.Component<Props, State> {
                   ? (
                     <Button
                       className="is-danger"
-                      onClick={() => this.selectPerson(null)}
+                      onClick={() => this.unselectPerson(person)}
                     >
                       <span className="icon is-small">
                         <i className="fas fa-minus" />
@@ -92,6 +211,23 @@ export class PeopleTable extends React.Component<Props, State> {
               </td>
               <td>{person.sex}</td>
               <td>{person.born}</td>
+              <td>
+                <button
+                  type="button"
+                  onClick={() => this.moveDown(person)}
+                >
+                  &darr;
+                </button>
+              </td>
+
+              <td>
+                <button
+                  type="button"
+                  onClick={() => this.moveUp(person)}
+                >
+                  &uarr;
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
