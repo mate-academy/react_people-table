@@ -2,3 +2,11 @@
 iframe {
   display: none;
 }
+
+button {
+  cursor: pointer;
+}
+
+tr {
+  transition: 0.3s background-color;
+}
