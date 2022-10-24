@@ -1,353 +1,431 @@
 [
   {
+    "selected": false,
     "name": "Carolus Haverbeke",
     "sex": "m",
     "born": 1832,
     "died": 1905,
     "fatherName": "Carel Haverbeke",
     "motherName": "Maria van Brussel",
-    "slug": "carolus-haverbeke-1832"
+    "slug": "carolus-haverbeke-1832",
+    "id": "4c066740-a642-45ec-b8bb-a9238ed0e932"
   },
   {
+    "selected": false,
     "name": "Emma de Milliano",
     "sex": "f",
     "born": 1876,
     "died": 1956,
     "fatherName": "Petrus de Milliano",
     "motherName": "Sophia van Damme",
-    "slug": "emma-de-milliano-1876"
+    "slug": "emma-de-milliano-1876",
+    "id": "e34320d7-f098-44ce-9b72-ddb273cc9f54"
   },
   {
+    "selected": false,
     "name": "Maria de Rycke",
     "sex": "f",
     "born": 1683,
     "died": 1724,
     "fatherName": "Frederik de Rycke",
     "motherName": "Laurentia van Vlaenderen",
-    "slug": "maria-de-rycke-1683"
+    "slug": "maria-de-rycke-1683",
+    "id": "5c682e32-475f-4cf0-8604-803def227c1f"
   },
   {
+    "selected": false,
     "name": "Jan van Brussel",
     "sex": "m",
     "born": 1714,
     "died": 1748,
     "fatherName": "Jacobus van Brussel",
     "motherName": "Joanna van Rooten",
-    "slug": "jan-van-brussel-1714"
+    "slug": "jan-van-brussel-1714",
+    "id": "f9f554d0-33c2-4482-b9fd-0f8c5f5e9d92"
   },
   {
+    "selected": false,
     "name": "Philibert Haverbeke",
     "sex": "m",
     "born": 1907,
     "died": 1997,
     "fatherName": "Emile Haverbeke",
     "motherName": "Emma de Milliano",
-    "slug": "philibert-haverbeke-1907"
+    "slug": "philibert-haverbeke-1907",
+    "id": "3137c34f-5e06-429c-bc3c-8eacebc147b7"
   },
   {
+    "selected": false,
     "name": "Jan Frans van Brussel",
     "sex": "m",
     "born": 1761,
     "died": 1833,
     "fatherName": "Jacobus Bernardus van Brussel",
     "motherName": null,
-    "slug": "jan-frans-van-brussel-1761"
+    "slug": "jan-frans-van-brussel-1761",
+    "id": "4fdaf0b5-b965-46a7-9810-2bf58ddf0c67"
   },
   {
+    "selected": false,
     "name": "Pauwels van Haverbeke",
     "sex": "m",
     "born": 1535,
     "died": 1582,
     "fatherName": "N. van Haverbeke",
     "motherName": null,
-    "slug": "pauwels-van-haverbeke-1535"
+    "slug": "pauwels-van-haverbeke-1535",
+    "id": "d9dc6f73-e816-4258-b175-d3e102762014"
   },
   {
+    "selected": false,
     "name": "Clara Aernoudts",
     "sex": "f",
     "born": 1918,
     "died": 2012,
     "fatherName": "Henry Aernoudts",
     "motherName": "Sidonie Coene",
-    "slug": "clara-aernoudts-1918"
+    "slug": "clara-aernoudts-1918",
+    "id": "7be1ea3c-6e35-443b-bc50-30a002f79f55"
   },
   {
+    "selected": false,
     "name": "Emile Haverbeke",
     "sex": "m",
     "born": 1877,
     "died": 1968,
     "fatherName": "Carolus Haverbeke",
     "motherName": "Maria Sturm",
-    "slug": "emile-haverbeke-1877"
+    "slug": "emile-haverbeke-1877",
+    "id": "2b91d6a8-6a3f-4ac7-8237-003685fd2cda"
   },
   {
+    "selected": false,
     "name": "Lieven de Causmaecker",
     "sex": "m",
     "born": 1696,
     "died": 1724,
     "fatherName": "Carel de Causmaecker",
     "motherName": "Joanna Claes",
-    "slug": "lieven-de-causmaecker-1696"
+    "slug": "lieven-de-causmaecker-1696",
+    "id": "9321cbd7-2846-4963-9e2b-330463b92814"
   },
   {
+    "selected": false,
     "name": "Pieter Haverbeke",
     "sex": "m",
     "born": 1602,
     "died": 1642,
     "fatherName": "Lieven van Haverbeke",
     "motherName": null,
-    "slug": "pieter-haverbeke-1602"
+    "slug": "pieter-haverbeke-1602",
+    "id": "3197bddb-e8fa-47fd-bcdf-1f10c92c4a06"
   },
   {
+    "selected": false,
     "name": "Livina Haverbeke",
     "sex": "f",
     "born": 1692,
     "died": 1743,
     "fatherName": "Daniel Haverbeke",
     "motherName": "Joanna de Pape",
-    "slug": "livina-haverbeke-1692"
+    "slug": "livina-haverbeke-1692",
+    "id": "c49874ab-6db4-4dd0-adea-08e76dc4ed42"
   },
   {
+    "selected": false,
     "name": "Pieter Bernard Haverbeke",
     "sex": "m",
     "born": 1695,
     "died": 1762,
     "fatherName": "Willem Haverbeke",
     "motherName": "Petronella Wauters",
-    "slug": "pieter-bernard-haverbeke-1695"
+    "slug": "pieter-bernard-haverbeke-1695",
+    "id": "43af0092-a54d-4307-b8a0-b9d9094f8197"
   },
   {
+    "selected": false,
     "name": "Lieven van Haverbeke",
     "sex": "m",
     "born": 1570,
     "died": 1636,
     "fatherName": "Pauwels van Haverbeke",
     "motherName": "Lievijne Jans",
-    "slug": "lieven-van-haverbeke-1570"
+    "slug": "lieven-van-haverbeke-1570",
+    "id": "8c747e07-0447-4eac-ba21-c8498f3bf01b"
   },
   {
+    "selected": false,
     "name": "Joanna de Causmaecker",
     "sex": "f",
     "born": 1762,
     "died": 1807,
     "fatherName": "Bernardus de Causmaecker",
     "motherName": null,
-    "slug": "joanna-de-causmaecker-1762"
+    "slug": "joanna-de-causmaecker-1762",
+    "id": "cbe2487a-c150-44b9-b5da-e2bd5b17029d"
   },
   {
+    "selected": false,
     "name": "Willem Haverbeke",
     "sex": "m",
     "born": 1668,
     "died": 1731,
     "fatherName": "Lieven Haverbeke",
     "motherName": "Elisabeth Hercke",
-    "slug": "willem-haverbeke-1668"
+    "slug": "willem-haverbeke-1668",
+    "id": "e7ad11ac-0034-4831-b04e-2820c81a38a5"
   },
   {
+    "selected": false,
     "name": "Pieter Antone Haverbeke",
     "sex": "m",
     "born": 1753,
     "died": 1798,
     "fatherName": "Jan Francies Haverbeke",
     "motherName": "Petronella de Decker",
-    "slug": "pieter-antone-haverbeke-1753"
+    "slug": "pieter-antone-haverbeke-1753",
+    "id": "90a04598-92be-4d35-8656-bf6d700cc40f"
   },
   {
+    "selected": false,
     "name": "Maria van Brussel",
     "sex": "f",
     "born": 1801,
     "died": 1834,
     "fatherName": "Jan Frans van Brussel",
     "motherName": "Joanna de Causmaecker",
-    "slug": "maria-van-brussel-1801"
+    "slug": "maria-van-brussel-1801",
+    "id": "e0a3705c-4676-4692-a677-e2925e460a2e"
   },
   {
+    "selected": false,
     "name": "Angela Haverbeke",
     "sex": "f",
     "born": 1728,
     "died": 1734,
     "fatherName": "Pieter Bernard Haverbeke",
     "motherName": "Livina de Vrieze",
-    "slug": "angela-haverbeke-1728"
+    "slug": "angela-haverbeke-1728",
+    "id": "f52c26bb-9856-4771-96cc-956644584da5"
   },
   {
+    "selected": false,
     "name": "Elisabeth Haverbeke",
     "sex": "f",
     "born": 1711,
     "died": 1754,
     "fatherName": "Jan Haverbeke",
     "motherName": "Maria de Rycke",
-    "slug": "elisabeth-haverbeke-1711"
+    "slug": "elisabeth-haverbeke-1711",
+    "id": "493c334d-efd7-409d-baca-fb43de9ee2a7"
   },
   {
+    "selected": false,
     "name": "Lievijne Jans",
     "sex": "f",
     "born": 1542,
     "died": 1582,
     "fatherName": null,
     "motherName": null,
-    "slug": "lievijne-jans-1542"
+    "slug": "lievijne-jans-1542",
+    "id": "09433a51-e0f9-4ec2-b9ec-fdf23f2bfe2b"
   },
   {
+    "selected": false,
     "name": "Bernardus de Causmaecker",
     "sex": "m",
     "born": 1721,
     "died": 1789,
     "fatherName": "Lieven de Causmaecker",
     "motherName": "Livina Haverbeke",
-    "slug": "bernardus-de-causmaecker-1721"
+    "slug": "bernardus-de-causmaecker-1721",
+    "id": "c19d62c1-30ba-4084-a694-49b9b6251b82"
   },
   {
+    "selected": false,
     "name": "Jacoba Lammens",
     "sex": "f",
     "born": 1699,
     "died": 1740,
     "fatherName": "Lieven Lammens",
     "motherName": "Livina de Vrieze",
-    "slug": "jacoba-lammens-1699"
+    "slug": "jacoba-lammens-1699",
+    "id": "6f487428-9006-4fcf-9fa7-fe596f1ff3fd"
   },
   {
+    "selected": false,
     "name": "Pieter de Decker",
     "sex": "m",
     "born": 1705,
     "died": 1780,
     "fatherName": "Joos de Decker",
     "motherName": "Petronella van de Steene",
-    "slug": "pieter-de-decker-1705"
+    "slug": "pieter-de-decker-1705",
+    "id": "0bc833ce-115c-426e-adee-4184d860938a"
   },
   {
+    "selected": false,
     "name": "Joanna de Pape",
     "sex": "f",
     "born": 1654,
     "died": 1723,
     "fatherName": "Vincent de Pape",
     "motherName": "Petronella Wauters",
-    "slug": "joanna-de-pape-1654"
+    "slug": "joanna-de-pape-1654",
+    "id": "22948ef1-51e6-42ad-b7ae-2d1d1485fc38"
   },
   {
+    "selected": false,
     "name": "Daniel Haverbeke",
     "sex": "m",
     "born": 1652,
     "died": 1723,
     "fatherName": "Lieven Haverbeke",
     "motherName": "Elisabeth Hercke",
-    "slug": "daniel-haverbeke-1652"
+    "slug": "daniel-haverbeke-1652",
+    "id": "26645a59-ed43-4d79-a34d-5f10147b9252"
   },
   {
+    "selected": false,
     "name": "Lieven Haverbeke",
     "sex": "m",
     "born": 1631,
     "died": 1676,
     "fatherName": "Pieter Haverbeke",
     "motherName": "Anna van Hecke",
-    "slug": "lieven-haverbeke-1631"
+    "slug": "lieven-haverbeke-1631",
+    "id": "62911dd9-ed3a-4ec6-ad9c-93a5a679daf0"
   },
   {
+    "selected": false,
     "name": "Martina de Pape",
     "sex": "f",
     "born": 1666,
     "died": 1727,
     "fatherName": "Vincent de Pape",
     "motherName": "Petronella Wauters",
-    "slug": "martina-de-pape-1666"
+    "slug": "martina-de-pape-1666",
+    "id": "420bb2e6-e5f6-44ee-9490-14394c4c2799"
   },
   {
+    "selected": false,
     "name": "Jan Francies Haverbeke",
     "sex": "m",
     "born": 1725,
     "died": 1779,
     "fatherName": "Pieter Bernard Haverbeke",
     "motherName": "Livina de Vrieze",
-    "slug": "jan-francies-haverbeke-1725"
+    "slug": "jan-francies-haverbeke-1725",
+    "id": "3df7ee6e-290c-431f-a40d-eee435a06663"
   },
   {
+    "selected": false,
     "name": "Maria Haverbeke",
     "sex": "m",
     "born": 1905,
     "died": 1997,
     "fatherName": "Emile Haverbeke",
     "motherName": "Emma de Milliano",
-    "slug": "maria-haverbeke-1905"
+    "slug": "maria-haverbeke-1905",
+    "id": "a3151707-dedb-436e-8762-20a924a2d74e"
   },
   {
+    "selected": false,
     "name": "Petronella de Decker",
     "sex": "f",
     "born": 1731,
     "died": 1781,
     "fatherName": "Pieter de Decker",
     "motherName": "Livina Haverbeke",
-    "slug": "petronella-de-decker-1731"
+    "slug": "petronella-de-decker-1731",
+    "id": "5bea1d32-435b-4251-b093-f044609128d6"
   },
   {
+    "selected": false,
     "name": "Livina Sierens",
     "sex": "f",
     "born": 1761,
     "died": 1826,
     "fatherName": "Jan Sierens",
     "motherName": "Maria van Waes",
-    "slug": "livina-sierens-1761"
+    "slug": "livina-sierens-1761",
+    "id": "5a6d12af-3392-4af6-b0b0-1d10b04de8c2"
   },
   {
+    "selected": false,
     "name": "Laurentia Haverbeke",
     "sex": "f",
     "born": 1710,
     "died": 1786,
     "fatherName": "Jan Haverbeke",
     "motherName": "Maria de Rycke",
-    "slug": "laurentia-haverbeke-1710"
+    "slug": "laurentia-haverbeke-1710",
+    "id": "5e8f9b7f-4efc-4e3c-bc3c-455f0e2fac29"
   },
   {
+    "selected": false,
     "name": "Carel Haverbeke",
     "sex": "m",
     "born": 1796,
     "died": 1837,
     "fatherName": "Pieter Antone Haverbeke",
     "motherName": "Livina Sierens",
-    "slug": "carel-haverbeke-1796"
+    "slug": "carel-haverbeke-1796",
+    "id": "8b8a4365-4ccb-4e8a-a367-806d2c5f027e"
   },
   {
+    "selected": false,
     "name": "Elisabeth Hercke",
     "sex": "f",
     "born": 1632,
     "died": 1674,
     "fatherName": "Willem Hercke",
     "motherName": "Margriet de Brabander",
-    "slug": "elisabeth-hercke-1632"
+    "slug": "elisabeth-hercke-1632",
+    "id": "189ebdaf-7747-4342-976f-5bab8f5048ea"
   },
   {
+    "selected": false,
     "name": "Jan Haverbeke",
     "sex": "m",
     "born": 1671,
     "died": 1731,
     "fatherName": "Lieven Haverbeke",
     "motherName": "Elisabeth Hercke",
-    "slug": "jan-haverbeke-1671"
+    "slug": "jan-haverbeke-1671",
+    "id": "b1669f0e-fe68-414d-8911-e7f99e81901d"
   },
   {
+    "selected": false,
     "name": "Anna van Hecke",
     "sex": "f",
     "born": 1607,
     "died": 1670,
     "fatherName": "Paschasius van Hecke",
     "motherName": "Martijntken Beelaert",
-    "slug": "anna-van-hecke-1607"
+    "slug": "anna-van-hecke-1607",
+    "id": "e9a4b4ef-2f9a-4539-b5e5-a0207a2df1ea"
   },
   {
+    "selected": false,
     "name": "Maria Sturm",
     "sex": "f",
     "born": 1835,
     "died": 1917,
     "fatherName": "Charles Sturm",
     "motherName": "Seraphina Spelier",
-    "slug": "maria-sturm-1835"
+    "slug": "maria-sturm-1835",
+    "id": "c75c3c69-fa4f-4519-a691-f789c065f9ba"
   },
   {
+    "selected": false,
     "name": "Jacobus Bernardus van Brussel",
     "sex": "m",
     "born": 1736,
     "died": 1809,
     "fatherName": "Jan van Brussel",
     "motherName": "Elisabeth Haverbeke",
-    "slug": "jacobus-bernardus-van-brussel-1736"
+    "slug": "jacobus-bernardus-van-brussel-1736",
+    "id": "a1f208cf-3d7a-4700-a927-571dc56a6c3a"
   }
 ]
