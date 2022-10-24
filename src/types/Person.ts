@@ -1,4 +1,5 @@
 export interface Person {
+  id: string;
   born: number;
   died: number;
   fatherName: string | null;
@@ -6,4 +7,5 @@ export interface Person {
   name: string;
   sex: string;
   slug: string;
+  selected: boolean;
 }
