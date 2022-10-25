@@ -1,8 +1,8 @@
-import React from "react";
-import cn from "classnames";
-import { Button } from "../Button";
-import {SortField} from "../../types/SortFields";
-import {Person} from "../../types/Person";
+import React from 'react';
+import cn from 'classnames';
+import { Button } from '../Button';
+import { SortField } from '../../types/SortFields';
+import { Person } from '../../types/Person';
 
 type Props = {
   people: Person[];
@@ -10,7 +10,7 @@ type Props = {
   moveDown: (person: Person) => void;
   selectionToggler: (personId: string) => void;
   sortPeople: (field: SortField) => void;
-}
+};
 
 export const PeopleTable: React.FC<Props> = ({
   people,
@@ -21,23 +21,23 @@ export const PeopleTable: React.FC<Props> = ({
 }) => (
   <table className="table is-striped is-narrow">
     <thead>
-    <tr>
-      <th>select</th>
-      <th>
-        name
+      <tr>
+        <th>select</th>
+        <th>
+          name
 
-        <a
-          href="#sort"
-          onClick={() => sortPeople(SortField.Name)}
-        >
-          <span className="icon">
-            <i className="fas fa-sort" />
-          </span>
-        </a>
-      </th>
-      <th>sex</th>
-      <th>born</th>
-    </tr>
+          <a
+            href="#sort"
+            onClick={() => sortPeople(SortField.Name)}
+          >
+            <span className="icon">
+              <i className="fas fa-sort" />
+            </span>
+          </a>
+        </th>
+        <th>sex</th>
+        <th>born</th>
+      </tr>
     </thead>
 
     <tbody>
@@ -61,7 +61,8 @@ export const PeopleTable: React.FC<Props> = ({
                   cn('fas', {
                     'fa-minus': person.selected,
                     'fa-plus': !person.selected,
-                  })}
+                  })
+                }
                 />
               </span>
             </Button>

@@ -1,4 +1,3 @@
-
 export enum SortField {
   Name = 'name',
   Slug = 'slug',

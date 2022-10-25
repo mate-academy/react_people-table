@@ -4,7 +4,7 @@ import { Person } from '../../types/Person';
 type Props = {
   people: Person[];
   clearSelectedPeople: () => void;
-}
+};
 
 export const SelectedPeople: React.FC<Props> = ({
   people,
@@ -17,7 +17,7 @@ export const SelectedPeople: React.FC<Props> = ({
       <p>
         No selected people
       </p>
-    )
+    );
   }
 
   return (
@@ -35,5 +35,5 @@ export const SelectedPeople: React.FC<Props> = ({
         ))}
       </ul>
     </article>
-  )
-}
+  );
+};

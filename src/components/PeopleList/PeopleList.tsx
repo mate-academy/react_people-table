@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Person } from '../../types/Person';
 import peopleFromServer from '../../people.json';
-import {SelectedPeople} from "../SelectedPeople";
-import {PeopleTable} from "../PeopleTable";
-import {SortField} from "../../types/SortFields";
+import { SelectedPeople } from '../SelectedPeople';
+import { PeopleTable } from '../PeopleTable';
+import { SortField } from '../../types/SortFields';
 
 function sortByField(items: Person[], field: SortField) {
   return [...items].sort((personA, personB) => {
@@ -70,13 +70,13 @@ export const PeopleList: React.FC<{}> = () => {
           return {
             ...person,
             selected: !person.selected,
-          }
+          };
         }
 
         return person;
       })
-    ))
-  }
+    ));
+  };
 
   const clearSelectedPeople = () => {
     setPeople(currentPeople => (
@@ -84,7 +84,7 @@ export const PeopleList: React.FC<{}> = () => {
         ...person,
         selected: false,
       }))
-    ))
+    ));
   };
 
   const sortPeople = (field: SortField) => {
