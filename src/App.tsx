@@ -5,14 +5,14 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 
 import { Loader } from './components/Loader';
-import { PeopleTable } from './components/PeopleTable';
+import { PeopleList } from './components/PeopleList';
 
 export const App: React.FC = () => {
-  const [isLoaded, setLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(true);
+      setIsLoaded(true);
     }, 1000);
   }, []);
 
@@ -21,7 +21,7 @@ export const App: React.FC = () => {
       <h1 className="title">People table</h1>
 
       {isLoaded
-        ? <PeopleTable />
+        ? <PeopleList />
         : <Loader />}
     </div>
   );
