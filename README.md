@@ -1,11 +1,11 @@
 # React - People table
 - Replace `<your_account>` with your Github username in the
-  [DEMO LINK](https://<your_account>.github.io/react_people-table/)
+  [DEMO LINK](https://naveed-shoukat.github.io/react_people-table/)
 - Follow the [React task guideline](https://github.com/mate-academy/react_task-guideline#react-tasks-guideline)
 
 ## If you don't use **Typescript**
 1. Rename `.tsx` files to `.jsx`
-1. use `eslint-config-react` in `.eslintrs.js` 
+1. use `eslint-config-react` in `.eslintrs.js`
 
 ## Basic tasks
 1. Install all the NPM packages you need and types for them.
@@ -91,3 +91,5 @@
     - make `mother` and `father` field optional
     - update the list of `mothers` and `fathers` according to the entered `born` year (they must be alive)
     (selects should be empty and disabled before the born year was entered)
+
+Here is [the working example](https://mate-academy.github.io/react_people-table-advanced/)

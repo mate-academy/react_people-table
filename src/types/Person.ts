@@ -6,4 +6,6 @@ export interface Person {
   name: string;
   sex: string;
   slug: string;
+  mother?: Person;
+  father?: Person;
 }
