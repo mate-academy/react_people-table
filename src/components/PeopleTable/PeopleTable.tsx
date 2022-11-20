@@ -28,7 +28,7 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
     let result = [...people];
 
     if (sortedBy) {
-      result.sort((a: Person, b: Person) => {
+      result.sort((a: Person, b: Person): number => {
         switch (sortedBy) {
           case TableHeaderField.Born:
           case TableHeaderField.Died:
@@ -86,7 +86,8 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
       result = result.filter(person => {
         const bornCentury = String(person.born + 100).slice(0, 2);
 
-        return filterCenturies.some(century => century === bornCentury);
+        return filterCenturies
+          .some((century: string) => century === bornCentury);
       });
     }
 

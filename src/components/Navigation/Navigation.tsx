@@ -12,18 +12,24 @@ export const Navigation: React.FC = () => (
     <div className="container">
       <div className="navbar-brand">
         <NavLink
-          className={({ isActive }) => (cn('navbar-item', {
-            'has-background-grey-lighter': isActive,
-          }))}
+          className={
+            ({ isActive }: { isActive: boolean }) => (cn(
+              'navbar-item',
+              { 'has-background-grey-lighter': isActive },
+            ))
+          }
           to="/"
         >
           Home
         </NavLink>
 
         <NavLink
-          className={({ isActive }) => (cn('navbar-item', {
-            'has-background-grey-lighter': isActive,
-          }))}
+          className={
+            ({ isActive }: { isActive: boolean }) => (cn(
+              'navbar-item',
+              { 'has-background-grey-lighter': isActive },
+            ))
+          }
           to="people"
         >
           People

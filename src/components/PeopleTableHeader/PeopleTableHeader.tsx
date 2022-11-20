@@ -12,7 +12,7 @@ export const PeopleTableHeader: React.FC<Props> = ({ tableHeaderName }) => {
   const sortByValue = searchParams.get('sortBy');
   const sortOrderValue = searchParams.get('sortOrder');
 
-  const handelSortFieldClick = (event: React.MouseEvent) => {
+  const handelSortFieldClick = (event: React.SyntheticEvent) => {
     event.preventDefault();
 
     if (sortByValue) {
@@ -39,7 +39,7 @@ export const PeopleTableHeader: React.FC<Props> = ({ tableHeaderName }) => {
 
       <Link
         to={{ search: `?sort=${tableHeaderName}` }}
-        onClick={(event) => handelSortFieldClick(event)}
+        onClick={handelSortFieldClick}
       >
         <span className="icon">
           <i

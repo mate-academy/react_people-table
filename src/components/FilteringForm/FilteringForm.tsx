@@ -39,7 +39,7 @@ export const FilteringForm: React.FC = () => {
       }
 
       const newCenturyValue = prevValue.includes(value)
-        ? prevValue.filter(item => item !== value)
+        ? prevValue.filter((century: string) => century !== value)
         : [...prevValue, value];
 
       searchParams.delete(filterType);
@@ -50,10 +50,26 @@ export const FilteringForm: React.FC = () => {
         return;
       }
 
-      newCenturyValue.forEach(val => searchParams.append(filterType, val));
+      newCenturyValue.forEach(
+        (century: string) => searchParams.append(filterType, century),
+      );
 
       setSearchParams(searchParams);
     }
+  };
+
+  const resetAllCenturies = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    searchParams.delete('century');
+    setSearchParams(searchParams);
+  };
+
+  const resetAllFilter = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    searchParams.delete('sex');
+    searchParams.delete('century');
+    searchParams.delete('query');
+    setSearchParams(searchParams);
   };
 
   return (
@@ -65,10 +81,9 @@ export const FilteringForm: React.FC = () => {
           <Link
             className={cn({ 'is-active': searchParams.get('sex') === '' })}
             to={{ search: '' }}
-            onClick={(e) => {
-              e.preventDefault();
-              searchParams.delete('sex');
-              setSearchParams(searchParams);
+            onClick={(event: React.SyntheticEvent) => {
+              event.preventDefault();
+              handelFilterSearchURL('sex', '');
             }}
           >
             All
@@ -77,8 +92,8 @@ export const FilteringForm: React.FC = () => {
           <Link
             className={cn({ 'is-active': searchParams.get('sex') === 'm' })}
             to={{ search: '?sex=m' }}
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={(event: React.SyntheticEvent) => {
+              event.preventDefault();
               handelFilterSearchURL('sex', 'm');
             }}
           >
@@ -88,8 +103,8 @@ export const FilteringForm: React.FC = () => {
           <Link
             className={cn({ 'is-active': searchParams.get('sex') === 'f' })}
             to={{ search: '?sex=f' }}
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={(event: React.SyntheticEvent) => {
+              event.preventDefault();
               handelFilterSearchURL('sex', 'f');
             }}
           >
@@ -105,7 +120,9 @@ export const FilteringForm: React.FC = () => {
               type="text"
               placeholder="Search"
               value={searchParams.get('query') || ''}
-              onChange={(e) => handelFilterSearchURL('query', e.target.value)}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                handelFilterSearchURL('query', event.target.value);
+              }}
             />
             <span className="icon is-left">
               <i className="fas fa-search" aria-hidden="true" />
@@ -148,11 +165,7 @@ export const FilteringForm: React.FC = () => {
                   { 'is-success': searchParams.getAll('century').length === 0 },
                 )}
                 to={{ search: '' }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  searchParams.delete('century');
-                  setSearchParams(searchParams);
-                }}
+                onClick={resetAllCenturies}
               >
                 All
               </Link>
@@ -164,14 +177,7 @@ export const FilteringForm: React.FC = () => {
           <Link
             className="button is-link is-outlined is-fullwidth"
             to={{ search: '' }}
-            // to="/people"
-            onClick={(e) => {
-              e.preventDefault();
-              searchParams.delete('sex');
-              searchParams.delete('century');
-              searchParams.delete('query');
-              setSearchParams(searchParams);
-            }}
+            onClick={resetAllFilter}
           >
             Reset all filters
           </Link>
