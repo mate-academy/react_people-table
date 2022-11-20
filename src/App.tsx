@@ -1,39 +1,19 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
+import { Navigation } from './components/Navigation';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import peopleFromServer from './people.json';
+export const App: React.FC = () => (
+  <div data-cy="app">
+    <Navigation />
 
-export class App extends React.Component {
-  state = {};
-
-  render() {
-    return (
-      <div className="box">
-        <h1 className="title">People table</h1>
-
-        <table className="table is-striped is-narrow">
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>sex</th>
-              <th>born</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {peopleFromServer.map(person => (
-              <tr key={person.slug}>
-                <td>{person.name}</td>
-                <td>{person.sex}</td>
-                <td>{person.born}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <main className="section">
+      <div className="container">
+        <Outlet />
       </div>
-    );
-  }
-}
+    </main>
+  </div>
+);
