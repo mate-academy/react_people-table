@@ -109,6 +109,7 @@ export const PeopleTable = () => {
                   <button
                     type="button"
                     onClick={() => handlePersonUnselection(person)}
+                    className="is-small is-rounded is-danger"
                   >
                     <span className="icon is-small">
                       <i className="fas fa-minus" />
@@ -119,6 +120,7 @@ export const PeopleTable = () => {
                   <button
                     type="button"
                     onClick={() => handlePersonSelection(person)}
+                    className="is-small is-rounded is-success"
                   >
                     <span className="icon is-small">
                       <i className="fas fa-plus" />
@@ -136,10 +138,11 @@ export const PeopleTable = () => {
 
             <td>{person.sex}</td>
             <td>{person.born}</td>
-            <td>
+            <td className="is-flex is-flex-wrap-nowrap">
               <button
                 type="button"
                 onClick={() => handleMoveDown(person)}
+                className="mr-2"
               >
                 &darr;
               </button>
