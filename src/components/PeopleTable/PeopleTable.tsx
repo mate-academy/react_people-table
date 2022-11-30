@@ -156,4 +156,4 @@ export const PeopleTable = () => {
       </tbody>
     </table>
   );
-}
+};
