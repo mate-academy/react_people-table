@@ -109,7 +109,7 @@ export const PeopleTable = () => {
                   <button
                     type="button"
                     onClick={() => handlePersonUnselection(person)}
-                    className="is-small is-rounded is-danger"
+                    className="button is-small is-rounded is-danger"
                   >
                     <span className="icon is-small">
                       <i className="fas fa-minus" />
@@ -120,7 +120,7 @@ export const PeopleTable = () => {
                   <button
                     type="button"
                     onClick={() => handlePersonSelection(person)}
-                    className="is-small is-rounded is-success"
+                    className="button is-small is-rounded is-success"
                   >
                     <span className="icon is-small">
                       <i className="fas fa-plus" />
@@ -142,13 +142,14 @@ export const PeopleTable = () => {
               <button
                 type="button"
                 onClick={() => handleMoveDown(person)}
-                className="mr-2"
+                className="button mr-2"
               >
                 &darr;
               </button>
 
               <button
                 type="button"
+                className="button mr-2"
                 onClick={() => handleMoveUp(person)}
               >
                 &uarr;
