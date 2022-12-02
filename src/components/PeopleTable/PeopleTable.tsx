@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import classNames from 'classnames';
 
 import peopleFromServer from '../../people.json';
@@ -8,7 +8,10 @@ import './PeopleTable.scss';
 export const PeopleTable = () => {
   const [people, setPeople] = useState<Person[]>(peopleFromServer);
   const [selectedPeople, setSelectedPeople] = useState<Person[]>([]);
+  const [query, setQuery] = useState('');
+  const [sex, setSex] = useState('');
 
+  // region Methods
   const handlePersonSelection = (personToAdd: Person) => {
     setSelectedPeople((prevSelectedPeople) => ([
       ...prevSelectedPeople,
@@ -70,25 +73,88 @@ export const PeopleTable = () => {
   const clearSelectedPeople = () => {
     setSelectedPeople([]);
   };
+  // endregion
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  let visiblePeople = [...people];
+
+  if (sex !== '') {
+    visiblePeople = visiblePeople.filter(person => person.sex === sex);
+  }
+
+  if (query !== '') {
+    const normalizedQuery = query.toLocaleLowerCase();
+
+    visiblePeople = visiblePeople.filter(person => {
+      person.motherName?.toLocaleLowerCase(); // === null
+
+      if (person.motherName) {
+        person.motherName.toLocaleLowerCase();
+      } else {
+        return person.motherName;
+      }
+
+
+      const stringToCheck = `
+        ${person.name}
+        ${person.motherName || ''}
+        ${person?.fatherName || ''}
+      `;
+
+      return stringToCheck.toLocaleLowerCase().includes(normalizedQuery);
+    });
+  }
 
   return (
     <table className="table is-striped is-narrow">
       <caption
         className="title is-5 has-text-info"
       >
-        <button
-          type="button"
-          className="delete"
-          onClick={clearSelectedPeople}
-        >
-          Clear all
-        </button>
-        {selectedPeople.map(person => person.name).join(', ')}
+        <p className="block">
+          <button
+            type="button"
+            className="delete"
+            onClick={clearSelectedPeople}
+          >
+            Clear all
+          </button>
+          {selectedPeople.map(person => person.name).join(', ')}
+        </p>
+
+        <div className="field has-addons">
+          <div className="control has-icons-left is-expanded">
+            <input
+              type="search"
+              className="input"
+              placeholder="Search by name"
+              onChange={handleInputChange}
+            />
+
+            <span className="icon is-small is-left">
+              <i className="fas fa-search" />
+            </span>
+          </div>
+
+          <div className="control">
+            <div className="select">
+              <select onChange={(event) => setSex(event.target.value)}>
+                <option value="">All</option>
+                <option value="m">Men</option>
+                <option value="f">Women</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </caption>
       <thead>
         <tr>
           <th>-</th>
           <th>name</th>
+          <th>Mother name</th>
+          <th>Father name</th>
           <th>sex</th>
           <th>born</th>
           <th>reorder</th>
@@ -96,7 +162,7 @@ export const PeopleTable = () => {
       </thead>
 
       <tbody>
-        {people.map(person => (
+        {visiblePeople.map(person => (
           <tr
             key={person.slug}
             className={classNames('Person', {
@@ -136,6 +202,8 @@ export const PeopleTable = () => {
               {person.name}
             </td>
 
+            <td>{person.motherName || '-'}</td>
+            <td>{person.fatherName || '-'}</td>
             <td>{person.sex}</td>
             <td>{person.born}</td>
             <td className="is-flex is-flex-wrap-nowrap">
@@ -149,7 +217,7 @@ export const PeopleTable = () => {
 
               <button
                 type="button"
-                className="button mr-2"
+                className="button"
                 onClick={() => handleMoveUp(person)}
               >
                 &uarr;
