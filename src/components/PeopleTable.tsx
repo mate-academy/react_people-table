@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import peopleFromServer from '../people.json';
 import { Person } from '../types/Person';
@@ -12,7 +12,7 @@ type State = {
   isReversed: boolean;
 };
 
-export class PeopleTable extends React.Component<{}, State> {
+export class PeopleTable2 extends React.Component<{}, State> {
   state: Readonly<State> = {
     people: peopleFromServer,
     selectedPeople: [],
@@ -256,3 +256,236 @@ export class PeopleTable extends React.Component<{}, State> {
     );
   }
 }
+
+export const PeopleTable: FC = () => {
+  const [people, setPeople] = useState(peopleFromServer);
+  const [selectedPeople, setSelectedPeople] = useState<Person[]>([]);
+  const [sortField, setSortField] = useState('');
+  const [isReversed, setIsReversed] = useState(false);
+
+  const sortBy = (field: string) => (
+    setSortField((prevSortField) => {
+      const isFirstClick = prevSortField !== field;
+      let isSecondClick = false;
+
+      setIsReversed((prevIsReversed) => {
+        isSecondClick = prevSortField === field && !prevIsReversed;
+
+        return isSecondClick;
+      });
+
+      return isFirstClick || isSecondClick ? field : '';
+    })
+  );
+
+  const selectPerson = (personToAdd: Person) => {
+    setSelectedPeople((prev) => ([...prev, personToAdd]));
+  };
+
+  const unselectPerson = (personToDelete: Person) => {
+    setSelectedPeople((prev) => prev.filter(
+      person => person.slug !== personToDelete.slug,
+    ));
+  };
+
+  const clearSelection = () => {
+    setSelectedPeople([]);
+  };
+
+  const moveUp = (personToMove: Person) => {
+    setPeople((prev) => {
+      const position = prev.findIndex(person => (
+        person.slug === personToMove.slug
+      ));
+
+      if (position === 0) {
+        return prev;
+      }
+
+      const peopleCopy = [...prev];
+      const temp = peopleCopy[position];
+
+      peopleCopy[position] = peopleCopy[position - 1];
+      peopleCopy[position - 1] = temp;
+
+      return peopleCopy;
+    });
+  };
+
+  const moveDown = (personToMove: Person) => {
+    setPeople((prev) => {
+      const position = prev.findIndex(person => (
+        person.slug === personToMove.slug
+      ));
+
+      if (position === prev.length - 1) {
+        return prev;
+      }
+
+      const peopleCopy = [...prev];
+      const temp = peopleCopy[position];
+
+      peopleCopy[position] = peopleCopy[position + 1];
+      peopleCopy[position + 1] = temp;
+
+      return peopleCopy;
+    });
+  };
+
+  const isSelected = ({ slug }: Person) => selectedPeople.some(person => (
+    person.slug === slug
+  ));
+
+  if (people.length === 0) {
+    return <p>No people yet</p>;
+  }
+
+  const visiblePeople = [...people];
+
+  if (sortField) {
+    visiblePeople.sort(
+      (a, b) => {
+        switch (sortField) {
+          case 'name':
+          case 'sex':
+            return a[sortField].localeCompare(b[sortField]);
+
+          case 'born':
+            return a.born - b.born;
+
+          default:
+            return 0;
+        }
+      },
+    );
+  }
+
+  if (isReversed) {
+    visiblePeople.reverse();
+  }
+
+  return (
+    <table className="table is-striped is-narrow">
+      <caption className="title is-5 has-text-info">
+        {selectedPeople.length === 0 ? '-' : (
+          <>
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+            <button
+              type="button"
+              className="delete"
+              onClick={clearSelection}
+            />
+            <span>{selectedPeople.map(p => p.name).join(', ')}</span>
+          </>
+        )}
+      </caption>
+
+      <thead>
+        <tr>
+          <th> </th>
+          <th>
+            name
+            <a href="#sort" onClick={() => sortBy('name')}>
+              <span className="icon">
+                <i
+                  className={classNames('fas', {
+                    'fa-sort': sortField !== 'name',
+                    'fa-sort-up': sortField === 'name' && !isReversed,
+                    'fa-sort-down': sortField === 'name' && isReversed,
+                  })}
+                />
+              </span>
+            </a>
+          </th>
+
+          <th>
+            sex
+            <a href="#sort" onClick={() => sortBy('sex')}>
+              <span className="icon">
+                <i
+                  className={classNames('fas', {
+                    'fa-sort': sortField !== 'sex',
+                    'fa-sort-up': sortField === 'sex' && !isReversed,
+                    'fa-sort-down': sortField === 'sex' && isReversed,
+                  })}
+                />
+              </span>
+            </a>
+          </th>
+
+          <th>
+            born
+            <a href="#sort" onClick={() => sortBy('born')}>
+              <span className="icon">
+                <i
+                  className={classNames('fas', {
+                    'fa-sort': sortField !== 'born',
+                    'fa-sort-up': sortField === 'born' && !isReversed,
+                    'fa-sort-down': sortField === 'born' && isReversed,
+                  })}
+                />
+              </span>
+            </a>
+          </th>
+
+          <th> </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {visiblePeople.map(person => (
+          <tr
+            key={person.slug}
+            className={classNames({
+              'has-background-warning': isSelected(person),
+            })}
+          >
+            <td>
+              {isSelected(person) ? (
+                <Button
+                  onClick={() => unselectPerson(person)}
+                  className="is-small is-rounded is-danger"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-minus" />
+                  </span>
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => selectPerson(person)}
+                  className="is-small is-rounded is-success"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-plus" />
+                  </span>
+                </Button>
+              )}
+            </td>
+
+            <td
+              className={classNames({
+                'has-text-link': person.sex === 'm',
+                'has-text-danger': person.sex === 'f',
+              })}
+            >
+              {person.name}
+            </td>
+
+            <td>{person.sex}</td>
+            <td>{person.born}</td>
+
+            <td className="is-flex is-flex-wrap-nowrap">
+              <Button onClick={() => moveDown(person)}>
+                &darr;
+              </Button>
+
+              <Button onClick={() => moveUp(person)}>
+                &uarr;
+              </Button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
