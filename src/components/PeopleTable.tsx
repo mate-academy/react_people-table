@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import classNames from 'classnames';
 import React from 'react';
 import peopleFromServer from '../people.json';
@@ -6,34 +7,41 @@ import { Button } from './Button';
 
 type State = {
   people: Person[];
-  selectedPerson: Person | null;
+  selectedPeople: Person[];
 };
 
 export class PeopleTable extends React.Component<{}, State> {
   state: State = {
     people: peopleFromServer,
-    selectedPerson: null,
+    selectedPeople: [
+      peopleFromServer[2],
+      peopleFromServer[24],
+    ],
   };
 
   render() {
-    const { people, selectedPerson } = this.state;
+    const { people, selectedPeople } = this.state;
 
     if (people.length === 0) {
       return <p>No people yet</p>;
     }
 
     const setSelectedPerson = (person: Person | null) => {
-      this.setState({ selectedPerson: person });
+      console.log(person);
+      // this.setState({ selectedPeople: person });
     };
 
     const isPersonSelected = (person: Person) => {
-      return person.slug === selectedPerson?.slug;
+      // return person.slug === selectedPerson?.slug;
+      return selectedPeople.includes(person);
     };
 
     return (
       <table className="table is-striped is-narrow">
         <caption className="title is-5 has-text-info">
-          {selectedPerson?.name || '-'}
+          {selectedPeople
+            .map(person => person.name)
+            .join(', ')}
         </caption>
 
         <thead>
@@ -49,22 +57,26 @@ export class PeopleTable extends React.Component<{}, State> {
           {people.map(person => (
             <tr
               key={person.slug}
-              className={classNames('Person', {
+              className={classNames({
                 'has-background-warning': isPersonSelected(person),
               })}
             >
               <td>
                 {isPersonSelected(person) ? (
                   <Button
-                    type="submit"
                     onClick={() => setSelectedPerson(null)}
+                    id={`remove-${person.slug}`}
+                    className="is-small is-rounded is-danger"
                   >
                     <span className="icon is-small">
                       <i className="fas fa-minus" />
                     </span>
                   </Button>
                 ) : (
-                  <Button onClick={() => setSelectedPerson(person)}>
+                  <Button
+                    onClick={() => setSelectedPerson(person)}
+                    className="is-small is-rounded is-success"
+                  >
                     <span className="icon is-small">
                       <i className="fas fa-plus" />
                     </span>
