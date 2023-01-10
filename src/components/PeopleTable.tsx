@@ -45,12 +45,68 @@ export class PeopleTable extends React.Component<{}, State> {
       );
     };
 
+    const clearSelection = () => {
+      this.setState({ selectedPeople: [] });
+    };
+
+    const moveUp = (personToMove: Person) => {
+      this.setState((state) => {
+        const position = state.people.findIndex(
+          person => person.slug === personToMove.slug,
+        );
+
+        if (position === 0) {
+          return null;
+        }
+
+        return {
+          people: [
+            ...state.people.slice(0, position - 1),
+            state.people[position],
+            state.people[position - 1],
+            ...state.people.slice(position + 1),
+          ],
+        };
+      });
+    };
+
+    const moveDown = (personToMove: Person) => {
+      const position = people.findIndex(
+        person => person.slug === personToMove.slug,
+      );
+
+      if (position === people.length - 1) {
+        return;
+      }
+
+      this.setState({
+        people: [
+          ...people.slice(0, position),
+          people[position + 1],
+          people[position],
+          ...people.slice(position + 2),
+        ],
+      });
+    };
+
     return (
       <table className="table is-striped is-narrow">
         <caption className="title is-5 has-text-info">
-          {selectedPeople
-            .map(person => person.name)
-            .join(', ') || '-'}
+          {selectedPeople.length > 0 ? (
+            <>
+              {selectedPeople
+                .map(person => person.name)
+                .join(', ')}
+
+              <button
+                type="button"
+                className="delete"
+                onClick={clearSelection}
+              >
+                x
+              </button>
+            </>
+          ) : '-'}
         </caption>
 
         <thead>
@@ -59,6 +115,7 @@ export class PeopleTable extends React.Component<{}, State> {
             <th>name</th>
             <th>sex</th>
             <th>born</th>
+            <th> </th>
           </tr>
         </thead>
 
@@ -101,8 +158,19 @@ export class PeopleTable extends React.Component<{}, State> {
               >
                 {person.name}
               </td>
+
               <td>{person.sex}</td>
               <td>{person.born}</td>
+
+              <td className="is-flex is-flex-wrap-nowrap">
+                <Button onClick={() => moveDown(person)}>
+                  &darr;
+                </Button>
+
+                <Button onClick={() => moveUp(person)}>
+                  &uarr;
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
