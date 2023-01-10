@@ -13,10 +13,7 @@ type State = {
 export class PeopleTable extends React.Component<{}, State> {
   state: State = {
     people: peopleFromServer,
-    selectedPeople: [
-      peopleFromServer[2],
-      peopleFromServer[24],
-    ],
+    selectedPeople: [],
   };
 
   render() {
@@ -26,14 +23,26 @@ export class PeopleTable extends React.Component<{}, State> {
       return <p>No people yet</p>;
     }
 
-    const setSelectedPerson = (person: Person | null) => {
-      console.log(person);
-      // this.setState({ selectedPeople: person });
+    const selectPerson = (personToSelect: Person) => {
+      this.setState((state) => ({
+        selectedPeople: [...state.selectedPeople, personToSelect],
+      }));
     };
 
-    const isPersonSelected = (person: Person) => {
+    const unselectPerson = (personToRemove: Person) => {
+      this.setState((state) => ({
+        selectedPeople: state.selectedPeople.filter(
+          person => person.slug !== personToRemove.slug,
+        ),
+      }));
+    };
+
+    const isPersonSelected = (personToCheck: Person) => {
       // return person.slug === selectedPerson?.slug;
-      return selectedPeople.includes(person);
+      // return selectedPeople.includes(person);
+      return selectedPeople.some(
+        person => person.slug === personToCheck.slug,
+      );
     };
 
     return (
@@ -41,7 +50,7 @@ export class PeopleTable extends React.Component<{}, State> {
         <caption className="title is-5 has-text-info">
           {selectedPeople
             .map(person => person.name)
-            .join(', ')}
+            .join(', ') || '-'}
         </caption>
 
         <thead>
@@ -64,7 +73,7 @@ export class PeopleTable extends React.Component<{}, State> {
               <td>
                 {isPersonSelected(person) ? (
                   <Button
-                    onClick={() => setSelectedPerson(null)}
+                    onClick={() => unselectPerson(person)}
                     id={`remove-${person.slug}`}
                     className="is-small is-rounded is-danger"
                   >
@@ -74,7 +83,7 @@ export class PeopleTable extends React.Component<{}, State> {
                   </Button>
                 ) : (
                   <Button
-                    onClick={() => setSelectedPerson(person)}
+                    onClick={() => selectPerson(person)}
                     className="is-small is-rounded is-success"
                   >
                     <span className="icon is-small">
