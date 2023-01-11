@@ -8,20 +8,24 @@ import { Button } from './Button';
 type State = {
   people: Person[];
   selectedPeople: Person[];
+  sortField: keyof Person | null;
 };
 
 export class PeopleTable extends React.Component<{}, State> {
   state: State = {
     people: peopleFromServer,
     selectedPeople: [],
+    sortField: null,
   };
 
   render() {
-    const { people, selectedPeople } = this.state;
+    const { people, selectedPeople, sortField } = this.state;
 
     if (people.length === 0) {
       return <p>No people yet</p>;
     }
+
+    // #region Handlers
 
     const selectPerson = (personToSelect: Person) => {
       this.setState((state) => ({
@@ -49,45 +53,58 @@ export class PeopleTable extends React.Component<{}, State> {
       this.setState({ selectedPeople: [] });
     };
 
-    const moveUp = (personToMove: Person) => {
+    const moveUp = (position: number) => {
+      if (position === 0) {
+        return;
+      }
+
       this.setState((state) => {
-        const position = state.people.findIndex(
-          person => person.slug === personToMove.slug,
-        );
+        const reorderedPeople = [...state.people];
 
-        if (position === 0) {
-          return null;
-        }
+        reorderedPeople[position] = state.people[position - 1];
+        reorderedPeople[position - 1] = state.people[position];
 
-        return {
-          people: [
-            ...state.people.slice(0, position - 1),
-            state.people[position],
-            state.people[position - 1],
-            ...state.people.slice(position + 1),
-          ],
-        };
+        return { people: reorderedPeople };
       });
     };
 
-    const moveDown = (personToMove: Person) => {
-      const position = people.findIndex(
-        person => person.slug === personToMove.slug,
-      );
-
+    const moveDown = (position: number) => {
       if (position === people.length - 1) {
         return;
       }
 
-      this.setState({
+      this.setState(state => ({
         people: [
-          ...people.slice(0, position),
-          people[position + 1],
-          people[position],
-          ...people.slice(position + 2),
+          ...state.people.slice(0, position),
+          state.people[position + 1],
+          state.people[position],
+          ...state.people.slice(position + 2),
         ],
-      });
+      }));
     };
+
+    const sortBy = (field: keyof Person) => {
+      this.setState({ sortField: field });
+    };
+
+    // #endregion
+
+    const sortedPeople = [...people];
+
+    if (sortField) {
+      sortedPeople.sort((person1, person2) => {
+        switch (sortField) {
+          case 'born':
+            return person1.born - person2.born;
+
+          case 'name':
+            return person1.name.localeCompare(person2.name);
+
+          default:
+            return 0;
+        }
+      });
+    }
 
     return (
       <table className="table is-striped is-narrow">
@@ -112,15 +129,44 @@ export class PeopleTable extends React.Component<{}, State> {
         <thead>
           <tr>
             <th>+</th>
-            <th>name</th>
+
+            <th>
+              name
+
+              <a href="#sort-by-name" onClick={() => sortBy('name')}>
+                <span className="icon">
+                  <i
+                    className={classNames('fas', {
+                      'fa-sort': sortField !== 'name',
+                      'fa-sort-up': sortField === 'name',
+                    })}
+                  />
+                </span>
+              </a>
+            </th>
+
             <th>sex</th>
-            <th>born</th>
+
+            <th>
+              born
+
+              <a href="#sort-by-born" onClick={() => sortBy('born')}>
+                <span className="icon">
+                  <i
+                    className={classNames('fas', {
+                      'fa-sort': sortField !== 'born',
+                      'fa-sort-up': sortField === 'born',
+                    })}
+                  />
+                </span>
+              </a>
+            </th>
             <th> </th>
           </tr>
         </thead>
 
         <tbody>
-          {people.map(person => (
+          {sortedPeople.map((person, i) => (
             <tr
               key={person.slug}
               className={classNames({
@@ -131,7 +177,6 @@ export class PeopleTable extends React.Component<{}, State> {
                 {isPersonSelected(person) ? (
                   <Button
                     onClick={() => unselectPerson(person)}
-                    id={`remove-${person.slug}`}
                     className="is-small is-rounded is-danger"
                   >
                     <span className="icon is-small">
@@ -149,7 +194,6 @@ export class PeopleTable extends React.Component<{}, State> {
                   </Button>
                 )}
               </td>
-
               <td
                 className={classNames({
                   'has-text-link': person.sex === 'm',
@@ -158,16 +202,15 @@ export class PeopleTable extends React.Component<{}, State> {
               >
                 {person.name}
               </td>
-
               <td>{person.sex}</td>
               <td>{person.born}</td>
 
               <td className="is-flex is-flex-wrap-nowrap">
-                <Button onClick={() => moveDown(person)}>
+                <Button onClick={() => moveDown(i)}>
                   &darr;
                 </Button>
 
-                <Button onClick={() => moveUp(person)}>
+                <Button onClick={() => moveUp(i)}>
                   &uarr;
                 </Button>
               </td>
