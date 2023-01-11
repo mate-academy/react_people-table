@@ -9,17 +9,53 @@ type State = {
   people: Person[];
   selectedPeople: Person[];
   sortField: keyof Person | null;
+  isReversed: boolean;
 };
+
+function preparePeople(
+  people: Person[],
+  sortField: keyof Person | null,
+  isReversed: boolean,
+) {
+  const sortedPeople = [...people];
+
+  if (sortField) {
+    sortedPeople.sort((person1, person2) => {
+      switch (sortField) {
+        case 'born':
+          return person1.born - person2.born;
+
+        case 'name':
+          return person1.name.localeCompare(person2.name);
+
+        default:
+          return 0;
+      }
+    });
+  }
+
+  if (isReversed) {
+    sortedPeople.reverse();
+  }
+
+  return sortedPeople;
+}
 
 export class PeopleTable extends React.Component<{}, State> {
   state: State = {
     people: peopleFromServer,
     selectedPeople: [],
     sortField: null,
+    isReversed: false,
   };
 
   render() {
-    const { people, selectedPeople, sortField } = this.state;
+    const {
+      people,
+      selectedPeople,
+      sortField,
+      isReversed,
+    } = this.state;
 
     if (people.length === 0) {
       return <p>No people yet</p>;
@@ -83,28 +119,35 @@ export class PeopleTable extends React.Component<{}, State> {
       }));
     };
 
-    const sortBy = (field: keyof Person) => {
-      this.setState({ sortField: field });
-    };
-
     // #endregion
 
-    const sortedPeople = [...people];
-
-    if (sortField) {
-      sortedPeople.sort((person1, person2) => {
-        switch (sortField) {
-          case 'born':
-            return person1.born - person2.born;
-
-          case 'name':
-            return person1.name.localeCompare(person2.name);
-
-          default:
-            return 0;
+    const sortBy = (field: keyof Person) => {
+      this.setState((state) => {
+        // first click
+        if (field !== state.sortField) {
+          return {
+            sortField: field,
+            isReversed: false,
+          };
         }
+
+        // second click
+        if (!state.isReversed) {
+          return {
+            sortField: field,
+            isReversed: true,
+          };
+        }
+
+        // third click
+        return {
+          sortField: null,
+          isReversed: false,
+        };
       });
-    }
+    };
+
+    const preparedPeople = preparePeople(people, sortField, isReversed);
 
     return (
       <table className="table is-striped is-narrow">
@@ -129,33 +172,30 @@ export class PeopleTable extends React.Component<{}, State> {
         <thead>
           <tr>
             <th>+</th>
-
-            <th>
+            <th onClick={() => sortBy('name')}>
               name
-
-              <a href="#sort-by-name" onClick={() => sortBy('name')}>
+              <a href="#sort-by-name">
                 <span className="icon">
                   <i
                     className={classNames('fas', {
                       'fa-sort': sortField !== 'name',
-                      'fa-sort-up': sortField === 'name',
+                      'fa-sort-up': sortField === 'name' && !isReversed,
+                      'fa-sort-down': sortField === 'name' && isReversed,
                     })}
                   />
                 </span>
               </a>
             </th>
-
             <th>sex</th>
-
-            <th>
+            <th onClick={() => sortBy('born')}>
               born
-
-              <a href="#sort-by-born" onClick={() => sortBy('born')}>
+              <a href="#sort-by-born">
                 <span className="icon">
                   <i
                     className={classNames('fas', {
                       'fa-sort': sortField !== 'born',
-                      'fa-sort-up': sortField === 'born',
+                      'fa-sort-up': sortField === 'born' && !isReversed,
+                      'fa-sort-down': sortField === 'born' && isReversed,
                     })}
                   />
                 </span>
@@ -166,7 +206,7 @@ export class PeopleTable extends React.Component<{}, State> {
         </thead>
 
         <tbody>
-          {sortedPeople.map((person, i) => (
+          {preparedPeople.map((person, i) => (
             <tr
               key={person.slug}
               className={classNames({
