@@ -54,7 +54,7 @@ export class PeopleTable extends React.Component<{}, State> {
       people,
       selectedPeople,
       sortField,
-      isReversed,
+      isReversed: reversed,
     } = this.state;
 
     if (people.length === 0) {
@@ -119,8 +119,6 @@ export class PeopleTable extends React.Component<{}, State> {
       }));
     };
 
-    // #endregion
-
     const sortBy = (field: keyof Person) => {
       this.setState((state) => {
         // first click
@@ -147,7 +145,9 @@ export class PeopleTable extends React.Component<{}, State> {
       });
     };
 
-    const preparedPeople = preparePeople(people, sortField, isReversed);
+    // #endregion
+
+    const preparedPeople = preparePeople(people, sortField, reversed);
 
     return (
       <table className="table is-striped is-narrow">
@@ -179,8 +179,8 @@ export class PeopleTable extends React.Component<{}, State> {
                   <i
                     className={classNames('fas', {
                       'fa-sort': sortField !== 'name',
-                      'fa-sort-up': sortField === 'name' && !isReversed,
-                      'fa-sort-down': sortField === 'name' && isReversed,
+                      'fa-sort-up': sortField === 'name' && !reversed,
+                      'fa-sort-down': sortField === 'name' && reversed,
                     })}
                   />
                 </span>
@@ -194,8 +194,8 @@ export class PeopleTable extends React.Component<{}, State> {
                   <i
                     className={classNames('fas', {
                       'fa-sort': sortField !== 'born',
-                      'fa-sort-up': sortField === 'born' && !isReversed,
-                      'fa-sort-down': sortField === 'born' && isReversed,
+                      'fa-sort-up': sortField === 'born' && !reversed,
+                      'fa-sort-down': sortField === 'born' && reversed,
                     })}
                   />
                 </span>
