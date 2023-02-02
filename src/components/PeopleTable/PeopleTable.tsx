@@ -8,16 +8,39 @@ import cn from 'classnames';
 import peopleFromServer from '../../people.json';
 import { Person } from '../../types/Person';
 import { Button } from '../Button';
+import { SortField } from '../../types/SortField';
 
 type State = {
   people: Person[],
-  selectedPerson: Person | null,
+  selectedPeople: Person[],
+  sortBy: SortField;
 };
+
+function getReorderedPeople(people: Person[], sortBy: SortField) {
+  const peopleCopy = [...people];
+
+  peopleCopy.sort((personA, personB) => {
+    switch (sortBy) {
+      case SortField.Name:
+        return personA.name.localeCompare(personB.name);
+
+      case SortField.Born:
+        return personA.born - personB.born;
+
+      case SortField.None:
+      default:
+        return 0;
+    }
+  });
+
+  return peopleCopy;
+}
 
 export class PeopleTable extends React.Component<{}, State> {
   state: Readonly<State> = {
     people: [],
-    selectedPerson: null,
+    selectedPeople: [],
+    sortBy: SortField.None,
   };
 
   componentDidMount() {
@@ -26,16 +49,48 @@ export class PeopleTable extends React.Component<{}, State> {
     });
   }
 
-  selectPerson = (person: Person | null) => {
+  selectPerson = (person: Person) => {
+    this.setState((state) => ({
+      selectedPeople: [...state.selectedPeople, person],
+    }));
+  };
+
+  unselectPerson = (person: Person) => {
+    this.setState((state) => ({
+      selectedPeople: state.selectedPeople.filter(
+        (selectedPerson) => selectedPerson.slug !== person.slug,
+      ),
+    }));
+  }
+
+  isPersonSelected = (person: Person) => {
+    const {
+      selectedPeople,
+    } = this.state;
+
+    return selectedPeople.some(
+      selectedPerson => selectedPerson.slug === person.slug,
+    );
+  }
+
+  clearSelectedPeople = () => {
     this.setState({
-      selectedPerson: person,
+      selectedPeople: [],
+    });
+  }
+
+  changeSortBy = (sortField: SortField) => {
+    this.setState({
+      sortBy: sortField,
     });
   }
 
   render() {
-    const { people, selectedPerson } = this.state;
+    const { people, selectedPeople, sortBy } = this.state;
 
-    if (people.length === 0) {
+    const visiblePeople = getReorderedPeople(people, sortBy);
+
+    if (visiblePeople.length === 0) {
       return (
         <p>
           No people on server
@@ -46,23 +101,44 @@ export class PeopleTable extends React.Component<{}, State> {
     return (
       <table className="table is-striped is-narrow">
         <caption className="title is-5">
-          {selectedPerson
-            ? `${selectedPerson.name}`
-            : 'No selected person'}
+          {selectedPeople.length > 0 && (
+            <button
+              aria-label="delete"
+              type="button"
+              className="delete"
+              onClick={this.clearSelectedPeople}
+            />
+          )}
+
+          {selectedPeople.map(person => person.name).join(', ') || '-'}
         </caption>
 
         <thead>
           <tr>
             <th>-</th>
-            <th>name</th>
+            <th
+              onClick={() => {
+                this.changeSortBy(SortField.Name);
+              }}
+            >
+              name
+            </th>
+
             <th>sex</th>
-            <th>born</th>
+
+            <th
+              onClick={() => {
+                this.changeSortBy(SortField.Born);
+              }}
+            >
+              born
+            </th>
           </tr>
         </thead>
 
         <tbody>
-          {people.map(person => {
-            const isPersonSelected = person.slug === selectedPerson?.slug;
+          {visiblePeople.map(person => {
+            const isPersonSelected = this.isPersonSelected(person);
 
             return (
               <tr
@@ -78,11 +154,13 @@ export class PeopleTable extends React.Component<{}, State> {
                     ? (
                       <Button
                         onClick={() => {
-                          this.selectPerson(null);
+                          this.unselectPerson(person);
                         }}
-                        className="is-small"
+                        className="is-small is-rounded is-danger"
                       >
-                        -
+                        <span className="icon is-small">
+                          <i className="fas fa-minus" />
+                        </span>
                       </Button>
                     )
                     : (
@@ -90,8 +168,11 @@ export class PeopleTable extends React.Component<{}, State> {
                         onClick={() => {
                           this.selectPerson(person);
                         }}
+                        className="is-small is-rounded is-success"
                       >
-                        +
+                        <span className="icon is-small">
+                          <i className="fas fa-plus" />
+                        </span>
                       </Button>
                     )}
                 </td>
