@@ -9,7 +9,11 @@ import { Person } from '../../types/Person';
 import { Button } from '../Button';
 import { SortField } from '../../types/SortField';
 
-function getReorderedPeople(people: Person[], sortBy: SortField) {
+function getReorderedPeople(
+  people: Person[],
+  sortBy: SortField,
+  isReversed: boolean,
+) {
   const peopleCopy = [...people];
 
   peopleCopy.sort((personA, personB) => {
@@ -26,6 +30,10 @@ function getReorderedPeople(people: Person[], sortBy: SortField) {
     }
   });
 
+  if (isReversed) {
+    peopleCopy.reverse();
+  }
+
   return peopleCopy;
 }
 
@@ -33,6 +41,7 @@ export const PeopleTable: React.FC = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const [selectedPeople, setSelectedPeople] = useState<Person[]>([]);
   const [sortBy, setSortBy] = useState(SortField.None);
+  const [isReversed, setIsReversed] = useState(false);
 
   useEffect(() => {
     setPeople(peopleFromServer);
@@ -57,7 +66,18 @@ export const PeopleTable: React.FC = () => {
     );
   };
 
-  const visiblePeople = getReorderedPeople(people, sortBy);
+  const changeSortType = (newSortBy: SortField) => {
+    const isAlreadySorted = sortBy === newSortBy;
+
+    if (isAlreadySorted) {
+      setIsReversed((currentIsReversed) => !currentIsReversed);
+    } else {
+      setIsReversed(false);
+      setSortBy(newSortBy);
+    }
+  };
+
+  const visiblePeople = getReorderedPeople(people, sortBy, isReversed);
 
   if (visiblePeople.length === 0) {
     return (
@@ -87,22 +107,44 @@ export const PeopleTable: React.FC = () => {
       <thead>
         <tr>
           <th>-</th>
-          <th
-            onClick={() => {
-              setSortBy(SortField.Name);
-            }}
-          >
-            name
+          <th>
+            <span>name</span>
+            <a
+              href="#sort"
+              className="icon"
+              onClick={() => {
+                changeSortType(SortField.Name);
+              }}
+            >
+              <i
+                className={cn('fas', {
+                  'fa-sort': sortBy !== SortField.Name,
+                  'fa-sort-up': sortBy === SortField.Name && !isReversed,
+                  'fa-sort-down': sortBy === SortField.Name && isReversed,
+                })}
+              />
+            </a>
           </th>
 
           <th>sex</th>
 
-          <th
-            onClick={() => {
-              setSortBy(SortField.Born);
-            }}
-          >
-            born
+          <th>
+            <span>born</span>
+            <a
+              href="#sort"
+              className="icon"
+              onClick={() => {
+                changeSortType(SortField.Born);
+              }}
+            >
+              <i
+                className={cn('fas', {
+                  'fa-sort': sortBy !== SortField.Born,
+                  'fa-sort-up': sortBy === SortField.Born && !isReversed,
+                  'fa-sort-down': sortBy === SortField.Born && isReversed,
+                })}
+              />
+            </a>
           </th>
         </tr>
       </thead>
