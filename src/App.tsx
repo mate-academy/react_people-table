@@ -7,12 +7,15 @@ import 'bulma/css/bulma.css';
 import peopleFromServer from './people.json';
 import { Person } from './types/Person';
 import { Button } from './components/Button';
+import { SortLink } from './components/SortLink';
 
 export const App = () => {
   const [people, setPeople] = useState<Person[]>(peopleFromServer);
   const [selectedPeople, setSelectedPeople] = useState<Person[]>([]);
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<keyof Person | ''>('');
   const [isReversed, setReversed] = useState(false);
+  const [query, setQuery] = useState('');
+  const [sex, setSex] = useState('');
 
   if (people.length === 0) {
     return <p>No people yet</p>;
@@ -22,7 +25,7 @@ export const App = () => {
     return selectedPeople.some(person => person.slug === slug);
   }
 
-  const sortBy = (field: string) => {
+  const sortBy = (field: keyof Person) => {
     const isFirstClick = sortField !== field;
     const isSecondClick = sortField === field && !isReversed;
 
@@ -82,7 +85,27 @@ export const App = () => {
     });
   };
 
-  const visiblePeople = [...people];
+  let visiblePeople = [...people];
+
+  if (sex) {
+    visiblePeople = visiblePeople.filter(person => person.sex === sex);
+  }
+
+  if (query) {
+    const lowerQuery = query.toLocaleLowerCase();
+
+    visiblePeople = visiblePeople.filter(person => {
+      const stringToCheck = `
+        ${person.name}
+        ${person.motherName || ''}
+        ${person.fatherName || ''}
+      `;
+
+      return stringToCheck
+        .toLocaleLowerCase()
+        .includes(lowerQuery);
+    });
+  }
 
   if (sortField) {
     visiblePeople.sort(
@@ -90,7 +113,13 @@ export const App = () => {
         switch (sortField) {
           case 'name':
           case 'sex':
-            return a[sortField].localeCompare(b[sortField]);
+          case 'motherName':
+          case 'fatherName': {
+            const aValue = a[sortField] || '';
+            const bValue = a[sortField] || '';
+
+            return aValue.localeCompare(bValue);
+          }
 
           case 'born':
             return a.born - b.born;
@@ -122,6 +151,31 @@ export const App = () => {
             </>
           )}
         </p>
+
+        <div className="field has-addons">
+          <div className="control has-icons-left is-expanded">
+            <input
+              className="input"
+              type="search"
+              placeholder="Search by name"
+              onChange={e => setQuery(e.target.value)}
+            />
+
+            <span className="icon is-small is-left">
+              <i className="fas fa-search" />
+            </span>
+          </div>
+        </div>
+
+        <div className="control">
+          <div className="select">
+            <select onChange={e => setSex(e.target.value)}>
+              <option value="">All</option>
+              <option value="f">Women</option>
+              <option value="m">Men</option>
+            </select>
+          </div>
+        </div>
       </caption>
 
       <thead>
@@ -129,47 +183,47 @@ export const App = () => {
           <th> </th>
           <th>
             name
-            <a href="#sort" onClick={() => sortBy('name')}>
-              <span className="icon">
-                <i
-                  className={classNames('fas', {
-                    'fa-sort': sortField !== 'name',
-                    'fa-sort-up': sortField === 'name' && !isReversed,
-                    'fa-sort-down': sortField === 'name' && isReversed,
-                  })}
-                />
-              </span>
-            </a>
+            <SortLink
+              isActive={sortField === 'name'}
+              isReversed={isReversed}
+              onClick={() => sortBy('name')}
+            />
           </th>
 
           <th>
             sex
-            <a href="#sort" onClick={() => sortBy('sex')}>
-              <span className="icon">
-                <i
-                  className={classNames('fas', {
-                    'fa-sort': sortField !== 'sex',
-                    'fa-sort-up': sortField === 'sex' && !isReversed,
-                    'fa-sort-down': sortField === 'sex' && isReversed,
-                  })}
-                />
-              </span>
-            </a>
+            <SortLink
+              isActive={sortField === 'sex'}
+              isReversed={isReversed}
+              onClick={() => sortBy('sex')}
+            />
           </th>
 
           <th>
             born
-            <a href="#sort" onClick={() => sortBy('born')}>
-              <span className="icon">
-                <i
-                  className={classNames('fas', {
-                    'fa-sort': sortField !== 'born',
-                    'fa-sort-up': sortField === 'born' && !isReversed,
-                    'fa-sort-down': sortField === 'born' && isReversed,
-                  })}
-                />
-              </span>
-            </a>
+            <SortLink
+              isActive={sortField === 'born'}
+              isReversed={isReversed}
+              onClick={() => sortBy('born')}
+            />
+          </th>
+
+          <th>
+            Mother
+            <SortLink
+              isActive={sortField === 'motherName'}
+              isReversed={isReversed}
+              onClick={() => sortBy('motherName')}
+            />
+          </th>
+
+          <th>
+            Father
+            <SortLink
+              isActive={sortField === 'fatherName'}
+              isReversed={isReversed}
+              onClick={() => sortBy('fatherName')}
+            />
           </th>
 
           <th> </th>
@@ -217,6 +271,8 @@ export const App = () => {
 
             <td>{person.sex}</td>
             <td>{person.born}</td>
+            <td>{person.motherName || ''}</td>
+            <td>{person.fatherName || ''}</td>
 
             <td className="is-flex is-flex-wrap-nowrap">
               <Button onClick={() => moveDown(person)}>
