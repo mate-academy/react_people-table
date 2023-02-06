@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import classNames from 'classnames';
 
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -11,8 +11,10 @@ import { Button } from './components/Button';
 export const App = () => {
   const [people, setPeople] = useState<Person[]>(peopleFromServer);
   const [selectedPeople, setSelectedPeople] = useState<Person[]>([]);
-  const [sortField, setSortField] = useState('');
+  const [sortField, setSortField] = useState<keyof Person | ''>('');
   const [isReversed, setReversed] = useState(false);
+  const [query, setQuery] = useState('');
+  const [sex, setSex] = useState('');
 
   if (people.length === 0) {
     return <p>No people yet</p>;
@@ -22,7 +24,7 @@ export const App = () => {
     return selectedPeople.some(person => person.slug === slug);
   }
 
-  const sortBy = (field: string) => {
+  const sortBy = (field: keyof Person) => {
     const isFirstClick = sortField !== field;
     const isSecondClick = sortField === field && !isReversed;
 
@@ -82,7 +84,35 @@ export const App = () => {
     });
   };
 
-  const visiblePeople = [...people];
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSex(event.target.value);
+  };
+
+  let visiblePeople = [...people];
+
+  if (query) {
+    const lowerQuery = query.toLowerCase();
+
+    visiblePeople = visiblePeople.filter(person => {
+      const stringToCheck = `
+        ${person.name}
+        ${person.fatherName || ''}
+        ${person.motherName || ''}
+      `;
+
+      return stringToCheck.toLowerCase().includes(lowerQuery);
+    });
+  }
+
+  if (sex) {
+    visiblePeople = visiblePeople.filter(person => (
+      person.sex === sex
+    ));
+  }
 
   if (sortField) {
     visiblePeople.sort(
@@ -122,6 +152,27 @@ export const App = () => {
             </>
           )}
         </p>
+
+        <div className="field has-addons">
+          <div className="control has-icons-left is-expanded">
+            <input
+              className="input"
+              type="search"
+              placeholder="Search by name"
+              onChange={handleInput}
+            />
+
+            <span className="icon is-small is-left">
+              <i className="fas fa-search" />
+            </span>
+          </div>
+        </div>
+
+        <select onChange={handleSelect}>
+          <option value="">All</option>
+          <option value="f">f</option>
+          <option value="m">m</option>
+        </select>
       </caption>
 
       <thead>
@@ -166,6 +217,36 @@ export const App = () => {
                     'fa-sort': sortField !== 'born',
                     'fa-sort-up': sortField === 'born' && !isReversed,
                     'fa-sort-down': sortField === 'born' && isReversed,
+                  })}
+                />
+              </span>
+            </a>
+          </th>
+
+          <th>
+            mother
+            <a href="#sort" onClick={() => sortBy('motherName')}>
+              <span className="icon">
+                <i
+                  className={classNames('fas', {
+                    'fa-sort': sortField !== 'motherName',
+                    'fa-sort-up': sortField === 'motherName' && !isReversed,
+                    'fa-sort-down': sortField === 'motherName' && isReversed,
+                  })}
+                />
+              </span>
+            </a>
+          </th>
+
+          <th>
+            father
+            <a href="#sort" onClick={() => sortBy('fatherName')}>
+              <span className="icon">
+                <i
+                  className={classNames('fas', {
+                    'fa-sort': sortField !== 'fatherName',
+                    'fa-sort-up': sortField === 'fatherName' && !isReversed,
+                    'fa-sort-down': sortField === 'fatherName' && isReversed,
                   })}
                 />
               </span>
@@ -217,6 +298,8 @@ export const App = () => {
 
             <td>{person.sex}</td>
             <td>{person.born}</td>
+            <td>{person.motherName || ''}</td>
+            <td>{person.fatherName || ''}</td>
 
             <td className="is-flex is-flex-wrap-nowrap">
               <Button onClick={() => moveDown(person)}>
