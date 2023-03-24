@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import peopleFromServer from '../people.json';
 import { Person } from '../types/Person';
@@ -12,216 +12,196 @@ enum SortType {
   None = 'none',
 }
 
-type State = {
-  people: Person[];
-  selectedPeople: Person[];
-  sortBy: SortType,
+const getSorted = (people: Person[], sortBy: SortType) => {
+  const copy = [...people];
+
+  return copy.sort((prev, curr) => {
+    switch (sortBy) {
+      case SortType.Name:
+      case SortType.Sex:
+        return prev[sortBy].localeCompare(curr[sortBy]);
+
+      case SortType.Born:
+        return prev[sortBy] - curr[sortBy];
+
+      default:
+        return 0;
+    }
+  });
 };
 
-export class PeopleTable extends React.Component<{}, State> {
-  state: Readonly<State> = {
-    people: peopleFromServer,
-    selectedPeople: [],
-    sortBy: SortType.None,
+export const PeopleTable = () => {
+  const [people, setPeople] = useState<Person[]>(peopleFromServer);
+  const [selectedPeople, setSelectedPeople] = useState<Person[]>([]);
+  const [sortBy, setSortBy] = useState(SortType.None);
+
+  useEffect(() => {
+    const visiblePeople = getSorted(people, sortBy);
+
+    setPeople(visiblePeople);
+  }, [sortBy]);
+
+  const selectPerson = (person: Person) => {
+    setSelectedPeople((prevSelectedPeople) => [
+      ...prevSelectedPeople, person,
+    ]);
   };
 
-  selectPerson = (person: Person) => {
-    this.setState((state) => ({
-      selectedPeople: [...state.selectedPeople, person],
-    }));
-  };
-
-  unselectPerson = (person: Person) => {
-    this.setState((state) => ({
-      selectedPeople: state.selectedPeople.filter(
+  const unselectPerson = (person: Person) => {
+    setSelectedPeople((prevSelectedPeople) => (
+      prevSelectedPeople.filter(
         ({ slug }) => slug !== person.slug,
-      ),
-    }));
-  }
+      )
+    ));
+  };
 
-  moveUp = (person: Person) => {
-    this.setState((state) => {
-      const { people } = state;
-      const copy = [...people];
+  const moveUp = (person: Person) => {
+    setPeople((currentPeople) => {
+      const copy = [...currentPeople];
 
-      const personIndex = people.findIndex(
+      const personIndex = currentPeople.findIndex(
         ({ slug }) => person.slug === slug,
       );
 
       if (!personIndex) {
-        return {
-          ...state,
-        };
+        return currentPeople;
       }
 
-      const prev = people[personIndex - 1];
+      const prev = currentPeople[personIndex - 1];
 
       copy[personIndex - 1] = copy[personIndex];
       copy[personIndex] = prev;
 
-      return {
-        people: copy,
-      };
+      return copy;
     });
-  }
+  };
 
-  moveDown = (person: Person) => {
-    this.setState((state) => {
-      const { people } = state;
-      const copy = [...people];
+  const moveDown = (person: Person) => {
+    setPeople((currentPeople) => {
+      const copy = [...currentPeople];
 
-      const personIndex = people.findIndex(
+      const personIndex = currentPeople.findIndex(
         ({ slug }) => person.slug === slug,
       );
 
-      if (personIndex >= people.length - 1) {
-        return {
-          ...state,
-        };
+      if (personIndex >= currentPeople.length - 1) {
+        return currentPeople;
       }
 
-      const prev = people[personIndex + 1];
+      const prev = currentPeople[personIndex + 1];
 
       copy[personIndex + 1] = copy[personIndex];
       copy[personIndex] = prev;
 
-      return {
-        people: copy,
-      };
+      return copy;
     });
+  };
+
+  const isSelected = (person: Person) => {
+    return selectedPeople.some(
+      ({ slug }) => slug === person.slug,
+    );
+  };
+
+  if (people.length === 0) {
+    return <p>No people yet</p>;
   }
 
-  getSorted = (people: Person[]) => {
-    const copy = [...people];
+  const selectedPeopleNames = selectedPeople.length
+    ? selectedPeople.map(({ name }) => name).join(', ')
+    : '-';
 
-    const { sortBy } = this.state;
+  return (
+    <table className="table is-striped is-narrow">
+      <caption className="title is-5 has-text-info">
+        {selectedPeopleNames}
 
-    return copy.sort((prev, curr) => {
-      switch (sortBy) {
-        case SortType.Name:
-        case SortType.Sex:
-          return prev[sortBy].localeCompare(curr[sortBy]);
+        {selectedPeople.length > 0 && (
+          <Button
+            onClick={() => setSelectedPeople([])}
+          >
+            Clear
+          </Button>
+        )}
+      </caption>
 
-        case SortType.Born:
-          return prev[sortBy] - curr[sortBy];
+      <thead>
+        <tr>
+          <th> </th>
+          <th
+            onClick={() => setSortBy(SortType.Name)}
+          >
+            name
+          </th>
+          <th
+            onClick={() => setSortBy(SortType.Sex)}
+          >
+            sex
+          </th>
+          <th
+            onClick={() => setSortBy(SortType.Born)}
+          >
+            born
+          </th>
+        </tr>
+      </thead>
 
-        default:
-          return 0;
-      }
-    });
-  }
+      <tbody>
+        {people.map(person => (
+          <tr
+            key={person.slug}
+            className={classNames({
+              'has-background-warning': isSelected(person),
+            })}
+          >
+            <td>
+              {isSelected(person) ? (
+                <Button
+                  onClick={() => unselectPerson(person)}
+                  className="is-small is-rounded is-danger"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-minus" />
+                  </span>
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => selectPerson(person)}
+                  className="is-small is-rounded is-success"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-plus" />
+                  </span>
+                </Button>
+              )}
+            </td>
 
-  render() {
-    const { people, selectedPeople } = this.state;
-
-    const visiblePeople = this.getSorted(people);
-
-    function isSelected(person: Person) {
-      return selectedPeople.some(
-        ({ slug }) => slug === person.slug,
-      );
-    }
-
-    if (people.length === 0) {
-      return <p>No people yet</p>;
-    }
-
-    const selectedPeopleNames = selectedPeople.length
-      ? selectedPeople.map(({ name }) => name).join(', ')
-      : '-';
-
-    return (
-      <table className="table is-striped is-narrow">
-        <caption className="title is-5 has-text-info">
-          {selectedPeopleNames}
-
-          {selectedPeople.length > 0 && (
-            <Button
-              onClick={() => this.setState({ selectedPeople: [] })}
-            >
-              Clear
-            </Button>
-          )}
-        </caption>
-
-        <thead>
-          <tr>
-            <th> </th>
-            <th
-              onClick={() => this.setState({ sortBy: SortType.Name })}
-            >
-              name
-            </th>
-            <th
-              onClick={() => this.setState({ sortBy: SortType.Sex })}
-            >
-              sex
-            </th>
-            <th
-              onClick={() => this.setState({ sortBy: SortType.Born })}
-            >
-              born
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {visiblePeople.map(person => (
-            <tr
-              key={person.slug}
+            <td
               className={classNames({
-                'has-background-warning': isSelected(person),
+                'has-text-link': person.sex === 'm',
+                'has-text-danger': person.sex === 'f',
               })}
             >
-              <td>
-                {isSelected(person) ? (
-                  <Button
-                    onClick={() => this.unselectPerson(person)}
-                    className="is-small is-rounded is-danger"
-                  >
-                    <span className="icon is-small">
-                      <i className="fas fa-minus" />
-                    </span>
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => this.selectPerson(person)}
-                    className="is-small is-rounded is-success"
-                  >
-                    <span className="icon is-small">
-                      <i className="fas fa-plus" />
-                    </span>
-                  </Button>
-                )}
-              </td>
+              {person.name}
+            </td>
 
-              <td
-                className={classNames({
-                  'has-text-link': person.sex === 'm',
-                  'has-text-danger': person.sex === 'f',
-                })}
-              >
-                {person.name}
-              </td>
+            <td>{person.sex}</td>
+            <td>{person.born}</td>
 
-              <td>{person.sex}</td>
-              <td>{person.born}</td>
+            <Button
+              onClick={() => moveUp(person)}
+            >
+              &uarr;
+            </Button>
 
-              <Button
-                onClick={() => this.moveUp(person)}
-              >
-                &uarr;
-              </Button>
-
-              <Button
-                onClick={() => this.moveDown(person)}
-              >
-                &darr;
-              </Button>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  }
-}
+            <Button
+              onClick={() => moveDown(person)}
+            >
+              &darr;
+            </Button>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
