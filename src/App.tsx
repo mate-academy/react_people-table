@@ -5,35 +5,29 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 
 import peopleFromServer from './people.json';
+import { Person } from './types/Person';
+import { PeopleTable } from './components/PeopleTable';
+
+interface State {
+  people: Person[];
+}
 
 export class App extends React.Component {
-  state: Readonly<{}> = {};
+  state: Readonly<State> = {
+    people: [],
+  };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ people: peopleFromServer });
+    }, 1000);
+  }
 
   render() {
+    const { people } = this.state;
+
     return (
-      <div className="box">
-        <h1 className="title">People table</h1>
-
-        <table className="table is-striped is-narrow">
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>sex</th>
-              <th>born</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {peopleFromServer.map(person => (
-              <tr key={person.slug}>
-                <td>{person.name}</td>
-                <td>{person.sex}</td>
-                <td>{person.born}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <PeopleTable people={people} />
     );
   }
 }
