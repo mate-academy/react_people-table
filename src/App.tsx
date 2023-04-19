@@ -1,39 +1,28 @@
-import React from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import peopleFromServer from './people.json';
+import { PeopleTable } from './components/PeopleTable/PeopleTable';
+import { Loader } from './components/Loader';
 
-export class App extends React.Component {
-  state = {};
+export const App: FC = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  render() {
-    return (
-      <div className="box">
-        <h1 className="title">People table</h1>
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 1000);
+  }, []);
 
-        <table className="table is-striped is-narrow">
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>sex</th>
-              <th>born</th>
-            </tr>
-          </thead>
+  return (
+    <div className="box">
+      <h1 className="title">People table</h1>
 
-          <tbody>
-            {peopleFromServer.map(person => (
-              <tr key={person.slug}>
-                <td>{person.name}</td>
-                <td>{person.sex}</td>
-                <td>{person.born}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
+      {!isLoaded && <Loader />}
+
+      {isLoaded && <PeopleTable />}
+    </div>
+  );
+};
