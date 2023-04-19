@@ -26,7 +26,7 @@ export class App extends React.Component<{}, State> {
         people: peopleFromServer,
         isLoading: false,
       });
-    }, 2000);
+    }, 500);
   }
 
   render() {

@@ -1,5 +1,8 @@
+/* eslint-disable no-console */
+
 import React from 'react';
 import { Person } from '../types/Person';
+import classNames from 'classnames';
 
 interface Props {
   people: Person[];
@@ -14,12 +17,13 @@ export class PeopleTable extends React.Component<Props, State> {
     person: null,
   };
 
+  handleSelectingPerson = (person: Person) => {
+    this.setState({ person });
+  }
+
   render() {
     const { people } = this.props;
     const { person } = this.state;
-
-    // eslint-disable-next-line no-console
-    console.log(person);
 
     if (!people.length) {
       return (
@@ -36,6 +40,7 @@ export class PeopleTable extends React.Component<Props, State> {
         <table className="table is-striped is-narrow">
           <thead>
             <tr>
+              <th> </th>
               <th>name</th>
               <th>sex</th>
               <th>born</th>
@@ -44,7 +49,21 @@ export class PeopleTable extends React.Component<Props, State> {
 
           <tbody>
             {people.map(currentPerson => (
-              <tr key={currentPerson.slug}>
+              <tr
+                key={currentPerson.slug}
+                className={classNames({
+                  'is-selected': currentPerson.slug === person?.slug,
+                })}
+              >
+                <td>
+                  <button
+                    type="button"
+                    className="button"
+                    onClick={() => this.handleSelectingPerson(currentPerson)}
+                  >
+                    Select
+                  </button>
+                </td>
                 <td>{currentPerson.name}</td>
                 <td>{currentPerson.sex}</td>
                 <td>{currentPerson.born}</td>
