@@ -7,7 +7,7 @@ import './App.scss';
 import peopleFromServer from './people.json';
 
 export class App extends React.Component {
-  state = {};
+  state: Readonly<{}> = {};
 
   render() {
     return (
