@@ -21,6 +21,14 @@ export class PeopleTable extends React.Component<Props, State> {
     // eslint-disable-next-line no-console
     console.log(person);
 
+    if (!people.length) {
+      return (
+        <div className="box">
+          <h1 className="title">No people yet in Database</h1>
+        </div>
+      );
+    }
+
     return (
       <div className="box">
         <h1 className="title">People table</h1>
