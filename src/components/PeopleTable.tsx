@@ -1,77 +1,258 @@
-/* eslint-disable no-console */
-
-import React from 'react';
-import { Person } from '../types/Person';
 import classNames from 'classnames';
+import React from 'react';
 
-interface Props {
+import peopleFromServer from '../people.json';
+import { Person } from '../types/Person';
+import { Button } from './Button';
+
+type State = {
   people: Person[];
-}
+  selectedPeople: Person[];
+  sortField: string;
+  isReversed: boolean;
+};
 
-interface State {
-  person: Person | null;
-}
-
-export class PeopleTable extends React.Component<Props, State> {
+export class PeopleTable extends React.Component<{}, State> {
   state: Readonly<State> = {
-    person: null,
+    people: peopleFromServer,
+    selectedPeople: [],
+    sortField: '',
+    isReversed: false,
   };
 
-  handleSelectingPerson = (person: Person) => {
-    this.setState({ person });
-  }
+  sortBy = (field: string) => {
+    this.setState(({ isReversed, sortField }) => {
+      const isFirstClick = sortField !== field;
+      const isSecondClick = sortField === field && !isReversed;
+
+      return {
+        sortField: isFirstClick || isSecondClick ? field : '',
+        isReversed: isSecondClick,
+      };
+    });
+  };
+
+  selectPerson = (personToAdd: Person) => {
+    this.setState(state => ({
+      selectedPeople: [...state.selectedPeople, personToAdd],
+    }));
+  };
+
+  unselectPerson = (personToDelete: Person) => {
+    this.setState(state => ({
+      selectedPeople: state.selectedPeople.filter(
+        person => person.slug !== personToDelete.slug,
+      ),
+    }));
+  };
+
+  clearSelection = () => {
+    this.setState({ selectedPeople: [] });
+  };
+
+  moveUp = (personToMove: Person) => {
+    this.setState(({ people }) => {
+      const position = people.findIndex(
+        person => person.slug === personToMove.slug,
+      );
+
+      if (position === 0) {
+        return null;
+      }
+
+      const updatedPeople = [
+        ...people.slice(0, position - 1),
+        people[position],
+        people[position - 1],
+        ...people.slice(position + 1),
+      ];
+
+      return { people: updatedPeople };
+    });
+  };
+
+  moveDown = (personToMove: Person) => {
+    this.setState(({ people }) => {
+      const position = people.findIndex(
+        person => person.slug === personToMove.slug,
+      );
+
+      if (position === people.length - 1) {
+        return null;
+      }
+
+      const updatedPeople = [...people];
+
+      updatedPeople[position] = people[position + 1];
+      updatedPeople[position + 1] = people[position];
+
+      return { people: updatedPeople };
+    });
+  };
 
   render() {
-    const { people } = this.props;
-    const { person } = this.state;
+    const {
+      people,
+      selectedPeople,
+      sortField,
+      isReversed,
+    } = this.state;
 
-    if (!people.length) {
-      return (
-        <div className="box">
-          <h1 className="title">No people yet in Database</h1>
-        </div>
+    function isSelected({ slug }: Person) {
+      return selectedPeople.some(person => person.slug === slug);
+    }
+
+    if (people.length === 0) {
+      return <p>No people yet</p>;
+    }
+
+    const visiblePeople = [...people];
+
+    if (sortField) {
+      visiblePeople.sort(
+        (a, b) => {
+          switch (sortField) {
+            case 'name':
+            case 'sex':
+              return a[sortField].localeCompare(b[sortField]);
+
+            case 'born':
+              return a.born - b.born;
+
+            default:
+              return 0;
+          }
+        },
       );
     }
 
+    if (isReversed) {
+      visiblePeople.reverse();
+    }
+
     return (
-      <div className="box">
-        <h1 className="title">People table</h1>
+      <table className="table is-striped is-narrow">
+        <caption className="title is-5 has-text-info">
+          {selectedPeople.length === 0 ? '-' : (
+            <>
+              {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+              <button
+                type="button"
+                className="delete"
+                onClick={this.clearSelection}
+              />
+              <span>{selectedPeople.map(p => p.name).join(', ')}</span>
+            </>
+          )}
+        </caption>
 
-        <table className="table is-striped is-narrow">
-          <thead>
-            <tr>
-              <th> </th>
-              <th>name</th>
-              <th>sex</th>
-              <th>born</th>
-            </tr>
-          </thead>
+        <thead>
+          <tr>
+            <th> </th>
+            <th>
+              name
+              <a href="#sort" onClick={() => this.sortBy('name')}>
+                <span className="icon">
+                  <i
+                    className={classNames('fas', {
+                      'fa-sort': sortField !== 'name',
+                      'fa-sort-up': sortField === 'name' && !isReversed,
+                      'fa-sort-down': sortField === 'name' && isReversed,
+                    })}
+                  />
+                </span>
+              </a>
+            </th>
 
-          <tbody>
-            {people.map(currentPerson => (
-              <tr
-                key={currentPerson.slug}
+            <th>
+              sex
+              <a href="#sort" onClick={() => this.sortBy('sex')}>
+                <span className="icon">
+                  <i
+                    className={classNames('fas', {
+                      'fa-sort': sortField !== 'sex',
+                      'fa-sort-up': sortField === 'sex' && !isReversed,
+                      'fa-sort-down': sortField === 'sex' && isReversed,
+                    })}
+                  />
+                </span>
+              </a>
+            </th>
+
+            <th>
+              born
+              <a href="#sort" onClick={() => this.sortBy('born')}>
+                <span className="icon">
+                  <i
+                    className={classNames('fas', {
+                      'fa-sort': sortField !== 'born',
+                      'fa-sort-up': sortField === 'born' && !isReversed,
+                      'fa-sort-down': sortField === 'born' && isReversed,
+                    })}
+                  />
+                </span>
+              </a>
+            </th>
+
+            <th> </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {visiblePeople.map(person => (
+            <tr
+              key={person.slug}
+              className={classNames({
+                'has-background-warning': isSelected(person),
+              })}
+            >
+              <td>
+                {isSelected(person) ? (
+                  <Button
+                    onClick={() => this.unselectPerson(person)}
+                    className="is-small is-rounded is-danger"
+                  >
+                    <span className="icon is-small">
+                      <i className="fas fa-minus" />
+                    </span>
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => this.selectPerson(person)}
+                    className="is-small is-rounded is-success"
+                  >
+                    <span className="icon is-small">
+                      <i className="fas fa-plus" />
+                    </span>
+                  </Button>
+                )}
+              </td>
+
+              <td
                 className={classNames({
-                  'is-selected': currentPerson.slug === person?.slug,
+                  'has-text-link': person.sex === 'm',
+                  'has-text-danger': person.sex === 'f',
                 })}
               >
-                <td>
-                  <button
-                    type="button"
-                    className="button"
-                    onClick={() => this.handleSelectingPerson(currentPerson)}
-                  >
-                    Select
-                  </button>
-                </td>
-                <td>{currentPerson.name}</td>
-                <td>{currentPerson.sex}</td>
-                <td>{currentPerson.born}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                {person.name}
+              </td>
+
+              <td>{person.sex}</td>
+              <td>{person.born}</td>
+
+              <td className="is-flex is-flex-wrap-nowrap">
+                <Button onClick={() => this.moveDown(person)}>
+                  &darr;
+                </Button>
+
+                <Button onClick={() => this.moveUp(person)}>
+                  &uarr;
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     );
   }
 }

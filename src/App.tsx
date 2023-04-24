@@ -4,40 +4,35 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import peopleFromServer from './people.json';
-import { Person } from './types/Person';
 import { PeopleTable } from './components/PeopleTable';
 import { Loader } from './components/Loader';
 
 interface State {
-  people: Person[];
   isLoading: boolean;
 }
 
 export class App extends React.Component<{}, State> {
   state: Readonly<State> = {
-    people: [],
     isLoading: true,
   };
 
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        people: peopleFromServer,
         isLoading: false,
       });
     }, 500);
   }
 
   render() {
-    const { people, isLoading } = this.state;
+    const { isLoading } = this.state;
 
     return (
-      <>
+      <div className="box">
         {isLoading
           ? (<Loader />)
-          : (<PeopleTable people={people} />)}
-      </>
+          : (<PeopleTable />)}
+      </div>
     );
   }
 }
