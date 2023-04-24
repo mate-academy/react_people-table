@@ -50,46 +50,6 @@ export class PeopleTable extends React.Component<{}, State> {
     this.setState({ selectedPeople: [] });
   };
 
-  moveUp = (personToMove: Person) => {
-    this.setState(({ people }) => {
-      const position = people.findIndex(
-        person => person.slug === personToMove.slug,
-      );
-
-      if (position === 0) {
-        return null;
-      }
-
-      const updatedPeople = [
-        ...people.slice(0, position - 1),
-        people[position],
-        people[position - 1],
-        ...people.slice(position + 1),
-      ];
-
-      return { people: updatedPeople };
-    });
-  };
-
-  moveDown = (personToMove: Person) => {
-    this.setState(({ people }) => {
-      const position = people.findIndex(
-        person => person.slug === personToMove.slug,
-      );
-
-      if (position === people.length - 1) {
-        return null;
-      }
-
-      const updatedPeople = [...people];
-
-      updatedPeople[position] = people[position + 1];
-      updatedPeople[position + 1] = people[position];
-
-      return { people: updatedPeople };
-    });
-  };
-
   render() {
     const {
       people,
@@ -193,8 +153,6 @@ export class PeopleTable extends React.Component<{}, State> {
                 </span>
               </a>
             </th>
-
-            <th> </th>
           </tr>
         </thead>
 
@@ -239,16 +197,6 @@ export class PeopleTable extends React.Component<{}, State> {
 
               <td>{person.sex}</td>
               <td>{person.born}</td>
-
-              <td className="is-flex is-flex-wrap-nowrap">
-                <Button onClick={() => this.moveDown(person)}>
-                  &darr;
-                </Button>
-
-                <Button onClick={() => this.moveUp(person)}>
-                  &uarr;
-                </Button>
-              </td>
             </tr>
           ))}
         </tbody>
