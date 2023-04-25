@@ -11,16 +11,17 @@ export const PeopleTable: FC = () => {
   const [sortField, setSortField] = useState('');
   const [isReversed, setIsReversed] = useState(false);
 
-  const sortBy = () => {
-    // this.setState(({ isReversed, sortField }) => {
-    //   const isFirstClick = sortField !== field;
-    //   const isSecondClick = sortField === field && !isReversed;
-    //
-    //   return {
-    //     sortField: isFirstClick || isSecondClick ? field : '',
-    //     isReversed: isSecondClick,
-    //   };
-    // });
+  const sortBy = (columnName: keyof Person) => {
+    const isFirstClick = sortField !== columnName;
+    const isSecondClick = !isFirstClick && !isReversed;
+
+    setSortField(isFirstClick || isSecondClick ? columnName : '');
+    setIsReversed(isSecondClick);
+  };
+
+  const resetSorting = () => {
+    setSortField('');
+    setIsReversed(false);
   };
 
   const selectPerson = (personToAdd: Person) => {
@@ -49,6 +50,46 @@ export const PeopleTable: FC = () => {
   if (people.length === 0) {
     return <p>No people yet</p>;
   }
+
+  const moveDown = (personToMove: Person) => {
+    resetSorting();
+
+    setPeople((currentPeople) => {
+      const personIndex = currentPeople
+        .findIndex(({ slug }) => slug === personToMove.slug);
+
+      if (personIndex === currentPeople.length - 1) {
+        return currentPeople;
+      }
+
+      const newPeople = [...currentPeople];
+
+      newPeople[personIndex] = currentPeople[personIndex + 1];
+      newPeople[personIndex + 1] = currentPeople[personIndex];
+
+      return newPeople;
+    });
+  };
+
+  const moveUp = (personToMove: Person) => {
+    resetSorting();
+
+    setPeople((currentPeople) => {
+      const personIndex = currentPeople
+        .findIndex(({ slug }) => slug === personToMove.slug);
+
+      if (personIndex === 0) {
+        return currentPeople;
+      }
+
+      const newPeople = [...currentPeople];
+
+      newPeople[personIndex] = currentPeople[personIndex - 1];
+      newPeople[personIndex - 1] = currentPeople[personIndex];
+
+      return newPeople;
+    });
+  };
 
   const visiblePeople = [...people];
 
@@ -137,11 +178,13 @@ export const PeopleTable: FC = () => {
               </span>
             </a>
           </th>
+
+          <th> </th>
         </tr>
       </thead>
 
       <tbody>
-        {visiblePeople.map(person => (
+        {visiblePeople.map((person, index) => (
           <tr
             key={person.slug}
             className={classNames({
@@ -181,6 +224,22 @@ export const PeopleTable: FC = () => {
 
             <td>{person.sex}</td>
             <td>{person.born}</td>
+
+            <td className="is-flex is-flex-wrap-nowrap">
+              <Button
+                onClick={() => moveDown(person)}
+                disabled={index === visiblePeople.length - 1}
+              >
+                &darr;
+              </Button>
+
+              <Button
+                onClick={() => moveUp(person)}
+                disabled={index === 0}
+              >
+                &uarr;
+              </Button>
+            </td>
           </tr>
         ))}
       </tbody>
