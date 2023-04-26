@@ -7,3 +7,11 @@ export interface Person {
   sex: string;
   slug: string;
 }
+
+export enum SortByOption {
+  Name = 'name',
+  Sex = 'sex',
+  Born = 'born',
+  FatherName = 'fatherName',
+  MotherName = 'motherName',
+}

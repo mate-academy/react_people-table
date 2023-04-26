@@ -1,26 +1,33 @@
 import classNames from 'classnames';
-import { FC, useState } from 'react';
+import { FC, useState, ChangeEvent } from 'react';
 
 import peopleFromServer from '../people.json';
-import { Person } from '../types/Person';
+import { Person, SortByOption } from '../types/Person';
 import { Button } from './Button';
+import { SortLink } from './SortLink';
 
 export const PeopleTable: FC = () => {
   const [people, setPeople] = useState<Person[]>(peopleFromServer);
   const [selectedPeople, setSelectedPeople] = useState<Person[]>([]);
-  const [sortField, setSortField] = useState('');
+  const [query, setQuery] = useState('');
+  const [selectedSex, setSelectedSex] = useState('');
+  const [sortField, setSortField] = useState<SortByOption | null>(null);
   const [isReversed, setIsReversed] = useState(false);
 
-  const sortBy = (columnName: keyof Person) => {
+  const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  const sortBy = (columnName: SortByOption) => {
     const isFirstClick = sortField !== columnName;
     const isSecondClick = !isFirstClick && !isReversed;
 
-    setSortField(isFirstClick || isSecondClick ? columnName : '');
+    setSortField(isFirstClick || isSecondClick ? columnName : null);
     setIsReversed(isSecondClick);
   };
 
   const resetSorting = () => {
-    setSortField('');
+    setSortField(null);
     setIsReversed(false);
   };
 
@@ -91,18 +98,38 @@ export const PeopleTable: FC = () => {
     });
   };
 
-  const visiblePeople = [...people];
+  let visiblePeople = [...people];
+
+  if (query) {
+    visiblePeople = visiblePeople.filter((person) => {
+      const lowerQuery = query.toLowerCase();
+
+      return person.name.toLowerCase().includes(lowerQuery)
+       || person.motherName?.toLowerCase().includes(lowerQuery)
+       || person.fatherName?.toLowerCase().includes(lowerQuery);
+    });
+  }
+
+  visiblePeople = (selectedSex === 'm' || selectedSex === 'f')
+    ? visiblePeople.filter((person) => person.sex === selectedSex)
+    : visiblePeople;
 
   if (sortField) {
     visiblePeople.sort(
-      (a, b) => {
+      (firstPerson, secondPerson) => {
         switch (sortField) {
-          case 'name':
-          case 'sex':
-            return a[sortField].localeCompare(b[sortField]);
+          case SortByOption.Name:
+          case SortByOption.Sex:
+          case SortByOption.MotherName:
+          case SortByOption.FatherName: {
+            const aValue = firstPerson[sortField] || '';
+            const bValue = secondPerson[sortField] || '';
 
-          case 'born':
-            return a.born - b.born;
+            return aValue.localeCompare(bValue);
+          }
+
+          case SortByOption.Born:
+            return firstPerson.born - secondPerson.born;
 
           default:
             return 0;
@@ -129,6 +156,35 @@ export const PeopleTable: FC = () => {
             <span>{selectedPeople.map(p => p.name).join(', ')}</span>
           </>
         )}
+
+        <div className="field has-addons">
+          <div className="control has-icons-left is-expanded">
+            <input
+              className="input"
+              type="search"
+              placeholder="Search by name"
+              value={query}
+              onChange={handleQueryChange}
+            />
+
+            <span className="icon is-small is-left">
+              <i className="fas fa-search" />
+            </span>
+          </div>
+
+          <div className="control">
+            <div className="select">
+              <select
+                value={selectedSex}
+                onChange={(event) => setSelectedSex(event.target.value)}
+              >
+                <option value="">All</option>
+                <option value="f">Women</option>
+                <option value="m">Men</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </caption>
 
       <thead>
@@ -136,50 +192,50 @@ export const PeopleTable: FC = () => {
           <th> </th>
           <th>
             name
-            <a href="#sort" onClick={() => sortBy('name')}>
-              <span className="icon">
-                <i
-                  className={classNames('fas', {
-                    'fa-sort': sortField !== 'name',
-                    'fa-sort-up': sortField === 'name' && !isReversed,
-                    'fa-sort-down': sortField === 'name' && isReversed,
-                  })}
-                />
-              </span>
-            </a>
+            <SortLink
+              onClickCallback={() => sortBy(SortByOption.Name)}
+              isActive={sortField === SortByOption.Name}
+              isReversed={isReversed}
+            />
           </th>
 
           <th>
             sex
-            <a href="#sort" onClick={() => sortBy('sex')}>
-              <span className="icon">
-                <i
-                  className={classNames('fas', {
-                    'fa-sort': sortField !== 'sex',
-                    'fa-sort-up': sortField === 'sex' && !isReversed,
-                    'fa-sort-down': sortField === 'sex' && isReversed,
-                  })}
-                />
-              </span>
-            </a>
+            <SortLink
+              onClickCallback={() => sortBy(SortByOption.Sex)}
+              isActive={sortField === SortByOption.Sex}
+              isReversed={isReversed}
+            />
           </th>
 
           <th>
             born
-            <a href="#sort" onClick={() => sortBy('born')}>
-              <span className="icon">
-                <i
-                  className={classNames('fas', {
-                    'fa-sort': sortField !== 'born',
-                    'fa-sort-up': sortField === 'born' && !isReversed,
-                    'fa-sort-down': sortField === 'born' && isReversed,
-                  })}
-                />
-              </span>
-            </a>
+            <SortLink
+              onClickCallback={() => sortBy(SortByOption.Born)}
+              isActive={sortField === SortByOption.Born}
+              isReversed={isReversed}
+            />
           </th>
 
           <th> </th>
+
+          <th>
+            Mother Name
+            <SortLink
+              onClickCallback={() => sortBy(SortByOption.MotherName)}
+              isActive={sortField === SortByOption.MotherName}
+              isReversed={isReversed}
+            />
+          </th>
+
+          <th>
+            Father Name
+            <SortLink
+              onClickCallback={() => sortBy(SortByOption.FatherName)}
+              isActive={sortField === SortByOption.FatherName}
+              isReversed={isReversed}
+            />
+          </th>
         </tr>
       </thead>
 
@@ -240,6 +296,9 @@ export const PeopleTable: FC = () => {
                 &uarr;
               </Button>
             </td>
+
+            <td>{person.motherName || ''}</td>
+            <td>{person.fatherName || ''}</td>
           </tr>
         ))}
       </tbody>
