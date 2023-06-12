@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-import peopleFromServer from './people.json';
+// import peopleFromServer from './people.json';
 
 export class App extends React.Component {
   state = {};
@@ -24,13 +24,17 @@ export class App extends React.Component {
           </thead>
 
           <tbody>
-            {peopleFromServer.map(person => (
-              <tr key={person.slug}>
-                <td>{person.name}</td>
-                <td>{person.sex}</td>
-                <td>{person.born}</td>
-              </tr>
-            ))}
+            <tr>
+              <td>Carolus Haverbeke</td>
+              <td>m</td>
+              <td>1832</td>
+            </tr>
+
+            <tr>
+              <td>Emma de Milliano</td>
+              <td>f</td>
+              <td>1842</td>
+            </tr>
           </tbody>
         </table>
       </div>
