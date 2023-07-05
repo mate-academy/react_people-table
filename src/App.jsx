@@ -4,25 +4,36 @@ import peopleFromServer from './people.json';
 import { Button } from './components/Button/Button';
 
 export const App = ({ user }) => {
-  const [selectedPerson, setSelectedPerson] = useState(null);
+  const [selectedPeople, setSelectedPeople] = useState([]);
 
-  function isSelected(person) {
-    return person.slug === selectedPerson?.slug;
-  }
+  const isSelected = personToCheck => selectedPeople.some(
+    person => person.slug === personToCheck.slug,
+  );
+
+  const selectPerson = (person) => {
+    setSelectedPeople([...selectedPeople, person]);
+  };
+
+  const unselectPerson = (personToRemove) => {
+    setSelectedPeople(
+      selectedPeople.filter(person => person.slug !== personToRemove.slug),
+    );
+  };
 
   return (
     <div className="box">
       <table className="table is-striped is-narrow">
         <caption className="title is-5 has-text-info">
-          {selectedPerson?.name || '-'}
+          {selectedPeople
+            .map(person => person.name)
+            .join(', ')
+          }
         </caption>
 
         <thead>
           <tr>
             <th> </th>
-            <th>
-              name
-            </th>
+            <th>name</th>
             <th>sex</th>
             <th>born</th>
           </tr>
@@ -39,8 +50,8 @@ export const App = ({ user }) => {
               <td>
                 {isSelected(person) ? (
                   <Button
+                    onClick={() => unselectPerson(person)}
                     className="is-danger is-small is-rounded"
-                    onClick={() => setSelectedPerson(null)}
                   >
                     <span className="icon is-small">
                       <i className="fas fa-minus" />
@@ -48,7 +59,7 @@ export const App = ({ user }) => {
                   </Button>
                 ) : (
                   <Button
-                    onClick={() => setSelectedPerson(person)}
+                    onClick={() => selectPerson(person)}
                     className="is-success is-small is-rounded"
                   >
                     <span className="icon is-small">
