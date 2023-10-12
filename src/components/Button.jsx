@@ -1,4 +1,3 @@
-
 export const Button = ({
   type = 'button',
   onClick,
@@ -9,11 +8,12 @@ export const Button = ({
   return (
     <button
       {...props}
+      // eslint-disable-next-line react/button-has-type
       type={type}
       onClick={onClick}
       className={className}
     >
       {children}
     </button>
-  )
-}
+  );
+};

@@ -1,4 +1,3 @@
-
 export const PeopleHeader = ({ selectedPeopleNames }) => {
   return (
     <h1 className="title">
@@ -8,5 +7,5 @@ export const PeopleHeader = ({ selectedPeopleNames }) => {
         `Selected person is ${selectedPeopleNames}`
       )}
     </h1>
-  )
+  );
 };

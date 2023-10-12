@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Button } from './Button';
+import React from 'react';
 import cn from 'classnames';
-import { SORTBY, FILTERBYSEX } from '../App';
+import { Button } from './Button';
+import { FILTERBYSEX } from '../constants';
 
 export const PeopleFilters = ({
   setFilterBy,
@@ -12,10 +12,10 @@ export const PeopleFilters = ({
     <>
       <Button
         onClick={() => {
-          setFilterBy(FILTERBYSEX.ALL)
+          setFilterBy(FILTERBYSEX.ALL);
         }}
         className={cn({
-          'has-text-danger': filterBy === FILTERBYSEX.ALL
+          'has-text-danger': filterBy === FILTERBYSEX.ALL,
         })}
       >
         all
@@ -23,7 +23,7 @@ export const PeopleFilters = ({
 
       <Button
         onClick={() => {
-          setFilterBy(FILTERBYSEX.M)
+          setFilterBy(FILTERBYSEX.M);
         }}
         className={cn({
           'has-text-danger': filterBy === FILTERBYSEX.M,
@@ -34,10 +34,10 @@ export const PeopleFilters = ({
 
       <Button
         onClick={() => {
-          setFilterBy(FILTERBYSEX.F)
+          setFilterBy(FILTERBYSEX.F);
         }}
         className={cn({
-          'has-text-danger': filterBy === FILTERBYSEX.F
+          'has-text-danger': filterBy === FILTERBYSEX.F,
         })}
       >
         f
@@ -51,4 +51,4 @@ export const PeopleFilters = ({
       />
     </>
   );
-}
+};

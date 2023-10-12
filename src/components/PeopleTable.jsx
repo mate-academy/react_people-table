@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import cn from 'classnames';
-import { SORTBY, FILTERBYSEX } from '../App';
+import { SORTBY } from '../constants';
 import { Button } from './Button';
-
 
 function isSelected(selected, current) {
   return selected === current;
@@ -13,21 +12,22 @@ export const PeopleTable = ({
   sortBy,
   peopleToRender,
   selectedPeople,
-  setSelectedPeople
-}) => {
-
-  return (
-    <table className="table is-striped is-narrow">
+  setSelectedPeople,
+}) => (
+  <table className="table is-striped is-narrow">
     <thead>
       <th>
         <Button
           className={cn({
-            'has-background-warning': isSelected(Object.keys(sortBy)[0], SORTBY.NAME),
+            'has-background-warning': isSelected(
+              Object.keys(sortBy)[0],
+              SORTBY.NAME,
+            ),
           })}
           onClick={() => {
             setSortBy({
               [SORTBY.NAME]: sortBy[SORTBY.NAME] ? 'DESC' : 'ASC',
-            })
+            });
           }}
         >
           name
@@ -36,12 +36,15 @@ export const PeopleTable = ({
       <th>
         <Button
           className={cn({
-            'has-background-warning': isSelected(Object.keys(sortBy)[0], SORTBY.SEX),
+            'has-background-warning': isSelected(
+              Object.keys(sortBy)[0],
+              SORTBY.SEX,
+            ),
           })}
           onClick={() => {
             setSortBy({
               [SORTBY.SEX]: sortBy[SORTBY.SEX] ? 'DESC' : 'ASC',
-            })
+            });
           }}
         >
           sex
@@ -50,12 +53,15 @@ export const PeopleTable = ({
       <th>
         <Button
           className={cn({
-            'has-background-warning': isSelected(Object.keys(sortBy)[0], SORTBY.BORN),
+            'has-background-warning': isSelected(
+              Object.keys(sortBy)[0],
+              SORTBY.BORN,
+            ),
           })}
           onClick={() => {
             setSortBy({
               [SORTBY.BORN]: sortBy[SORTBY.BORN] ? 'DESC' : 'ASC',
-            })
+            });
           }}
         >
           born
@@ -65,18 +71,21 @@ export const PeopleTable = ({
 
     <tbody>
       {peopleToRender.map((person) => {
-        const isSelected = selectedPeople.includes(person);
+        const isPersonSelected = selectedPeople.includes(person);
 
         return (
           <tr
             key={person.slug}
             onClick={() => {
-              isSelected
-                ? setSelectedPeople(selectedPeople.filter(p => p.slug !== person.slug))
-                : setSelectedPeople([...selectedPeople, person])
+              // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+              isPersonSelected
+                ? setSelectedPeople(selectedPeople.filter(p => (
+                  p.slug !== person.slug
+                )))
+                : setSelectedPeople([...selectedPeople, person]);
             }}
             className={cn({
-              'has-background-warning': isSelected,
+              'has-background-warning': isPersonSelected,
             })}
           >
             <td>{person.name}</td>
@@ -90,18 +99,17 @@ export const PeopleTable = ({
             </td>
             <td>{person.born}</td>
             {isSelected ? (
-               <Button>
-                  <i class="fa-solid fa-skull-crossbones"></i>
-                </Button>
+              <Button>
+                <i className="fa-solid fa-skull-crossbones" />
+              </Button>
             ) : (
               <Button>
-                <i class="fa-solid fa-circle-plus"></i>
+                <i className="fa-solid fa-circle-plus" />
               </Button>
             )}
           </tr>
-        )
+        );
       })}
     </tbody>
   </table>
-  )
-}
+);
