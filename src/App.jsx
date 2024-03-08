@@ -7,19 +7,30 @@ import './App.scss';
 import peopleFromServer from './people.json';
 
 export function App() {
-  const [selectedPerson, setSelectedPerson] = useState(peopleFromServer[5]);
+  // #region People Selection Logic
+  const [selectedPeople, setSelectedPerson] = useState([]);
 
-  const isSelected = person => person.slug === (selectedPerson?.slug); //
+  const isSelected = ({ slug }) => selectedPeople.some(p => p.slug === slug);
 
-  // eslint-disable-next-line no-console
-  console.log('App rerendering....');
+  const addPerson = (person) => {
+    setSelectedPerson([...selectedPeople, person]);
+  };
+
+  const removePerson = (person) => {
+    setSelectedPerson(
+      selectedPeople.filter(p => p.slug !== person.slug),
+    );
+  };
+  // #endregion
 
   return (
     <div className="box">
       <h1 className="title">People table</h1>
 
       <table className="table is-striped is-narrow">
-        <caption>{selectedPerson?.name || 'No person selected'}</caption>
+        <caption>
+          {selectedPeople.map(p => p.name).join(' ,') || 'No one selected'}
+        </caption>
 
         <thead>
           <tr>
@@ -39,21 +50,27 @@ export function App() {
                 : ''}
             >
               <td>
-                <button
-                  type="button"
-                  className="button"
-                  onClick={() => {
-                    if (isSelected(person)) {
-                      setSelectedPerson(null);
-
-                      return;
-                    }
-
-                    setSelectedPerson(person);
-                  }}
-                >
-                  {isSelected(person) ? '-' : '+'}
-                </button>
+                {isSelected(person) ? (
+                  <button
+                    type="button"
+                    className="button is-small is-rounded is-danger"
+                    onClick={() => removePerson(person)}
+                  >
+                    <span className="icon is-small">
+                      <i className="fas fa-minus" />
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="button is-small is-rounded is-success"
+                    onClick={() => addPerson(person)}
+                  >
+                    <span className="icon is-small">
+                      <i className="fas fa-plus" />
+                    </span>
+                  </button>
+                )}
               </td>
               <td>{person.name}</td>
               <td>{person.sex}</td>
