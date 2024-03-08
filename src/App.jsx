@@ -23,9 +23,43 @@ export function App() {
   };
   // #endregion
 
+  const query = '';
+  const sex = 'f'; // 'm', 'f'
+  const sortField = ''; // 'name', 'sex', 'born'
+  const sortOrder = 'asc'; // 'desc
+
+  const normalizedQuery = query.trim().toLowerCase();
+
+  let visiblePeople = peopleFromServer.filter((person) => {
+    const lowerCasedName = person.name.toLowerCase();
+
+    return lowerCasedName.includes(normalizedQuery);
+  });
+
+  if (sex !== 'all') {
+    visiblePeople = visiblePeople.filter(person => person.sex === sex);
+  }
+
+  if (sortField) {
+    console.log('🚀 ~ App ~ sortField:', sortField);
+
+    visiblePeople = [...visiblePeople]
+      .sort((personA, personB) => (
+        personA[sortField].localeCompare(personB[sortField])
+      ));
+  }
+
   return (
     <div className="box">
-      <h1 className="title">People table</h1>
+      <div className="block">
+        <div className="buttons has-addons">
+          <button type="button" className="button is-info">all</button>
+          <button type="button" className="button">m</button>
+          <button type="button" className="button">f</button>
+        </div>
+
+        <input type="search" />
+      </div>
 
       <table className="table is-striped is-narrow">
         <caption>
@@ -42,7 +76,7 @@ export function App() {
         </thead>
 
         <tbody>
-          {peopleFromServer.map(person => (
+          {visiblePeople.map(person => (
             <tr
               key={person.slug}
               className={isSelected(person)
