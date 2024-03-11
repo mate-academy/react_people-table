@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bulma/css/bulma.css';
@@ -23,13 +24,69 @@ export function App() {
   };
   // #endregion
 
+  const [query, setQuery] = useState('');
+
+  const [sex, setSex] = useState('all'); // 'm', 'f';
+
+  // Optional
+  // const sortField = ''; // 'name', 'sex', 'born'
+  // const sortOrder = 'asc'; // 'desc'
+
+  let visiblePeople = [...peopleFromServer];
+
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (normalizedQuery) {
+    visiblePeople = visiblePeople.filter(person => (
+      person.name.toLowerCase().includes(normalizedQuery)
+    ));
+  }
+
+  if (sex !== 'all') {
+    visiblePeople = visiblePeople.filter(person => person.sex === sex);
+  }
+
   return (
     <div className="box">
-      <h1 className="title">People table</h1>
+      <div className="block">
+        <div className="buttons has-addons">
+          <button
+            type="button"
+            className={classNames('button', {
+              'is-info': sex === 'all',
+            })}
+            onClick={() => setSex('all')}
+          >
+            all
+          </button>
+          <button
+            type="button"
+            className={classNames('button', {
+              'is-info': sex === 'm',
+            })}
+            onClick={() => setSex('m')}
+          >
+            m
+          </button>
+          <button
+            type="button"
+            className={classNames('button', {
+              'is-info': sex === 'f',
+            })}
+            onClick={() => setSex('f')}
+          >
+            f
+          </button>
+        </div>
+
+        <input type="search" onChange={event => setQuery(event.target.value)} />
+      </div>
 
       <table className="table is-striped is-narrow">
         <caption>
-          {selectedPeople.map(p => p.name).join(' ,') || 'No one selected'}
+          {selectedPeople.map(person => person.name)
+            .join(', ') || 'No one selected'
+          }
         </caption>
 
         <thead>
@@ -42,7 +99,7 @@ export function App() {
         </thead>
 
         <tbody>
-          {peopleFromServer.map(person => (
+          {visiblePeople.map(person => (
             <tr
               key={person.slug}
               className={isSelected(person)
