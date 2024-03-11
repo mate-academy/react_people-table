@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
@@ -6,6 +7,31 @@ import 'bulma/css/bulma.css';
 import './App.scss';
 
 import peopleFromServer from './people.json';
+import { Button } from './components/Button/Button';
+import { PeopleList } from './components/PeopleList/PeopleList';
+
+function getPreparedPeople(people, option) {
+  const {
+    query = '',
+    sex = 'all',
+  } = option;
+
+  let preparedPeople = [...people];
+
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (normalizedQuery) {
+    preparedPeople = preparedPeople.filter(person => (
+      person.name.toLowerCase().includes(normalizedQuery)
+    ));
+  }
+
+  if (sex !== 'all') {
+    preparedPeople = preparedPeople.filter(person => person.sex === sex);
+  }
+
+  return preparedPeople;
+}
 
 export function App() {
   // #region People Selection Logic
@@ -25,62 +51,57 @@ export function App() {
   // #endregion
 
   const [query, setQuery] = useState('');
-
   const [sex, setSex] = useState('all'); // 'm', 'f';
 
-  // Optional
-  // const sortField = ''; // 'name', 'sex', 'born'
-  // const sortOrder = 'asc'; // 'desc'
+  console.log(`App component -> query: "${query}"`);
 
-  let visiblePeople = [...peopleFromServer];
+  const resetFilters = () => {
+    setQuery('');
+    console.log(`resetFilters -> query: "${query}"`);
 
-  const normalizedQuery = query.trim().toLowerCase();
-
-  if (normalizedQuery) {
-    visiblePeople = visiblePeople.filter(person => (
-      person.name.toLowerCase().includes(normalizedQuery)
-    ));
-  }
-
-  if (sex !== 'all') {
-    visiblePeople = visiblePeople.filter(person => person.sex === sex);
-  }
+    setSex('all');
+  };
 
   return (
     <div className="box">
       <div className="block">
         <div className="buttons has-addons">
-          <button
-            type="button"
-            className={classNames('button', {
+          <Button
+            className={classNames({
               'is-info': sex === 'all',
             })}
             onClick={() => setSex('all')}
           >
             all
-          </button>
-          <button
-            type="button"
-            className={classNames('button', {
+          </Button>
+          <Button
+            className={classNames({
               'is-info': sex === 'm',
             })}
             onClick={() => setSex('m')}
           >
             m
-          </button>
-          <button
-            type="button"
-            className={classNames('button', {
+          </Button>
+          <Button
+            className={classNames({
               'is-info': sex === 'f',
             })}
             onClick={() => setSex('f')}
           >
             f
-          </button>
+          </Button>
         </div>
 
-        <input type="search" onChange={event => setQuery(event.target.value)} />
+        <input
+          type="search"
+          onChange={event => setQuery(event.target.value)}
+          value={query}
+        />
       </div>
+
+      <Button onClick={resetFilters}>
+        Reset
+      </Button>
 
       <table className="table is-striped is-narrow">
         <caption>
@@ -99,41 +120,12 @@ export function App() {
         </thead>
 
         <tbody>
-          {visiblePeople.map(person => (
-            <tr
-              key={person.slug}
-              className={isSelected(person)
-                ? 'has-background-warning'
-                : ''}
-            >
-              <td>
-                {isSelected(person) ? (
-                  <button
-                    type="button"
-                    className="button is-small is-rounded is-danger"
-                    onClick={() => removePerson(person)}
-                  >
-                    <span className="icon is-small">
-                      <i className="fas fa-minus" />
-                    </span>
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="button is-small is-rounded is-success"
-                    onClick={() => addPerson(person)}
-                  >
-                    <span className="icon is-small">
-                      <i className="fas fa-plus" />
-                    </span>
-                  </button>
-                )}
-              </td>
-              <td>{person.name}</td>
-              <td>{person.sex}</td>
-              <td>{person.born}</td>
-            </tr>
-          ))}
+          <PeopleList
+            people={getPreparedPeople(peopleFromServer, { query, sex })}
+            onAddPerson={addPerson}
+            onRemovePerson={removePerson}
+            isSelected={isSelected}
+          />
         </tbody>
       </table>
     </div>
