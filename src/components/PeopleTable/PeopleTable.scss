@@ -1,0 +1,25 @@
+.PeopleTable {
+  border-collapse: collapse;
+}
+
+.PeopleTable th.is-active {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.Person.is-selected {
+  background-color: #fff3c4; // any visible highlight
+}
+
+.PersonName--m {
+  color: blue;
+}
+
+.PersonName--f {
+  color: red;
+}
+
+.PersonName--plain {
+  color: black;
+  font-weight: 700;
+}

@@ -1,43 +1,32 @@
 import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bulma/css/bulma.css';
 import './App.scss';
 
-// import peopleFromServer from './people.json';
+import { Header } from './components/Header';
+import { HomePage } from './pages/HomePage';
+import { PeoplePage } from './pages/PeoplePage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
-export class App extends React.Component {
-  state = {};
+export const App: React.FC = () => {
+  return (
+    <div className="box">
+      <Header />
 
-  render() {
-    return (
-      <div className="box">
-        <h1 className="title">People table</h1>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
 
-        <table className="table is-striped is-narrow">
-          <thead>
-            <tr>
-              <th>name</th>
-              <th>sex</th>
-              <th>born</th>
-            </tr>
-          </thead>
+        <Route path="/home" element={<Navigate to="/" replace />} />
 
-          <tbody>
-            <tr>
-              <td>Carolus Haverbeke</td>
-              <td>m</td>
-              <td>1832</td>
-            </tr>
+        <Route path="/people">
+          <Route index element={<PeoplePage />} />
+          <Route path=":slug" element={<PeoplePage />} />
+        </Route>
 
-            <tr>
-              <td>Emma de Milliano</td>
-              <td>f</td>
-              <td>1842</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </div>
+  );
+};
